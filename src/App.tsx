@@ -1,25 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import RouteConfig from './route';
+import { useReducer, createContext } from 'react'
+import { HashRouter } from 'react-router-dom';
+import { Context } from './utils/types';
+import { defaultContext, defaultState, defaultStateInit, initState } from './reducer';
+
+export const PNft = createContext<Context>(defaultContext);
 
 function App() {
+  const [state, dispatch] = useReducer(initState, defaultState, defaultStateInit);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HashRouter>
+      <PNft.Provider value={{ state, dispatch }}>
+        <div className='App'>
+          <RouteConfig />
+        </div>
+      </PNft.Provider>
+    </HashRouter>
   );
 }
 
