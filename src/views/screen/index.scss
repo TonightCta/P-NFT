@@ -1,19 +1,162 @@
 .screen-view {
   width: 100%;
   height: 100%;
-  .canvas-box {
+  .swiper {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    .swiper-pagination-bullets {
+      right: 40px;
+      top: 70vh;
+    }
+    .swiper-pagination-bullet {
+      width: auto;
+      height: auto;
+      text-align: center;
+      color: white;
+      background-color: rgba(0, 0, 0, 0);
+      opacity: 1;
+      border-radius: 0;
+      margin-bottom: 20px !important;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: right;
+      display: flex !important;
+      align-items: center;
+      justify-content: flex-end;
+      transition: 0.3s all;
+      .active-line {
+        display: inline-block;
+        height: 2px;
+        border-radius: 2px;
+        background-color: red;
+        margin-right: 12px;
+        transition: 0.3s all;
+        width: 0;
+      }
+    }
+
+    .swiper-pagination-bullet-active {
+      color: red;
+      .active-line {
+        width: 20px;
+      }
+    }
+  }
+  .public-screen {
     height: 100vh;
     width: 100vw;
-    top: 50%;
-    left: 0;
-    background-color: #ccc;
-    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: #333;
+  }
+  .screen-index {
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 100px;
+    p {
+      position: relative;
+      z-index: 200;
+      color: white;
+      font-size: 80px;
+    }
+    canvas {
+      display: block;
+    }
+    .waves {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+  .voice-nft-wapper {
+    position: relative;
+    .canvas-box {
+      width: 100%;
+      height: 100%;
+    }
+    .player-list {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      height: 10rem;
+      box-sizing: border-box;
+      background: transparent;
+      display: flex;
+      align-items: end;
+      overflow-x: auto;
+      padding: 0 2rem;
+      p {
+        position: fixed;
+        bottom: 8rem;
+        left: 10%;
+        font-family: AccentGraphic-Medium, AccentGraphic, sans-serif;
+        font-weight: bolder;
+        letter-spacing: 3px;
+      }
+      .list-inner {
+        position: relative;
+        white-space: nowrap;
+        text-align: center;
+        img {
+          opacity: 1;
+          cursor: pointer;
+          transition: all ease-in-out 200ms;
+          width: 6rem;
+          height: 6rem;
+          margin: 0 0.8rem;
+          border-radius: 100%;
+          animation: rollRock ease-in-out 2s;
+          @media (max-device-width: 450px) {
+            width: 3rem;
+            height: 3rem;
+          }
+          &:hover {
+            border: 2px solid #f3398d;
+            opacity: 0.8;
+          }
+        }
+      }
+      .load-player {
+        img {
+          opacity: 0.8;
+          cursor: not-allowed;
+        }
+      }
+      @keyframes rollRock {
+        0% {
+          margin: 0 -100% 0 -100%;
+          transform: rotate(720deg);
+        }
+        65% {
+          margin: 0 0.2rem;
+          transform: rotate(360deg);
+        }
+        100% {
+          margin: 0 0.8rem;
+          transform: rotate(0);
+        }
+      }
+    }
   }
   .fixed-tab-index {
     position: fixed;
     right: 40px;
     top: 60vh;
     text-align: right;
+    z-index: 2200;
     ul {
       li {
         margin-bottom: 20px;
@@ -24,7 +167,7 @@
         align-items: center;
         justify-content: flex-end;
         transition: 0.3s all;
-        color: white;
+        color: blue;
         .active-line {
           height: 2px;
           border-radius: 2px;
