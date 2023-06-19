@@ -27,7 +27,6 @@ export const useMetamask = () => {
     }, []);
     //连接钱包
     const connectMetamask = async () => {
-        console.log(123)
         if (!ethereum) {
             message.error('reject');
             return

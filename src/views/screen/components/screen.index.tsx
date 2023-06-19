@@ -1,8 +1,10 @@
 import { ReactElement, ReactNode, useEffect } from "react";
 import { InitCanvas } from '../tool/canvas'
 import FooterWapper from "../../../components/footer";
+import { useNavigate } from "react-router-dom";
 
 const ScreenIndex = (): ReactElement<ReactNode> => {
+    const navigate = useNavigate();
     useEffect(() => {
         InitCanvas()
     }, [])
@@ -10,7 +12,9 @@ const ScreenIndex = (): ReactElement<ReactNode> => {
         <div className="screen-index public-screen">
             <p className="public-title">PIZZAP</p>
             <p>
-                <button>ENTER</button>
+                <button onClick={() => {
+                    navigate('/market')
+                }}>ENTER</button>
             </p>
             <div className="waves"></div>
             <FooterWapper/>

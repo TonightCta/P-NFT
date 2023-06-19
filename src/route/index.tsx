@@ -13,6 +13,9 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route index element={<React.Suspense fallback={<>Loading...</>}>
                     <View.ScreenView />
                 </React.Suspense>}></Route>
+                <Route path="/market" element={<React.Suspense fallback={<>Loading...</>}>
+                    <View.MarketView />
+                </React.Suspense>}></Route>
             </Route>
         </Routes>
     )

@@ -1,0 +1,183 @@
+.market-index {
+  width: 100%;
+  padding-top: 210px;
+  .market-title {
+    font-size: 60px;
+    color: white;
+    font-weight: 600;
+  }
+  .com-list {
+    margin-top: 30px;
+    ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      li {
+        margin-right: 24px;
+        img {
+          width: 24px;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+      }
+      li:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  .pool-count {
+    margin-top: 50px;
+    padding: 0 20%;
+    ul {
+      display: flex;
+      justify-content: space-between;
+      color: white;
+      text-align: left;
+      li {
+        p:first-child {
+          font-size: 26px;
+          color: #666;
+        }
+        p:last-child {
+          margin-top: 8px;
+          font-size: 36px;
+        }
+      }
+    }
+  }
+  .data-list {
+    height: 550px;
+    overflow: auto;
+    margin-top: 32px;
+    .loading-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 30px;
+      p {
+        color: white;
+        margin-left: 12px;
+      }
+    }
+    .ant-divider-inner-text {
+      color: white;
+    }
+  }
+  .market-list {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 100px;
+    .filter-box {
+      display: flex;
+      justify-content: space-between;
+      ul {
+        display: flex;
+        color: white;
+        li {
+          cursor: pointer;
+          margin-right: 24px;
+          font-size: 20px;
+          width: 120px;
+          height: 42px;
+          font-weight: 600;
+          line-height: 42px;
+          text-align: center;
+          border-radius: 20px;
+          position: relative;
+          span {
+            display: inline-block;
+            position: relative;
+            z-index: 200;
+          }
+          p {
+            border-radius: 20px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            transition: 0.3s all;
+            width: 0;
+            text-align: center;
+            opacity: 0;
+            filter: grayscale(0.2);
+            background-image: linear-gradient(to right, #12d6df, #f70fff);
+          }
+        }
+        .active-tab {
+          p {
+            opacity: 1;
+            width: 100%;
+          }
+        }
+      }
+      input {
+        height: 42px;
+        width: 200px;
+        background-color: rgba(0, 0, 0, 0);
+        border-radius: 20px;
+        border: 1px solid #333;
+        padding-left: 12px;
+        color: white;
+        font-size: 16px;
+      }
+    }
+    .list-item {
+      display: flex;
+      flex-wrap: wrap;
+      padding-bottom: 50px;
+      padding: 1px;
+      padding-top: 15px;
+      .market-card {
+        width: calc(20% - 19px);
+        margin-right: 22px;
+        border-radius: 8px;
+        // box-shadow: 0px 0px 5px #333;
+        cursor: pointer;
+        transition: 0.3s all;
+        margin-bottom: 30px;
+        overflow: hidden;
+        padding: 20px;
+        .img-box {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          border-radius: 8px;
+          img {
+            width: 100%;
+          }
+        }
+        .card-type {
+          font-size: 20px;
+          color: #666;
+          text-align: left;
+          margin-top: 12px;
+        }
+        .other-msg {
+          display: flex;
+          color: white;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 12px;
+          p {
+            font-size: 16px;
+          }
+          p:first-child {
+            font-weight: 600;
+          }
+          p:last-child {
+            color: #59bd7e;
+          }
+        }
+      }
+      .market-card:nth-child(5n) {
+        margin-right: 0;
+      }
+      .market-card:hover {
+        transform: translateY(-5px);
+        // box-shadow: 0px 0px 10px rgba(247, 15, 255, 0.5);
+      }
+    }
+  }
+}
