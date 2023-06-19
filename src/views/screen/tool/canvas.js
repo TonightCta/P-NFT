@@ -275,7 +275,6 @@ class ShaderProgram {
         const uniform = this.data.uniforms[name]
 
         uniform.value = value
-
         switch (uniform.type) {
             case 'int': {
                 gl.uniform1i(uniform.location, value)
@@ -362,9 +361,7 @@ class ShaderProgram {
                 },
                 get: () => buffers[name].data
             })
-
         })
-
     }
 
     createBuffer(name, size) {
@@ -536,17 +533,18 @@ export const InitCanvas = () => {
 
             const width = 400 * (w / h)
             const depth = 400
-            const height = 3
+            const height = 4
             const distance = 5
 
             for (let x = 0; x < width; x += distance) {
                 for (let z = 0; z < depth; z += distance) {
 
                     position.push(- width / 2 + x, -30, -depth / 2 + z)
-                    color.push(0, 1 - (x / width) * 1, 0.5 + x / width * 0.5, z / depth)
+                    color.push(0.3, 1 - (x / width) * 1, 0.5 + x / width * 20, 1)
 
                 }
             }
+            console.log(width)
 
             this.uniforms.field = [width, height, depth]
 

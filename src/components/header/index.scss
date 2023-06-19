@@ -5,14 +5,20 @@
   top: 0;
   z-index: 1200;
   left: 0;
-  box-shadow: 0 0 5px #ccc;
   display: flex;
   align-items: center;
-  padding-left: 30px;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   p {
-    text-align: left;
-    font-size: 30px;
-    font-weight: bold;
+    font-size: 16px;
     color: white;
+    text-decoration: underline;
+    cursor: pointer;
+    img {
+      width: 130px;
+      height: 34px;
+    }
   }
 }

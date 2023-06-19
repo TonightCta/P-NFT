@@ -23,7 +23,7 @@ float readDepth( sampler2D depthSampler, vec2 coord ) {
 void main()\t{
     float depth = readDepth( depthInfo, vUv1 );
     float tomix = smoothstep(0.2, 1., vDepth);
-    gl_FragColor.rgb = mix(vec3(0.443,0.02,0.353),2.*vec3(0.,0.1,0.125),tomix);
+    gl_FragColor.rgb = mix(vec3(0.443,0.02,0.353),2.*vec3(0.,0.01,0.125),tomix);
     gl_FragColor.a = 1.0;
 
 }`

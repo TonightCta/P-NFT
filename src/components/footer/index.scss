@@ -1,0 +1,29 @@
+.footer-wapper {
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  ul {
+    display: flex;
+    li {
+      margin-right: 24px;
+      img {
+        width: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+    }
+    li:last-child {
+      margin-right: 0;
+    }
+  }
+  p{
+    font-size: 14px!important;
+    color: white;
+    margin-top: 4px;
+  }
+}

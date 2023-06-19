@@ -26,7 +26,7 @@ const ScreenView = (): ReactElement<ReactNode> => {
     // useEffect(() => {
     //     setMetaAddress(state.address)
     // }, [state.address])
-    const tag: string[] = ['HOME', 'AI BUILDING', 'VISIONMAP', 'TRAFFIC OF VOICENFT', 'VOICE POOL','TEST'];
+    const tag: string[] = ['HOME', 'AI BUILDING', 'VISIONMAP', 'TRAFFIC OF VOICENFT', 'VOICE POOL'];
     const pagination = {
         clickable: true,
         renderBullet: function (index: number, className: string) {
@@ -55,7 +55,7 @@ const ScreenView = (): ReactElement<ReactNode> => {
                 <SwiperSlide><VisionMap /></SwiperSlide>
                 <SwiperSlide><VoiceNFTWapper /></SwiperSlide>
                 <SwiperSlide><VoicePool /></SwiperSlide>
-                <SwiperSlide></SwiperSlide>
+                {/* <SwiperSlide></SwiperSlide> */}
             </Swiper>
             {/* <div>
                 <Button type="primary" size="large" onClick={async () => {
