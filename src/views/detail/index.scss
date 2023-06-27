@@ -1,0 +1,443 @@
+.detail-view {
+  width: 100%;
+  padding: 0 64px;
+  height: calc(100vh - 120px);
+  margin: 120px auto 0;
+  padding-top: 50px;
+  .nft-msg {
+    max-width: 1733px;
+    display: flex;
+    justify-content: space-between;
+    .left-nft-box {
+      width: 730px;
+      height: 730px;
+      background-color: #151515;
+      box-shadow: 5px 8px 10px #101010;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 40px;
+      img {
+        width: 94%;
+        border-radius: 8px;
+      }
+    }
+    .right-nft-msg {
+      flex: 1;
+      text-align: left;
+      color: white;
+      padding-top: 12px;
+      .msg-name {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 36px;
+        font-weight: bold;
+        img {
+          width: 40px;
+          height: 40px;
+          margin-right: 20px;
+        }
+      }
+      .nft-num {
+        margin-top: 24px;
+        font-size: 36px;
+        font-weight: bold;
+      }
+      .nft-remark {
+        margin-top: 32px;
+        color: #999;
+        span {
+          color: white;
+        }
+      }
+      .edit-box {
+        margin-top: 40px;
+        display: flex;
+        padding: 18px 30px;
+        border: 1px solid #333;
+        flex-direction: column;
+        border-radius: 18px;
+        align-items: flex-start;
+        .inner-top {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .price-msg {
+          margin-right: 80px;
+          font-size: 18px;
+          p:first-child {
+            color: #59bd7e;
+            font-size: 24px;
+            font-weight: 600;
+          }
+          p:last-child {
+            margin-top: 16px;
+            color: #999;
+          }
+        }
+        .btn-oper {
+          text-align: center;
+          button {
+            width: 160px;
+            height: 46px;
+            border: 1px solid #333;
+            border-radius: 34px;
+            margin-bottom: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 500;
+            background-color: #df0885;
+          }
+          p {
+            margin-top: 8px;
+            span {
+              color: #3772ff;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+      .msg-switch {
+        margin-top: 50px;
+        width: 100%;
+        background-color: #0f0f0f;
+        padding: 20px;
+        border-radius: 8px;
+        .msg-tabs {
+          ul {
+            display: flex;
+            width: 220px;
+            padding: 4px;
+            height: 50px;
+            border-radius: 34px;
+            background-color: #000;
+            overflow: hidden;
+            li {
+              width: 100%;
+              height: 100%;
+              border-radius: 34px;
+              text-align: center;
+              line-height: 40px;
+              font-size: 16px;
+              font-weight: 600;
+              transition: 0.3s all;
+              cursor: pointer;
+            }
+            .active-tab-msg {
+              background-color: #df0885;
+            }
+          }
+        }
+        .msg-list {
+          margin-top: 40px;
+          li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            font-size: 16px;
+            p:first-child {
+              color: #999;
+            }
+          }
+          li:last-child {
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+  }
+  .list-filter {
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #333;
+    padding-bottom: 40px;
+    .tab-btn {
+      ul {
+        display: flex;
+        li {
+          width: 120px;
+          background-color: #df0885;
+          height: 46px;
+          line-height: 46px;
+          color: white;
+          border-radius: 34px;
+        }
+      }
+    }
+    .search-inp {
+      input {
+        width: 200px;
+        height: 46px;
+        padding: 0 12px;
+        border-radius: 34px;
+        background-color: rgba(0, 0, 0, 0);
+        border: 1px solid #333;
+        color: white;
+        font-size: 16px;
+      }
+    }
+  }
+  .tab-list {
+    max-width: 1733px;
+    padding-bottom: 80px;
+
+    .list-content {
+      ul {
+        display: flex;
+        li {
+          color: white;
+          text-align: left;
+          font-size: 16px;
+          font-weight: 500;
+          color: #999;
+        }
+        li:first-child {
+          width: 15%;
+        }
+        li:nth-child(2) {
+          width: 30%;
+        }
+        li:nth-child(3) {
+          width: 10%;
+          text-align: right;
+          padding-right: 30px;
+        }
+        li:nth-child(4),
+        li:nth-child(5) {
+          width: 15%;
+        }
+        li:last-child {
+          width: 15%;
+          text-align: right;
+        }
+      }
+      .content-title {
+        margin-top: 30px;
+        margin-bottom: 20px;
+      }
+      .content-data {
+        ul {
+          margin-bottom: 32px;
+          cursor: pointer;
+          li {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            color: white;
+            p {
+              font-size: 16px;
+            }
+            .color-g {
+              color: #999;
+            }
+            .with-img {
+              display: flex;
+              align-items: center;
+              img {
+                width: 60px;
+                margin-right: 20px;
+                border-radius: 4px;
+              }
+              .name-msg {
+                p:first-child {
+                  margin-bottom: 6px;
+                }
+              }
+            }
+          }
+          li:first-child {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            p:first-child {
+              margin-bottom: 6px;
+            }
+          }
+          li:nth-child(3) {
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            p:first-child {
+              margin-bottom: 6px;
+            }
+          }
+          li:last-child {
+            justify-content: flex-end;
+          }
+        }
+      }
+    }
+  }
+  .page-oper {
+    display: flex;
+    justify-content: flex-end;
+    .ant-pagination {
+      li {
+        a {
+          color: white;
+        }
+        button {
+          color: white;
+        }
+      }
+      .ant-pagination-item-active {
+        background-color: rgba(0, 0, 0, 0);
+        a {
+          color: #df0885;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1440px) {
+  .detail-view {
+    padding-top: 30px;
+    .nft-msg {
+      .left-nft-box {
+        width: 630px;
+        height: 630px;
+      }
+      .right-nft-msg {
+        .msg-switch {
+          .msg-tabs {
+            ul {
+              height: 40px;
+              li {
+                line-height: 30px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.ant-modal-title {
+  font-size: 24px !important;
+}
+.fixed-price-inner {
+  padding-top: 20px;
+  .sell-nft {
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 16px;
+    .nft-box {
+      width: 268px;
+      height: 268px;
+      margin: 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 100%;
+      }
+    }
+    .nft-name {
+      font-size: 16px;
+      color: #777e90;
+      font-weight: 500;
+      margin: 12px 0;
+    }
+    .token-id {
+      font-size: 15px;
+      color: #24262f;
+    }
+  }
+  .label {
+    color: #666;
+    font-size: 16px;
+  }
+  .inp-and-coin {
+    display: flex;
+    margin-top: 8px;
+    input {
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      flex: 1;
+      margin-right: 24px;
+      padding-left: 12px;
+      font-size: 16px;
+    }
+    .coin-select {
+      width: 100px;
+      display: flex;
+      align-items: center;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      justify-content: space-around;
+      cursor: pointer;
+      font-size: 14px;
+      p {
+        width: 44px;
+        text-align: center;
+      }
+      span {
+        color: #666;
+      }
+    }
+  }
+  .remark {
+    font-size: 14px;
+    color: #777e90;
+    margin-top: 8px;
+  }
+  .submit-btn {
+    text-align: center;
+    margin-top: 40px;
+    padding-bottom: 10px;
+    button {
+      width: 200px;
+      height: 40px;
+      background-color: #df0885;
+      border-radius: 20px;
+      font-size: 16px;
+      color: white !important;
+      font-weight: 600;
+    }
+  }
+}
+.token-list {
+  width: 76px;
+  p {
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.3s all;
+  }
+  .active-token {
+    color: #df0885;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+  p:hover {
+    color: #df0885;
+  }
+}
+.verify-modal-inner {
+  margin-top: 20px;
+  .verify-remark {
+    font-size: 18px;
+    color: #24262f;
+  }
+  p:last-child {
+    text-align: center;
+    margin-top: 30px;
+    button {
+      width: 200px;
+      margin-right: 16px;
+      height: 40px;
+      border-radius: 20px;
+    }
+  }
+}

@@ -1,8 +1,12 @@
 import { ReactElement } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CardItem = (): ReactElement => {
+    const navigate = useNavigate();
     return (
-        <div className="market-card">
+        <div className="market-card" onClick={() => {
+            navigate('/detail')
+        }}>
             <div className="img-box">
                 <img src={require('../../../assets/images/WechatIMG20.jpeg')} alt="" />
             </div>

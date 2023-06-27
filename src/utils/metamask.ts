@@ -40,13 +40,15 @@ export const useMetamask = () => {
                 }
             });
         } catch (err: any) {
-            switch (err.code) {
-                case 4001:
-                    message.warning('You have deauthorized')
-                    break;
-                default:
-                    message.warning('Network Error')
-            }
+            console.log(err)
+            message.error(err.message);
+            // switch (err.code) {
+            //     case 4001:
+            //         message.warning('You have deauthorized')
+            //         break;
+            //     default:
+            //         message.warning('Network Error')
+            // }
         }
     }
     return {

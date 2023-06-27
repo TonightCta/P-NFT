@@ -2,7 +2,7 @@ import { ReactElement, ReactNode, useEffect, useState } from "react";
 import './index.scss'
 import CardItem from "./components/item.card";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Divider, Skeleton, Spin } from "antd";
+import { Affix, Divider, Spin } from "antd";
 
 interface Community {
     icon: string,
@@ -59,6 +59,7 @@ const MarketIndex = (): ReactElement<ReactNode> => {
             url: ''
         }
     ];
+    const [container, setContainer] = useState<HTMLDivElement | null>(null);
     const [countList, setCountList] = useState<Total[]>(CountSource);
     const [activeTab, setActiveTab] = useState<number>(0);
     const [data, setData] = useState<number[]>([1, 2, 3, 4, 5, 6]);
@@ -82,7 +83,7 @@ const MarketIndex = (): ReactElement<ReactNode> => {
         loadMoreData();
     }, []);
     return (
-        <div className="market-index">
+        <div className="market-index" id="dataList" ref={setContainer}>
             <p className="market-title">Baby Bunny</p>
             {/* 社区分享 */}
             <div className="com-list">
@@ -115,31 +116,33 @@ const MarketIndex = (): ReactElement<ReactNode> => {
             </div>
             {/* List */}
             <div className="market-list">
-                <div className="filter-box">
-                    <ul>
+                <Affix offsetTop={100} onChange={(affixed) => console.log(affixed)} target={() => container}>
+                    <div className="filter-box">
+                        <ul>
 
-                        {
-                            ['Items', 'Activities'].map((item: string, index: number): ReactElement => {
-                                return (
-                                    <li key={index} className={`${activeTab === index ? 'active-tab' : ''}`} onClick={() => {
-                                        setActiveTab(index);
-                                    }}>
-                                        <span>{item}</span>
-                                        <p></p>
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
-                    <input type="text" placeholder="Search" />
-                </div>
-                <div className="data-list" id="dataList">
+                            {
+                                ['Items', 'Activities'].map((item: string, index: number): ReactElement => {
+                                    return (
+                                        <li key={index} className={`${activeTab === index ? 'active-tab' : ''}`} onClick={() => {
+                                            setActiveTab(index);
+                                        }}>
+                                            <span>{item}</span>
+                                            <p></p>
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                        <input type="text" placeholder="Search" />
+                    </div>
+                </Affix>
+                <div className="data-list">
                     <InfiniteScroll
                         key={data.length}
                         dataLength={data.length}
                         next={loadMoreData}
                         hasMore={data.length < 50}
-                        loader={<div className="loading-box"><Spin/><p>Loading...</p></div>}
+                        loader={<div className="loading-box"><Spin /><p>Loading...</p></div>}
                         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                         scrollableTarget="dataList"
                     >
