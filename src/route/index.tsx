@@ -21,6 +21,12 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route index element={<React.Suspense fallback={<Loading />}>
                     <View.ScreenView />
                 </React.Suspense>}></Route>
+                <Route path="/voice-nft" element={<React.Suspense fallback={<Loading />}>
+                    <View.VoiceNFTView />
+                </React.Suspense>}></Route>
+                <Route path="/airdrop" element={<React.Suspense fallback={<Loading />}>
+                    <View.AirdropView />
+                </React.Suspense>}></Route>
                 <Route path="/market" element={<React.Suspense fallback={<Loading />}>
                     <View.MarketView />
                 </React.Suspense>}></Route>

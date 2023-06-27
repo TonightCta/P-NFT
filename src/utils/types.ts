@@ -10,10 +10,12 @@ export const web3 = new Web3(ethereum || currentProvider);
 export interface State {
     web3?: any,
     address?: string | null,
+    screen_index?:number
 }
 
 export enum Type {
     SET_ADDRESS = 'set_address',
+    SET_SCREEN_INDEX = 'set_screen_index'
 };
 
 export interface IAction {

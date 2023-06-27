@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useContext, useState } from "react";
 // import { Button } from "antd";
 import './index.scss'
 // import { useMetamask } from "../../utils/metamask";
@@ -15,9 +15,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper'
 import 'swiper/css';
 import "swiper/css/pagination";
+import { PNft } from "../../App";
+import { Type } from "../../utils/types";
 
 
 const ScreenView = (): ReactElement<ReactNode> => {
+    const { dispatch } = useContext(PNft);
     // const { connectMetamask } = useMetamask();
     // const { state } = useContext(PNft);
     // const { connectHiro } = useHiro();
@@ -45,9 +48,13 @@ const ScreenView = (): ReactElement<ReactNode> => {
                 pagination={pagination}
                 modules={[Pagination]}
                 onSlideChange={(e: any) => {
-                    if(e.activeIndex === 5){
-                        alert(123)
-                    }
+                    console.log(e.activeIndex)
+                    // dispatch({
+                    //     type:Type.SET_SCREEN_INDEX,
+                    //     payload:{
+                    //         screen_index:e.activeIndex
+                    //     }
+                    // })
                 }}
             >
                 <SwiperSlide><ScreenIndex /></SwiperSlide>

@@ -12,6 +12,24 @@
   align-items: center;
   justify-content: space-between;
   transition: 0.3s all;
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  .h-menu {
+    display: flex;
+    margin-left: 70px;
+    li {
+      margin-right: 60px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 500;
+      box-sizing: border-box;
+      transition: .2s all;
+    }
+    .active-menu {
+      color: #df0885;
+    }
+  }
   p {
     font-size: 16px;
     color: white;
