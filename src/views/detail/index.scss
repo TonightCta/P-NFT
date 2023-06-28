@@ -105,7 +105,7 @@
       .msg-switch {
         margin-top: 50px;
         width: 100%;
-        background-color: #0f0f0f;
+        background-color: #202020;
         padding: 20px;
         border-radius: 8px;
         .msg-tabs {
@@ -115,7 +115,7 @@
             padding: 4px;
             height: 50px;
             border-radius: 34px;
-            background-color: #000;
+            background-color: #141416;
             overflow: hidden;
             li {
               width: 100%;
@@ -156,7 +156,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #333;
+    border-bottom: 2px solid #353945;
     padding-bottom: 40px;
     .tab-btn {
       ul {
@@ -187,6 +187,7 @@
   .tab-list {
     max-width: 1733px;
     padding-bottom: 80px;
+    padding: 0 4px;
     .list-content {
       ul {
         display: flex;

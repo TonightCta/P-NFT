@@ -13,7 +13,7 @@ const ScreenIndex = (): ReactElement<ReactNode> => {
             <p className="public-title">PIZZAP</p>
             <p>
                 <button onClick={() => {
-                    navigate('/market')
+                    navigate('/marketplace')
                 }}>ENTER</button>
             </p>
             <div className="waves"></div>

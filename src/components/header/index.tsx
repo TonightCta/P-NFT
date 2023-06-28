@@ -13,19 +13,15 @@ interface Menu {
 
 const Menu: Menu[] = [
     {
-        name: 'Home',
-        url: '/'
+        name: 'Marketplace',
+        url: '/marketplace'
     },
     {
-        name: 'VoiceNFT',
+        name: 'Ai creation',
         url: '/voice-nft'
     },
     {
-        name: 'Marketplace',
-        url: '/market'
-    },
-    {
-        name: 'Airdrop',
+        name: 'Airdrops',
         url: '/airdrop'
     }
 ]
@@ -41,17 +37,14 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
     useEffect(() => {
         setLine(location.pathname !== '/' ? 'need-line' : '');
         switch (location.pathname) {
-            case '/':
-                setMenuActive(0);
-                break;
             case '/voice-nft':
                 setMenuActive(1);
                 break;
-            case '/market':
-                setMenuActive(2);
+            case '/marketplace':
+                setMenuActive(0);
                 break;
             case '/airdrop':
-                setMenuActive(3);
+                setMenuActive(2);
                 break;
             default:
                 setMenuActive(999);
@@ -84,19 +77,19 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                 }}>
                     <img src={require('../../assets/images/logo.png')} alt="" />
                 </p>
+                {line && <ul className="h-menu">
+                    {
+                        Menu.map((item: Menu, index: number): ReactElement => {
+                            return (
+                                <li key={index} className={`${menuActive === index ? 'active-menu' : ''}`} onClick={() => {
+                                    setMenuActive(index);
+                                    navigate(item.url)
+                                }}>{item.name}</li>
+                            )
+                        })
+                    }
+                </ul>}
             </div>
-            <ul className="h-menu">
-                {
-                    Menu.map((item: Menu, index: number): ReactElement => {
-                        return (
-                            <li key={index} className={`${menuActive === index ? 'active-menu' : ''}`} onClick={() => {
-                                setMenuActive(index);
-                                navigate(item.url)
-                            }}>{item.name}</li>
-                        )
-                    })
-                }
-            </ul>
             {
                 !state.address
                     ? <p className="connect-wallet" onClick={() => {

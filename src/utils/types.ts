@@ -13,6 +13,12 @@ export interface State {
     screen_index?:number
 }
 
+export interface IResponse {
+    code: number,
+    data: any,
+    message: string
+}
+
 export enum Type {
     SET_ADDRESS = 'set_address',
     SET_SCREEN_INDEX = 'set_screen_index'

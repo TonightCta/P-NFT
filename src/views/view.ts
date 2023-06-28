@@ -8,6 +8,7 @@ const DetailView = React.lazy(() => import('./detail/index'));
 const OwnerNFTSView = React.lazy(() => import('./nfts/index'));
 const VoiceNFTView = React.lazy(() => import('./voice.nft/index'));
 const AirdropView = React.lazy(() => import('./airdrop/index'));
+const MarketPlaceView = React.lazy(() => import('./market.place/index'));
 
 export {
     IndexView,
@@ -17,5 +18,6 @@ export {
     DetailView,
     OwnerNFTSView,
     VoiceNFTView,
-    AirdropView
+    AirdropView,
+    MarketPlaceView
 }

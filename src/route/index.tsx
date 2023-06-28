@@ -27,6 +27,9 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route path="/airdrop" element={<React.Suspense fallback={<Loading />}>
                     <View.AirdropView />
                 </React.Suspense>}></Route>
+                <Route path="/marketplace" element={<React.Suspense fallback={<Loading />}>
+                    <View.MarketPlaceView />
+                </React.Suspense>}></Route>
                 <Route path="/market" element={<React.Suspense fallback={<Loading />}>
                     <View.MarketView />
                 </React.Suspense>}></Route>
