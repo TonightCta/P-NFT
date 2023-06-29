@@ -3,18 +3,20 @@ import { post } from './index';
 type o = {};
 
 //Profile
-export const ProfileService = (p:o) => post('/',p);
+export const ProfileService = (p: o) => post('/', p);
+//Upload file
+export const UploadFileService = (p:FormData) => post('/upload-file', p);
 //Mint NFT
-export const NFTMintService = (p:o) => post('/nft/mint',p);
+export const NFTMintService = (p:FormData) => post('/nft/mint', p);
 //Maker NFT
-export const NFTMakerService = (p:o) => post('/order/maker',p);
+export const NFTMakerService = (p: o) => post('/order/maker', p);
 //Off NFT
-export const MFTOffService = (p:o) => post('/order/cancel',p);
+export const MFTOffService = (p: o) => post('/order/cancel', p);
 //Market NFT
-export const NFTMarketService = (p:o) => post('/order/list',p);
+export const NFTMarketService = (p: o) => post('/order/list', p);
 //Logs NFT
-export const NFTLogsService = (p:o) => post('/nft/history',p);
+export const NFTLogsService = (p: o) => post('/nft/history', p);
 //Owner NFT
-export const NFTOwnerService = (p:o) => post('/user/sell',p);
+export const NFTOwnerService = (p: o) => post('/user/sell', p);
 //Wallet NFT
-export const NFTWalletService = (p:o) => post('/nft/wallet',p);
+export const NFTWalletService = (p: o) => post('/nft/wallet', p);

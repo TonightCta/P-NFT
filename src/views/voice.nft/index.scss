@@ -144,6 +144,9 @@
           margin-top: 24px;
         }
       }
+      .filed-b{
+        border-color: #99241d;
+      }
       .ant-select-selector {
         height: 46px;
         background-color: rgba(0, 0, 0, 0);
@@ -160,6 +163,9 @@
     .submit-btn {
       text-align: center;
       margin-top: 70px;
+      span{
+        color: white;
+      }
       button {
         border-radius: 20px;
         width: 200px;

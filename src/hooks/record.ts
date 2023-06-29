@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 
-const useMediaRecorder = () => {
+export const useMediaRecorder = () => {
     const [mediaUrl, setMediaUrl] = useState<string>('');
+    const [audioFile, setAudioFile] = useState<File | Blob>();
     const mediaStream = useRef<MediaStream>();
     const mediaRecorder = useRef<MediaRecorder>();
     const mediaBlobs = useRef<Blob[]>([]);
@@ -13,6 +14,7 @@ const useMediaRecorder = () => {
         mediaRecorder.current.onstop = () => {
             const blob = new Blob(mediaBlobs.current, { type: 'audio/wav' })
             const url = URL.createObjectURL(blob); 
+            setAudioFile(blob)
             setMediaUrl(url);
         }
         mediaRecorder.current?.start();
@@ -29,6 +31,7 @@ const useMediaRecorder = () => {
         mediaBlobs.current = [];
     }
     return {
+        audioFile,
         mediaUrl,
         startRecord,
         pauseRecord,
@@ -36,4 +39,3 @@ const useMediaRecorder = () => {
         stopRecord,
     }
 };
-export default useMediaRecorder;

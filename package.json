@@ -20,8 +20,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "dotenv -e .env.development node scripts/start.js",
+    "build:master": "dotenv -e .env.master node scripts/build.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

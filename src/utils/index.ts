@@ -7,7 +7,7 @@ interface Address {
     abi_1155: unknown,
     abi_721: unknown
 }
-interface Network {
+export interface Network {
     chain_id: number,
     chain_name: string,
     nativeCurrency: {
