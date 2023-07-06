@@ -50,17 +50,20 @@ type AddressCall = {
     10067275:Address
 }
 export const NetworkAddress: AddressCall = {
-    [8007736]: {
+    8007736: {
         address_1155: '0x8ceB525a426BEB63b831f3e6B71678BC1D25523A',
         address_721: '0x1a0eCc31DACcA48AA877db575FcBc22e1FEE671b',
         abi_1155: ABI1155,
         abi_721: ABI721
     },
-    [10067275]: {
+    10067275: {
         address_1155: '',
         address_721: '0xAe729a910f4FCa452B578C5f2ED1EB13391d651E',
         abi_1155: ABI1155,
         abi_721: ABI721
     }
+}
+export const calsAddress = (_address:string) => {
+    return _address.substring(0,6) + '...' + _address.substring(_address.length - 4,_address.length)
 }
 

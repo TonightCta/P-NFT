@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import { IResponse } from '../utils/types';
 
 let axiosInstance: AxiosInstance = axios.create({
-    baseURL: 'http://54.69.86.125:3000/api/v1',
+    baseURL: process.env.REACT_APP_BASEURL,
     timeout: 1000 * 60 * 10,
     headers: {
         "Accept": '*/*',

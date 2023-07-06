@@ -5,11 +5,13 @@ type o = {};
 //Profile
 export const ProfileService = (p: o) => post('/', p);
 //Upload file
-export const UploadFileService = (p:FormData) => post('/upload-file', p);
+export const UploadFileService = (p: FormData) => post('/upload-file', p);
 //Mint NFT
-export const NFTMintService = (p:FormData) => post('/nft/mint', p);
+export const NFTMintService = (p: FormData) => post('/nft/mint', p);
 //Maker NFT
 export const NFTMakerService = (p: o) => post('/order/maker', p);
+//Buy NFT
+export const NFTBuyService = (p: o) => post('/order/taker', p);
 //Off NFT
 export const MFTOffService = (p: o) => post('/order/cancel', p);
 //Market NFT

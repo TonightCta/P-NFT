@@ -10,18 +10,21 @@ export const web3 = new Web3(ethereum || currentProvider);
 export interface State {
     web3?: any,
     address?: string | null,
-    screen_index?:number
+    screen_index?: number,
+    card?: any
 }
 
 export interface IResponse {
     code: number,
+    status: number,
     data: any,
     message: string
 }
 
 export enum Type {
     SET_ADDRESS = 'set_address',
-    SET_SCREEN_INDEX = 'set_screen_index'
+    SET_SCREEN_INDEX = 'set_screen_index',
+    SET_CARD = 'set_card'
 };
 
 export interface IAction {
@@ -38,4 +41,15 @@ export interface IResponse {
     code: number,
     data: any,
     message: string
+}
+
+export interface NFTItem {
+    file_image_ipfs: string,
+    price?: string,
+    paymod?: string,
+    token_id: number,
+    file_name: string,
+    load: boolean,
+    off?: boolean,
+    order_id:string
 }

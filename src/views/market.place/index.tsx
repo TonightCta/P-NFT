@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Affix, Divider, Spin } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CardItem from "../market/components/item.card";
+import { NFTMarketService } from "../../request/api";
+import { NFTItem } from "../../utils/types";
 
 interface Cate {
     img: string,
@@ -14,7 +16,7 @@ interface Cate {
 }
 const cateList: Cate[] = [
     {
-        img: require('../../assets/images/test.png'),
+        img: require('../../assets/images/market_item_bg.png'),
         name: 'BabyBunny',
         id: 1,
         icon: require('../../assets/images/favicon.png'),
@@ -46,22 +48,41 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
     const navigate = useNavigate();
     const [container, setContainer] = useState<HTMLDivElement | null>(null);
     const [activeTab, setActiveTab] = useState<number>(0);
-    const [data, setData] = useState<number[]>([1, 2, 3, 4, 5, 6]);
+    const [list, setList] = useState<NFTItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [page, setPage] = useState<number>(1);
+    const [total, setTotal] = useState<number>(0);
+    const marketListFN = async () => {
+        const result = await NFTMarketService({
+            chain_id: '8007736',
+            page_size: 10,
+            page_num: page
+        });
+        setLoading(false);
+        const { status, data } = result;
+        if (status !== 200) {
+            return
+        };
+
+        setTotal(data.data.total)
+        if (!data.data.item) {
+            setList([]);
+            return
+        }
+        const filter = data.data.item.map((item: any) => {
+            return item = {
+                ...item,
+                load: true
+            }
+        });
+        setList(page > 1 ? [...list, ...filter] : filter);
+    }
     const loadMoreData = () => {
         if (loading) {
             return;
         }
         setLoading(true);
-        fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-            .then((res) => res.json())
-            .then((body) => {
-                setData([...data, ...body.results]);
-                setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
-            });
+        marketListFN();
     };
     return (
         <div className="market-place-view" ref={setContainer} id="marketPlaceList">
@@ -114,19 +135,19 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
                 </Affix>
                 <div className="data-list">
                     <InfiniteScroll
-                        key={data.length}
-                        dataLength={data.length}
+                        key={list.length}
+                        dataLength={list.length}
                         next={loadMoreData}
-                        hasMore={data.length < 50}
+                        hasMore={list.length < total}
                         loader={<div className="loading-box"><Spin /><p>Loading...</p></div>}
                         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                         scrollableTarget="marketPlaceList"
                     >
                         <div className="list-item" >
                             {
-                                data.map((item: number, index: number) => {
+                                list.map((item: NFTItem, index: number) => {
                                     return (
-                                        <CardItem key={index} />
+                                        <CardItem key={index} item={item} />
                                     )
                                 })
                             }

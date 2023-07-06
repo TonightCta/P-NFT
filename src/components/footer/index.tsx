@@ -1,31 +1,32 @@
 import { ReactElement, ReactNode } from "react";
 import './index.scss';
+import IconFont from "../../utils/icon";
 
 interface Tab {
-    icon: string,
+    icon: ReactNode,
     url: string
 }
 
 const FooterWapper = (): ReactElement<ReactNode> => {
     const tab: Tab[] = [
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-github-fill" />,
             url: ''
         },
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-telegram" />,
             url: ''
         },
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-tuitetwitter43" />,
             url: ''
         },
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-medium-circle-fill" />,
             url: ''
         },
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-discord" color="red"/>,
             url: ''
         }
     ]
@@ -33,10 +34,11 @@ const FooterWapper = (): ReactElement<ReactNode> => {
         <div className="footer-wapper">
             <ul>
                 {
-                    tab.map((item:Tab,index:number) : ReactElement => {
+                    tab.map((item: Tab, index: number): ReactElement => {
                         return (
                             <li key={index}>
-                                <img src={item.icon} alt="" />
+                                {item.icon}
+                                {/* <img src={item.icon} alt="" /> */}
                             </li>
                         )
                     })

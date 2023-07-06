@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import './index.scss'
-import { Button, Select, Spin } from "antd";
+import { Button, Select, Spin, message } from "antd";
 import { AudioMutedOutlined, AudioOutlined, DeleteOutlined, FileImageOutlined } from "@ant-design/icons";
 import { useMediaRecorder } from "../../hooks/record";
 import { LoadingOutlined } from '@ant-design/icons';
@@ -80,8 +80,19 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
         const formData = new FormData()
         formData.append('file', _file);
         formData.append('name', _file_name);
-        const result = await axios.post('http://54.69.86.125:8081/upload-file',formData);
+        const result = await axios.post(`${process.env.REACT_APP_BASEURL_IPFS}/upload-file`, formData);
         return result.data.data;
+    };
+    const clearForm = () => {
+        setForm({
+            name: '',
+            desc: ''
+        });
+        setNftFile({
+            source: null,
+            view: ''
+        });
+        setAudio('');
     }
     const mintNFTFN = async () => {
         if (!state.address) {
@@ -125,33 +136,36 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
         //img_ipfs.ipfshash
         const voice_ipfs = await uploadFileFN(`${new Date().getTime()}.mp3`, audioFile);
         //voice_ipfs.ipfshash
-        let data : any = {
-            name:form.name,
-            description:form.desc,
-            image:img_ipfs.ipfshash,
-            external_url:voice_ipfs.ipfshash
+        let data: any = {
+            name: form.name,
+            description: form.desc,
+            image: img_ipfs.ipfshash,
+            external_url: voice_ipfs.ipfshash
         }
         if (typeof data === 'object') {
             data = JSON.stringify(data, undefined, 4)
         }
         const blob = new Blob([data], { type: 'text/json' });
         const blob_ipfs = await uploadFileFN(`${new Date().getTime()}.json`, blob);
-        const result = await mint(blob_ipfs.ipfshash);
+        const result: any = await mint(blob_ipfs.ipfshash);
         const formData = new FormData();
-        formData.append('chain_id','1');
-        formData.append('contract_address','0x1a0eCc31DACcA48AA877db575FcBc22e1FEE671b');
-        formData.append('contract_type','721');
-        formData.append('sender',ethereum.selectedAddress);
-        formData.append('tx_hash',result as string);
-        formData.append('image',nftFile.source as any);
-        formData.append('voice',audioFile);
-        formData.append('meta_data_ipfs',blob_ipfs.ipfshash);
-        formData.append('image_ipfs',img_ipfs.ipfshash);
-        formData.append('voice_ipfs',voice_ipfs.ipfshash);
-        formData.append('name',form.name);
-        formData.append('description',form.desc);
+        formData.append('chain_id', '8007736');
+        formData.append('contract_address', '0x1a0eCc31DACcA48AA877db575FcBc22e1FEE671b');
+        formData.append('contract_type', '721');
+        formData.append('sender', ethereum.selectedAddress);
+        formData.append('tx_hash', result['transactionHash']);
+        formData.append('image', nftFile.source as any);
+        formData.append('voice', audioFile);
+        formData.append('meta_data_ipfs', blob_ipfs.ipfshash);
+        formData.append('image_ipfs', img_ipfs.ipfshash);
+        formData.append('voice_ipfs', voice_ipfs.ipfshash);
+        formData.append('name', form.name);
+        formData.append('description', form.desc);
         const mintResult = await NFTMintService(formData);
         console.log(mintResult);
+        message.success('Mint Successful');
+        clearForm();
+        setWait(false);
     }
     return (
         <div className="voice-nft-view">
@@ -244,7 +258,7 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
                     />
                 </div>
                 <p className="submit-btn">
-                    <Button type="primary" size="large" onClick={mintNFTFN}>
+                    <Button type="primary" size="large" onClick={mintNFTFN} disabled={wait}>
                         {!wait
                             ? <span>Confirm and Mint</span>
                             : <Spin indicator={antIcon} size="small" />}

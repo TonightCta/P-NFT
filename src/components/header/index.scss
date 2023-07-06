@@ -70,6 +70,9 @@
   border-bottom: 2px solid #353945;
   background-color: #141416;
 }
+.need-blur {
+  backdrop-filter: blur(6px);
+}
 .pop-menu {
   width: 100px;
   p {

@@ -3,9 +3,13 @@ import './index.scss'
 import CardItem from "./components/item.card";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Affix, Divider, Spin } from "antd";
+import { NFTMarketService } from '../../request/api'
+import { NFTItem } from "../../utils/types";
+import { NFTs } from "../../utils/source";
+import IconFont from "../../utils/icon";
 
 interface Community {
-    icon: string,
+    icon: ReactNode,
     url: string
 }
 
@@ -35,49 +39,70 @@ const CountSource: Total[] = [
         name: 'FLOOR(BTC)',
         count: 2.5
     },
-]
+];
 const MarketIndex = (): ReactElement<ReactNode> => {
     const communityList: Community[] = [
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-github-fill" />,
             url: ''
         },
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-telegram" />,
             url: ''
         },
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-tuitetwitter43" />,
             url: ''
         },
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-medium-circle-fill" />,
             url: ''
         },
         {
-            icon: require('../../assets/images/WechatIMG20.jpeg'),
+            icon: <IconFont type="icon-discord" color="red"/>,
             url: ''
         }
     ];
     const [container, setContainer] = useState<HTMLDivElement | null>(null);
     const [countList, setCountList] = useState<Total[]>(CountSource);
-    const [activeTab, setActiveTab] = useState<number>(0);
-    const [data, setData] = useState<number[]>([1, 2, 3, 4, 5, 6]);
+    // const [activeTab, setActiveTab] = useState<number>(0);
+    const [list, setList] = useState<NFTItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [page, setPage] = useState<number>(1);
+    const [total, setTotal] = useState<number>(0);
+    const marketListFN = async () => {
+        const result = await NFTMarketService({
+            chain_id: '8007736',
+            page_size: 10,
+            page_num: page
+        });
+        console.log(result);
+        setLoading(false);
+        const { status, data } = result;
+        if (status !== 200) {
+            return
+        };
+
+        setTotal(data.data.total)
+        if (!data.data.item) {
+            setList([]);
+            return
+        }
+        const filter = data.data.item.map((item: any) => {
+            return item = {
+                ...item,
+                load: true
+            }
+        });
+        setList(page > 1 ? [...list, ...filter] : filter);
+    }
     const loadMoreData = () => {
         if (loading) {
             return;
         }
+        setPage(page + 1)
         setLoading(true);
-        fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-            .then((res) => res.json())
-            .then((body) => {
-                setData([...data, ...body.results]);
-                setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
-            });
+        marketListFN()
     };
     useEffect(() => {
         loadMoreData();
@@ -92,7 +117,7 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                         communityList.map((item: Community, index: number): ReactElement => {
                             return (
                                 <li key={index}>
-                                    <img src={item.icon} alt="" />
+                                    {item.icon}
                                 </li>
                             )
                         })
@@ -114,11 +139,32 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                     }
                 </ul>
             </div>
+            <p className="pool-remark">
+                Baby Bunny Club is a collection of 10,000 Baby Bunny NFTs—unique digital collectibles launched by PizzapDAO.
+                Your Baby Bunny doubles as your Baby Bunny Club membership card, and grants access to DAO benefits.
+                PizzapDAO will create and build a MetaVerse with online membership and offline voice pool (VoiceNFT).
+                Baby Bunny Club and PizzapDAO are huge economics. Value will grow by unlocking the roadmap step by step.
+            </p>
+            <div className="scroll-box">
+                <div className="shadow-line line-left"></div>
+                <div className="shadow-line line-right"></div>
+                <ul>
+                    {
+                        NFTs.map((item: string, index: number) => {
+                            return (
+                                <li key={index}>
+                                    <img src={item} />
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            </div>
             {/* List */}
             <div className="market-list">
                 <Affix offsetTop={100} onChange={(affixed) => console.log(affixed)} target={() => container}>
                     <div className="filter-box">
-                        <ul>
+                        {/* <ul>
 
                             {
                                 ['Items', 'Activities'].map((item: string, index: number): ReactElement => {
@@ -132,25 +178,25 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                                     )
                                 })
                             }
-                        </ul>
+                        </ul> */}
                         <input type="text" placeholder="Search" />
                     </div>
                 </Affix>
                 <div className="data-list">
                     <InfiniteScroll
-                        key={data.length}
-                        dataLength={data.length}
+                        key={list.length}
+                        dataLength={list.length}
                         next={loadMoreData}
-                        hasMore={data.length < 50}
+                        hasMore={list.length < total}
                         loader={<div className="loading-box"><Spin /><p>Loading...</p></div>}
                         endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
                         scrollableTarget="dataList"
                     >
                         <div className="list-item" >
                             {
-                                data.map((item: number, index: number) => {
+                                list.map((item: NFTItem, index: number) => {
                                     return (
-                                        <CardItem key={index} />
+                                        <CardItem key={index} item={item} />
                                     )
                                 })
                             }

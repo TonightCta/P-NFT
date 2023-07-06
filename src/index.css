@@ -14,9 +14,34 @@ code {
     monospace;
 }
 
+body {
+  font-family: Kanit;
+}
+
 @font-face {
   font-family: 'PlianFont';
   src: url('./assets/fonts/Netron.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kanit';
+  src: url('./assets/fonts/Kanit-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KanitBold';
+  src: url('./assets/fonts/Kanit-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KanitLight';
+  src: url('./assets/fonts/Kanit-Light.ttf');
   font-weight: normal;
   font-style: normal;
 }
@@ -50,9 +75,10 @@ code {
 }
 
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button{
-  -webkit-appearance: none!important;
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
 }
-.ant-popover{
+
+.ant-popover {
   z-index: 3000;
 }

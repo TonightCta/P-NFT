@@ -35,7 +35,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
     const navigate = useNavigate();
     const location = useLocation();
     useEffect(() => {
-        setLine(location.pathname !== '/' ? 'need-line' : '');
+        setLine((location.pathname !== '/') ? 'need-line' : '');
         switch (location.pathname) {
             case '/voice-nft':
                 setMenuActive(1);
@@ -70,7 +70,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
         </div>
     );
     return (
-        <div className={`header-wapper ${line} ${state.screen_index !== 0 ? 'need-bg' : ''}`}>
+        <div className={`header-wapper ${location.pathname === '/airdrop' && 'need-blur'} ${location.pathname !== '/airdrop' && line} ${state.screen_index !== 0 ? 'need-bg' : ''}`}>
             <div className="logo-menu">
                 <p onClick={() => {
                     navigate('/')

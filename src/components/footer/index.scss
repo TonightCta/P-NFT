@@ -11,18 +11,27 @@
     display: flex;
     li {
       margin-right: 24px;
-      img {
-        width: 30px;
-        border-radius: 50%;
-        cursor: pointer;
+      cursor: pointer;
+      span{
+        font-size: 26px;
+      }
+    }
+    li:nth-child(2){
+      span{
+        font-size: 24px;
+      }
+    }
+    li:nth-child(3){
+      span{
+        font-size: 24px;
       }
     }
     li:last-child {
       margin-right: 0;
     }
   }
-  p{
-    font-size: 14px!important;
+  p {
+    font-size: 14px !important;
     color: white;
     margin-top: 4px;
   }

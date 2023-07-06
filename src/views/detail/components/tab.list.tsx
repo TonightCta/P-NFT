@@ -1,7 +1,31 @@
-import { ReactElement } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { Pagination } from 'antd';
+import { NFTLogsService } from '../../../request/api';
+import { PNft } from "../../../App";
+import { web3 } from "../../../utils/types";
+import { calsAddress } from "../../../utils";
 
 const TabList = (): ReactElement => {
+    const { state } = useContext(PNft);
+    const [data, setData] = useState<any[]>([]);
+    const logsListFN = async () => {
+        const result = await NFTLogsService({
+            chain_id: '8007736',
+            contract_address: state.card.contract_address,
+            token_id: state.card.token_id,
+            page_size: 200,
+            page_num: 1
+        });
+        console.log(result);
+        if (!result.data.data.item) {
+            setData([])
+            return
+        }
+        setData(result.data.data.item);
+    };
+    useEffect(() => {
+        logsListFN();
+    }, [])
     return (
         <div className="tab-list">
             <div className="list-content">
@@ -17,7 +41,7 @@ const TabList = (): ReactElement => {
                 </div>
                 <div className="content-data">
                     {
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item: number, index: number): ReactElement => {
+                        data.map((item: any, index: number): ReactElement => {
                             return (
                                 <ul key={index}>
                                     <li>
@@ -26,7 +50,7 @@ const TabList = (): ReactElement => {
                                     </li>
                                     <li>
                                         <div className="with-img">
-                                            <img src={require('../../../assets/images/WechatIMG20.jpeg')} alt="" />
+                                            <img src={state.card.file_image_ipfs} alt="" />
                                             <div className="name-msg">
                                                 <p className="color-g">Baby Bunny</p>
                                                 <p>*****</p>
@@ -35,16 +59,16 @@ const TabList = (): ReactElement => {
                                     </li>
                                     <li>
                                         <p>$64321.12</p>
-                                        <p className="color-g">2.1&nbsp;BTC</p>
+                                        <p className="color-g">{Number(web3.utils.fromWei(state.card.price, 'ether')).toFixed(2)}&nbsp;{state.card.paymod}</p>
                                     </li>
                                     <li>
-                                        <p>0x0000....0000</p>
+                                        <p>{calsAddress(item.ContractAddress)}</p>
                                     </li>
                                     <li>
-                                        <p>0x0000....0000</p>
+                                        <p>{calsAddress(item.From)}</p>
                                     </li>
                                     <li>
-                                        <p className="color-g">35 minutes ago</p>
+                                        <p className="color-g">{item.Time}</p>
                                     </li>
                                 </ul>
                             )
@@ -55,10 +79,10 @@ const TabList = (): ReactElement => {
             <div className="page-oper">
                 <Pagination defaultCurrent={1} total={50} onChange={() => {
                     window.scrollTo({
-                        top:700,
-                        behavior:'smooth'
+                        top: 700,
+                        behavior: 'smooth'
                     })
-                }}/>
+                }} />
             </div>
         </div>
     )

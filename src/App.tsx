@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import RouteConfig from './route';
 import { useReducer, createContext } from 'react'
 import { HashRouter } from 'react-router-dom';
