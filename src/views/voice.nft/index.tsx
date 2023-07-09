@@ -1,16 +1,23 @@
 import { ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import './index.scss'
-import { Button, Select, Spin, message } from "antd";
+import { Button, Select, Slider, Spin, message } from "antd";
 import { AudioMutedOutlined, AudioOutlined, DeleteOutlined, FileImageOutlined } from "@ant-design/icons";
 import { useMediaRecorder } from "../../hooks/record";
 import { LoadingOutlined } from '@ant-design/icons';
 import { useSwitchChain } from "../../hooks/chain";
-import { NFTMintService } from "../../request/api";
+import { NFTMintService, UploadFileService,QueryFile } from "../../request/api";
 import { PNft } from "../../App";
 import { useMetamask } from "../../utils/metamask";
 import { useContract } from "../../utils/contract";
 import { ethereum } from "../../utils/types";
 import axios from "axios";
+import type { SliderMarks } from 'antd/es/slider';
+import { Model } from "../../utils/source";
+
+const marks: SliderMarks = {
+    100: 'Slow',
+    200: 'Fast',
+};
 
 interface File {
     source: File | null,
@@ -20,7 +27,8 @@ interface Error {
     name: boolean,
     desc: boolean,
     img: boolean,
-    audio: boolean
+    audio: boolean,
+    aiText: boolean
 }
 
 interface Form {
@@ -37,6 +45,19 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
     const audioRef: any = useRef('');
     const { switchC } = useSwitchChain();
     const { mint } = useContract();
+    const [cType, setCType] = useState<number>(0);
+    const [rate, setRate] = useState<number>(100);
+    const [aiText, setAIText] = useState<string>('');
+    const [modelType, setModelType] = useState<string>('1');
+    const [upAiWait,setUpAiWait] = useState<boolean>(false);
+    const selectModel = (value: string) => {
+        setModelType(value)
+    };
+    const [aiReview,setAIReview] = useState<{url:string,minio_key:string,ipfs:''}>({
+        url:'',
+        minio_key:'',
+        ipfs:''
+    });
     const [nftFile, setNftFile] = useState<File>({
         source: null,
         view: ''
@@ -45,7 +66,8 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
         name: false,
         desc: false,
         img: false,
-        audio: false
+        audio: false,
+        aiText: false
     });
     const [wait, setWait] = useState<boolean>(false);
     // const []
@@ -83,6 +105,37 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
         const result = await axios.post(`${process.env.REACT_APP_BASEURL_IPFS}/upload-file`, formData);
         return result.data.data;
     };
+    const uploadFileLocaFN = async (_file: any) => {
+        const formData = new FormData()
+        formData.append('file', _file);
+        const result = await UploadFileService(formData);
+        return result.data;
+    };
+    const uploadFileAi = async () => {
+        if (!aiText) {
+            setError({
+                ...error,
+                aiText: true
+            });
+            return
+        };
+        setUpAiWait(true);
+        const params = {
+            text: aiText,
+            rate: rate,
+            model: +modelType
+        };
+        const result = await axios.post(`${process.env.REACT_APP_BASEURL_AI}/text2voice`, params);
+        setUpAiWait(false);
+        const file = await QueryFile({
+            name:result.data.voice_url_minio.minio_key
+        });
+        setAIReview({
+            url:file.data,
+            minio_key:result.data.voice_url_minio.minio_key,
+            ipfs:result.data.voice_url_ipfs
+        })
+    }
     const clearForm = () => {
         setForm({
             name: '',
@@ -124,23 +177,32 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             sc();
             return
         }
-        if (!audioFile) {
+        if (cType === 0 && !audioFile) {
             setError({
                 ...error,
                 audio: true
             });
             return
         };
+        if (!aiReview.minio_key) {
+            setError({
+                ...error,
+                aiText: true
+            });
+            return
+        };
         setWait(true);
         const img_ipfs = await uploadFileFN(`${new Date().getTime()}.png`, nftFile.source);
         //img_ipfs.ipfshash
-        const voice_ipfs = await uploadFileFN(`${new Date().getTime()}.mp3`, audioFile);
+        const voice_ipfs = cType === 0 ? await uploadFileFN(`${new Date().getTime()}.mp3`, audioFile) : null;
         //voice_ipfs.ipfshash
+        const img_local = await uploadFileLocaFN(nftFile.source);
+        const voice_local = cType === 0 ? await uploadFileLocaFN(audioFile) : null;
         let data: any = {
             name: form.name,
             description: form.desc,
             image: img_ipfs.ipfshash,
-            external_url: voice_ipfs.ipfshash
+            external_url:  cType === 0 ? voice_ipfs.ipfshash : aiReview.ipfs
         }
         if (typeof data === 'object') {
             data = JSON.stringify(data, undefined, 4)
@@ -154,16 +216,16 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
         formData.append('contract_type', '721');
         formData.append('sender', ethereum.selectedAddress);
         formData.append('tx_hash', result['transactionHash']);
-        formData.append('image', nftFile.source as any);
-        formData.append('voice', audioFile);
+        formData.append('imgage_minio', img_local.minio_key);
+        formData.append('voice_minio', cType === 0 ? voice_local.minio_key : aiReview.minio_key);
         formData.append('meta_data_ipfs', blob_ipfs.ipfshash);
         formData.append('image_ipfs', img_ipfs.ipfshash);
-        formData.append('voice_ipfs', voice_ipfs.ipfshash);
+        formData.append('voice_ipfs', cType === 0 ? voice_ipfs.ipfshash : aiReview.ipfs);
         formData.append('name', form.name);
         formData.append('description', form.desc);
         const mintResult = await NFTMintService(formData);
         console.log(mintResult);
-        message.success('Mint Successful');
+        message.success('Mint Successful!');
         clearForm();
         setWait(false);
     }
@@ -237,14 +299,72 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
                 <div className="inp-public">
                     <p className="inp-label"><sup>*</sup>Audio</p>
                     <div className={`upload-record ${error.audio ? 'filed-b' : ''}`}>
-                        <div className="record-start" onClick={() => {
-                            setRecord(record ? false : true)
-                            !record ? startRecord() : stopRecord()
-                        }}>
-                            {!record ? <AudioOutlined />
-                                : <AudioMutedOutlined />}
+                        <div className="record-tabs">
+                            <ul>
+                                {
+                                    ['Voice', 'Ai'].map((item: string, index: number): ReactNode => {
+                                        return (
+                                            <li key={index} className={`${cType === index ? 'active-ctype' : ''}`} onClick={() => {
+                                                setCType(index)
+                                            }}>{item}</li>
+                                        )
+                                    })
+                                }
+                            </ul>
                         </div>
-                        <audio ref={audioRef} src={audio} controls></audio>
+                        {
+                            cType === 0
+                                ? <div>
+                                    <div className="record-start" onClick={() => {
+                                        setRecord(record ? false : true)
+                                        !record ? startRecord() : stopRecord()
+                                    }}>
+                                        {!record ? <AudioOutlined />
+                                            : <AudioMutedOutlined />}
+                                    </div>
+                                    <audio ref={audioRef} src={audio} controls></audio>
+                                </div>
+                                : <div className="ai-build">
+                                    <div className="build-public">
+                                        <p className="build-title"><sup>*</sup>Text</p>
+                                        <div className={`build-inp`}>
+                                            <textarea className={`${error.aiText ? 'filed-b' : ''}`} name="" id="" placeholder="Please enter the text" value={aiText} onChange={(e) => {
+                                                setAIText(e.target.value)
+                                            }}></textarea>
+                                        </div>
+                                    </div>
+                                    <div className="build-public">
+                                        <p className="build-title"><sup>*</sup>Speed</p>
+                                        <div className="build-inp">
+                                            <Slider marks={marks} min={100} max={200} onChange={(value) => {
+                                                setRate(value);
+                                            }} />
+                                        </div>
+                                    </div>
+                                    <div className="build-public">
+                                        <p className="build-title"><sup>*</sup>Model</p>
+                                        <div className="build-inp">
+                                            <Select
+                                                defaultValue="1"
+                                                style={{ width: 120 }}
+                                                onChange={selectModel}
+                                                options={Model}
+                                            />
+                                        </div>
+                                    </div>
+                                    {aiReview.url && <div className="ai-review">
+                                        <p>Review</p>
+                                        <audio src={aiReview.url} controls></audio>
+                                    </div>}
+                                    <p className="save-btn">
+                                        <Button type="primary" loading={upAiWait} disabled={upAiWait} onClick={() => {
+                                            uploadFileAi()
+                                        }}>
+                                            Save
+                                        </Button>
+                                    </p>
+                                </div>
+                        }
                     </div>
                 </div>
                 <div className="inp-public">

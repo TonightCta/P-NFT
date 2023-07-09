@@ -1,8 +1,8 @@
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
 import { CopyOutlined, TwitterOutlined } from "@ant-design/icons";
 import CardItem from "../market/components/item.card";
-import { Affix, Divider, Spin } from 'antd'
+import { Affix, Divider, Spin, message } from 'antd'
 import InfiniteScroll from "react-infinite-scroll-component";
 import TabList from "../detail/components/tab.list";
 import { NFTOwnerService } from '../../request/api'
@@ -10,17 +10,20 @@ import { NFTItem, ethereum } from "../../utils/types";
 import { useContract } from "../../utils/contract";
 import axios from "axios";
 import { calsAddress } from "../../utils";
+import { PNft } from "../../App";
+import copy from 'copy-to-clipboard'
 
 const OwnerNFTSView = (): ReactElement<ReactNode> => {
     // const [changeTabs, setChangeTabs] = useState<string[]>(['Buy now', 'Ended']);
     const [activeTop, setActiveTop] = useState<number>(0);
+    const { state } = useContext(PNft);
     // const [activeBot, setActiveBot] = useState<number>(0);
     const [container, setContainer] = useState<HTMLDivElement | null>(null);
     const [list, setList] = useState<NFTItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(1);
-    const [itemList,setItemList] = useState<NFTItem[]>([])
+    const [itemList, setItemList] = useState<NFTItem[]>([])
     const { queryOwner } = useContract();
     //On Sle
     const saleListFN = async (_page?: number) => {
@@ -68,11 +71,14 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
             const params = {
                 ...e,
                 file_image_ipfs: detail.data.image,
+                file_voice_ipfs: detail.data.external_url,
                 token_id: +e.id,
                 file_name: detail.data.name,
                 load: true,
+                play: false
             };
             now.push(params);
+            console.log(now)
             setItemList([...now])
         });
     }
@@ -103,14 +109,17 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         <div className="owner-view" id="ownerView" ref={setContainer}>
             <div className="account-msg">
                 <div className="avatar-box">
-                    <img src={require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                    <img src={state.avatar ? state.avatar : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
                 </div>
                 <div className="msg-box">
                     <p className="msg-large">{calsAddress(ethereum.selectedAddress)}</p>
                     <div className="outside-account">
                         <div className="address-text">
                             <p>{calsAddress(ethereum.selectedAddress)}</p>
-                            <CopyOutlined />
+                            <CopyOutlined onClick={() => {
+                                copy(ethereum.selectedAddress);
+                                message.success('Copy Successful!')
+                            }}/>
                         </div>
                         <p className="outside-go">
                             <TwitterOutlined />
@@ -165,7 +174,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                     >
                         <div className="list-item" >
                             {
-                                (activeTop === 0  ? list : itemList).map((item: NFTItem, index: number) => {
+                                (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
                                     return (
                                         <CardItem key={index} item={item} uploadSell={() => {
                                             setList([]);

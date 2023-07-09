@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useContext, useState } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
 import TabList from "./components/tab.list";
 import { Button, Spin, message } from "antd";
@@ -8,18 +8,33 @@ import { PNft } from "../../App";
 import { web3 } from "../../utils/types";
 import { calsAddress } from "../../utils";
 import { NFTBuyService } from "../../request/api";
+import IconFont from "../../utils/icon";
+import { CaretRightOutlined } from "@ant-design/icons";
+import { useMetamask } from "../../utils/metamask";
 
 const DetailView = (): ReactElement<ReactNode> => {
     const [active, setActive] = useState<number>(0);
+    const { connectMetamask } = useMetamask();
     const { buy } = useContract();
     const { state } = useContext(PNft);
     const [item, setItem] = useState<any>(state.card);
     const [virifyVisible, setVerifyVisible] = useState<boolean>(false);
     const [imgLoad, setImgLoad] = useState<boolean>(true);
     const [wait, setWait] = useState<boolean>(false);
+    const [player, setPlayer] = useState<any>();
+    useEffect(() => {
+        setItem({
+            ...item,
+            play: false
+        })
+    }, [])
     const buyNFTFN = async () => {
+        if (!state.address) {
+            await connectMetamask();
+            return
+        }
         setWait(true)
-        const result:any = await buy(item.token_id, item.price);
+        const result: any = await buy(item.token_id, item.price);
         setWait(false)
         console.log(result);
         if (!result || result.message) {
@@ -31,7 +46,7 @@ const DetailView = (): ReactElement<ReactNode> => {
             tx_hash: result['transactionHash']
         });
         const { status } = maker;
-        if(status !== 200){
+        if (status !== 200) {
             message.error(maker.message);
             return
         };
@@ -47,6 +62,35 @@ const DetailView = (): ReactElement<ReactNode> => {
                     {imgLoad && <div className="load-box">
                         <Spin size="large" />
                     </div>}
+                    <div className="audio-box">
+                        <div className="play-btn" onClick={(e) => {
+                            e.stopPropagation();
+                            if (!item.file_voice_ipfs) {
+                                message.error('Failed')
+                                return
+                            };
+                            if (item.play) {
+                                player.pause();
+                                setItem({
+                                    ...item,
+                                    play: false
+                                });
+                                setPlayer(null);
+                                return
+                            }
+                            const play = document.createElement('audio');
+                            setPlayer(play)
+                            play.src = item.file_voice_ipfs;
+                            play.loop = false;
+                            play.play();
+                            setItem({
+                                ...item,
+                                play: true
+                            });
+                        }}>
+                            {item.play ? <IconFont type="icon-tingzhi" /> : <CaretRightOutlined />}
+                        </div>
+                    </div>
                 </div>
                 <div className="right-nft-msg">
                     <p className="msg-name">

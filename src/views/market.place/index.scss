@@ -197,3 +197,25 @@
     }
   }
 }
+@media screen and (max-width: 1280px) {
+  .market-place-view {
+    width: 90%;
+    .cate-list {
+      width: 100%;
+      ul {
+        li {
+          width: 100%;
+        }
+      }
+    }
+    .discover-card {
+      .filter-box {
+        flex-wrap: wrap;
+        input {
+          margin-top: 12px;
+          width: 100%;
+        }
+      }
+    }
+  }
+}

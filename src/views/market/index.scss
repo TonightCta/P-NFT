@@ -15,7 +15,7 @@
       align-items: center;
       li {
         margin-right: 24px;
-        span{
+        span {
           font-size: 24px;
           cursor: pointer;
           color: #515151;
@@ -164,4 +164,49 @@
 }
 #dataList {
   overflow: auto;
+}
+@media screen and (max-width: 1280px) {
+  .market-index {
+    width: 90%;
+    margin: 0 auto;
+    .market-title {
+      font-size: 46px;
+    }
+    .pool-count {
+      padding: 0;
+      ul {
+        flex-wrap: wrap;
+        text-align: center;
+        li {
+          width: 50%;
+          margin-bottom: 12px;
+          p:first-child {
+            font-size: 18px;
+          }
+          p:last-child {
+            font-size: 24px;
+          }
+        }
+        li:last-child {
+          width: 100%;
+        }
+      }
+    }
+    .pool-remark {
+      padding: 0;
+    }
+    .scroll-box {
+      width: 100%;
+      height: 200px;
+      ul{
+        li{
+          width: 90px;
+          height: 90px;
+        }
+      }
+    }
+    .market-list {
+      width: 100%;
+    }
+  }
 }

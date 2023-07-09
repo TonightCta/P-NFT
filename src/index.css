@@ -82,3 +82,13 @@ input::-webkit-inner-spin-button {
 .ant-popover {
   z-index: 3000;
 }
+
+button {
+  font-family: Kanit !important;
+}
+
+:where(.css-dev-only-do-not-override-1u97y67).ant-btn-primary:disabled {
+  border-color: rgba(0, 0, 0, 0);
+  background-color: #e10185;
+  color: white;
+}

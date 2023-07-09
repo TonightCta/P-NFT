@@ -1,0 +1,106 @@
+import { Button, Drawer } from "antd";
+import { ReactElement, useContext, useEffect, useState } from "react";
+import { PNft } from "../../../App";
+import { useNavigate } from "react-router-dom";
+import { Menu } from "..";
+import { calsAddress } from "../../../utils";
+import { PoweroffOutlined } from "@ant-design/icons";
+import { Type } from "../../../utils/types";
+
+interface Props {
+    visible: boolean,
+    close: (val: boolean) => void
+}
+
+const RouteList: Menu[] = [
+    {
+        name: 'Ai creation',
+        url: '/voice-nft'
+    },
+    {
+        name: 'Marketplace',
+        url: '/marketplace'
+    },
+    {
+        name: 'Airdrops',
+        url: '/airdrop'
+    },
+    {
+        name: 'My NFTs',
+        url: '/owner'
+    },
+    {
+        name: 'Settings',
+        url: '/profile'
+    }
+]
+
+const MobileMenu = (props: Props): ReactElement => {
+    const [visible, setVisible] = useState<boolean>(false);
+    const { state, dispatch } = useContext(PNft);
+    const navigate = useNavigate();
+    const onClose = () => {
+        setVisible(false);
+        props.close(false)
+    };
+    useEffect(() => {
+        props.visible && setVisible(props.visible)
+    }, [props.visible])
+    return (
+        <Drawer
+            title={null}
+            placement="right"
+            onClose={onClose}
+            open={visible}
+            key="right"
+            zIndex={2000}
+            closable={false}
+            width={'60%'}
+        >
+            <div className="inner-menu">
+                <div className="top-inner">
+                    <div className="account-msg">
+                        <div className="left-msg">
+                            <p>{state.account.user_name ? state.account.user_name : 'unknow'}</p>
+                            <p>{calsAddress(state.address as string)}</p>
+                        </div>
+                        <div className="right-avatar">
+                            <img src={state.avatar ? state.avatar : require('../../../assets/images/WechatIMG20.jpeg')} alt="" />
+                        </div>
+                    </div>
+                    <div className="route-list">
+                        <ul>
+                            {
+                                RouteList.map((item: Menu, index: number): ReactElement => {
+                                    return (
+                                        <li key={index} onClick={() => {
+                                            setVisible(false);
+                                            props.close(false);
+                                            navigate(item.url)
+                                        }}>{item.name}</li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div className="login-out">
+                    <Button onClick={() => {
+                        dispatch({
+                            type: Type.SET_ADDRESS,
+                            payload: {
+                                address: ''
+                            }
+                        });
+                        navigate('/')
+                    }}>
+                        <PoweroffOutlined />
+                        Disconnect
+                    </Button>
+                </div>
+            </div>
+        </Drawer>
+    )
+};
+
+export default MobileMenu;

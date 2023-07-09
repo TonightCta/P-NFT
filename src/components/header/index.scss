@@ -17,6 +17,9 @@
     display: flex;
     align-items: center;
   }
+  .mobile-oper {
+    display: none;
+  }
   .h-menu {
     display: flex;
     margin-left: 70px;
@@ -86,5 +89,102 @@
   }
   p:last-child {
     margin-bottom: 0;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .header-wapper {
+    height: 80px;
+    padding: 0 20px;
+    .logo-menu {
+      p {
+        img {
+          width: 80px;
+          height: auto;
+        }
+      }
+      .h-menu {
+        display: none;
+      }
+    }
+    .pc-oper {
+      display: none;
+    }
+    .mobile-oper {
+      display: block;
+    }
+    .connect-wallet {
+      width: 110px;
+      height: 32px;
+      font-size: 12px;
+      background-color: #df0885;
+      border: 0;
+    }
+    .w-200 {
+      width: auto;
+      img {
+        width: 32px;
+      }
+    }
+  }
+}
+.ant-drawer {
+  .ant-drawer-close {
+    color: white !important;
+  }
+  .ant-drawer-content {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(3px);
+  }
+}
+
+.inner-menu {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  .top-inner {
+    flex: 1;
+    .account-msg {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #353945;
+      .left-msg {
+        padding-top: 4px;
+        p {
+          font-size: 14px;
+          margin-bottom: 8px;
+        }
+      }
+      .right-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-2px);
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .route-list {
+      margin-top: 30px;
+      li {
+        font-weight: 500;
+        font-size: 16px;
+        margin-bottom: 30px;
+      }
+    }
+  }
+  .login-out {
+    text-align: center;
+    button {
+      background-color: rgba(0, 0, 0, 0);
+      color: white;
+      border-radius: 20px;
+    }
   }
 }

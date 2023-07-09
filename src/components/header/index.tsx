@@ -5,20 +5,22 @@ import { PNft } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Popover } from "antd";
 import { Type } from "../../utils/types";
+import { MenuOutlined } from "@ant-design/icons";
+import MobileMenu from "./components/mobile.menu";
 
-interface Menu {
+export interface Menu {
     name: string,
     url: string
 };
 
 const Menu: Menu[] = [
     {
-        name: 'Marketplace',
-        url: '/marketplace'
-    },
-    {
         name: 'Ai creation',
         url: '/voice-nft'
+    },
+    {
+        name: 'Marketplace',
+        url: '/marketplace'
     },
     {
         name: 'Airdrops',
@@ -34,14 +36,15 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
     const { dispatch } = useContext(PNft)
     const navigate = useNavigate();
     const location = useLocation();
+    const [innerVisible, setInnerVisible] = useState<boolean>(false);
     useEffect(() => {
         setLine((location.pathname !== '/') ? 'need-line' : '');
         switch (location.pathname) {
             case '/voice-nft':
-                setMenuActive(1);
+                setMenuActive(0);
                 break;
             case '/marketplace':
-                setMenuActive(0);
+                setMenuActive(1);
                 break;
             case '/airdrop':
                 setMenuActive(2);
@@ -90,17 +93,37 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                     }
                 </ul>}
             </div>
-            {
-                !state.address
-                    ? <p className="connect-wallet" onClick={() => {
-                        connectMetamask();
-                    }}>Connect Wallet</p>
-                    : <Popover content={content} title={null}>
-                        <div className={`connect-wallet ${state.address ? 'w-200' : ''}`}>
-                            <img src={require('../../assets/images/WechatIMG20.jpeg')} alt="" />
-                        </div>
-                    </Popover>
-            }
+            <div className="pc-oper">
+                {
+                    !state.address
+                        ? <p className="connect-wallet" onClick={() => {
+                            connectMetamask();
+                        }}>Connect Wallet</p>
+                        : <Popover content={content} title={null}>
+                            <div className={`connect-wallet ${state.address ? 'w-200' : ''}`}>
+                                <img src={state.avatar ? state.avatar : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                            </div>
+                        </Popover>
+                }
+            </div>
+            <div className="mobile-oper">
+                {
+                    location.pathname !== '/'
+                        ? !state.address
+                            ? <p className="connect-wallet" onClick={() => {
+                                connectMetamask();
+                            }}>Connect Wallet</p>
+                            : <div className={`connect-wallet ${state.address ? 'w-200' : ''}`} onClick={() => {
+                                setInnerVisible(true)
+                            }}>
+                                <img src={require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                            </div>
+                        : <MenuOutlined />
+                }
+            </div>
+            <MobileMenu visible={innerVisible} close={(val: boolean) => {
+                setInnerVisible(val)
+            }} />
         </div>
     )
 };

@@ -3,9 +3,13 @@ import { post } from './index';
 type o = {};
 
 //Profile
-export const ProfileService = (p: o) => post('/', p);
+export const ProfileService = (p: o) => post('/profile/info', p);
+//Edit Profile
+export const EditProfileService = (p: o) => post('/profile/edit', p);
+//Edit Avatar
+export const EditAvatarService = (p: o) => post('/profile/uploadavatar', p);
 //Upload file
-export const UploadFileService = (p: FormData) => post('/upload-file', p);
+export const UploadFileService = (p: FormData) => post('/file/upload', p);
 //Mint NFT
 export const NFTMintService = (p: FormData) => post('/nft/mint', p);
 //Maker NFT
@@ -22,3 +26,5 @@ export const NFTLogsService = (p: o) => post('/nft/history', p);
 export const NFTOwnerService = (p: o) => post('/user/sell', p);
 //Wallet NFT
 export const NFTWalletService = (p: o) => post('/nft/wallet', p);
+//Query File
+export const QueryFile = (p: o) => post('/file/url', p);

@@ -28,7 +28,7 @@
         color: white;
         transition: 0.3s all;
       }
-      input:hover{
+      input:hover {
         border-color: #df0885;
       }
       textarea {
@@ -45,7 +45,7 @@
         font-family: "微软雅黑";
         transition: 0.3s all;
       }
-      textarea:hover{
+      textarea:hover {
         border-color: #df0885;
       }
       .upload-file {
@@ -115,16 +115,41 @@
           }
         }
       }
-      .upload-file:hover{
+      .upload-file:hover {
         border-color: #df0885;
       }
       .upload-record {
         width: 100%;
-        height: 200px;
         border: 1px solid #333;
         border-radius: 8px;
         text-align: center;
         padding-top: 24px;
+        position: relative;
+        overflow: hidden;
+        padding-top: 80px;
+        padding-bottom: 30px;
+        .record-tabs {
+          position: absolute;
+          left: 0;
+          top: 0;
+          ul {
+            display: flex;
+            border-bottom-right-radius: 30px;
+            background-color: #202020;
+            overflow: hidden;
+            li {
+              width: 80px;
+              height: 36px;
+              cursor: pointer;
+              line-height: 36px;
+              text-align: center;
+              transition: 0.2s all;
+            }
+            .active-ctype {
+              background-color: #df0885;
+            }
+          }
+        }
         .record-start {
           width: 50px;
           height: 50px;
@@ -143,8 +168,77 @@
           width: 400px;
           margin-top: 24px;
         }
+        .ai-build {
+          width: 90%;
+          margin: 0 auto;
+          .build-public:first-child {
+            align-items: flex-start;
+          }
+          .build-public {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            .build-title {
+              width: 60px;
+              margin-right: 20px;
+              sup {
+                color: #df0885;
+                margin-right: 4px;
+              }
+            }
+            .build-inp {
+              flex: 1;
+              textarea {
+                height: 100px;
+              }
+              .ant-slider {
+                margin-bottom: 12px;
+                .ant-slider-rail {
+                  background-color: #202020;
+                }
+                .ant-slider-mark {
+                  .ant-slider-mark-text {
+                    color: white;
+                  }
+                }
+              }
+              .ant-select {
+                width: 100% !important;
+                text-align: left;
+                height: 40px;
+                .ant-select-selector {
+                  height: 40px;
+                  .ant-select-selection-item {
+                    line-height: 40px;
+                  }
+                }
+              }
+            }
+          }
+          .ai-review {
+            display: flex;
+            align-items: center;
+            p {
+              width: 60px;
+              margin-right: 20px;
+            }
+            audio {
+              margin-top: 0;
+              width: 300px;
+            }
+          }
+          .save-btn {
+            margin-top: 30px;
+            button {
+              width: 120px;
+              height: 40px;
+              border-radius: 20px;
+              font-size: 15px;
+            }
+          }
+        }
       }
-      .filed-b{
+      .filed-b {
         border-color: #99241d;
       }
       .ant-select-selector {
@@ -163,12 +257,39 @@
     .submit-btn {
       text-align: center;
       margin-top: 70px;
-      span{
+      span {
         color: white;
       }
       button {
         border-radius: 20px;
         width: 200px;
+        font-family: Kanit;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  .voice-nft-view {
+    .build-inner {
+      width: 90%;
+      margin: 0 auto;
+      .inp-public {
+        .upload-file {
+          .up-btn {
+            p {
+              width: 90%;
+              margin: 0 auto;
+            }
+            .up-icon {
+              margin: 12px auto;
+            }
+          }
+        }
+        .upload-record {
+          audio {
+            width: 90%;
+          }
+        }
       }
     }
   }

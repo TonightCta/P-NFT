@@ -16,14 +16,14 @@ export const useContract = () => {
     const [NFTContract, setNFTContract] = useState<any>();
     const [ERC20Contract, setERC20Contract] = useState<any>();
     const [MARKETContract, setMARKETContract] = useState<any>();
-    const owner: string = ethereum.selectedAddress;
+    const owner: string = ethereum ? ethereum.selectedAddress : '';
     const send: Send = {
         from: owner,
         gas: '0x2dc6c0',
         gasLimit: '0x2dc6c0',
     }
     const cals = async () => {
-        const pi = await web3.eth.getGasPrice();
+        const pi = ethereum ? await web3.eth.getGasPrice() : '0';
         setGasPrice(pi);
     };
     const init = async () => {

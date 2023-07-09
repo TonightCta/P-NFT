@@ -2,6 +2,7 @@ import { message } from "antd";
 import { Type, ethereum } from "./types";
 import { useContext, useEffect } from "react";
 import { PNft } from "../App";
+import { ProfileService, QueryFile } from "../request/api";
 export const useMetamask = () => {
     const { dispatch } = useContext(PNft);
     useEffect(() => {
@@ -33,13 +34,33 @@ export const useMetamask = () => {
         };
         try {
             const result = await ethereum.request({ method: 'eth_requestAccounts' });
-            console.log(result)
             dispatch({
                 type: Type.SET_ADDRESS,
                 payload: {
                     address: result[0]
                 }
             });
+            const account = await ProfileService({
+                user_address: result[0]
+            });
+            dispatch({
+                type: Type.SET_ACCOUNT,
+                payload: {
+                    account: account.data
+                }
+            });
+            const setAvatar = async () => {
+                const result = await QueryFile({
+                    name: account.data.avatar_minio
+                });
+                dispatch({
+                    type: Type.SET_AVATAR,
+                    payload: {
+                        avatar: result.data
+                    }
+                })
+            };
+            account.data.avatar_minio && setAvatar();
         } catch (err: any) {
             console.log(err)
             message.error(err.message);

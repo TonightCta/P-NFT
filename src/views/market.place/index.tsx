@@ -6,6 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import CardItem from "../market/components/item.card";
 import { NFTMarketService } from "../../request/api";
 import { NFTItem } from "../../utils/types";
+import { flag } from "../../utils/source";
 
 interface Cate {
     img: string,
@@ -14,36 +15,44 @@ interface Cate {
     icon: string,
     show: boolean,
 }
-const cateList: Cate[] = [
-    {
+const cateList: Cate[] = flag ?
+    [{
         img: require('../../assets/images/market_item_bg.png'),
         name: 'BabyBunny',
         id: 1,
         icon: require('../../assets/images/favicon.png'),
         show: true
-    },
-    {
-        img: '',
-        name: 'BabyBunny',
-        id: 1,
-        icon: '',
-        show: false
-    },
-    {
-        img: '',
-        name: 'BabyBunny',
-        id: 1,
-        icon: '',
-        show: false
-    },
-    {
-        img: '',
-        name: 'BabyBunny',
-        id: 1,
-        icon: '',
-        show: false
-    },
-];
+    },]
+    : [
+        {
+            img: require('../../assets/images/market_item_bg.png'),
+            name: 'BabyBunny',
+            id: 1,
+            icon: require('../../assets/images/favicon.png'),
+            show: true
+        },
+        {
+            img: '',
+            name: 'BabyBunny',
+            id: 1,
+            icon: '',
+            show: false
+        },
+        {
+            img: '',
+            name: 'BabyBunny',
+            id: 1,
+            icon: '',
+            show: false
+        },
+        {
+            img: '',
+            name: 'BabyBunny',
+            id: 1,
+            icon: '',
+            show: false
+        },
+    ];
 const MarketPlaceView = (): ReactElement<ReactNode> => {
     const navigate = useNavigate();
     const [container, setContainer] = useState<HTMLDivElement | null>(null);
@@ -72,7 +81,8 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
         const filter = data.data.item.map((item: any) => {
             return item = {
                 ...item,
-                load: true
+                load: true,
+                play: false
             }
         });
         setList(page > 1 ? [...list, ...filter] : filter);
@@ -81,6 +91,7 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
         if (loading) {
             return;
         }
+        setPage(page + 1)
         setLoading(true);
         marketListFN();
     };

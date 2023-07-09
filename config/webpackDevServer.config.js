@@ -117,7 +117,15 @@ module.exports = function (proxy, allowedHost) {
         pathRewrite: {
           '^/ipfs': ''
         },
-      }
+      },
+      '/ai': {
+        target: 'http://54.69.86.125:6666/',
+        changeOrigin: true,
+        logLevel: 'debug',
+        pathRewrite: {
+          '^/ai': ''
+        },
+      },
     },
     onBeforeSetupMiddleware(devServer) {
       // Keep `evalSourceMapMiddleware`

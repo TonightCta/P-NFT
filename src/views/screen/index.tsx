@@ -17,10 +17,11 @@ import 'swiper/css';
 import "swiper/css/pagination";
 import { PNft } from "../../App";
 import { Type } from "../../utils/types";
+import { flag } from "../../utils/source";
 
 
 const ScreenView = (): ReactElement<ReactNode> => {
-    const { dispatch } = useContext(PNft);
+    // const { dispatch } = useContext(PNft);
     // const { connectMetamask } = useMetamask();
     // const { state } = useContext(PNft);
     // const { connectHiro } = useHiro();
@@ -60,7 +61,7 @@ const ScreenView = (): ReactElement<ReactNode> => {
                 <SwiperSlide><ScreenIndex /></SwiperSlide>
                 <SwiperSlide><BuildIN /></SwiperSlide>
                 <SwiperSlide><VisionMap /></SwiperSlide>
-                <SwiperSlide><VoiceNFTWapper /></SwiperSlide>
+                {!flag && <SwiperSlide><VoiceNFTWapper /></SwiperSlide>}
                 <SwiperSlide><VoicePool /></SwiperSlide>
                 {/* <SwiperSlide></SwiperSlide> */}
             </Swiper>

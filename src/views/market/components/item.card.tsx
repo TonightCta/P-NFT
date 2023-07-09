@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NFTItem, Type, web3 } from "../../../utils/types";
 import { Button, Popconfirm, Spin, message } from "antd";
@@ -6,22 +6,24 @@ import { PNft } from "../../../App";
 import FixedModal from "../../detail/components/fixed.price";
 import { MFTOffService } from "../../../request/api";
 import { useContract } from "../../../utils/contract";
+import { CaretRightOutlined } from "@ant-design/icons";
+import IconFont from "../../../utils/icon";
 
 interface Props {
     item: NFTItem,
     upload?: () => void,
-    uploadSell?:() => void,
+    uploadSell?: () => void,
 }
 
 const CardItem = (props: Props): ReactElement => {
     const navigate = useNavigate();
-    const { state,dispatch } = useContext(PNft)
+    const { state, dispatch } = useContext(PNft);
     const [item, setItem] = useState<NFTItem>(props.item);
     const { takeOff } = useContract();
     const [fixedVisible, setFixedVisible] = useState<boolean>(false);
+    const [player, setPlayer] = useState<any>();
     const confirm = async () => {
-        const hash:any = await takeOff(+item.order_id);
-        console.log(hash)
+        const hash: any = await takeOff(+item.order_id);
         if (!hash || hash.message) {
             return
         };
@@ -48,6 +50,33 @@ const CardItem = (props: Props): ReactElement => {
             })
             item.price && navigate('/detail')
         }}>
+            <div className="play-btn" onClick={(e) => {
+                e.stopPropagation();
+                if (!item.file_voice_ipfs) {
+                    message.error('Failed')
+                    return
+                };
+                if (item.play) {
+                    player.pause();
+                    setItem({
+                        ...item,
+                        play: false
+                    });
+                    setPlayer(null);
+                    return
+                }
+                const play = document.createElement('audio');
+                setPlayer(play)
+                play.src = item.file_voice_ipfs;
+                play.loop = false;
+                play.play();
+                setItem({
+                    ...item,
+                    play: true
+                });
+            }}>
+                {item.play ? <IconFont type="icon-tingzhi" /> : <CaretRightOutlined />}
+            </div>
             <div className="img-box">
                 <img src={item.file_image_ipfs} onLoad={() => {
                     setItem({

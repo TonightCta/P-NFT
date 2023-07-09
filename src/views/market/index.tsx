@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Affix, Divider, Spin } from "antd";
 import { NFTMarketService } from '../../request/api'
 import { NFTItem } from "../../utils/types";
-import { NFTs } from "../../utils/source";
+import { NFTs, flag } from "../../utils/source";
 import IconFont from "../../utils/icon";
 
 interface Community {
@@ -91,7 +91,8 @@ const MarketIndex = (): ReactElement<ReactNode> => {
         const filter = data.data.item.map((item: any) => {
             return item = {
                 ...item,
-                load: true
+                load: true,
+                play:false
             }
         });
         setList(page > 1 ? [...list, ...filter] : filter);
@@ -162,7 +163,7 @@ const MarketIndex = (): ReactElement<ReactNode> => {
             </div>
             {/* List */}
             <div className="market-list">
-                <Affix offsetTop={100} onChange={(affixed) => console.log(affixed)} target={() => container}>
+                <Affix offsetTop={flag ? 80 : 100} onChange={(affixed) => console.log(affixed)} target={() => container}>
                     <div className="filter-box">
                         {/* <ul>
 

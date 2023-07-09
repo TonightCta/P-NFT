@@ -11,7 +11,9 @@ export interface State {
     web3?: any,
     address?: string | null,
     screen_index?: number,
-    card?: any
+    card?: any,
+    account?:any,
+    avatar?:string
 }
 
 export interface IResponse {
@@ -24,7 +26,9 @@ export interface IResponse {
 export enum Type {
     SET_ADDRESS = 'set_address',
     SET_SCREEN_INDEX = 'set_screen_index',
-    SET_CARD = 'set_card'
+    SET_CARD = 'set_card',
+    SET_ACCOUNT = 'set_account',
+    SET_AVATAR = 'set_avatar'
 };
 
 export interface IAction {
@@ -45,11 +49,13 @@ export interface IResponse {
 
 export interface NFTItem {
     file_image_ipfs: string,
+    file_voice_ipfs:string,
     price?: string,
     paymod?: string,
     token_id: number,
     file_name: string,
     load: boolean,
     off?: boolean,
-    order_id:string
+    order_id:string,
+    play:boolean
 }
