@@ -335,6 +335,8 @@
     .swiper {
       .swiper-wrapper {
         .swiper-slide {
+          width: 100vw;
+          overflow: hidden;
           .public-screen {
             .footer-wapper {
               display: none;
@@ -346,6 +348,8 @@
           }
           .screen-index {
             padding-bottom: 0;
+            width: 150%;
+            padding-right: 50%;
             .public-title {
               font-size: 36px;
               transform: translateX(20px);
@@ -357,6 +361,7 @@
             }
           }
           .build-index {
+            background-size: 200% 100%;
             .build-list {
               flex-direction: column;
               margin-top: 40px;
@@ -381,6 +386,7 @@
           }
           .vision-map {
             padding: 0;
+            background-size: 200% 100%;
             .voice-list {
               flex-direction: column;
               width: 90%;
@@ -416,6 +422,7 @@
           }
           .voice-pool {
             padding-top: 100px;
+            background-size: 200% 100%;
             .more-top {
               margin-top: 100px;
             }

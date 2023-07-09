@@ -13,7 +13,8 @@ export interface State {
     screen_index?: number,
     card?: any,
     account?:any,
-    avatar?:string
+    avatar?:string,
+    swiper_ref?:any
 }
 
 export interface IResponse {
@@ -28,7 +29,8 @@ export enum Type {
     SET_SCREEN_INDEX = 'set_screen_index',
     SET_CARD = 'set_card',
     SET_ACCOUNT = 'set_account',
-    SET_AVATAR = 'set_avatar'
+    SET_AVATAR = 'set_avatar',
+    SET_SWIPER = 'set_swiper'
 };
 
 export interface IAction {

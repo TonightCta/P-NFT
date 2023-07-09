@@ -1,11 +1,14 @@
 import { Button, Drawer } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { PNft } from "../../../App";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Menu } from "..";
 import { calsAddress } from "../../../utils";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { Type } from "../../../utils/types";
+import { useMetamask } from "../../../utils/metamask";
+import { useSwiper } from "swiper/react";
+import { flag } from "../../../utils/source";
 
 interface Props {
     visible: boolean,
@@ -33,12 +36,32 @@ const RouteList: Menu[] = [
         name: 'Settings',
         url: '/profile'
     }
+];
+const RouteSide: Menu[] = [
+    {
+        name: 'Home',
+        url: ''
+    },
+    {
+        name: 'AI BUILDING',
+        url: ''
+    },
+    {
+        name: 'VISIONMAP',
+        url: ''
+    },
+    {
+        name: 'VOICE POOL',
+        url: ''
+    },
 ]
 
 const MobileMenu = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const { state, dispatch } = useContext(PNft);
+    const { connectMetamask } = useMetamask();
     const navigate = useNavigate();
+    const location = useLocation();
     const onClose = () => {
         setVisible(false);
         props.close(false)
@@ -59,7 +82,7 @@ const MobileMenu = (props: Props): ReactElement => {
         >
             <div className="inner-menu">
                 <div className="top-inner">
-                    <div className="account-msg">
+                    {state.address && <div className="account-msg">
                         <div className="left-msg">
                             <p>{state.account.user_name ? state.account.user_name : 'unknow'}</p>
                             <p>{calsAddress(state.address as string)}</p>
@@ -68,12 +91,17 @@ const MobileMenu = (props: Props): ReactElement => {
                             <img src={state.avatar ? state.avatar : require('../../../assets/images/WechatIMG20.jpeg')} alt="" />
                         </div>
                     </div>
+                    }
                     <div className="route-list">
                         <ul>
                             {
-                                RouteList.map((item: Menu, index: number): ReactElement => {
+                                (location.pathname === '/' ? RouteSide : RouteList).map((item: Menu, index: number): ReactElement => {
                                     return (
-                                        <li key={index} onClick={() => {
+                                        <li key={index} onClick={flag ? () => {
+                                            setVisible(false);
+                                            props.close(false);
+                                            state.swiper_ref.slideTo(index)
+                                        } : () => {
                                             setVisible(false);
                                             props.close(false);
                                             navigate(item.url)
@@ -85,18 +113,25 @@ const MobileMenu = (props: Props): ReactElement => {
                     </div>
                 </div>
                 <div className="login-out">
-                    <Button onClick={() => {
-                        dispatch({
-                            type: Type.SET_ADDRESS,
-                            payload: {
-                                address: ''
-                            }
-                        });
-                        navigate('/')
-                    }}>
-                        <PoweroffOutlined />
-                        Disconnect
-                    </Button>
+                    {state.address
+                        ? <Button className="login-out" onClick={() => {
+                            setVisible(false);
+                            props.close(false);
+                            dispatch({
+                                type: Type.SET_ADDRESS,
+                                payload: {
+                                    address: ''
+                                }
+                            });
+                            navigate('/')
+                        }}>
+                            <PoweroffOutlined />
+                            Disconnect
+                        </Button>
+                        : <Button type="primary" onClick={() => {
+                            connectMetamask();
+                        }}>Connect Wallet</Button>
+                    }
                 </div>
             </div>
         </Drawer>

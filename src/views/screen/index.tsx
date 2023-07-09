@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useContext, useState } from "react";
+import { ReactElement, ReactNode, useContext, useRef } from "react";
 // import { Button } from "antd";
 import './index.scss'
 // import { useMetamask } from "../../utils/metamask";
@@ -15,15 +15,16 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper'
 import 'swiper/css';
 import "swiper/css/pagination";
+
+import { flag } from "../../utils/source";
 import { PNft } from "../../App";
 import { Type } from "../../utils/types";
-import { flag } from "../../utils/source";
 
 
 const ScreenView = (): ReactElement<ReactNode> => {
     // const { dispatch } = useContext(PNft);
     // const { connectMetamask } = useMetamask();
-    // const { state } = useContext(PNft);
+    const { dispatch } = useContext(PNft);
     // const { connectHiro } = useHiro();
     // const { connectXVerse } = useXVerse();
     // const [metaAddress, setMetaAddress] = useState<string | null>();
@@ -48,14 +49,13 @@ const ScreenView = (): ReactElement<ReactNode> => {
                 speed={800}
                 pagination={pagination}
                 modules={[Pagination]}
-                onSlideChange={(e: any) => {
-                    console.log(e.activeIndex)
-                    // dispatch({
-                    //     type:Type.SET_SCREEN_INDEX,
-                    //     payload:{
-                    //         screen_index:e.activeIndex
-                    //     }
-                    // })
+                onSwiper={(swiper) => {
+                    dispatch({
+                        type:Type.SET_SWIPER,
+                        payload:{
+                            swiper_ref:swiper
+                        }
+                    })
                 }}
             >
                 <SwiperSlide><ScreenIndex /></SwiperSlide>

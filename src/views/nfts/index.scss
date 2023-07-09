@@ -167,6 +167,11 @@
       p:last-child {
         color: #59bd7e;
       }
+      button{
+        border-radius: 20px;
+        height: 28px;
+        line-height: 20px;
+      }
     }
   }
   .market-card:nth-child(5n) {
@@ -285,6 +290,48 @@
       a {
         color: #df0885;
       }
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  .owner-view {
+    width: 100%;
+    padding: 5%;
+    .account-msg {
+      align-items: center;
+      margin-bottom: 30px;
+      .avatar-box {
+        width: 70px;
+        height: 70px;
+        margin-right: 20px;
+      }
+      .msg-box {
+        text-align: left;
+        padding-top: 0;
+        .msg-large {
+          font-size: 24px;
+        }
+        .outside-account{
+          .address-text{
+            padding: 4px 12px;
+            p{
+              font-size: 14px;
+            }
+            span{
+              font-size: 14px;
+            }
+          }
+          .outside-go{
+            margin-left: 12px;
+            span{
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+    .filter-box{
+      margin-top: 30px;
     }
   }
 }

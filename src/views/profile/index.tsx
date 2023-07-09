@@ -116,7 +116,6 @@ const ProfileView = (): ReactElement<ReactNode> => {
         upDateAccount()
     };
     const selectAvatar = async (e: any) => {
-        console.log(e.target.files[0]);
         setUpAvatar(true);
         const formdata = new FormData();
         formdata.append('user_address', state.address as string);
@@ -135,6 +134,22 @@ const ProfileView = (): ReactElement<ReactNode> => {
         <div className="profile-view">
             <div className="edit-msg">
                 <p className="profile-name">Profile</p>
+                <div className="mobile-edit-avatar">
+                    <div className="avatar-box">
+                        <div className="img-box">
+                            <img src={state.avatar ? state.avatar : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                            <div className="edit-btn">
+                                <input type="file" title="Select File" accept="image/*" onChange={selectAvatar} />
+                                <EditOutlined />
+                            </div>
+                            {
+                                upAvatar && <div className="loading-up">
+                                    <Spin />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
                 <div className="public-inp">
                     <p className="inp-label">Username</p>
                     <input type="text" className={`${error.name ? 'f-border' : ''}`} onFocus={() => {
@@ -227,6 +242,9 @@ const ProfileView = (): ReactElement<ReactNode> => {
                 <p>
                     <Button type="primary" onClick={submitSave} loading={wait} disabled={wait}>SAVE</Button>
                 </p>
+            </div>
+            <div className="mobile-save">
+                <Button type="primary" size="large" onClick={submitSave} loading={wait} disabled={wait}>Save</Button>
             </div>
         </div>
     )

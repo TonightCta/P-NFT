@@ -116,9 +116,11 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                             : <div className={`connect-wallet ${state.address ? 'w-200' : ''}`} onClick={() => {
                                 setInnerVisible(true)
                             }}>
-                                <img src={require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                                <img src={state.avatar ? state.avatar : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
                             </div>
-                        : <MenuOutlined />
+                        : <MenuOutlined onClick={() => {
+                            setInnerVisible(true)
+                        }} />
                 }
             </div>
             <MobileMenu visible={innerVisible} close={(val: boolean) => {

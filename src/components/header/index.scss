@@ -170,6 +170,12 @@
         }
       }
     }
+    .connect-wallet{
+      text-align: center;
+      button{
+        border-radius: 20px;
+      }
+    }
     .route-list {
       margin-top: 30px;
       li {
@@ -181,10 +187,12 @@
   }
   .login-out {
     text-align: center;
-    button {
+    button{
+      border-radius: 20px;
+    }
+    .login-out {
       background-color: rgba(0, 0, 0, 0);
       color: white;
-      border-radius: 20px;
     }
   }
 }
