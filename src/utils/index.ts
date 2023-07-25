@@ -46,8 +46,8 @@ export const SupportNetwork: Network[] = [
     },
 ];
 type AddressCall = {
-    8007736:Address,
-    10067275:Address
+    8007736: Address,
+    10067275: Address
 }
 export const NetworkAddress: AddressCall = {
     8007736: {
@@ -63,7 +63,11 @@ export const NetworkAddress: AddressCall = {
         abi_721: ABI721
     }
 }
-export const calsAddress = (_address:string) => {
-    return _address.substring(0,6) + '...' + _address.substring(_address.length - 4,_address.length)
+export const calsAddress = (_address: string) => {
+    return _address.substring(0, 6) + '...' + _address.substring(_address.length - 4, _address.length)
 }
 
+//获取地址栏参数
+export const GetUrlKey = (name: string, url: string): string => {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(url) || [, ""])[1].replace(/\+/g, '%20')) || ''
+};

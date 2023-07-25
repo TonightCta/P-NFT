@@ -10,7 +10,7 @@ let axiosInstance: AxiosInstance = axios.create({
 });
 axiosInstance.interceptors.request.use(
     config => {
-        config.headers!.authorization = String(sessionStorage.getItem('new_token'))
+        // config.headers!.authorization = String(sessionStorage.getItem('new_token'))
         // config.headers!.Lang = store.getState().language || String(localStorage.getItem('language'))
         return config
     },

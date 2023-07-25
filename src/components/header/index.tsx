@@ -56,6 +56,12 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
     const content = (
         <div className="pop-menu">
             <p onClick={() => {
+                dispatch({
+                    type:Type.SET_OWNER_ADDRESS,
+                    payload:{
+                        owner_address:state.address as string
+                    }
+                })
                 navigate('/owner')
             }}>My NFTs</p>
             <p onClick={() => {
@@ -101,7 +107,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                         }}>Connect Wallet</p>
                         : <Popover content={content} title={null}>
                             <div className={`connect-wallet ${state.address ? 'w-200' : ''}`}>
-                                <img src={state.avatar ? state.avatar : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                                <img src={state.account.avatar_url ? state.account.avatar_url : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
                             </div>
                         </Popover>
                 }
@@ -116,7 +122,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                             : <div className={`connect-wallet ${state.address ? 'w-200' : ''}`} onClick={() => {
                                 setInnerVisible(true)
                             }}>
-                                <img src={state.avatar ? state.avatar : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                                <img src={state.account.avatar_url ? state.account.avatar_url : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
                             </div>
                         : <MenuOutlined onClick={() => {
                             setInnerVisible(true)

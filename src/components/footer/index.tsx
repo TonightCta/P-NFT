@@ -11,23 +11,23 @@ const FooterWapper = (): ReactElement<ReactNode> => {
     const tab: Tab[] = [
         {
             icon: <IconFont type="icon-github-fill" />,
-            url: ''
+            url: 'https://github.com/Pizzap-io'
         },
         {
             icon: <IconFont type="icon-telegram" />,
-            url: ''
+            url: 'http://t.me/pizzap_io'
         },
         {
             icon: <IconFont type="icon-tuitetwitter43" />,
-            url: ''
+            url: 'https://twitter.com/pizzap_io'
         },
         {
             icon: <IconFont type="icon-medium-circle-fill" />,
-            url: ''
+            url: 'https://medium.com/@Pizzap_io'
         },
         {
             icon: <IconFont type="icon-discord" color="red"/>,
-            url: ''
+            url: 'http://discord.gg/eATngqtx3m'
         }
     ]
     return (
@@ -36,7 +36,9 @@ const FooterWapper = (): ReactElement<ReactNode> => {
                 {
                     tab.map((item: Tab, index: number): ReactElement => {
                         return (
-                            <li key={index}>
+                            <li key={index} onClick={() => {
+                                window.open(item.url)
+                            }}>
                                 {item.icon}
                                 {/* <img src={item.icon} alt="" /> */}
                             </li>

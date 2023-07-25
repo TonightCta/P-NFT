@@ -2,6 +2,7 @@ import { ethereum, web3 } from "./types"
 import ABI721 from './abi/721.json'
 import ABIMarket from './abi/market.json'
 import ABIERC20 from './abi/erc20.json'
+import ABISBT from './abi/sbt.json'
 import { message } from "antd"
 import { useEffect, useState } from 'react';
 
@@ -16,6 +17,7 @@ export const useContract = () => {
     const [NFTContract, setNFTContract] = useState<any>();
     const [ERC20Contract, setERC20Contract] = useState<any>();
     const [MARKETContract, setMARKETContract] = useState<any>();
+    const [SBTContract, setSBTContract] = useState<any>();
     const owner: string = ethereum ? ethereum.selectedAddress : '';
     const send: Send = {
         from: owner,
@@ -36,7 +38,10 @@ export const useContract = () => {
         }));
         setMARKETContract(new web3.eth.Contract(ABIMarket as any, '0x39D944626c8b95FaDF592D003bcB9BF3467f57E0', {
             gasPrice: gasPrice
-        }))
+        }));
+        setSBTContract(new web3.eth.Contract(ABISBT as any, '0x27e67a318f41d7475f409f4a390084b6aa16ac50', {
+            gasPrice: gasPrice
+        }));
     }
     useEffect(() => {
         init();
@@ -88,13 +93,13 @@ export const useContract = () => {
                         from: owner,
                         gas: '7000000'
                     }).on('receipt', (res: any) => {
-                            resolve(res)
-                        }).on('error', ((err: any) => {
-                            console.log(err)
-                            resolve(err)
-                            message.error(err.message)
-                            // reject(err)
-                        }))
+                        resolve(res)
+                    }).on('error', ((err: any) => {
+                        console.log(err)
+                        resolve(err)
+                        message.error(err.message)
+                        // reject(err)
+                    }))
                 }).on('error', ((err: any) => {
                     resolve(err)
                     message.error(err.message)
@@ -106,10 +111,6 @@ export const useContract = () => {
     //上架
     const putOn = async (_address: string, _token_id: number, _price: number): Promise<string> => {
         return new Promise(async (resolve, reject) => {
-            console.log('address', _address)
-            console.log('token_id', _token_id)
-            console.log('price', web3.utils.toWei(String(_price), 'ether'))
-            console.log('from', owner);
             NFTContract.methods.approve("0x39D944626c8b95FaDF592D003bcB9BF3467f57E0", _token_id).send(send)
                 .on('receipt', () => {
                     MARKETContract.methods.putOnByMapi(
@@ -147,11 +148,45 @@ export const useContract = () => {
                 }))
         })
     }
+    //活动领奖
+    const claimMint = async () => {
+        return new Promise((resolve, reject) => {
+            SBTContract.methods.mint().send({
+                from: owner,
+                gas: '7000000'
+            })
+                .on('receipt', (res: any) => {
+                    resolve(res)
+                }).on('error', ((err: any) => {
+                    resolve(err)
+                    message.error(err.message)
+                }))
+        })
+    };
+    //活动Mint查询
+    const queryMint = async () => {
+        const SBTContractInner = new web3.eth.Contract(ABISBT as any, '0x27e67a318f41d7475f409f4a390084b6aa16ac50', {
+            gasPrice: gasPrice
+        })
+        const total = await SBTContractInner.methods.balanceOf(ethereum.selectedAddress).call();
+        return total
+    };
+    //Mint总量查询
+    const officalTotalSupply = async () : Promise<number> => {
+        const NFTContractInner = new web3.eth.Contract(ABI721 as any, '0x1a0eCc31DACcA48AA877db575FcBc22e1FEE671b', {
+            gasPrice: gasPrice
+        })
+        const total = await NFTContractInner.methods.totalSupply().call();
+        return total
+    }
     return {
         mint,
         queryOwner,
         buy,
         putOn,
-        takeOff
+        takeOff,
+        claimMint,
+        queryMint,
+        officalTotalSupply
     }
 }

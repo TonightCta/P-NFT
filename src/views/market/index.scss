@@ -1,59 +1,106 @@
 .market-index {
   width: 100%;
   height: 100vh;
-  padding-top: 160px;
-  .market-title {
-    font-size: 60px;
-    color: white;
-    font-weight: 600;
+  .top-bg {
+    img {
+      width: 100%;
+      height: 480px;
+    }
   }
-  .com-list {
-    margin-top: 30px;
-    ul {
+  .com-msg {
+    width: 1400px;
+    margin: 0 auto;
+    transform: translateY(-100px);
+    display: flex;
+    .com-icon {
+      width: 200px;
+      height: 200px;
+      border: 4px solid white;
+      border-radius: 24px;
+      margin-right: 40px;
+      overflow: hidden;
       display: flex;
-      justify-content: center;
       align-items: center;
-      li {
-        margin-right: 24px;
-        span {
-          font-size: 24px;
-          cursor: pointer;
-          color: #515151;
-        }
-      }
-      li:last-child {
-        margin-right: 0;
+      justify-content: center;
+      img {
+        width: 100%;
       }
     }
-  }
-  .pool-count {
-    margin-top: 50px;
-    padding: 0 20%;
-    ul {
-      display: flex;
-      justify-content: space-between;
-      color: white;
+    .com-right-msg {
+      flex: 1;
       text-align: left;
-      li {
-        p:first-child {
-          font-size: 26px;
-          color: #666;
+      .top-share {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .market-title {
+        font-size: 60px;
+        color: white;
+        font-weight: 600;
+      }
+      .com-list {
+        margin-top: 30px;
+        ul {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          li {
+            margin-right: 24px;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            border-radius: 16px;
+            background-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            span {
+              color: white;
+              font-size: 24px;
+            }
+          }
+          li:nth-child(4) {
+            span {
+              font-size: 32px;
+            }
+          }
+          li:last-child {
+            margin-right: 0;
+          }
         }
-        p:last-child {
-          margin-top: 8px;
-          font-size: 36px;
+      }
+      .pool-count {
+        margin-top: 50px;
+        padding: 0 20%;
+        ul {
+          display: flex;
+          justify-content: space-between;
+          color: white;
+          text-align: left;
+          li {
+            p:first-child {
+              font-size: 26px;
+              color: #666;
+            }
+            p:last-child {
+              margin-top: 8px;
+              font-size: 36px;
+            }
+          }
         }
+      }
+      .pool-remark {
+        text-align: left;
+        margin-top: 30px;
+        font-size: 16px;
+        color: #777e90;
+        line-height: 28px;
       }
     }
   }
-  .pool-remark {
-    padding: 0 20%;
-    text-align: center;
-    margin-top: 30px;
-    font-size: 20px;
-    color: #777e90;
-    line-height: 28px;
-  }
+
   .scroll-box {
     width: 1400px;
     margin: 0 auto;
@@ -108,11 +155,10 @@
   .market-list {
     width: 1400px;
     margin: 0 auto;
-    margin-top: 40px;
+    margin-top: -40px;
     .filter-box {
       display: flex;
       justify-content: space-between;
-      background-color: #141416;
       padding-bottom: 12px;
       padding-top: 20px;
       ul {
@@ -198,8 +244,8 @@
     .scroll-box {
       width: 100%;
       height: 200px;
-      ul{
-        li{
+      ul {
+        li {
           width: 90px;
           height: 90px;
         }

@@ -1,5 +1,6 @@
 import { Button } from "antd";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
+import { useContract } from "../../../utils/contract";
 
 interface Mint {
     title: string,
@@ -17,6 +18,24 @@ const MintRemark: Mint[] = [
 ]
 
 const FreeMintCard = (): ReactElement => {
+    const { queryMint,claimMint } = useContract();
+    const [mint, setMint] = useState<number>(0);
+    const [wait, setWait] = useState<boolean>(false);
+    const queryFN = async () => {
+        const result = await queryMint();
+        setMint(+result);
+    };
+    const mintFN = async () => {
+        setWait(true);
+        const result: any = await claimMint();
+        setWait(false);
+        if (!result || result.message) {
+            return
+        };
+    }
+    useEffect(() => {
+        queryFN()
+    }, [])
     return (
         <div className="free-mint-card">
             <ul>
@@ -33,11 +52,10 @@ const FreeMintCard = (): ReactElement => {
             </ul>
             <div className="oper-btns">
                 <p>
-                    <Button type="primary">
-                        MINT
+                    <Button loading={wait} disabled={mint > 0 || wait} type="primary" onClick={mint > 0 ? () => {} : mintFN}>
+                        {mint > 0 ? 'ALREADY MINTED' : 'MINT'}
                     </Button>
                 </p>
-                <p>Your unclaimed PI: 10</p>
             </div>
         </div>
     )

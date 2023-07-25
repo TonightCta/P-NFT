@@ -11,6 +11,7 @@ import { NFTBuyService } from "../../request/api";
 import IconFont from "../../utils/icon";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { useMetamask } from "../../utils/metamask";
+import { NFTInfoService } from '../../request/api'
 
 const DetailView = (): ReactElement<ReactNode> => {
     const [active, setActive] = useState<number>(0);
@@ -22,11 +23,20 @@ const DetailView = (): ReactElement<ReactNode> => {
     const [imgLoad, setImgLoad] = useState<boolean>(true);
     const [wait, setWait] = useState<boolean>(false);
     const [player, setPlayer] = useState<any>();
-    useEffect(() => {
+    const  getNFTInfo = async () => {
+        const result = await NFTInfoService({
+            chain_id:'8007736',
+            sender:state.address,
+            order_id:item.order_id
+        });
         setItem({
-            ...item,
+            ...result.data,
             play: false
-        })
+        });
+    };
+
+    useEffect(() => {
+        getNFTInfo();
     }, [])
     const buyNFTFN = async () => {
         if (!state.address) {
@@ -50,7 +60,7 @@ const DetailView = (): ReactElement<ReactNode> => {
             message.error(maker.message);
             return
         };
-        message.success('Successful Purchase!');
+        message.success('Successfully Purchase!');
     }
     return (
         <div className="detail-view">

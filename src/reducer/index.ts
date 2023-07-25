@@ -8,7 +8,8 @@ export const defaultState: State = {
     card: JSON.parse(sessionStorage.getItem('card') || '{}'),
     account: JSON.parse(sessionStorage.getItem('account') || '{}'),
     avatar: sessionStorage.getItem('avatar') || '',
-    swiper_ref: null
+    swiper_ref: null,
+    owner_address: sessionStorage.getItem('owner_address') || '',
 };
 
 export const defaultContext: Context = {
@@ -39,7 +40,10 @@ export const initState = (state: State, action: IAction) => {
             sessionStorage.setItem('avatar', payload.avatar as string);
             return { ...state, avatar: payload.avatar }
         case Type.SET_SWIPER:
-            return { ...state, swiper_ref: payload.swiper_ref }
+            return { ...state, swiper_ref: payload.swiper_ref };
+        case Type.SET_OWNER_ADDRESS:
+            sessionStorage.setItem('owner_address', payload.owner_address as string);
+            return { ...state, owner_address: payload.owner_address }
         default:
             return state;
     }

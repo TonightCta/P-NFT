@@ -1,34 +1,35 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
-import { CopyOutlined, TwitterOutlined } from "@ant-design/icons";
 import CardItem from "../market/components/item.card";
-import { Affix, Divider, Spin, message } from 'antd'
-import InfiniteScroll from "react-infinite-scroll-component";
-import TabList from "../detail/components/tab.list";
+import { Button, Spin } from 'antd'
 import { NFTOwnerService } from '../../request/api'
 import { NFTItem, ethereum } from "../../utils/types";
 import { useContract } from "../../utils/contract";
 import axios from "axios";
-import { calsAddress } from "../../utils";
+import OwnerCard from "./components/owner.card";
+import { SettingOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import MaskCard from "../../components/mask";
 import { PNft } from "../../App";
-import copy from 'copy-to-clipboard'
 
 const OwnerNFTSView = (): ReactElement<ReactNode> => {
-    // const [changeTabs, setChangeTabs] = useState<string[]>(['Buy now', 'Ended']);
     const [activeTop, setActiveTop] = useState<number>(0);
-    const { state } = useContext(PNft);
-    // const [activeBot, setActiveBot] = useState<number>(0);
-    const [container, setContainer] = useState<HTMLDivElement | null>(null);
+    const navigate = useNavigate();
     const [list, setList] = useState<NFTItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(1);
     const [itemList, setItemList] = useState<NFTItem[]>([])
     const { queryOwner } = useContract();
+    const [nowLength, setNowLength] = useState<number>(0);
+    const { state } = useContext(PNft);
+    const [otherBg, setOtherBG] = useState<string>('1');
+    const [loadingBg, setLoadingBg] = useState<boolean>(true);
     //On Sle
     const saleListFN = async (_page?: number) => {
+        setLoading(true);
         const result = await NFTOwnerService({
-            address: ethereum.selectedAddress,
+            address: state.owner_address,
             page_size: 10,
             page_num: _page ? _page : page
         });
@@ -51,6 +52,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
             }
         });
         setList(page > 1 ? [...list, ...filter] : filter);
+        setNowLength(page > 1 ? [...list, ...filter].length : filter.length)
     };
     const loadMoreData = () => {
         if (loading) {
@@ -78,8 +80,10 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 play: false
             };
             now.push(params);
+            setLoading(false);
             console.log(now)
             setItemList([...now])
+            setNowLength([...now].length)
         });
     }
     useEffect(() => {
@@ -102,98 +106,90 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         setActiveTop(_type);
         setList([]);
         setItemList([]);
+        setNowLength(0);
         setTotal(1);
         _type === 0 ? saleListFN(1) : itemQuery();
+    };
+    const calsBG = () => {
+        const bol = state.owner_address === state.address;
+        const inner = state.account.bgimage_url ? state.account.bgimage_url : require('../../assets/images/test_bg.png');
+        const out = otherBg ? otherBg : require('../../assets/images/test_bg.png');
+        return bol ? inner : out
     }
     return (
-        <div className="owner-view" id="ownerView" ref={setContainer}>
-            <div className="account-msg">
-                <div className="avatar-box">
-                    <img src={state.avatar ? state.avatar : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+        <div className="owner-view">
+            <MaskCard />
+            <div className="up-mask">
+                <div className="owner-bg">
+                    <img src={calsBG()} onLoad={() => {
+                        setLoadingBg(false)
+                    }} alt="" />
+                    {loadingBg && <div className="loading-bg">
+                        <Spin size="large"/>
+                    </div>}
                 </div>
-                <div className="msg-box">
-                    <p className="msg-large">{calsAddress(ethereum.selectedAddress)}</p>
-                    <div className="outside-account">
-                        <div className="address-text">
-                            <p>{calsAddress(ethereum.selectedAddress)}</p>
-                            <CopyOutlined onClick={() => {
-                                copy(ethereum.selectedAddress);
-                                message.success('Copy Successful!')
-                            }}/>
+                <div className="owner-inner">
+                    <OwnerCard updateBG={(_url: string) => {
+                        setOtherBG(_url);
+                    }} />
+                    <div className="inner-data">
+                        {state.owner_address === state.address && <div className="set-btn" onClick={() => {
+                            navigate('/profile')
+                        }}>
+                            <SettingOutlined />
+                            <p>Setting</p>
+                        </div>}
+                        <div className="filter-box">
+                            <div className="tabs">
+                                <ul>
+                                    {
+                                        state.owner_address === state.address ? ['On sale', 'Items'] : ['On sale'].map((item: string, index: number): ReactElement => {
+                                            return (
+                                                <li key={index} className={`${activeTop === index ? 'active-top' : ''}`} onClick={() => {
+                                                    selectTop(index)
+                                                }}>{item}</li>
+                                            )
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                            <div className="search-box">
+                                <input type="text" placeholder="Search" />
+                            </div>
                         </div>
-                        <p className="outside-go">
-                            <TwitterOutlined />
-                        </p>
+                        <div className="conponenst-gater" id="ownerView">
+                            <div className="list-item" >
+                                {
+                                    (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
+                                        return (
+                                            <CardItem key={index} item={item} uploadSell={() => {
+                                                setList([]);
+                                                setLoading(true);
+                                                setTotal(1);
+                                                itemQuery();
+                                            }} upload={() => {
+                                                setItemList([]);
+                                                setLoading(true);
+                                                setTotal(1);
+                                                itemQuery();
+                                            }} />
+                                        )
+                                    })
+                                }
+                            </div>
+                            {nowLength === total && <p className="has-no-more">
+                                No More
+                            </p>}
+                            {nowLength < total && !loading && <p className="load-more">
+                                <Button type="primary" onClick={loadMoreData}>Load More</Button>
+                            </p>}
+                            {loading && <Spin size="large" />}
+                        </div>
                     </div>
+                    {/* </Affix> */}
                 </div>
             </div>
-            <Affix offsetTop={0} target={() => container}>
-                <div className="data-tabs">
-                    <ul>
-                        {
-                            ['On sale', 'Items'].map((item: string, index: number): ReactElement => {
-                                return (
-                                    <li key={index} className={`${activeTop === index ? 'active-top' : ''}`} onClick={() => {
-                                        selectTop(index)
-                                    }}>{item}</li>
-                                )
-                            })
-                        }
-                    </ul>
-                </div>
-            </Affix>
-            <div className="filter-box">
-                {/* <div className="tabs">
-                    <ul>
-                        {
-                            changeTabs.map((item: string, index: number): ReactElement => {
-                                return (
-                                    <li key={index} className={`${activeBot === index ? 'active-bot' : ''}`} onClick={() => {
-                                        setActiveBot(index)
-                                    }}>{item}</li>
-                                )
-                            })
-                        }
-                    </ul>
-                </div> */}
-                <div className="search-box">
-                    <input type="text" placeholder="Search" />
-                </div>
-            </div>
-            <div className="conponenst-gater">
-                {activeTop === 2
-                    ? <TabList />
-                    : <InfiniteScroll
-                        key={activeTop === 0 ? list.length : itemList.length}
-                        dataLength={activeTop === 0 ? list.length : itemList.length}
-                        next={loadMoreData}
-                        hasMore={(activeTop === 0 ? list.length : itemList.length) < total}
-                        loader={<div className="loading-box"><Spin /><p>Loading...</p></div>}
-                        endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-                        scrollableTarget="ownerView"
-                    >
-                        <div className="list-item" >
-                            {
-                                (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
-                                    return (
-                                        <CardItem key={index} item={item} uploadSell={() => {
-                                            setList([]);
-                                            setLoading(true);
-                                            setTotal(1);
-                                            itemQuery();
-                                        }} upload={() => {
-                                            setItemList([]);
-                                            setLoading(true);
-                                            setTotal(1);
-                                            itemQuery();
-                                        }} />
-                                        // <li key={index}></li>
-                                    )
-                                })
-                            }
-                        </div>
-                    </InfiniteScroll>}
-            </div>
+
         </div>
     )
 };

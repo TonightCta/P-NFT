@@ -1,4 +1,4 @@
-import { post } from './index';
+import { post,get } from './index';
 
 type o = {};
 
@@ -20,6 +20,8 @@ export const NFTBuyService = (p: o) => post('/order/taker', p);
 export const MFTOffService = (p: o) => post('/order/cancel', p);
 //Market NFT
 export const NFTMarketService = (p: o) => post('/order/list', p);
+//NFT Info
+export const NFTInfoService = (p: o) => post('/order/info', p);
 //Logs NFT
 export const NFTLogsService = (p: o) => post('/nft/history', p);
 //Owner NFT
@@ -28,3 +30,21 @@ export const NFTOwnerService = (p: o) => post('/user/sell', p);
 export const NFTWalletService = (p: o) => post('/nft/wallet', p);
 //Query File
 export const QueryFile = (p: o) => post('/file/url', p);
+//Activity Join
+export const ActivityJoinService = (p: o) => post('/invite/register', p);
+//Check Join
+export const CheckJoinService = (p: o) => post('/invite/isregistered', p);
+//Activity Info
+export const ActivityInfoService = (p: o) => post('/invite/info', p);
+//Activity Rank
+export const ActivityRankService = (p: o) => post('/rank/topnftdeal', p);
+//Mint Rank
+export const MintRankService = (p: o) => post('/rank/topnftmint', p);
+//Auth Twitter
+export const AuthTwitterService = (p: o) => post('/twitter/requesturl', p);
+//Bind Twitter
+export const BindTwitterService = (p:o) => get('/twitter/maketoken',p);
+//Upload Audio
+export const UploadAudioService = (p:FormData) => post('/profile/uploadaudio',p);
+//Upload Background
+export const UploadBackGroundService = (p:FormData) => post('/profile/uploadbgimg',p);

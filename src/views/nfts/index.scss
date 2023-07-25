@@ -1,60 +1,172 @@
 .owner-view {
-  width: 1400px;
-  margin: 0 auto;
-  padding-top: 70px;
-  margin-top: 100px;
-  height: calc(100vh - 100px);
-  overflow: auto;
-  .account-msg {
-    margin-bottom: 60px;
+  padding-top: 100px;
+  .owner-bg {
+    width: 100%;
+    height: 480px;
+    transform: translateY(-100px);
     display: flex;
-    .avatar-box {
-      width: 192px;
-      height: 192px;
-      border-radius: 50%;
-      overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    img {
+      width: 100%;
+    }
+    .loading-bg{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-right: 40px;
-      img {
-        width: 100%;
-      }
     }
-    .msg-box {
-      color: white;
-      padding-top: 30px;
-      .msg-large {
-        font-size: 50px;
-        font-weight: 600;
-      }
-      .outside-account {
-        display: flex;
-        margin-top: 12px;
-        align-items: center;
-        span {
-          cursor: pointer;
+  }
+  .owner-inner {
+    display: inline-flex;
+    width: 1400px;
+    margin: 0 auto;
+    margin-top: -100px;
+    .owner-card {
+      min-width: 308px;
+      width: 308px;
+      padding: 40px;
+      background-color: #23262f;
+      transform: translateY(-80px);
+      border-radius: 24px;
+      margin-right: 48px;
+      height: 650px;
+      .account-msg {
+        .avatar-box {
+          height: 220px;
+          width: 100%;
+          border-radius: 24px;
+          border: 4px solid white;
+          overflow: hidden;
+          position: relative;
+          img {
+            width: 100%;
+          }
+          .loading-avatar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            justify-content: center;
+          }
         }
-        .address-text {
+        .name-address {
+          .name {
+            font-size: 24px;
+            margin-top: 32px;
+            font-weight: 600;
+          }
+          .copy-address {
+            margin-top: 8px;
+            font-size: 14px;
+            span {
+              color: #df0885;
+              cursor: pointer;
+              margin-left: 4px;
+            }
+          }
+        }
+        .audio-box {
+          margin-top: 48px;
+          width: 100%;
+          height: 34px;
           display: flex;
-          padding: 8px 12px;
-          border: 1px solid #333;
+          justify-content: space-between;
+          background-color: #353945;
           border-radius: 20px;
           align-items: center;
-          p {
-            margin-right: 12px;
-            font-size: 16px;
+          padding: 4px;
+          .play-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            span {
+              font-size: 18px;
+            }
+            audio {
+              display: none;
+            }
+            background: linear-gradient(180deg, #fa3370 0%, #fa89cb 100%);
+          }
+          .audio-progress {
+            width: 140px;
+            height: 30px;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .audio-end {
+            margin-right: 4px;
+            font-size: 15px;
+            color: rgba(244, 245, 246, 0.5);
+          }
+        }
+        .outside-url {
+          margin-top: 48px;
+          padding-bottom: 48px;
+          border-bottom: 1px solid #353945;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .with-hand {
+            cursor: pointer;
           }
           span {
             font-size: 20px;
+            color: #777e90;
+            margin-right: 8px;
           }
         }
-        .outside-go {
-          margin-left: 24px;
+        .ourside-account {
+          margin-top: 48px;
+          display: flex;
+          justify-content: center;
           span {
-            font-size: 24px;
+            color: #777e90;
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 20px;
+          }
+          span:last-child {
+            margin-right: 0;
           }
         }
+      }
+    }
+    .inner-data {
+      flex: 1;
+      position: relative;
+      .set-btn {
+        position: absolute;
+        width: 112px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 22px;
+        color: white;
+        cursor: pointer;
+        right: 0;
+        top: -58px;
+        span {
+          font-size: 16px;
+          margin-right: 4px;
+        }
+        border: 2px solid rgba(255, 255, 255, 0.4);
       }
     }
   }
@@ -82,25 +194,31 @@
   }
   .filter-box {
     display: flex;
+    width: 100%;
+    margin: 0 auto;
     justify-content: space-between;
-    margin-top: 80px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #333;
+    margin-top: 64px;
     align-items: center;
     margin-bottom: 20px;
     .tabs {
+      background-color: #23262f;
+      border-radius: 22px;
       ul {
         display: flex;
         li {
-          margin-right: 30px;
           color: white;
           font-size: 16px;
+          width: 100px;
+          height: 36px;
           cursor: pointer;
+          border-radius: 100px;
           transition: 0.3s all;
           font-weight: 500;
+          line-height: 36px;
         }
-        .active-bot {
-          color: #df0885;
+        .active-top {
+          background-color: white;
+          color: #141416;
         }
       }
     }
@@ -118,70 +236,34 @@
     }
   }
 }
-.list-item {
-  display: flex;
-  flex-wrap: wrap;
-  padding-bottom: 50px;
-  padding: 1px;
-  padding-top: 15px;
-  .market-card {
-    width: calc(20% - 19px);
-    margin-right: 22px;
-    border-radius: 8px;
-    // box-shadow: 0px 0px 5px #333;
-    cursor: pointer;
-    transition: 0.3s all;
-    margin-bottom: 30px;
-    overflow: hidden;
-    padding: 20px;
-    background-color: #202020;
-    .img-box {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-radius: 8px;
-      img {
-        width: 100%;
-      }
+.conponenst-gater {
+  padding-bottom: 20px;
+  .list-item {
+    .market-card {
+      width: calc(25% - 19px);
+      margin-right: 24px;
     }
-    .card-type {
-      font-size: 20px;
-      color: #666;
-      text-align: left;
-      margin-top: 12px;
+    .market-card:nth-child(4n) {
+      margin-right: 0;
     }
-    .other-msg {
-      display: flex;
-      color: white;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 12px;
-      p {
-        font-size: 16px;
-      }
-      p:first-child {
-        font-weight: 600;
-      }
-      p:last-child {
-        color: #59bd7e;
-      }
-      button{
-        border-radius: 20px;
-        height: 28px;
-        line-height: 20px;
-      }
+    .market-card:nth-child(5n) {
+      margin-right: 22px;
     }
-  }
-  .market-card:nth-child(5n) {
-    margin-right: 0;
-  }
-  .market-card:hover {
-    transform: translateY(-5px);
-    // box-shadow: 0px 0px 10px rgba(247, 15, 255, 0.5);
+    .market-card:hover {
+      transform: translateY(-5px);
+    }
   }
 }
+.has-no-more {
+  font-size: 16px;
+  color: #ccc;
+}
+.load-more {
+  button {
+    border-radius: 20px;
+  }
+}
+
 .tab-list {
   max-width: 1733px;
   padding-bottom: 80px;
@@ -311,26 +393,26 @@
         .msg-large {
           font-size: 24px;
         }
-        .outside-account{
-          .address-text{
+        .outside-account {
+          .address-text {
             padding: 4px 12px;
-            p{
+            p {
               font-size: 14px;
             }
-            span{
+            span {
               font-size: 14px;
             }
           }
-          .outside-go{
+          .outside-go {
             margin-left: 12px;
-            span{
+            span {
               font-size: 18px;
             }
           }
         }
       }
     }
-    .filter-box{
+    .filter-box {
       margin-top: 30px;
     }
   }

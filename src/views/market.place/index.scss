@@ -15,23 +15,61 @@
       display: flex;
       justify-content: space-between;
       li {
-        width: calc(25% - 50px);
-        height: 190px;
+        width: 25%;
+        margin-right: 40px;
         overflow: hidden;
         position: relative;
         transition: 0.3s all;
         cursor: pointer;
         .banner-box {
           width: 100%;
-          height: 150px;
           background-color: #202020;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
           border-radius: 8px;
+          display: flex;
+          position: relative;
           img {
-            width: 110%;
+            border-radius: 16px;
+          }
+          .rank-box {
+            padding: 6px 8px;
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            p {
+              margin-top: 0;
+              font-size: 14px;
+              font-weight: 400;
+            }
+            img {
+              width: 20px;
+              height: 20px;
+              margin-right: 4px;
+            }
+          }
+          .alone-img {
+            width: 232px;
+            height: 100%;
+            margin-right: 6px;
+          }
+          .img-other {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            img {
+              width: 72px;
+              height: 72px;
+              margin-bottom: 8px;
+            }
+            img:last-child {
+              margin-bottom: 0;
+            }
           }
         }
         p {
@@ -41,21 +79,31 @@
           font-weight: 600;
         }
         .icon-box {
-          height: 56px;
-          width: 56px;
-          border-radius: 50%;
-          position: absolute;
-          right: 10px;
-          top: 130px;
           display: flex;
           align-items: center;
-          justify-content: center;
-          background-color: #202020;
-          padding: 6px;
-          border: 4px solid #141416;
-          img {
-            width: 100%;
-            transform: translateX(4px);
+          height: 40px;
+          justify-content: space-between;
+          p:first-child {
+            display: flex;
+            align-items: center;
+            img {
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              margin-right: 8px;
+            }
+            span {
+              font-size: 14px;
+            }
+          }
+          p:last-child {
+            font-size: 16px;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 15px 15px 15px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+            font-size: 13px;
           }
         }
         .coming-mask {
@@ -79,6 +127,7 @@
           padding-left: 12px;
         }
       }
+      margin-right: 0;
       li:hover {
         transform: translateY(-4px);
       }
@@ -88,20 +137,21 @@
     .filter-box {
       display: flex;
       justify-content: space-between;
-      background-color: #141416;
       padding-bottom: 28px;
       padding-top: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       ul {
         display: flex;
         color: white;
+        background-color: #23262f;
+        border-radius: 20px;
         li {
           cursor: pointer;
-          margin-right: 24px;
-          font-size: 18px;
+          font-size: 16px;
           width: 120px;
-          height: 42px;
+          height: 40px;
           font-weight: 600;
-          line-height: 42px;
+          line-height: 40px;
           text-align: center;
           border-radius: 20px;
           position: relative;
@@ -122,7 +172,8 @@
           }
         }
         .active-tab {
-          background-color: #df0885;
+          background-color: white;
+          color: #141416;
         }
       }
       input {
@@ -134,6 +185,27 @@
         padding-left: 12px;
         color: white;
         font-size: 16px;
+      }
+    }
+    .catefilter-list {
+      margin: 48px 0;
+      ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        li {
+          padding: 4px 16px;
+          font-size: 16px;
+          color: white;
+          cursor: pointer;
+          border-radius: 20px;
+          transition: 0.3s all;
+          cursor: pointer;
+        }
+        .active-cate {
+          background-color: white;
+          color: #141416;
+        }
       }
     }
     .list-item {
@@ -207,10 +279,10 @@
           width: 90%;
           height: 160px;
           margin: 0 auto;
-          .banner-box{
+          .banner-box {
             height: 120px;
           }
-          .icon-box{
+          .icon-box {
             width: 46px;
             height: 46px;
             top: 100px;
@@ -221,8 +293,8 @@
     .discover-card {
       .filter-box {
         flex-wrap: wrap;
-        ul{
-          li{
+        ul {
+          li {
             width: 80px;
             font-size: 14px;
             height: 32px;

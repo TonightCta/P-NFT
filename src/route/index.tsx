@@ -42,6 +42,9 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route path="/detail" element={<React.Suspense fallback={<Loading />}>
                     <View.DetailView />
                 </React.Suspense>}></Route>
+                <Route path="/tool" element={<React.Suspense fallback={<Loading />}>
+                    <View.ToolView />
+                </React.Suspense>}></Route>
             </Route>
         </Routes>
     )

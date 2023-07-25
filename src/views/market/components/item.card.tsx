@@ -6,7 +6,7 @@ import { PNft } from "../../../App";
 import FixedModal from "../../detail/components/fixed.price";
 import { MFTOffService } from "../../../request/api";
 import { useContract } from "../../../utils/contract";
-import { CaretRightOutlined } from "@ant-design/icons";
+import { CaretRightOutlined, RotateRightOutlined } from "@ant-design/icons";
 import IconFont from "../../../utils/icon";
 
 interface Props {
@@ -37,7 +37,7 @@ const CardItem = (props: Props): ReactElement => {
             message.error(maker.message);
             return
         };
-        message.success('Take off the shelves Successful!');
+        message.success('Take off the shelves Successfully!');
         props.uploadSell && props.uploadSell()
     };
     return (
@@ -50,33 +50,6 @@ const CardItem = (props: Props): ReactElement => {
             })
             item.price && navigate('/detail')
         }}>
-            <div className="play-btn" onClick={(e) => {
-                e.stopPropagation();
-                if (!item.file_voice_ipfs) {
-                    message.error('Failed')
-                    return
-                };
-                if (item.play) {
-                    player.pause();
-                    setItem({
-                        ...item,
-                        play: false
-                    });
-                    setPlayer(null);
-                    return
-                }
-                const play = document.createElement('audio');
-                setPlayer(play)
-                play.src = item.file_voice_ipfs;
-                play.loop = false;
-                play.play();
-                setItem({
-                    ...item,
-                    play: true
-                });
-            }}>
-                {item.play ? <IconFont type="icon-tingzhi" /> : <CaretRightOutlined />}
-            </div>
             <div className="img-box">
                 <img src={item.file_image_ipfs} onLoad={() => {
                     setItem({
@@ -87,26 +60,63 @@ const CardItem = (props: Props): ReactElement => {
                 {item.load && <div className="load-box">
                     <Spin />
                 </div>}
+                <div className="play-btn" onClick={(e) => {
+                    e.stopPropagation();
+                    if (!item.file_voice_ipfs) {
+                        message.error('Failed')
+                        return
+                    };
+                    if (item.play) {
+                        player.pause();
+                        setItem({
+                            ...item,
+                            play: false
+                        });
+                        setPlayer(null);
+                        return
+                    }
+                    const play = document.createElement('audio');
+                    setPlayer(play)
+                    play.src = item.file_voice_ipfs;
+                    play.loop = false;
+                    play.play();
+                    setItem({
+                        ...item,
+                        play: true
+                    });
+                }}>
+                    {item.play ? <IconFont type="icon-tingzhi" /> : <CaretRightOutlined />}
+                </div>
             </div>
-            <p className="card-type">BabyBunny</p>
-            <div className="other-msg">
-                <p>XXXX #{item.token_id}</p>
-                {
-                    item.price
-                        ? <p>{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item?.paymod}</p>
-                        : item.off ?
-                            <Popconfirm
-                                title="Take off the shelves"
-                                description="Are you sure to take off the shelves?"
-                                onConfirm={confirm}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <Button >Take Off</Button>
-                            </Popconfirm> : <Button type="primary" onClick={() => {
-                                setFixedVisible(true)
-                            }}>Sell</Button>
-                }
+            <div className="card-oper">
+                <div className="name-price">
+                    <p className="card-type">BabyBunny</p>
+                    {item.price && <p className="price-box">{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item?.paymod}</p>}
+                </div>
+                <div className="other-msg">
+                    <p>{item.file_name} #{item.token_id}</p>
+                    {(state.owner_address === state.address) && <div>
+                        {
+                            item.off ?
+                                <Popconfirm
+                                    title="Take off the shelves"
+                                    description="Are you sure to take off the shelves?"
+                                    onConfirm={confirm}
+                                    okText="Yes"
+                                    cancelText="No"
+                                >
+                                    <Button className="up-top">
+                                        <IconFont type="icon-anzhuang_install" />
+                                        Take Off
+                                    </Button>
+                                </Popconfirm> : <Button className="up-top white-top" type="primary" onClick={() => {
+                                    setFixedVisible(true)
+                                }}>
+                                    <RotateRightOutlined />
+                                    Sell</Button>
+                        }
+                    </div>}
+                </div>
             </div>
             <FixedModal upRefresh={() => {
                 props.upload && props.upload();

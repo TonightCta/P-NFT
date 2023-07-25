@@ -13,7 +13,7 @@ const AirdropView = (): ReactElement<ReactNode> => {
             <div className="tabs">
                 <ul>
                     {
-                        ['FREE MINT', 'INVITE', 'ACTIVITY 3'].map((item: string, index: number): ReactElement => {
+                        ['FREE MINT', 'INVITE', 'Rank'].map((item: string, index: number): ReactElement => {
                             return (
                                 <li key={index} className={`${active === index ? 'active-tab' : ''}`} onClick={() => {
                                     setActive(index)

@@ -14,14 +14,16 @@ export interface State {
     card?: any,
     account?:any,
     avatar?:string,
-    swiper_ref?:any
+    swiper_ref?:any,
+    owner_address?:string
 }
 
 export interface IResponse {
     code: number,
     status: number,
     data: any,
-    message: string
+    message: string,
+    msg:string
 }
 
 export enum Type {
@@ -30,7 +32,8 @@ export enum Type {
     SET_CARD = 'set_card',
     SET_ACCOUNT = 'set_account',
     SET_AVATAR = 'set_avatar',
-    SET_SWIPER = 'set_swiper'
+    SET_SWIPER = 'set_swiper',
+    SET_OWNER_ADDRESS = 'set_owner_address'
 };
 
 export interface IAction {
@@ -59,5 +62,6 @@ export interface NFTItem {
     load: boolean,
     off?: boolean,
     order_id:string,
-    play:boolean
+    play:boolean,
+    seller:string
 }

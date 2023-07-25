@@ -80,7 +80,7 @@
       .oper-btns {
         margin-top: 50px;
         button {
-          width: 120px;
+          min-width: 120px;
           height: 40px;
           font-size: 16px;
           border-radius: 25px;
@@ -92,7 +92,7 @@
       }
     }
     .invite-card {
-      .invite-box {
+      .public-bg {
         width: 890px;
         padding: 30px 64px;
         border-radius: 20px;
@@ -100,7 +100,7 @@
         background: rgba(255, 255, 255, 0.25);
         margin: 0 auto;
         margin-top: 50px;
-        backdrop-filter: blur(3px);
+        backdrop-filter: blur(12px);
         ul {
           display: flex;
           li {
@@ -112,31 +112,27 @@
               margin-bottom: 18px;
             }
             .rank-list {
-              display: flex;
-              justify-content: center;
-              margin-bottom: 48px;
-              .rank-pic {
-                width: 80px;
-                height: 80px;
-                border-radius: 50%;
-                overflow: hidden;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-right: 30px;
-                img {
-                  width: 100%;
-                }
+              width: 100%;
+              height: 7px;
+              background-color: #999;
+              border-radius: 8px;
+              margin-top: 40px;
+              padding: 2px 4px;
+              .list-progress {
+                width: 100%;
+                height: 100%;
               }
-              .rank-pic:last-child {
-                margin-right: 0;
+              .progress-inner {
+                height: 100%;
+                background-color: #df0885;
+                border-radius: 8px;
               }
             }
             .pledge-num {
-              font-size: 18px;
-              margin-bottom: 110px;
+              margin-top: 34px;
             }
             .public-btn {
+              margin-top: 30px;
               button {
                 width: 120px;
                 height: 40px;
@@ -145,8 +141,57 @@
                 font-weight: 500;
               }
             }
+            .disable-btn {
+              button {
+                color: #999;
+              }
+            }
           }
         }
+        .join-title {
+          text-align: left;
+          font-size: 18px;
+          margin-bottom: 16px;
+          color: white;
+        }
+        .join-content {
+          font-size: 16px;
+          text-align: left;
+          color: #ccc;
+          margin-bottom: 16px;
+        }
+        button {
+          border-radius: 20px;
+        }
+      }
+      .step-1 {
+        margin-top: 50px;
+        .create-box {
+          margin-bottom: 50px;
+        }
+        .join-box {
+          .invite-code-inp {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            input {
+              width: 300px;
+              height: 40px;
+              background-color: rgba(0, 0, 0, 0);
+              border: 1px solid #ccc;
+              padding-left: 12px;
+              font-size: 16px;
+              margin-left: 8px;
+              color: white;
+              border-radius: 8px;
+            }
+          }
+        }
+      }
+      .other-remark {
+        margin: 30px auto;
+        font-size: 20px;
+        font-weight: 600;
       }
     }
     .activity-card {
@@ -184,8 +229,11 @@
             font-family: KanitBold;
             color: #777e90;
           }
-          p:first-child{
-            margin-right: 356px;
+          p:first-child {
+            margin-right: 300px;
+          }
+          p:nth-child(2) {
+            margin-right: 100px;
           }
         }
         ul {
@@ -212,9 +260,12 @@
             }
             .rank-name {
               font-size: 16px;
-              margin-right: 300px;
+              margin-right: 164px;
             }
             .reward-msg {
+              margin-right: 80px;
+              width: 80px;
+              text-align: center;
               p {
                 font-size: 16px;
               }
@@ -222,6 +273,11 @@
                 margin-top: 8px;
                 color: #777e90;
               }
+            }
+            .sell-hash {
+              color: #df0885;
+              cursor: pointer;
+              font-size: 16px;
             }
           }
           li:last-child {

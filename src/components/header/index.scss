@@ -71,9 +71,12 @@
 }
 .need-line {
   border-bottom: 2px solid #353945;
-  background-color: #141416;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
 }
 .need-blur {
+  border-bottom: 2px solid #353945;
+  background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(6px);
 }
 .pop-menu {
