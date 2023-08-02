@@ -5,6 +5,8 @@ import ABIERC20 from './abi/erc20.json'
 import ABISBT from './abi/sbt.json'
 import { message } from "antd"
 import { useEffect, useState } from 'react';
+import { PlianContractAddress721Main, PlianContractAddress721Test, PlianContractAddressMarketMain, PlianContractAddressMarketTest, PlianContractERC20Test, PlianContractSBTTest, SystemAddress } from "./source"
+import { calsMarks } from "."
 
 
 interface Send {
@@ -12,6 +14,7 @@ interface Send {
     gas: string,
     gasLimit: string
 }
+const MODE: string = process.env.REACT_APP_CURRENTMODE as string;
 export const useContract = () => {
     const [gasPrice, setGasPrice] = useState<string>();
     const [NFTContract, setNFTContract] = useState<any>();
@@ -30,16 +33,16 @@ export const useContract = () => {
     };
     const init = async () => {
         await cals();
-        setNFTContract(new web3.eth.Contract(ABI721 as any, '0x1a0eCc31DACcA48AA877db575FcBc22e1FEE671b', {
+        setNFTContract(new web3.eth.Contract(ABI721 as any, MODE === 'production' ? PlianContractAddress721Main : PlianContractAddress721Test, {
             gasPrice: gasPrice
         }));
-        setERC20Contract(new web3.eth.Contract(ABIERC20 as any, '0xFcb06A1a2E8834Fe9E0b49F533E14AB6384f74AC', {
+        setERC20Contract(new web3.eth.Contract(ABIERC20 as any, PlianContractERC20Test, {
             gasPrice: gasPrice
         }));
-        setMARKETContract(new web3.eth.Contract(ABIMarket as any, '0x39D944626c8b95FaDF592D003bcB9BF3467f57E0', {
+        setMARKETContract(new web3.eth.Contract(ABIMarket as any, MODE === 'production' ? PlianContractAddressMarketMain : PlianContractAddressMarketTest, {
             gasPrice: gasPrice
         }));
-        setSBTContract(new web3.eth.Contract(ABISBT as any, '0x27e67a318f41d7475f409f4a390084b6aa16ac50', {
+        setSBTContract(new web3.eth.Contract(ABISBT as any, PlianContractSBTTest, {
             gasPrice: gasPrice
         }));
     }
@@ -49,9 +52,10 @@ export const useContract = () => {
     //铸币
     const mint = async (_data_ipfs: string) => {
         return new Promise((resolve, reject) => {
-            NFTContract.methods.mintItem(ethereum.selectedAddress, _data_ipfs).send({
+            NFTContract.methods.mint(ethereum.selectedAddress, _data_ipfs).send({
                 from: owner,
-                gas: '7000000'
+                gas: '7000000',
+                value: MODE === 'production' ? web3.utils.toWei('0.1', "ether") : '0'
             })
                 .on('receipt', (res: any) => {
                     resolve(res)
@@ -82,55 +86,78 @@ export const useContract = () => {
         return results
     }
     //购买
-    const buy = async (_order_id: number, _price: string) => {
+    const buy = async (_order_id: string, _price: string, _paymod: string) => {
         return new Promise(async (resolve, reject) => {
-            ERC20Contract.methods.approve(
-                "0x39D944626c8b95FaDF592D003bcB9BF3467f57E0",
-                "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-            ).send(send)
-                .on('receipt', (res: any) => {
-                    MARKETContract.methods.buyByMapi(_order_id).send({
-                        from: owner,
-                        gas: '7000000'
-                    }).on('receipt', (res: any) => {
-                        resolve(res)
-                    }).on('error', ((err: any) => {
-                        console.log(err)
-                        resolve(err)
-                        message.error(err.message)
-                        // reject(err)
-                    }))
+            if (MODE === 'production') {
+                MARKETContract.methods.buy(_order_id).send({
+                    from: owner,
+                    gas: '7000000',
+                    value: _paymod === 'PI' ? _price : '0',
+                }).on('receipt', (res: any) => {
+                    resolve(res)
                 }).on('error', ((err: any) => {
                     resolve(err)
                     message.error(err.message)
-                    // return
-                    resolve(err)
-                }));
-        })
-    }
-    //上架
-    const putOn = async (_address: string, _token_id: number, _price: number): Promise<string> => {
-        return new Promise(async (resolve, reject) => {
-            NFTContract.methods.approve("0x39D944626c8b95FaDF592D003bcB9BF3467f57E0", _token_id).send(send)
-                .on('receipt', () => {
-                    MARKETContract.methods.putOnByMapi(
-                        _address.replace(/\"/g, "'"),
-                        _token_id,
-                        web3.utils.toWei(String(_price), 'ether'))
-                        .send({
+                    // reject(err)
+                }))
+            } else {
+                ERC20Contract.methods.approve(
+                    calsMarks(PlianContractAddressMarketTest),
+                    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                ).send(send)
+                    .on('receipt', (res: any) => {
+                        MARKETContract.methods.buy(_order_id).send({
                             from: owner,
-                            gas: '7000000'
-                        }).on('receipt', (res: string) => {
+                            gas: '7000000',
+                            value: _paymod === 'PI' ? _price : '0',
+                        }).on('receipt', (res: any) => {
                             resolve(res)
                         }).on('error', ((err: any) => {
-                            console.log(err)
-                            message.error(err.message)
                             resolve(err)
+                            message.error(err.message)
+                            // reject(err)
                         }))
+                    }).on('error', ((err: any) => {
+                        resolve(err)
+                        message.error(err.message)
+                        // return
+                        resolve(err)
+                    }));
+            }
+
+
+        })
+    }
+    //上架 - 授权
+    const putApprove = async (_token_id:number): Promise<string> => {
+        return new Promise(async (resolve, reject) => {
+            NFTContract.methods.approve(MODE === 'production' ? PlianContractAddressMarketMain : PlianContractAddressMarketTest, _token_id).send(send)
+                .on('receipt', (res:any) => {
+                    resolve(res);
                 }).on('error', (err: any) => {
                     message.error(err.message);
                     resolve(err)
                 })
+        })
+    }
+    //上架 - list
+    const putList = async (_token_id: number, _price: number): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            MARKETContract.methods.list(
+                MODE === 'production' ? calsMarks(PlianContractAddress721Main) : calsMarks(PlianContractAddress721Test),
+                _token_id,
+                MODE === 'production' ? calsMarks(SystemAddress) : calsMarks(PlianContractERC20Test),
+                web3.utils.toWei(String(_price), 'ether'))
+                .send({
+                    from: owner,
+                    gas: '7000000'
+                }).on('receipt', (res: string) => {
+                    resolve(res)
+                }).on('error', ((err: any) => {
+                    console.log(err)
+                    message.error(err.message)
+                    resolve(err)
+                }))
         })
     }
     //下架
@@ -165,28 +192,38 @@ export const useContract = () => {
     };
     //活动Mint查询
     const queryMint = async () => {
-        const SBTContractInner = new web3.eth.Contract(ABISBT as any, '0x27e67a318f41d7475f409f4a390084b6aa16ac50', {
+        const SBTContractInner = new web3.eth.Contract(ABISBT as any, PlianContractSBTTest, {
             gasPrice: gasPrice
         })
         const total = await SBTContractInner.methods.balanceOf(ethereum.selectedAddress).call();
         return total
     };
     //Mint总量查询
-    const officalTotalSupply = async () : Promise<number> => {
-        const NFTContractInner = new web3.eth.Contract(ABI721 as any, '0x1a0eCc31DACcA48AA877db575FcBc22e1FEE671b', {
+    const officalTotalSupply = async (): Promise<number> => {
+        const NFTContractInner = new web3.eth.Contract(ABI721 as any, MODE === 'production' ? PlianContractAddress721Main : PlianContractAddress721Test, {
             gasPrice: gasPrice
         })
         const total = await NFTContractInner.methods.totalSupply().call();
         return total
     }
+    //授权查询
+    const queryApprove = async (_token_id: number) : Promise<string> => {
+        // const NFTContractInner = new web3.eth.Contract(ABI721 as any, MODE === 'production' ? PlianContractAddress721Main : PlianContractAddress721Test, {
+        //     gasPrice: gasPrice
+        // })
+        const approve = await NFTContract.methods.getApproved(_token_id).call();
+        return approve
+    }
     return {
         mint,
         queryOwner,
         buy,
-        putOn,
+        putApprove,
+        putList,
         takeOff,
         claimMint,
         queryMint,
-        officalTotalSupply
+        officalTotalSupply,
+        queryApprove
     }
 }

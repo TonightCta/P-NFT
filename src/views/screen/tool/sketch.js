@@ -239,7 +239,6 @@ export default class Sketch {
     /*load glb*/
     this.loader = new GLTFLoader()
     this.loader.load('/glb/face_mesh_v030.glb', (GLTF) => {
-      // console.log('[ GLTF ] >', GLTF)
       this.model = GLTF.scenes[0].children[0]
       this.model.rotation.set(1.8, 0, 0)
       this.model.position.set(0, 0.4, -1.5)

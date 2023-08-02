@@ -7,6 +7,7 @@ import { Popover } from "antd";
 import { Type } from "../../utils/types";
 import { MenuOutlined } from "@ant-design/icons";
 import MobileMenu from "./components/mobile.menu";
+import DefaultAvatar from "../default_avatar/default.avatar";
 
 export interface Menu {
     name: string,
@@ -107,7 +108,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                         }}>Connect Wallet</p>
                         : <Popover content={content} title={null}>
                             <div className={`connect-wallet ${state.address ? 'w-200' : ''}`}>
-                                <img src={state.account.avatar_url ? state.account.avatar_url : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                                {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar/>}
                             </div>
                         </Popover>
                 }
@@ -122,7 +123,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                             : <div className={`connect-wallet ${state.address ? 'w-200' : ''}`} onClick={() => {
                                 setInnerVisible(true)
                             }}>
-                                <img src={state.account.avatar_url ? state.account.avatar_url : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                                {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar/>}
                             </div>
                         : <MenuOutlined onClick={() => {
                             setInnerVisible(true)

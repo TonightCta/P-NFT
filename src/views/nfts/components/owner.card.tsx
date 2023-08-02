@@ -6,11 +6,13 @@ import { PNft } from "../../../App";
 import { calsAddress } from '../../../utils/index';
 import IconFont from "../../../utils/icon";
 import { ProfileService } from "../../../request/api";
-interface Props{
-    updateBG:(val:string) => void
+import DefaultAvatar from "../../../components/default_avatar/default.avatar";
+import { flag } from '../../../utils/source';
+interface Props {
+    updateBG: (val: string) => void
 }
 
-const OwnerCard = (props:Props): ReactElement => {
+const OwnerCard = (props: Props): ReactElement => {
     const { state } = useContext(PNft)
     const audioRef: any = useRef('');
     const [play, setPlay] = useState<boolean>(false);
@@ -22,22 +24,24 @@ const OwnerCard = (props:Props): ReactElement => {
         const account = await ProfileService({
             user_address: state.owner_address
         });
-        console.log(account)
         setProfile(account.data);
         props.updateBG(account.data.bgimage_url);
     };
     useEffect(() => {
         state.owner_address === state.address ? setProfile(state.account) : otherProfile();
-    }, []);
+    }, [state.owner_address]);
     return (
-        <Affix offsetTop={200}>
+        <Affix offsetTop={flag ? -300 : 200}>
             <div className="owner-card">
                 <div className="account-msg">
                     <div className="avatar-box">
-                        <img onLoad={() => {
-                            setLoading(false)
-                        }} src={profile.avatar_url ? profile.avatar_url : require('../../../assets/images/WechatIMG20.jpeg')} alt="" />
-                        {loading && <div className="loading-avatar">
+                        {profile.avatar_url
+                            ? <img onLoad={() => {
+                                setLoading(false)
+                            }} src={profile.avatar_url} alt="" />
+                            : <DefaultAvatar diameter={220} address={profile.user_address}/>
+                        }
+                        {profile.avatar_url && loading && <div className="loading-avatar">
                             <Spin />
                         </div>}
                     </div>
@@ -82,7 +86,7 @@ const OwnerCard = (props:Props): ReactElement => {
                         }} />
                         <IconFont type="icon-discord-logo-bold" onClick={() => {
                             profile.auth_discord ? window.open(profile.auth_twitter) : message.error('The user has not set up a Discord account');
-                        }}/>
+                        }} />
                     </div>
                 </div>
             </div>

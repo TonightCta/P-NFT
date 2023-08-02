@@ -3,7 +3,7 @@ import './index.scss'
 import CardItem from "../market/components/item.card";
 import { Button, Spin } from 'antd'
 import { NFTOwnerService } from '../../request/api'
-import { NFTItem, ethereum } from "../../utils/types";
+import { NFTItem } from "../../utils/types";
 import { useContract } from "../../utils/contract";
 import axios from "axios";
 import OwnerCard from "./components/owner.card";
@@ -29,6 +29,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const saleListFN = async (_page?: number) => {
         setLoading(true);
         const result = await NFTOwnerService({
+            chain_id:"8007736",
             address: state.owner_address,
             page_size: 10,
             page_num: _page ? _page : page
@@ -48,7 +49,6 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 ...item,
                 load: true,
                 off: true,
-                price: ''
             }
         });
         setList(page > 1 ? [...list, ...filter] : filter);
@@ -80,15 +80,19 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 play: false
             };
             now.push(params);
-            setLoading(false);
-            console.log(now)
             setItemList([...now])
             setNowLength([...now].length)
         });
+        setLoading(false);
     }
     useEffect(() => {
+        setTotal(1);
+        setPage(1);
         loadMoreData();
-    }, []);
+        if (state.owner_address === state.address) {
+            saleListFN(1);
+        }
+    }, [state.owner_address]);
     const selectTop = (_type: number) => {
         // switch (_type) {
         //     case 0:
@@ -125,7 +129,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         setLoadingBg(false)
                     }} alt="" />
                     {loadingBg && <div className="loading-bg">
-                        <Spin size="large"/>
+                        <Spin size="large" />
                     </div>}
                 </div>
                 <div className="owner-inner">
@@ -143,7 +147,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             <div className="tabs">
                                 <ul>
                                     {
-                                        state.owner_address === state.address ? ['On sale', 'Items'] : ['On sale'].map((item: string, index: number): ReactElement => {
+                                        (state.owner_address === state.address ? ['On sale', 'Items'] : ['On sale']).map((item: string, index: number): ReactElement => {
                                             return (
                                                 <li key={index} className={`${activeTop === index ? 'active-top' : ''}`} onClick={() => {
                                                     selectTop(index)

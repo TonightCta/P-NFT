@@ -91,6 +91,38 @@
       color: white;
       font-size: 120px;
       letter-spacing: 30px;
+      width: 100%;
+      text-align: center;
+      padding-left: 40px;
+    }
+    .screen-remark {
+      font-size: 30px;
+      margin-top: 24px;
+    }
+    .airdrop-banners {
+      position: relative;
+      transform: translateY(100px);
+      z-index: 200;
+      ul {
+        display: flex;
+        li {
+          width: 200px;
+          height: 100px;
+          background-color: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(5px);
+          border-radius: 8px;
+          margin-right: 16px;
+          overflow: hidden;
+          cursor: pointer;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        li:last-child {
+          margin-right: 0;
+        }
+      }
     }
     canvas {
       display: block;
@@ -352,7 +384,22 @@
             padding-right: 50%;
             .public-title {
               font-size: 36px;
-              transform: translateX(20px);
+              // transform: translateX(20px);
+            }
+            .screen-remark{
+              font-size: 16px;
+              padding-left: 8px;
+            }
+            .airdrop-banners{
+              li{
+                margin-right: 0;
+              }
+              li:nth-child(2){
+                display: none;
+              }
+              li:last-child{
+                display: none;
+              }
             }
             button {
               width: 100px;

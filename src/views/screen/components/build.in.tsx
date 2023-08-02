@@ -22,7 +22,7 @@ const BuildIN = (): ReactElement<ReactNode> => {
         {
             title: 'AIRDROPS',
             color: '',
-            text: 'Holders of $MAPI will receive regular AIGC NFT airdrops from Pizzap Official.'
+            text: 'Holders of $PI will receive regular AIGC NFT airdrops from Pizzap Official.'
         }
     ]
     return (

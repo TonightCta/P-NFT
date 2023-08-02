@@ -5,6 +5,7 @@ import { PNft } from "../../../App";
 import { GetUrlKey } from "../../../utils";
 import copy from 'copy-to-clipboard'
 import { useContract } from "../../../utils/contract";
+import { useMetamask } from "../../../utils/metamask";
 
 interface Mint {
     title: string,
@@ -18,7 +19,7 @@ interface Info {
 const MintRemark: Mint[] = [
     {
         title: 'Activity Rules:',
-        text: 'Invite three Twitter friends to retweet the content of the activity and follow the @pizzap_io Twitter account to receive 10PI.'
+        text: '1.Creators who create AI NFTs will get certain income.   2.Users who invite 3 friends to join through the invitation link and verify personal Twitter account on Pizzap web page (limited to 1,000 per day, distributed on the next day) will get 10 $PI'
     },
     {
         title: 'Quantity of activity:',
@@ -33,6 +34,7 @@ const InviteCard = (): ReactElement => {
     const { state } = useContext(PNft);
     const [wait, setWait] = useState<boolean>(false);
     const [code, setCode] = useState<string>(GetUrlKey('code', window.location.href));
+    const { connectMetamask } = useMetamask();
     const [inviteInfo, setInviteInfo] = useState<Info>({
         code: '',
         reward_num: 0,
@@ -66,6 +68,10 @@ const InviteCard = (): ReactElement => {
         updateJoinStatus();
     }, []);
     const joinActivityFN = async () => {
+        if(!state.address){
+            await connectMetamask();
+            return
+        }
         setWait(true);
         const result = await ActivityJoinService({
             user_address: state.address,
@@ -137,7 +143,7 @@ const InviteCard = (): ReactElement => {
                                         </div>
                                         <p className="public-btn">
                                             <Button type="primary" onClick={() => {
-                                                copy(`https://j61p134344.zicp.fun/#/airdrop?code=${inviteInfo.code}`);
+                                                copy(`${window.location.href}?code=${inviteInfo.code}`);
                                                 message.success('Copy Successfully!')
                                             }}>INVITE</Button>
                                         </p>

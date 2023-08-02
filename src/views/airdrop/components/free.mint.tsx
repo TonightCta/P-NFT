@@ -1,6 +1,8 @@
 import { Button } from "antd";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { useContract } from "../../../utils/contract";
+import { PNft } from "../../../App";
+import { useMetamask } from "../../../utils/metamask";
 
 interface Mint {
     title: string,
@@ -21,11 +23,17 @@ const FreeMintCard = (): ReactElement => {
     const { queryMint,claimMint } = useContract();
     const [mint, setMint] = useState<number>(0);
     const [wait, setWait] = useState<boolean>(false);
+    const { state } = useContext(PNft);
+    const { connectMetamask } = useMetamask();
     const queryFN = async () => {
         const result = await queryMint();
         setMint(+result);
     };
     const mintFN = async () => {
+        if(!state.address){
+            await connectMetamask();
+            return
+        }
         setWait(true);
         const result: any = await claimMint();
         setWait(false);

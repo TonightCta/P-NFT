@@ -10,7 +10,18 @@ export const useMetamask = () => {
             if (!ethereum) {
                 return
             }
-            ethereum.on('accountsChanged', (accounts: string[]) => {
+            ethereum.on('accountsChanged', async (accounts: string[]) => {
+                if (accounts.length > 0) {
+                    const account = await ProfileService({
+                        user_address: accounts[0]
+                    });
+                    dispatch({
+                        type: Type.SET_ACCOUNT,
+                        payload: {
+                            account: account.data
+                        }
+                    });
+                }
                 dispatch({
                     type: Type.SET_ADDRESS,
                     payload: {
@@ -22,7 +33,7 @@ export const useMetamask = () => {
                 }
             });
             ethereum.on('chainChanged', (res: any) => {
-                console.log(res)
+                // console.log(res)
             });
         }, 200)
     }, []);
@@ -62,7 +73,6 @@ export const useMetamask = () => {
             };
             account.data.avatar_minio && setAvatar();
         } catch (err: any) {
-            console.log(err)
             message.error(err.message);
             // switch (err.code) {
             //     case 4001:

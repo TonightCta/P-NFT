@@ -1,5 +1,5 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { NFTItem, Type, web3 } from "../../../utils/types";
 import { Button, Popconfirm, Spin, message } from "antd";
 import { PNft } from "../../../App";
@@ -17,6 +17,7 @@ interface Props {
 
 const CardItem = (props: Props): ReactElement => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { state, dispatch } = useContext(PNft);
     const [item, setItem] = useState<NFTItem>(props.item);
     const { takeOff } = useContract();
@@ -48,7 +49,7 @@ const CardItem = (props: Props): ReactElement => {
                     card: item
                 }
             })
-            item.price && navigate('/detail')
+            item.price && state.owner_address !== state.address && navigate('/detail')
         }}>
             <div className="img-box">
                 <img src={item.file_image_ipfs} onLoad={() => {
@@ -90,12 +91,12 @@ const CardItem = (props: Props): ReactElement => {
             </div>
             <div className="card-oper">
                 <div className="name-price">
-                    <p className="card-type">BabyBunny</p>
+                    <p className="card-type">PAI SPACE</p>
                     {item.price && <p className="price-box">{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item?.paymod}</p>}
                 </div>
                 <div className="other-msg">
                     <p>{item.file_name} #{item.token_id}</p>
-                    {(state.owner_address === state.address) && <div>
+                    {(state.owner_address === state.address && location.pathname === '/owner') && <div>
                         {
                             item.off ?
                                 <Popconfirm

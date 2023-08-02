@@ -209,7 +209,6 @@ class ShaderProgram {
 
         } else {
 
-            console.log(gl.getShaderInfoLog(shader))
             gl.deleteShader(shader)
 
         }
@@ -236,7 +235,6 @@ class ShaderProgram {
 
         } else {
 
-            console.log(gl.getProgramInfoLog(program))
             gl.deleteProgram(program)
 
         }
@@ -544,7 +542,6 @@ export const InitCanvas = () => {
 
                 }
             }
-            console.log(width)
 
             this.uniforms.field = [width, height, depth]
 

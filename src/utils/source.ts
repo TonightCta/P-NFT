@@ -445,4 +445,13 @@ export const Model : Model[] = [
     }
 ]
 
+export const PlianContractAddress721Main : string = "0xa2822ac2662fe0cbf470d5721e24f8508ec43d33";
+export const PlianContractAddressMarketMain : string = "0x286d1ae7c43c5ea3c7bbee601d9c1af875f5c50e";
+export const PlianContractAddress721Test : string = "0x6B2793D4024bC3A9505133c0649e194488be1a47";
+export const PlianContractAddressMarketTest : string = "0xEDC36347d13f7838edCC3f760908c0Cf06C3aCF8";
+export const PlianContractERC20Test : string = "0xFcb06A1a2E8834Fe9E0b49F533E14AB6384f74AC";
+export const PlianContractSBTTest : string = "0x27e67a318f41d7475f409f4a390084b6aa16ac50";
+export const SystemAddress : string = "0x0000000000000000000000000000000000000000"
+
+
 export const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);

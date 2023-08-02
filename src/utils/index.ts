@@ -66,6 +66,9 @@ export const NetworkAddress: AddressCall = {
 export const calsAddress = (_address: string) => {
     return _address.substring(0, 6) + '...' + _address.substring(_address.length - 4, _address.length)
 }
+export const calsMarks = (_address:string) => {
+    return _address.replace(/\"/g, "'")
+}
 
 //获取地址栏参数
 export const GetUrlKey = (name: string, url: string): string => {

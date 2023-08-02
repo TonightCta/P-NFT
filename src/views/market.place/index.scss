@@ -21,9 +21,24 @@
         position: relative;
         transition: 0.3s all;
         cursor: pointer;
+        position: relative;
+        .loading-box{
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, .5);
+          backdrop-filter: blur(5px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 200;
+          border-radius: 8px;
+        }
         .banner-box {
           width: 100%;
-          background-color: #202020;
+          min-height: 232px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -55,7 +70,7 @@
           }
           .alone-img {
             width: 232px;
-            height: 100%;
+            height: 232px;
             margin-right: 6px;
           }
           .img-other {
@@ -81,19 +96,20 @@
         .icon-box {
           display: flex;
           align-items: center;
-          height: 40px;
           justify-content: space-between;
-          p:first-child {
+          margin-top: 8px;
+          div {
             display: flex;
             align-items: center;
+            margin-top: 4px;
             img {
               width: 32px;
               height: 32px;
               border-radius: 50%;
-              margin-right: 8px;
             }
             span {
               font-size: 14px;
+              margin-left: 8px;
             }
           }
           p:last-child {
@@ -208,65 +224,6 @@
         }
       }
     }
-    .list-item {
-      display: flex;
-      flex-wrap: wrap;
-      padding-bottom: 50px;
-      padding: 1px;
-      padding-top: 15px;
-      .market-card {
-        width: calc(20% - 19px);
-        margin-right: 22px;
-        border-radius: 8px;
-        // box-shadow: 0px 0px 5px #333;
-        cursor: pointer;
-        transition: 0.3s all;
-        margin-bottom: 30px;
-        overflow: hidden;
-        padding: 24px;
-        background-color: #202020;
-        .img-box {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          border-radius: 8px;
-          img {
-            width: 100%;
-          }
-        }
-        .card-type {
-          font-size: 20px;
-          color: #666;
-          text-align: left;
-          margin-top: 12px;
-        }
-        .other-msg {
-          display: flex;
-          color: white;
-          align-items: center;
-          justify-content: space-between;
-          margin-top: 12px;
-          p {
-            font-size: 16px;
-          }
-          p:first-child {
-            font-weight: 600;
-          }
-          p:last-child {
-            color: #df0885;
-          }
-        }
-      }
-      .market-card:nth-child(5n) {
-        margin-right: 0;
-      }
-      .market-card:hover {
-        transform: translateY(-5px);
-        // box-shadow: 0px 0px 10px rgba(247, 15, 255, 0.5);
-      }
-    }
   }
 }
 @media screen and (max-width: 1280px) {
@@ -275,18 +232,26 @@
     .cate-list {
       width: 100%;
       ul {
+        flex-direction: column;
         li {
           width: 90%;
-          height: 160px;
           margin: 0 auto;
+          margin-bottom: 24px;
           .banner-box {
-            height: 120px;
+            // height: 120px;
+            justify-content: flex-start;
+            .alone-img{
+              width: 186px;
+              margin-right: 20px;
+            }
+            .img-other{
+              img{
+                width: 56px;
+                height: 56px;
+              }
+            }
           }
-          .icon-box {
-            width: 46px;
-            height: 46px;
-            top: 100px;
-          }
+          
         }
       }
     }

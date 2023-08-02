@@ -11,7 +11,7 @@ export const useXVerse = () => {
                 },
             },
             onFinish: (response: any) => {
-                console.log(response)
+                // console.log(response)
             },
             onCancel: () => alert('Request canceled'),
         }

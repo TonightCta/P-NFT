@@ -11,7 +11,8 @@ import axios from "axios";
 import MaskCard from "../../components/mask";
 import { useMediaRecorder } from "../../hooks/record";
 import Recording from "../voice.nft/components/recording";
-import ConnectModal from "./components/modal";
+// import ConnectModal from "./components/modal";
+import DefaultAvatar from "../../components/default_avatar/default.avatar";
 
 interface Profile {
     username: string,
@@ -43,7 +44,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
         email: false,
         link: false
     });
-    const [custom,setCustom] = useState<boolean>(false);
+    const [custom, setCustom] = useState<boolean>(false);
     const [record, setRecord] = useState<boolean>(false);
     const { audioFile, mediaUrl, startRecord, stopRecord } = useMediaRecorder();
     const [audio, setAudio] = useState<string>('');
@@ -132,8 +133,15 @@ const ProfileView = (): ReactElement<ReactNode> => {
     const selectAvatar = async (e: any) => {
         setUpAvatar(true);
         const formdata = new FormData();
+        const file = e.target.files[0];
+        const fileSize = file.size / (1024 * 1024);
+        if (fileSize > 1) {
+            message.warning('The maximum file size is 1MB.');
+            setUpAvatar(false);
+            return
+        }
         formdata.append('user_address', state.address as string);
-        formdata.append('avatar', e.target.files[0]);
+        formdata.append('avatar', file);
         const result: any = await EditAvatarService(formdata);
         setUpAvatar(false);
         const { status } = result;
@@ -201,11 +209,17 @@ const ProfileView = (): ReactElement<ReactNode> => {
         upDateAccount();
     };
     //Custom background
-    const selectCustomBack = async (e:any) => {
+    const selectCustomBack = async (e: any) => {
         setCustom(true);
         const formdata = new FormData();
-        formdata.append('user_address',state.address as string);
-        formdata.append('bgimg',e.target.files[0] as File);
+        const file = e.target.files[0];
+        const fileSize = file.size / (1024 * 1024);
+        if (fileSize > 5) {
+            message.warning('The maximum file size is 5MB.');
+            return
+        }
+        formdata.append('user_address', state.address as string);
+        formdata.append('bgimg', file);
         const result = await UploadBackGroundService(formdata);
         setCustom(false);
         const { status } = result;
@@ -231,7 +245,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
                     <div className="mobile-edit-avatar">
                         <div className="avatar-box">
                             <div className="img-box">
-                                <img src={state.account.avatar_url ? state.account.avatar_url : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                                {!state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar diameter={120} />}
                                 <div className="edit-btn">
                                     <input type="file" title="Select File" accept="image/*" onChange={selectAvatar} />
                                     <EditOutlined />
@@ -291,14 +305,14 @@ const ProfileView = (): ReactElement<ReactNode> => {
                         <p className="outside-remark">Help collectors verify your account by connecting social accounts</p>
                         <ul>
                             <li>
-                                <IconFont style={{color:`${state.account.auth_twitter ? 'rgb(29, 155, 240)' : ''}`}} type="icon-tuitetwitter43" onClick={() => {
+                                <IconFont style={{ color: `${state.account.auth_twitter ? 'rgb(29, 155, 240)' : ''}` }} type="icon-tuitetwitter43" onClick={() => {
                                     !state.account.auth_twitter && bindTwitterFN()
                                 }} />
                             </li>
                             <li>
                                 <IconFont type="icon-discord" onClick={() => {
                                     message.info('Under Construction');
-                                }}/>
+                                }} />
                             </li>
                         </ul>
                     </div>
@@ -325,7 +339,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
                     <div className="avatar-box">
                         <p>Profile Image</p>
                         <div className="img-box">
-                            <img src={state.account.avatar_url ? state.account.avatar_url : require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                            {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar diameter={192} />}
                             <div className="edit-btn">
                                 <input type="file" title="Select File" accept="image/*" onChange={selectAvatar} />
                                 <EditOutlined />
@@ -360,17 +374,17 @@ const ProfileView = (): ReactElement<ReactNode> => {
                             <p>Custom Background</p>
                             <div className="upload-bg">
                                 <img src={state.account.bgimage_url ? state.account.bgimage_url : require('../../assets/images/test_bg.png')} alt="" />
-                                <input type="file" accept="image/*" onChange={selectCustomBack}/>
+                                <input type="file" accept="image/*" onChange={selectCustomBack} />
                                 <div className="edit-mask">
                                     <EditOutlined />
                                 </div>
                                 {custom && <div className="wait-up">
-                                    <Spin/>
+                                    <Spin />
                                 </div>}
                             </div>
                         </div>
                     </div>
-                    <p>
+                    <p className="submit-all">
                         <Button type="primary" onClick={submitSave} loading={wait} disabled={wait}>SAVE</Button>
                     </p>
                 </div>
@@ -378,7 +392,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
                     <Button type="primary" size="large" onClick={submitSave} loading={wait} disabled={wait}>Save</Button>
                 </div>
             </div>
-            <ConnectModal/>
+            {/* <ConnectModal/> */}
         </div>
     )
 };

@@ -50,19 +50,19 @@ const MarketIndex = (): ReactElement<ReactNode> => {
         },
         {
             icon: <IconFont type="icon-telegram-logo-bold" />,
-            url: ''
+            url: 'http://t.me/pizzap_io'
         },
         {
             icon: <IconFont type="icon-twitter-logo-bold" />,
-            url: ''
+            url: 'https://twitter.com/pizzap_io'
         },
         {
             icon: <IconFont type="icon-medium" />,
-            url: ''
+            url: 'https://medium.com/@Pizzap_io'
         },
         {
             icon: <IconFont type="icon-discord-logo-bold" color="red" />,
-            url: ''
+            url: 'http://discord.gg/eATngqtx3m'
         }
     ];
     // const [container, setContainer] = useState<HTMLDivElement | null>(null);
@@ -71,14 +71,14 @@ const MarketIndex = (): ReactElement<ReactNode> => {
     const [list, setList] = useState<NFTItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
-    const [total, setTotal] = useState<number>(0);
+    const [total, setTotal] = useState<number>(1);
     const marketListFN = async () => {
         const result = await NFTMarketService({
             chain_id: '8007736',
             page_size: 10,
             page_num: page
         });
-        console.log(result);
+        // console.log(result);
         setLoading(false);
         const { status, data } = result;
         if (status !== 200) {
@@ -119,18 +119,23 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                 </div>
                 <div className="com-msg">
                     <div className="com-icon">
-                        <img src={require('../../assets/nfts/s_1.png')} alt="" />
+                        <img src={require('../../assets/images/pizzap_ap.png')} alt="" />
                     </div>
                     <div className="com-right-msg">
                         <div className="top-share">
-                            <p className="market-title">Baby Bunny</p>
+                            <p className="market-title">
+                                PAI SPACE
+                                <span>By<strong>Pizzap</strong></span>
+                            </p>
                             {/* 社区分享 */}
                             <div className="com-list">
                                 <ul>
                                     {
                                         communityList.map((item: Community, index: number): ReactElement => {
                                             return (
-                                                <li key={index}>
+                                                <li key={index} onClick={() => {
+                                                    window.open(item.url)
+                                                }}>
                                                     {item.icon}
                                                 </li>
                                             )
@@ -140,13 +145,13 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                             </div>
                         </div>
                         <p className="pool-remark">
-                            Baby Bunny Club is a collection of 10,000 Baby Bunny NFTs—unique digital collectibles launched by PizzapDAO.
-                            Your Baby Bunny doubles as your Baby Bunny Club membership card, and grants access to DAO benefits.
-                            PizzapDAO will create and build a MetaVerse with online membership and offline voice pool (VoiceNFT).
-                            Baby Bunny Club and PizzapDAO are huge economics. Value will grow by unlocking the roadmap step by step.
+                            PAI Space is a collection of Pizzap AI Creating, co-owned and managed by PizzapDAO Members. Creators should use Pizzap AI creating tools to create, which currently support the creation of pictures, copywriting, and voice. The created AIGC works will be displayed on Pizzap Marketplace. The complete trading function in Pizzap can support the transaction of AIArtworks. The advantage of PAI Space is that it is built entirely on AI technology. Compared with the traditional Creator Economy, it completely focuses on the interests of AI works and Creators.
                         </p>
                     </div>
                 </div>
+                <p className="mobile-remark">
+                    PAI Space is a collection of Pizzap AI Creating, co-owned and managed by PizzapDAO Members. Creators should use Pizzap AI creating tools to create, which currently support the creation of pictures, copywriting, and voice. The created AIGC works will be displayed on Pizzap Marketplace. The complete trading function in Pizzap can support the transaction of AIArtworks. The advantage of PAI Space is that it is built entirely on AI technology. Compared with the traditional Creator Economy, it completely focuses on the interests of AI works and Creators.
+                </p>
                 {/* Pool Count */}
                 {/* <div className="pool-count">
                 <ul>

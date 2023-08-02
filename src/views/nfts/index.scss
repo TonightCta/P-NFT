@@ -378,42 +378,55 @@
 @media screen and (max-width: 1280px) {
   .owner-view {
     width: 100%;
-    padding: 5%;
-    .account-msg {
-      align-items: center;
-      margin-bottom: 30px;
-      .avatar-box {
-        width: 70px;
-        height: 70px;
-        margin-right: 20px;
-      }
-      .msg-box {
-        text-align: left;
-        padding-top: 0;
-        .msg-large {
-          font-size: 24px;
-        }
-        .outside-account {
-          .address-text {
-            padding: 4px 12px;
-            p {
-              font-size: 14px;
-            }
-            span {
-              font-size: 14px;
+    padding: 0;
+    .owner-inner{
+      width: 90%;
+      flex-direction: column;
+      .owner-card{
+        margin-right: 0;
+        width: 100%;
+        padding: 24px;
+        height: auto;
+        .account-msg{
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+          .avatar-box{
+            height: 100px;
+            width: 100px;
+          }
+          .address-msg{
+            .audio-box{
+              margin-top: 12px;
+              width: 160px;
+              height: 24px;
+              .audio-progress{
+                width: 100px;
+                height: 20px;
+              }
             }
           }
-          .outside-go {
-            margin-left: 12px;
-            span {
-              font-size: 18px;
-            }
+          .outside-url{
+            border: 0;
+            padding: 0;
           }
         }
       }
-    }
-    .filter-box {
-      margin-top: 30px;
+      .inner-data{
+        transform: translateY(-40px);
+        .set-btn{
+          display: none;
+        }
+        .filter-box{
+          margin-top: 0;
+          flex-direction: column;
+          align-items: flex-start;
+          .tabs{
+            margin-bottom: 20px;
+          }
+        }
+      }
     }
   }
 }

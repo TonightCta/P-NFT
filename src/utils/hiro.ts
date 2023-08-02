@@ -17,8 +17,6 @@ export const useHiro = () => {
                 icon: myAppIcon,
             },
             onFinish: (res: any) => {
-                console.log(res);
-                console.log(res['authResponsePayload']['profile']['stxAddress']['mainnet']);
                 const accounts = [res['authResponsePayload']['profile']['stxAddress']['mainnet']]
                 dispatch({
                     type: Type.SET_ADDRESS,

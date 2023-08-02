@@ -38,6 +38,22 @@
         font-size: 60px;
         color: white;
         font-weight: 600;
+        span {
+          display: inline-block;
+          padding: 4px 12px;
+          font-size: 16px;
+          background-color: rgba(0, 0, 0, 0.3);
+          backdrop-filter: blur(10px);
+          font-weight: 400;
+          border-radius: 16px;
+          color: rgba(255, 255, 255, 0.6);
+          transform: translateY(-8px);
+          margin-left: 16px;
+          strong {
+            margin-left: 4px;
+            color: white;
+          }
+        }
       }
       .com-list {
         margin-top: 30px;
@@ -100,7 +116,9 @@
       }
     }
   }
-
+  .mobile-remark {
+    display: none;
+  }
   .scroll-box {
     width: 1400px;
     margin: 0 auto;
@@ -213,8 +231,67 @@
 }
 @media screen and (max-width: 1280px) {
   .market-index {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
+    .up-mask {
+      .top-bg {
+        img {
+          height: 300px;
+        }
+      }
+      .com-msg {
+        width: 90%;
+        transform: translateY(-40px);
+        .com-icon {
+          width: 120px;
+          height: 120px;
+          margin-right: 20px;
+        }
+        .com-right-msg {
+          display: flex;
+          align-items: center;
+          .top-share {
+            flex-direction: column;
+            justify-content: center;
+            .market-title {
+              font-size: 26px;
+              display: flex;
+              align-items: center;
+              span {
+                transform: translateY(0);
+                font-size: 14px;
+                padding: 4px 8px;
+              }
+            }
+            .com-list {
+              margin-top: 16px;
+              ul {
+                li {
+                  width: 24px;
+                  height: 24px;
+                  span {
+                    font-size: 16px;
+                  }
+                }
+              }
+            }
+          }
+          .pool-remark {
+            display: none;
+          }
+        }
+      }
+      .mobile-remark {
+        display: block;
+        width: 90%;
+        margin: 0 auto;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.5);
+        margin-bottom: 40px;
+        line-height: 20px;
+        margin-top: -20px;
+      }
+    }
     .market-title {
       font-size: 46px;
     }
@@ -252,7 +329,7 @@
       }
     }
     .market-list {
-      width: 100%;
+      width: 90%;
     }
   }
 }

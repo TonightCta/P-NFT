@@ -9,6 +9,7 @@ import { Type } from "../../../utils/types";
 import { useMetamask } from "../../../utils/metamask";
 import { useSwiper } from "swiper/react";
 import { flag } from "../../../utils/source";
+import DefaultAvatar from "../../default_avatar/default.avatar";
 
 interface Props {
     visible: boolean,
@@ -82,13 +83,17 @@ const MobileMenu = (props: Props): ReactElement => {
         >
             <div className="inner-menu">
                 <div className="top-inner">
-                    {state.address && <div className="account-msg">
+                    {state.address && <div className="account-msg" onClick={() => {
+                        setVisible(false);
+                        props.close(false);
+                        navigate('/owner')
+                    }}>
                         <div className="left-msg">
                             <p>{state.account.user_name ? state.account.user_name : 'unknow'}</p>
                             <p>{calsAddress(state.address as string)}</p>
                         </div>
                         <div className="right-avatar">
-                            <img src={state.avatar ? state.avatar : require('../../../assets/images/WechatIMG20.jpeg')} alt="" />
+                            {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar diameter={36}/>}
                         </div>
                     </div>
                     }
@@ -97,7 +102,7 @@ const MobileMenu = (props: Props): ReactElement => {
                             {
                                 (location.pathname === '/' ? RouteSide : RouteList).map((item: Menu, index: number): ReactElement => {
                                     return (
-                                        <li key={index} onClick={flag ? () => {
+                                        <li key={index} onClick={location.pathname === '/' ? () => {
                                             setVisible(false);
                                             props.close(false);
                                             state.swiper_ref.slideTo(index)

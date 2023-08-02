@@ -117,9 +117,19 @@
     .market-card {
       width: calc(50% - 12px) !important;
       margin-right: 24px !important;
-      padding: 16px !important;
       .img-box {
         height: 100px;
+        border-radius: 8px;
+      }
+      .name-price {
+        flex-direction: column;
+        align-items: flex-start !important;
+        .price-box {
+          margin-top: 8px;
+        }
+      }
+      .play-btn {
+        right: -4px;
       }
       .card-type {
         font-size: 16px !important;
@@ -193,14 +203,18 @@
       font-size: 16px;
     }
     .coin-select {
-      width: 100px;
+      width: 110px;
       display: flex;
       align-items: center;
       border-radius: 8px;
       border: 1px solid #ccc;
-      justify-content: space-around;
+      justify-content: center;
       cursor: pointer;
       font-size: 14px;
+      img {
+        width: 24px;
+        height: 24px;
+      }
       p {
         width: 44px;
         text-align: center;
@@ -219,8 +233,14 @@
     text-align: center;
     margin-top: 40px;
     padding-bottom: 10px;
+
+    .btns-oper {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
     button {
-      width: 200px;
+      width: 160px;
       height: 40px;
       background-color: #df0885;
       border-radius: 20px;
@@ -231,15 +251,48 @@
         background-color: white;
       }
     }
+    .disable-btn {
+      background-color: #ccc;
+    }
+    .p-line {
+      width: 60%;
+      margin: 0 auto;
+      margin-top: 24px;
+      height: 4px;
+      border-radius: 4px;
+      background-color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .point {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #ccc;
+      }
+      .start {
+        background-color: #df0885;
+      }
+    }
+    .pass-line {
+      background-color: #df0885;
+      .end {
+        background-color: #df0885;
+      }
+    }
   }
 }
 .up-mask {
   position: relative;
   z-index: 300;
 }
-.ant-modal-mask{
-  z-index: 3000!important;
+.ant-modal-mask {
+  z-index: 3000 !important;
 }
-.ant-modal-wrap{
-  z-index: 3500!important;
+.ant-modal-wrap {
+  z-index: 3500 !important;
+}
+.ant-message {
+  z-index: 4000 !important;
 }

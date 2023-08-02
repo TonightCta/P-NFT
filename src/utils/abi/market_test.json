@@ -23,19 +23,6 @@
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "uint256",
-                "name": "orderId",
-                "type": "uint256"
-            }
-        ],
-        "name": "ChangePrice",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
                 "internalType": "uint8",
                 "name": "version",
                 "type": "uint8"
@@ -48,28 +35,15 @@
         "anonymous": false,
         "inputs": [
             {
-                "indexed": true,
-                "internalType": "address",
-                "name": "seller",
-                "type": "address"
-            },
-            {
                 "indexed": false,
                 "internalType": "uint256",
                 "name": "orderId",
                 "type": "uint256"
-            }
-        ],
-        "name": "List",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
+            },
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "orderId",
+                "name": "quantity",
                 "type": "uint256"
             }
         ],
@@ -96,21 +70,23 @@
         "type": "event"
     },
     {
-        "stateMutability": "payable",
-        "type": "fallback"
-    },
-    {
+        "anonymous": false,
         "inputs": [
             {
+                "indexed": true,
                 "internalType": "address",
-                "name": "tokenAddress",
+                "name": "seller",
                 "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "orderId",
+                "type": "uint256"
             }
         ],
-        "name": "addPayToken",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "name": "PutOn",
+        "type": "event"
     },
     {
         "inputs": [],
@@ -133,31 +109,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "buy",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_orderId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "price",
-                "type": "uint256"
-            }
-        ],
-        "name": "changePrice",
+        "name": "buyByMapi",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -166,6 +118,38 @@
             }
         ],
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_orderId",
+                "type": "uint256"
+            }
+        ],
+        "name": "buyByUsdt",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "contractAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -183,7 +167,20 @@
     },
     {
         "inputs": [],
-        "name": "feeRate",
+        "name": "feeMapi",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "feeUsdt",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -217,7 +214,7 @@
                         "type": "uint256"
                     }
                 ],
-                "internalType": "struct PizzapNFTMall.NFT",
+                "internalType": "struct Pizzap721Swap.NftInfo",
                 "name": "",
                 "type": "tuple"
             }
@@ -252,37 +249,16 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_nftAddr",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_nftId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "address",
-                "name": "_payTokenAddr",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_price",
-                "type": "uint256"
-            }
-        ],
-        "name": "list",
+        "inputs": [],
+        "name": "mapiAddress",
         "outputs": [
             {
-                "internalType": "uint256",
+                "internalType": "address",
                 "name": "",
-                "type": "uint256"
+                "type": "address"
             }
         ],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -387,18 +363,18 @@
                                 "type": "uint256"
                             }
                         ],
-                        "internalType": "struct PizzapNFTMall.NFT",
-                        "name": "nft",
+                        "internalType": "struct Pizzap721Swap.NftInfo",
+                        "name": "token",
                         "type": "tuple"
+                    },
+                    {
+                        "internalType": "enum Pizzap721Swap.PayMod",
+                        "name": "payMod",
+                        "type": "uint8"
                     },
                     {
                         "internalType": "address",
                         "name": "seller",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "payToken",
                         "type": "address"
                     },
                     {
@@ -407,12 +383,22 @@
                         "type": "uint256"
                     },
                     {
+                        "internalType": "uint256",
+                        "name": "quantity",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "total",
+                        "type": "uint256"
+                    },
+                    {
                         "internalType": "bool",
                         "name": "isOnline",
                         "type": "bool"
                     }
                 ],
-                "internalType": "struct PizzapNFTMall.Order",
+                "internalType": "struct Pizzap721Swap.Item",
                 "name": "",
                 "type": "tuple"
             }
@@ -437,31 +423,57 @@
         "inputs": [
             {
                 "internalType": "address",
-                "name": "",
+                "name": "_tokenAddr",
                 "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_price",
+                "type": "uint256"
             }
         ],
-        "name": "payTokens",
+        "name": "putOnByMapi",
         "outputs": [
             {
-                "internalType": "bool",
+                "internalType": "uint256",
                 "name": "",
-                "type": "bool"
+                "type": "uint256"
             }
         ],
-        "stateMutability": "view",
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
         "inputs": [
             {
                 "internalType": "address",
-                "name": "tokenAddress",
+                "name": "_tokenAddr",
                 "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_tokenId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_price",
+                "type": "uint256"
             }
         ],
-        "name": "removePayToken",
-        "outputs": [],
+        "name": "putOnByUsdt",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -489,11 +501,37 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "_feeRate",
+                "name": "_fee",
                 "type": "uint256"
             }
         ],
-        "name": "setFeeRate",
+        "name": "setFeeMapi",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_fee",
+                "type": "uint256"
+            }
+        ],
+        "name": "setFeeUsdt",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_addr",
+                "type": "address"
+            }
+        ],
+        "name": "setMapiAddress",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -521,6 +559,19 @@
         "inputs": [
             {
                 "internalType": "address",
+                "name": "_addr",
+                "type": "address"
+            }
+        ],
+        "name": "setUsdtAddress",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
                 "name": "newOwner",
                 "type": "address"
             }
@@ -531,27 +582,23 @@
         "type": "function"
     },
     {
-        "inputs": [
+        "inputs": [],
+        "name": "usdtAddress",
+        "outputs": [
             {
                 "internalType": "address",
-                "name": "_tokenAddress",
+                "name": "",
                 "type": "address"
             }
         ],
-        "name": "withdrawERC20",
-        "outputs": [],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
     },
     {
         "inputs": [],
-        "name": "withdrawETH",
+        "name": "withdraw",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
-    },
-    {
-        "stateMutability": "payable",
-        "type": "receive"
     }
 ]

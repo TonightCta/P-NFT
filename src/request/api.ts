@@ -22,6 +22,8 @@ export const MFTOffService = (p: o) => post('/order/cancel', p);
 export const NFTMarketService = (p: o) => post('/order/list', p);
 //NFT Info
 export const NFTInfoService = (p: o) => post('/order/info', p);
+//NFT Info 2
+export const NFTInfoService2 = (p: o) => post('/nft/url', p);
 //Logs NFT
 export const NFTLogsService = (p: o) => post('/nft/history', p);
 //Owner NFT

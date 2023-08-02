@@ -19,6 +19,7 @@
       justify-content: center;
       margin-right: 40px;
       position: relative;
+      overflow: hidden;
       .audio-box {
         position: absolute;
         width: 80%;
@@ -57,7 +58,7 @@
         z-index: 1;
       }
       img {
-        width: 94%;
+        width: 100%;
         border-radius: 8px;
       }
     }
@@ -65,35 +66,44 @@
       flex: 1;
       text-align: left;
       color: white;
-      padding-top: 12px;
       .msg-name {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        font-size: 36px;
-        font-weight: bold;
-        img {
-          width: 40px;
-          height: 40px;
-          margin-right: 20px;
-        }
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.6);
       }
       .nft-num {
-        margin-top: 24px;
+        margin-top: 20px;
         font-size: 36px;
         font-weight: bold;
       }
       .nft-remark {
-        margin-top: 32px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        padding-bottom: 16px;
+        margin-top: 36px;
+      }
+      .public-remark {
         color: #999;
+        display: flex;
+        align-items: center;
+        img {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          margin-right: 12px;
+        }
         span {
           color: white;
+          margin-left: 8px;
+          font-weight: 600;
         }
+      }
+      .create-msg {
+        margin-top: 16px;
       }
       .edit-box {
         margin-top: 40px;
         display: flex;
-        padding: 18px 30px;
+        padding: 24px;
         border: 1px solid #333;
         flex-direction: column;
         border-radius: 18px;
@@ -112,14 +122,21 @@
         .price-msg {
           margin-right: 80px;
           font-size: 18px;
+          p {
+            color: #777e90;
+          }
           p:first-child {
-            color: #59bd7e;
             font-size: 24px;
-            font-weight: 600;
           }
           p:last-child {
+            font-size: 20px;
             margin-top: 16px;
-            color: #999;
+            span {
+              margin-right: 16px;
+              font-size: 40px;
+              color: #ff5c92;
+              font-weight: 600;
+            }
           }
         }
         .btn-oper {
@@ -134,7 +151,15 @@
             cursor: pointer;
             font-size: 17px;
             font-weight: 500;
-            background-color: #df0885;
+            background: linear-gradient(
+              90deg,
+              #fa3370 0%,
+              #ac22b1 49%,
+              #6641ff 100%
+            );
+            .anticon {
+              color: rgba(255, 255, 255, 0.6);
+            }
           }
           p {
             margin-top: 8px;
@@ -148,7 +173,7 @@
       .msg-switch {
         margin-top: 50px;
         width: 100%;
-        background-color: #202020;
+        background-color: #23262f;
         padding: 20px;
         border-radius: 8px;
         .msg-tabs {
@@ -177,7 +202,6 @@
           }
         }
         .msg-list {
-          margin-top: 40px;
           li {
             display: flex;
             justify-content: space-between;
@@ -230,7 +254,10 @@
   .tab-list {
     max-width: 1733px;
     padding-bottom: 80px;
-    padding: 0 4px;
+    padding: 24px 40px;
+    background-color: #23262F;
+    margin-top: 30px;
+    border-radius: 16px;
     .list-content {
       ul {
         display: flex;
@@ -401,7 +428,12 @@
 }
 @media screen and (max-width: 1280px) {
   .detail-view {
-    padding: 0 5%;
+    width: 90%;
+    margin: 0 auto;
+    padding:100px 0;
+    .up-mask{
+      width: 100%;
+    }
     .nft-msg {
       flex-direction: column;
       .left-nft-box {

@@ -16,7 +16,7 @@ const TabList = (): ReactElement => {
             page_size: 200,
             page_num: 1
         });
-        console.log(result);
+        // console.log(result);
         if (!result.data.data.item) {
             setData([])
             return
@@ -52,13 +52,13 @@ const TabList = (): ReactElement => {
                                         <div className="with-img">
                                             <img src={state.card.file_image_ipfs} alt="" />
                                             <div className="name-msg">
-                                                <p className="color-g">Baby Bunny</p>
+                                                <p className="color-g">PAI SPACE</p>
                                                 <p>*****</p>
                                             </div>
                                         </div>
                                     </li>
                                     <li>
-                                        <p>$64321.12</p>
+                                        {/* <p>$64321.12</p> */}
                                         <p className="color-g">{Number(web3.utils.fromWei(state.card.price, 'ether')).toFixed(2)}&nbsp;{state.card.paymod}</p>
                                     </li>
                                     <li>
@@ -77,7 +77,7 @@ const TabList = (): ReactElement => {
                 </div>
             </div>
             <div className="page-oper">
-                <Pagination defaultCurrent={1} total={50} onChange={() => {
+                <Pagination defaultCurrent={1} total={data.length} onChange={() => {
                     window.scrollTo({
                         top: 700,
                         behavior: 'smooth'

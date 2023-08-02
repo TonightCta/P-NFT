@@ -44,7 +44,6 @@ const VoiceNFTWapper = (): ReactElement<ReactNode> => {
     }
     const playVoice = useCallback(
         (item: any) => {
-            console.log(item.src);
             if (loading) return
             setActiveIndex(item.id)
             const audioEle: any = refVoice.current
@@ -61,11 +60,9 @@ const VoiceNFTWapper = (): ReactElement<ReactNode> => {
                     if (playPromise !== undefined) {
                         playPromise
                             .then(() => {
-                                console.log('audio played auto')
                                 toggleAudio(true, null)
                             })
                             .catch((error: any) => {
-                                console.log('playback prevented', error)
                                 toggleAudio(false, null)
                             })
                             .finally(() => {

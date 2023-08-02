@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useContext, useRef } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useRef } from "react";
 // import { Button } from "antd";
 import './index.scss'
 // import { useMetamask } from "../../utils/metamask";
@@ -19,6 +19,7 @@ import "swiper/css/pagination";
 import { flag } from "../../utils/source";
 import { PNft } from "../../App";
 import { Type } from "../../utils/types";
+import { GetUrlKey } from "../../utils";
 
 
 const ScreenView = (): ReactElement<ReactNode> => {
@@ -38,6 +39,13 @@ const ScreenView = (): ReactElement<ReactNode> => {
             return '<p class="' + className + '">' + "<span class='active-line'></span>" + tag[index] + "</p>";
         },
     };
+    useEffect(() => {
+        if(GetUrlKey('oauth_token', window.location.href)){
+            localStorage.setItem('oauth_token', GetUrlKey('oauth_token', window.location.href) as string);
+            localStorage.setItem('oauth_verifier', GetUrlKey('oauth_verifier', window.location.href) as string);
+            window.close();
+        }
+    }, []);
     return (
         <div className="screen-view">
             {/* <FixedTabIndex /> */}

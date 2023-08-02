@@ -258,15 +258,21 @@
 }
 @media screen and (max-width: 1280px) {
   .profile-view {
-    width: 100%;
-    padding: 100px 5%;
+    width: 90%;
+    // margin: 0 auto;
+    overflow: hidden;
+    padding-top: 100px;
     flex-direction: column;
+    .up-mask{
+      flex-direction: column;
+    }
     .edit-msg {
+      margin-right: 0;
       .profile-name {
         font-size: 30px;
       }
       .mobile-edit-avatar {
-        display: block;
+        display: none;
         margin-top: 30px;
         .avatar-box {
           margin-right: 0;
@@ -281,10 +287,35 @@
       }
     }
     .edit-save {
-      display: none;
+      // display: none;
+      padding-top: 40px;
+      width: 100%;
+      .avatar-box{
+        .img-box{
+          width: 100px;
+          height: 100px;
+        }
+        .voice-remark{
+          width: 100%;
+          .record-box{
+            width: 100%;
+          }
+        }
+        .custom-bg{
+          width: 100%;
+          .upload-bg{
+            width: 100%;
+          }
+        }
+      }
+      .submit-all{
+        width: 100%;
+        text-align: center;
+      }
     }
     .mobile-save {
-      display: block;
+      width: 100%;
+      display: none;
       margin-top: 30px;
       button {
         width: 120px;

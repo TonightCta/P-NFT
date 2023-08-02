@@ -32,9 +32,7 @@ const AirdropView = (): ReactElement<ReactNode> => {
                     active === 2 && <ActivityCard />
                 }
                 <p className="outside-remark">
-                    Note: The pizzap VoiceNFTs are currently issued on the PI subnetwork.
-                    If you need to transfer them to the main network's TOKEN,
-                    please go to <a target="_blank" href="https://wallet.plian.org/">https://wallet.plian.org/</a>.
+                    Note: VoiceNFT of Pizzap is currently issued on Plian Mainnet Subchain 1. If your Plian Mainnet Main $PI tokens(from gate.io ) need to switch to the  Plian Mainnet Subchain 1, please go to <a target="_blank" href="https://wallet.plian.org/">https://wallet.plian.org/</a>.
                 </p>
             </div>
         </div>
