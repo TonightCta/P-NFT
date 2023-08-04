@@ -1,9 +1,9 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
 import CardItem from "../market/components/item.card";
-import { Button, Spin } from 'antd'
+import { Pagination, Spin } from 'antd'
 import { NFTOwnerService } from '../../request/api'
-import { NFTItem } from "../../utils/types";
+import { NFTItem, Type } from "../../utils/types";
 import { useContract } from "../../utils/contract";
 import axios from "axios";
 import OwnerCard from "./components/owner.card";
@@ -18,21 +18,21 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const [list, setList] = useState<NFTItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
-    const [total, setTotal] = useState<number>(1);
+    const [total, setTotal] = useState<number>(0);
     const [itemList, setItemList] = useState<NFTItem[]>([])
     const { queryOwner } = useContract();
-    const [nowLength, setNowLength] = useState<number>(0);
     const { state } = useContext(PNft);
     const [otherBg, setOtherBG] = useState<string>('1');
     const [loadingBg, setLoadingBg] = useState<boolean>(true);
+    const { dispatch } = useContext(PNft);
     //On Sle
-    const saleListFN = async (_page?: number) => {
+    const saleListFN = async () => {
         setLoading(true);
         const result = await NFTOwnerService({
-            chain_id:"8007736",
+            chain_id: process.env.REACT_APP_CHAIN,
             address: state.owner_address,
-            page_size: 10,
-            page_num: _page ? _page : page
+            page_size: 12,
+            page_num: page
         });
         setLoading(false);
         const { status, data } = result;
@@ -51,21 +51,14 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 off: true,
             }
         });
-        setList(page > 1 ? [...list, ...filter] : filter);
-        setNowLength(page > 1 ? [...list, ...filter].length : filter.length)
+        setList(filter);
     };
     const loadMoreData = () => {
-        if (loading) {
-            return;
-        }
-        setPage(page + 1)
-        setLoading(true);
         saleListFN()
     };
     const itemQuery = async () => {
         setLoading(true);
-        setTotal(1);
-        const result = await queryOwner();
+        const result: any = await queryOwner();
         setTotal(result.length);
         const now: NFTItem[] = [];
         result.forEach(async (e: any) => {
@@ -81,18 +74,12 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
             };
             now.push(params);
             setItemList([...now])
-            setNowLength([...now].length)
         });
         setLoading(false);
     }
     useEffect(() => {
-        setTotal(1);
-        setPage(1);
         loadMoreData();
-        if (state.owner_address === state.address) {
-            saleListFN(1);
-        }
-    }, [state.owner_address]);
+    }, [state.owner_address,page]);
     const selectTop = (_type: number) => {
         // switch (_type) {
         //     case 0:
@@ -110,22 +97,28 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         setActiveTop(_type);
         setList([]);
         setItemList([]);
-        setNowLength(0);
-        setTotal(1);
-        _type === 0 ? saleListFN(1) : itemQuery();
+        _type === 0 ? saleListFN() : itemQuery();
     };
     const calsBG = () => {
         const bol = state.owner_address === state.address;
-        const inner = state.account.bgimage_url ? state.account.bgimage_url : require('../../assets/images/test_bg.png');
-        const out = otherBg ? otherBg : require('../../assets/images/test_bg.png');
-        return bol ? inner : out
+        return bol ? state.account.bgimage_url : otherBg;
     }
+    useEffect(() => {
+        return () => {
+            dispatch({
+                type: Type.SET_OWNER_ADDRESS,
+                payload: {
+                    owner_address: ''
+                }
+            });
+        }
+    }, [])
     return (
         <div className="owner-view">
             <MaskCard />
             <div className="up-mask">
                 <div className="owner-bg">
-                    <img src={calsBG()} onLoad={() => {
+                    <img className={`${calsBG() ? '' : 'max-height'}`} src={calsBG() ? calsBG() : require('../../assets/images/test_bg.png')} onLoad={() => {
                         setLoadingBg(false)
                     }} alt="" />
                     {loadingBg && <div className="loading-bg">
@@ -163,37 +156,45 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         </div>
                         <div className="conponenst-gater" id="ownerView">
                             <div className="list-item" >
+                                {loading && <div className="load-data-box">
+                                    <Spin size="large" />
+                                </div>}
                                 {
                                     (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
                                         return (
                                             <CardItem key={index} item={item} uploadSell={() => {
                                                 setList([]);
+                                                setPage(1);
                                                 setLoading(true);
-                                                setTotal(1);
                                                 itemQuery();
                                             }} upload={() => {
                                                 setItemList([]);
                                                 setLoading(true);
-                                                setTotal(1);
                                                 itemQuery();
                                             }} />
                                         )
                                     })
                                 }
                             </div>
-                            {nowLength === total && <p className="has-no-more">
-                                No More
-                            </p>}
-                            {nowLength < total && !loading && <p className="load-more">
-                                <Button type="primary" onClick={loadMoreData}>Load More</Button>
-                            </p>}
-                            {loading && <Spin size="large" />}
                         </div>
+                        {
+                            activeTop === 1 && !loading && <p>No more</p>
+                        }
+                        {
+                            activeTop === 0 && total === 0 && !loading && <p>No more</p>
+                        }
+                        {activeTop === 0 && total > 0 && <div className="page-oper">
+                            <Pagination defaultCurrent={1} pageSize={12} total={total} onChange={(page) => {
+                                window.scrollTo({
+                                    top: 220,
+                                    behavior: 'smooth'
+                                })
+                                setPage(page)
+                            }} />
+                        </div>}
                     </div>
-                    {/* </Affix> */}
                 </div>
             </div>
-
         </div>
     )
 };

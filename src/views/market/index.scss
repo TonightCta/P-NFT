@@ -1,6 +1,5 @@
 .market-index {
   width: 100%;
-  height: 100vh;
   .top-bg {
     img {
       width: 100%;
@@ -119,57 +118,6 @@
   .mobile-remark {
     display: none;
   }
-  .scroll-box {
-    width: 1400px;
-    margin: 0 auto;
-    height: 310px;
-    overflow: hidden;
-    margin-top: 30px;
-    border-radius: 8px;
-    position: relative;
-    .shadow-line {
-      position: absolute;
-      width: 10px;
-      height: 100%;
-      top: 0;
-      z-index: 1;
-    }
-    .line-left {
-      left: 0;
-      transform: translateX(-10px);
-      box-shadow: 10px 0px 15px 0px #777e90;
-    }
-    .line-right {
-      right: 0;
-      transform: translateX(10px);
-      box-shadow: -10px 0px 15px 0px #777e90;
-    }
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-      width: 200%;
-      animation: scrollBanner linear 20s infinite;
-      li {
-        width: 140px;
-        height: 140px;
-        border-radius: 8px;
-        overflow: hidden;
-        margin-top: 10px;
-        margin-right: 12px;
-        img {
-          width: 100%;
-        }
-      }
-    }
-  }
-  @keyframes scrollBanner {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-48%);
-    }
-  }
   .market-list {
     width: 1400px;
     margin: 0 auto;
@@ -223,6 +171,11 @@
         color: white;
         font-size: 16px;
       }
+    }
+    .page-oper{
+      position: relative;
+      z-index: 200;
+      margin: 40px auto;
     }
   }
 }

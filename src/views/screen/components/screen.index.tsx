@@ -2,6 +2,7 @@ import { ReactElement, ReactNode, useEffect } from "react";
 import { InitCanvas } from '../tool/canvas'
 import FooterWapper from "../../../components/footer";
 import { useNavigate } from "react-router-dom";
+import { LAND } from "../../../utils/contract";
 
 const ScreenIndex = (): ReactElement<ReactNode> => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const ScreenIndex = (): ReactElement<ReactNode> => {
                 }}>ENTER</button>
             </p>
             <div className="waves"></div>
-            <div className="airdrop-banners" onClick={() => {
+            {LAND !== 'taiko' && <div className="airdrop-banners" onClick={() => {
                 navigate('/airdrop')
             }}>
                 <ul>
@@ -32,7 +33,7 @@ const ScreenIndex = (): ReactElement<ReactNode> => {
                         })
                     }
                 </ul>
-            </div>
+            </div>}
             <FooterWapper/>
         </div>
     )

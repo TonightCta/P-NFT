@@ -1,10 +1,11 @@
 import { DownOutlined } from "@ant-design/icons";
-import { Button, Modal, Popover, Spin, message } from "antd";
+import { Button, Modal, Popover, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { useContract } from "../../../utils/contract";
+import { LAND, useContract, MODE } from "../../../utils/contract";
 import { PNft } from "../../../App";
 import { NFTMakerService } from "../../../request/api";
-import { PlianContractAddressMarketMain, PlianContractAddressMarketTest } from "../../../utils/source";
+import { PlianContractAddressMarketMain, PlianContractAddressMarketTest, PlianContractERC20Test, SystemAddress, TaikoContractAddressMarketMain, TaikoContractAddressMarketTest } from "../../../utils/source";
+import { useSwitchChain } from "../../../hooks/chain";
 
 interface Props {
     visible: boolean,
@@ -21,16 +22,68 @@ interface Wait {
     approve_dis: boolean,
     list_dis: boolean
 }
+interface Token {
+    symbol: string,
+    icon: string,
+    address: string
+}
 
-const MODE: string = process.env.REACT_APP_CURRENTMODE as string;
-const OwnerAddress: string[] = [PlianContractAddressMarketMain, PlianContractAddressMarketTest]
+// const MODE: string = process.env.REACT_APP_CURRENTMODE as string;
+const OwnerAddress: string[] = [PlianContractAddressMarketMain, PlianContractAddressMarketTest, TaikoContractAddressMarketMain, TaikoContractAddressMarketTest]
+
+const TokenList: Token[] =
+    LAND === 'taiko'
+        ? [
+            {
+                symbol: 'ETH',
+                icon: "https://static.optimism.io/data/ENS/logo.png",
+                address: SystemAddress
+            },
+            {
+                symbol: 'BLL',
+                icon: "https://ipfs.io/ipfs/QmezMTpT6ovJ3szb3SKDM9GVGeQ1R8DfjYyXG12ppMe2BY",
+                address: "0x6302744962a0578E814c675B40909e64D9966B0d"
+            },
+            {
+                symbol: 'HORSE',
+                icon: "https://ipfs.io/ipfs/QmU52ZxmSiGX24uDPNUGG3URyZr5aQdLpACCiD6tap4Mgc",
+                address: "0xa4505BB7AA37c2B68CfBC92105D10100220748EB"
+            },
+            {
+                symbol: 'TTKO',
+                icon: "https://ipfs.io/ipfs/Qmd7dsvTKZBYJmQ6Mhse4hWbEx8faT4AnCMfByK5j9C8yS",
+                address: "0x7b1a3117B2b9BE3a3C31e5a097c7F890199666aC"
+            }
+        ]
+        : MODE === 'production'
+            ? [
+                {
+                    symbol: 'PI',
+                    icon: require('../../../assets/images/pi_logo.png'),
+                    address: SystemAddress
+                }
+            ]
+            : [
+                {
+                    symbol: 'MAPI',
+                    icon: require('../../../assets/images/pi_logo.png'),
+                    address: PlianContractERC20Test
+                }
+            ];
+
 
 const FixedModal = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
-    const [token, setToken] = useState<string>(MODE === 'production' ? 'PI' : 'MAPI');
+    const [token, setToken] = useState<Token>({
+        symbol:LAND === 'taiko' ? 'ETH' : MODE === 'production' ? 'PI' : 'MAPI',
+        icon:LAND === 'taiko' ? 'https://static.optimism.io/data/ENS/logo.png' : require('../../../assets/images/pi_logo.png'),
+        address:LAND === 'taiko' ? SystemAddress : MODE === 'production' ? SystemAddress : PlianContractERC20Test,
+    });
     const { state } = useContext(PNft)
     const { putApprove, putList, queryApprove } = useContract();
     const [price, setPrice] = useState<number | string>('0');
+    const { switchC } = useSwitchChain();
+    const [tokenBox,setTokenBox] = useState<boolean>(false);
     const [wait, setWait] = useState<Wait>({
         approve: false,
         list: false,
@@ -40,20 +93,28 @@ const FixedModal = (props: Props): ReactElement => {
     const [approved, setApproved] = useState<boolean>(false);
     const content = (
         <div className="token-list">
-            {
-                MODE === 'production' ? ['PI'] : ['MAPI'].map((item: string, index: number) => {
-                    return (
-                        <p className={`${item === token ? 'active-token' : ''}`} key={index} onClick={() => {
-                            setToken(item)
-                        }}>{item}</p>
-                    )
-                })
-            }
+            <ul>
+                {
+                    TokenList.map((item: Token, index: number) => {
+                        return (
+                            <li className={`${item.symbol === token.symbol ? 'active-token' : ''}`} key={index} onClick={() => {
+                                setToken(item);
+                                setTokenBox(false);
+                            }}>
+                                <img src={item.icon} alt="" />
+                                <p>{item.symbol}</p>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
         </div>
     );
     const queryApproveFN = async () => {
         const approve = await queryApprove(props.id);
         const bol = OwnerAddress.indexOf(approve) > -1;
+        console.log(OwnerAddress)
+        console.log(bol)
         setApproved(bol);
         setWait({
             ...wait,
@@ -66,6 +127,7 @@ const FixedModal = (props: Props): ReactElement => {
         setVisible(props.visible)
     }, [props.visible]);
     const putApproveFN = async () => {
+        await switchC(Number(process.env.REACT_APP_CHAIN))
         setWait({
             ...wait,
             approve_dis: true,
@@ -94,12 +156,14 @@ const FixedModal = (props: Props): ReactElement => {
             message.error('Please enter the price');
             return
         };
+        await switchC(Number(process.env.REACT_APP_CHAIN))
         setWait({
             ...wait,
             list_dis: true,
             list: true
         });
-        const hash: any = await putList(props.id, +price);
+        const LAND: string = process.env.REACT_APP_LAND as string;
+        const hash: any = await putList(props.id, +price, token.address);
         if (!hash || hash.message) {
             setWait({
                 ...wait,
@@ -110,7 +174,7 @@ const FixedModal = (props: Props): ReactElement => {
             return
         }
         const maker = await NFTMakerService({
-            chain_id: '8007736',
+            chain_id: process.env.REACT_APP_CHAIN,
             sender: state.address,
             tx_hash: hash['transactionHash']
         });
@@ -148,15 +212,17 @@ const FixedModal = (props: Props): ReactElement => {
                     <input type="number" placeholder="0.0" value={price} onChange={(e) => {
                         setPrice(e.target.value)
                     }} onWheel={(e: any) => e.target?.blur()} />
-                    <Popover content={content} title={null} placement="bottom">
+                    <Popover open={tokenBox} onOpenChange={(e:boolean) => {
+                        setTokenBox(e);
+                    }} content={content} title={null} placement="bottom" trigger={['click']}>
                         <div className="coin-select">
-                            <img src={require('../../../assets/images/pi_logo.png')} alt="" />
-                            <p>{token}</p>
+                            <img src={token.icon} alt="" />
+                            <p>{token.symbol}</p>
                             <DownOutlined />
                         </div>
                     </Popover>
                 </div>
-                <p className="remark">List your NFT to sell for {price} {MODE === 'production' ? 'PI' : 'MAPI'}</p>
+                <p className="remark">List your NFT to sell for {price} {token.symbol}</p>
                 <div className="submit-btn">
                     <div className="btns-oper">
                         <Button className={`${(wait.approve_dis && !wait.approve) ? 'disable-btn' : ''}`} disabled={wait.approve_dis} loading={wait.approve} onClick={() => {

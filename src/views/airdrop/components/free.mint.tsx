@@ -3,6 +3,7 @@ import { ReactElement, useContext, useEffect, useState } from "react";
 import { useContract } from "../../../utils/contract";
 import { PNft } from "../../../App";
 import { useMetamask } from "../../../utils/metamask";
+import { useSwitchChain } from "../../../hooks/chain";
 
 interface Mint {
     title: string,
@@ -25,6 +26,7 @@ const FreeMintCard = (): ReactElement => {
     const [wait, setWait] = useState<boolean>(false);
     const { state } = useContext(PNft);
     const { connectMetamask } = useMetamask();
+    const { switchC } = useSwitchChain();
     const queryFN = async () => {
         const result = await queryMint();
         setMint(+result);
@@ -34,6 +36,7 @@ const FreeMintCard = (): ReactElement => {
             await connectMetamask();
             return
         }
+        await switchC(Number(process.env.REACT_APP_CHAIN))
         setWait(true);
         const result: any = await claimMint();
         setWait(false);

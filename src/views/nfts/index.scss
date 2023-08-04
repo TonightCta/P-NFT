@@ -11,6 +11,9 @@
     img {
       width: 100%;
     }
+    .max-height{
+      height: 100%;
+    }
     .loading-bg{
       position: absolute;
       top: 0;
@@ -351,26 +354,6 @@
         li:last-child {
           justify-content: flex-end;
         }
-      }
-    }
-  }
-}
-.page-oper {
-  display: flex;
-  justify-content: flex-end;
-  .ant-pagination {
-    li {
-      a {
-        color: white;
-      }
-      button {
-        color: white;
-      }
-    }
-    .ant-pagination-item-active {
-      background-color: rgba(0, 0, 0, 0);
-      a {
-        color: #df0885;
       }
     }
   }

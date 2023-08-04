@@ -73,6 +73,8 @@
     "start": "dotenv -e .env.development node scripts/start.js",
     "build:test": "dotenv -e .env.test node scripts/build.js",
     "build:master": "dotenv -e .env.master node scripts/build.js",
+    "taiko:test": "dotenv -e .env.taiko.test node scripts/build.js",
+    "taiko:master": "dotenv -e .env.taiko.master node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {

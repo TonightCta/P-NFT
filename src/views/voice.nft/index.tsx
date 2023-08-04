@@ -8,11 +8,11 @@ import { useSwitchChain } from "../../hooks/chain";
 import { NFTMintService, UploadFileService, QueryFile } from "../../request/api";
 import { PNft } from "../../App";
 import { useMetamask } from "../../utils/metamask";
-import { useContract } from "../../utils/contract";
+import { NFTAddress, useContract } from "../../utils/contract";
 import { ethereum } from "../../utils/types";
 import axios from "axios";
 import type { SliderMarks } from 'antd/es/slider';
-import { Model, PlianContractAddress721Main, PlianContractAddress721Test } from "../../utils/source";
+import { Model } from "../../utils/source";
 import Recording from "./components/recording";
 import MaskCard from "../../components/mask";
 import MaskElement from "./components/mask.element";
@@ -183,13 +183,13 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             return
         };
         setImageWait(true);
-        const result = await axios.post(`${process.env.REACT_APP_BASEURL_AI}/text2img`, {
+        const result:any = await axios.post(`${process.env.REACT_APP_BASEURL_AI}/text2img`, {
             prompts: aiImageText
         });
         setImageWait(false);
-        const { data, status } = result;
-        if (status !== 200) {
-            message.error('Server Error');
+        const { data, errcode,message } = result;
+        if (errcode !== 200) {
+            message.error(message);
             return
         };
         setAiImageView({
@@ -204,7 +204,7 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             await connectMetamask();
             return
         }
-        await switchC(8007736)
+        await switchC(Number(process.env.REACT_APP_CHAIN))
         if (!form.name) {
             setError({
                 ...error,
@@ -270,9 +270,13 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
         const blob = new Blob([data], { type: 'text/json' });
         const blob_ipfs = await uploadFileFN(`${new Date().getTime()}.json`, blob);
         const result: any = await mint(blob_ipfs.ipfshash);
+        if (!result || result.message) {
+            setWait(false);
+            return
+        }
         const formData = new FormData();
-        formData.append('chain_id', '8007736');
-        formData.append('contract_address', process.env.REACT_APP_CURRENTMODE === 'production' ? PlianContractAddress721Main :  PlianContractAddress721Test);
+        formData.append('chain_id', process.env.REACT_APP_CHAIN as string);
+        formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');
         formData.append('sender', ethereum.selectedAddress);
         formData.append('tx_hash', result['transactionHash']);
@@ -285,7 +289,7 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
         formData.append('description', form.desc);
         const mintResult = await NFTMintService(formData);
         const { status } = mintResult;
-        if(status !== 200){
+        if (status !== 200) {
             message.error(mintResult.msg);
             return
         }

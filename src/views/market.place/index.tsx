@@ -1,17 +1,15 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
 import { useNavigate } from "react-router-dom";
-import { Spin } from "antd";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { Pagination, Spin } from "antd";
 import CardItem from "../market/components/item.card";
 import { MintRankService, NFTMarketService } from "../../request/api";
 import { NFTItem, Type } from "../../utils/types";
-import EmptyCard from "../../components/empty";
 import MaskCard from "../../components/mask";
 import { PNft } from "../../App";
-import { useContract } from "../../utils/contract";
+import { NFTAddress, useContract } from "../../utils/contract";
 import { calsAddress } from "../../utils";
-import { PlianContractAddress721Main, PlianContractAddress721Test } from "../../utils/source";
+import { useSwitchChain } from "../../hooks/chain";
 
 interface Cate {
     img: string,
@@ -29,12 +27,12 @@ interface Cate {
 }
 
 interface Rank {
-    total_mint: number, 
-    minter: string, 
-    minter_name: string, 
-    minter_avatar_url: string, 
+    total_mint: number,
+    minter: string,
+    minter_name: string,
+    minter_avatar_url: string,
     img_urls: { ipfs_url: string }[],
-    loading:boolean
+    loading: boolean
 }
 const cateList: Cate[] = [
     {
@@ -52,7 +50,7 @@ const cateList: Cate[] = [
         rank_color: '#3772FF'
     },
     {
-        img: require('../../assets/nfts/s_5.png'),
+        img: '',
         img_1: '',
         img_2: '',
         img_3: '',
@@ -66,7 +64,7 @@ const cateList: Cate[] = [
         rank_color: '#EF466F'
     },
     {
-        img: require('../../assets/nfts/s_9.png'),
+        img: '',
         img_1: '',
         img_2: '',
         img_3: '',
@@ -111,7 +109,7 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
             minter: '',
             minter_name: '',
             minter_avatar_url: '',
-            loading:true,
+            loading: true,
             img_urls: [
                 {
                     ipfs_url: ''
@@ -132,7 +130,7 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
             minter: '',
             minter_name: '',
             minter_avatar_url: '',
-            loading:true,
+            loading: true,
             img_urls: [
                 {
                     ipfs_url: ''
@@ -153,7 +151,7 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
             minter: '',
             minter_name: '',
             minter_avatar_url: '',
-            loading:true,
+            loading: true,
             img_urls: [
                 {
                     ipfs_url: ''
@@ -170,27 +168,24 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
             ],
         },
     ]);
+    const { switchC } = useSwitchChain();
     const getMintRank = async () => {
+        await switchC(Number(process.env.REACT_APP_CHAIN))
         const result = await MintRankService({
-            chain_id: '8007736',
-            contract_address: process.env.REACT_APP_CURRENTMODE === 'production' ? PlianContractAddress721Main : PlianContractAddress721Test,
+            chain_id: process.env.REACT_APP_CHAIN,
+            contract_address: NFTAddress,
             page_size: 3,
             page_num: 1
         });
-        setRankMsg(result.data.data.item);
+        result.data.data.item && setRankMsg(result.data.data.item);
+        setOfficalTotal(await officalTotalSupply())
     };
-    useEffect(() => {
-        getMintRank();
-        const totalCals = async () => {
-            setOfficalTotal(await officalTotalSupply())
-        };
-        totalCals();
-        loadMoreData();
-    }, [])
+
     const marketListFN = async () => {
+        setLoading(true);
         const result = await NFTMarketService({
-            chain_id: '8007736',
-            page_size: 10,
+            chain_id: process.env.REACT_APP_CHAIN,
+            page_size: 15,
             page_num: page
         });
         setLoading(false);
@@ -211,16 +206,14 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
                 play: false
             }
         });
-        setList(page > 1 ? [...list, ...filter] : filter);
-    }
-    const loadMoreData = () => {
-        if (loading) {
-            return;
-        }
-        setPage(page + 1)
-        setLoading(true);
-        marketListFN();
+        setList(filter);
     };
+    useEffect(() => {
+        getMintRank();
+    }, []);
+    useEffect(() => {
+        marketListFN();
+    }, [page])
     return (
         <div className="market-place-view" id="marketPlaceList">
             <MaskCard />
@@ -311,25 +304,27 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
                     </div> */}
                     {/* </Affix> */}
                     <div className="data-list">
-                        <InfiniteScroll
-                            key={list.length}
-                            dataLength={list.length}
-                            next={loadMoreData}
-                            hasMore={list.length < total}
-                            loader={<div className="loading-box"><Spin /><p>Loading...</p></div>}
-                            endMessage={<EmptyCard />}
-                            scrollableTarget="marketPlaceList"
-                        >
-                            <div className="list-item" >
-                                {
-                                    list.map((item: NFTItem, index: number) => {
-                                        return (
-                                            <CardItem key={index} item={item} />
-                                        )
-                                    })
-                                }
-                            </div>
-                        </InfiniteScroll>
+                        <div className="list-item" >
+                            {loading && <div className="load-data-box">
+                                <Spin size="large" />
+                            </div>}
+                            {
+                                list.map((item: NFTItem, index: number) => {
+                                    return (
+                                        <CardItem key={index} item={item} />
+                                    )
+                                })
+                            }
+                        </div>
+                        <div className="page-oper">
+                            <Pagination defaultCurrent={page} pageSize={15} total={total} onChange={(page) => {
+                                window.scrollTo({
+                                    top:220,
+                                    behavior:'smooth'
+                                })
+                                setPage(page)
+                            }} />
+                        </div>
                     </div>
                 </div>
             </div>

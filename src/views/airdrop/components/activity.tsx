@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import { ActivityRankService, NFTInfoService2 } from '../../../request/api'
+import { ActivityRankService } from '../../../request/api'
 import { calsAddress } from "../../../utils";
 import { Spin } from "antd";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
@@ -12,34 +12,16 @@ const ActivityCard = (): ReactElement => {
     const [loading,setLoading] = useState<boolean>(true);
     const getRankList = async () => {
         const result = await ActivityRankService({
-            chain_id: '8007736',
+            chain_id: process.env.REACT_APP_CHAIN,
             contract_address:  process.env.REACT_APP_CURRENTMODE === 'production' ? PlianContractAddress721Main : PlianContractAddress721Test,
             page_size: 5,
             page_num: 1
         });
         const { data } = result;
-        // const inner: string[] = [];
-        // data.data.item.forEach(async (item: any) => {
-        //     const info = await NFTInfoService2({
-        //         chain_id:'8007736',
-        //         contract_address:item.ContractAddress,
-        //         token_id:item.TokenId
-        //     });
-        //     inner.push(info.status === 200 ? info.data.image_url : '');
-        //     setAvatarList([...inner])
-        // });
         setRankList(data.data.item ? data.data.item : []);
         setTotal(data.data.total);
         setLoading(false);
     };
-    // useEffect(() => {
-    //     setRankList(rankList.map((item: any, index: number) => {
-    //         return item = {
-    //             ...item,
-    //             image:avatarList[index]
-    //         }
-    //     }))
-    // }, [avatarList])
     useEffect(() => {
         getRankList();
     }, [])
@@ -65,9 +47,6 @@ const ActivityCard = (): ReactElement => {
                         <Spin size="large"/>
                     </div>
                 }
-                {
-                    rankList.length === total && <p className="no-more">No more</p>
-                }
                 <ul>
                     {
                         rankList.map((item: any, index: number): ReactElement => {
@@ -77,10 +56,10 @@ const ActivityCard = (): ReactElement => {
                                     <div className="avatar-box">
                                         {item.img_ipfs_url ? <img src={item.img_ipfs_url} alt="" /> : <DefaultAvatar address={item.contract_address} diameter={60}/>}
                                     </div>
-                                    <p className="rank-name">{calsAddress(item.contract_address)}</p>
+                                    <p className="rank-name">{calsAddress(item.minter)}</p>
                                     <div className="reward-msg">
-                                        <p>${item.sell_price_usdt}</p>
-                                        <p>{item.sell_price_pi / 1e18}&nbsp;PI</p>
+                                        {/* <p>${item.sell_price_usdt}</p> */}
+                                        <p>{item.sell_price_pi}&nbsp;$PI</p>
                                     </div>
                                     <p className="sell-hash" onClick={() => {
                                         window.open(`https://v2-piscan.plian.org/tx/${item.sell_hash}`)
@@ -90,6 +69,9 @@ const ActivityCard = (): ReactElement => {
                         })
                     }
                 </ul>
+                {
+                    rankList.length === total && <p className="no-more">No more</p>
+                }
             </div>
         </div>
     )

@@ -14,20 +14,33 @@ export interface Menu {
     url: string
 };
 
-const Menu: Menu[] = [
-    {
-        name: 'Ai creation',
-        url: '/voice-nft'
-    },
-    {
-        name: 'Marketplace',
-        url: '/marketplace'
-    },
-    {
-        name: 'Airdrops',
-        url: '/airdrop'
-    }
-]
+const MODE: string = process.env.REACT_APP_LAND as string;
+
+const Menu: Menu[] = MODE === 'taiko'
+    ? [
+        {
+            name: 'Ai creation',
+            url: '/voice-nft'
+        },
+        {
+            name: 'Marketplace',
+            url: '/marketplace'
+        },
+    ]
+    : [
+        {
+            name: 'Ai creation',
+            url: '/voice-nft'
+        },
+        {
+            name: 'Marketplace',
+            url: '/marketplace'
+        },
+        {
+            name: 'Airdrops',
+            url: '/airdrop'
+        }
+    ]
 
 const HeaderWapper = (): ReactElement<ReactNode> => {
     const { connectMetamask } = useMetamask();
@@ -58,9 +71,9 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
         <div className="pop-menu">
             <p onClick={() => {
                 dispatch({
-                    type:Type.SET_OWNER_ADDRESS,
-                    payload:{
-                        owner_address:state.address as string
+                    type: Type.SET_OWNER_ADDRESS,
+                    payload: {
+                        owner_address: state.address as string
                     }
                 })
                 navigate('/owner')
@@ -108,7 +121,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                         }}>Connect Wallet</p>
                         : <Popover content={content} title={null}>
                             <div className={`connect-wallet ${state.address ? 'w-200' : ''}`}>
-                                {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar/>}
+                                {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar />}
                             </div>
                         </Popover>
                 }
@@ -123,7 +136,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                             : <div className={`connect-wallet ${state.address ? 'w-200' : ''}`} onClick={() => {
                                 setInnerVisible(true)
                             }}>
-                                {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar/>}
+                                {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar />}
                             </div>
                         : <MenuOutlined onClick={() => {
                             setInnerVisible(true)

@@ -5,7 +5,7 @@ import ABIERC20 from './abi/erc20.json'
 import ABISBT from './abi/sbt.json'
 import { message } from "antd"
 import { useEffect, useState } from 'react';
-import { PlianContractAddress721Main, PlianContractAddress721Test, PlianContractAddressMarketMain, PlianContractAddressMarketTest, PlianContractERC20Test, PlianContractSBTTest, SystemAddress } from "./source"
+import * as Address from "./source"
 import { calsMarks } from "."
 
 
@@ -14,7 +14,14 @@ interface Send {
     gas: string,
     gasLimit: string
 }
-const MODE: string = process.env.REACT_APP_CURRENTMODE as string;
+export const LAND: string = process.env.REACT_APP_LAND as string;
+export const MODE: string = process.env.REACT_APP_CURRENTMODE as string;
+
+export const NFTAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? Address.PlianContractAddress721Main : Address.PlianContractAddress721Test;
+export const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? Address.PlianContractAddressMarketMain : Address.PlianContractAddressMarketTest;
+const Fee: string = LAND === 'taiko' ? web3.utils.toWei('0.01', "ether") : MODE === 'production' ? web3.utils.toWei('0.1', "ether") : '0'
+const Gas: string = LAND === 'taiko' ? '420000' : '7000000'
+
 export const useContract = () => {
     const [gasPrice, setGasPrice] = useState<string>();
     const [NFTContract, setNFTContract] = useState<any>();
@@ -33,16 +40,16 @@ export const useContract = () => {
     };
     const init = async () => {
         await cals();
-        setNFTContract(new web3.eth.Contract(ABI721 as any, MODE === 'production' ? PlianContractAddress721Main : PlianContractAddress721Test, {
+        setNFTContract(new web3.eth.Contract(ABI721 as any, NFTAddress, {
             gasPrice: gasPrice
         }));
-        setERC20Contract(new web3.eth.Contract(ABIERC20 as any, PlianContractERC20Test, {
+        setERC20Contract(new web3.eth.Contract(ABIERC20 as any, LAND === 'taiko' ? Address.TaikoContractAddressERC20Test : Address.PlianContractERC20Test, {
             gasPrice: gasPrice
         }));
-        setMARKETContract(new web3.eth.Contract(ABIMarket as any, MODE === 'production' ? PlianContractAddressMarketMain : PlianContractAddressMarketTest, {
+        setMARKETContract(new web3.eth.Contract(ABIMarket as any, MarketAddress, {
             gasPrice: gasPrice
         }));
-        setSBTContract(new web3.eth.Contract(ABISBT as any, PlianContractSBTTest, {
+        setSBTContract(new web3.eth.Contract(ABISBT as any, Address.PlianContractSBTTest, {
             gasPrice: gasPrice
         }));
     }
@@ -51,11 +58,15 @@ export const useContract = () => {
     }, [])
     //铸币
     const mint = async (_data_ipfs: string) => {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return
+        }
         return new Promise((resolve, reject) => {
             NFTContract.methods.mint(ethereum.selectedAddress, _data_ipfs).send({
                 from: owner,
-                gas: '7000000',
-                value: MODE === 'production' ? web3.utils.toWei('0.1', "ether") : '0'
+                gas: Gas,
+                value: Fee
             })
                 .on('receipt', (res: any) => {
                     resolve(res)
@@ -67,6 +78,10 @@ export const useContract = () => {
     };
     //查询Owner NFT
     const queryOwner = async () => {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return
+        }
         const total = await NFTContract.methods.balanceOf(ethereum.selectedAddress).call();
         const actions = []
         let getInfo = async (index: number) => {
@@ -87,12 +102,16 @@ export const useContract = () => {
     }
     //购买
     const buy = async (_order_id: string, _price: string, _paymod: string) => {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return
+        }
         return new Promise(async (resolve, reject) => {
-            if (MODE === 'production') {
+            if (_paymod === 'PI' || _paymod === 'ETH') {
                 MARKETContract.methods.buy(_order_id).send({
                     from: owner,
-                    gas: '7000000',
-                    value: _paymod === 'PI' ? _price : '0',
+                    gas: Gas,
+                    value: _price,
                 }).on('receipt', (res: any) => {
                     resolve(res)
                 }).on('error', ((err: any) => {
@@ -102,14 +121,13 @@ export const useContract = () => {
                 }))
             } else {
                 ERC20Contract.methods.approve(
-                    calsMarks(PlianContractAddressMarketTest),
+                    calsMarks(LAND === 'taiko' ? Address.TaikoContractAddressMarketTest : Address.PlianContractAddressMarketTest),
                     "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
                 ).send(send)
                     .on('receipt', (res: any) => {
                         MARKETContract.methods.buy(_order_id).send({
                             from: owner,
-                            gas: '7000000',
-                            value: _paymod === 'PI' ? _price : '0',
+                            gas: Gas,
                         }).on('receipt', (res: any) => {
                             resolve(res)
                         }).on('error', ((err: any) => {
@@ -129,10 +147,18 @@ export const useContract = () => {
         })
     }
     //上架 - 授权
-    const putApprove = async (_token_id:number): Promise<string> => {
+    const putApprove = async (_token_id: number): Promise<string> => {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return 'uninstall'
+        }
         return new Promise(async (resolve, reject) => {
-            NFTContract.methods.approve(MODE === 'production' ? PlianContractAddressMarketMain : PlianContractAddressMarketTest, _token_id).send(send)
-                .on('receipt', (res:any) => {
+            console.log(MarketAddress)
+            NFTContract.methods.approve(MarketAddress, _token_id).send(LAND === 'taiko' ? {
+                from: owner,
+                gas: Gas,
+            } : send)
+                .on('receipt', (res: any) => {
                     resolve(res);
                 }).on('error', (err: any) => {
                     message.error(err.message);
@@ -141,16 +167,20 @@ export const useContract = () => {
         })
     }
     //上架 - list
-    const putList = async (_token_id: number, _price: number): Promise<string> => {
+    const putList = async (_token_id: number, _price: number, _address: string): Promise<string> => {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return 'uninstall'
+        }
         return new Promise((resolve, reject) => {
             MARKETContract.methods.list(
-                MODE === 'production' ? calsMarks(PlianContractAddress721Main) : calsMarks(PlianContractAddress721Test),
+                calsMarks(NFTAddress),
                 _token_id,
-                MODE === 'production' ? calsMarks(SystemAddress) : calsMarks(PlianContractERC20Test),
+                calsMarks(_address),
                 web3.utils.toWei(String(_price), 'ether'))
                 .send({
                     from: owner,
-                    gas: '7000000'
+                    gas: Gas
                 }).on('receipt', (res: string) => {
                     resolve(res)
                 }).on('error', ((err: any) => {
@@ -162,10 +192,14 @@ export const useContract = () => {
     }
     //下架
     const takeOff = async (_order_id: number) => {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return 'uninstall'
+        }
         return new Promise((resolve, reject) => {
             MARKETContract.methods.off(_order_id).send({
                 from: owner,
-                gas: '7000000'
+                gas: Gas
             })
                 .on('receipt', (res: any) => {
                     resolve(res)
@@ -177,10 +211,14 @@ export const useContract = () => {
     }
     //活动领奖
     const claimMint = async () => {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return 'uninstall'
+        }
         return new Promise((resolve, reject) => {
             SBTContract.methods.mint().send({
                 from: owner,
-                gas: '7000000'
+                gas: Gas
             })
                 .on('receipt', (res: any) => {
                     resolve(res)
@@ -192,7 +230,11 @@ export const useContract = () => {
     };
     //活动Mint查询
     const queryMint = async () => {
-        const SBTContractInner = new web3.eth.Contract(ABISBT as any, PlianContractSBTTest, {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return
+        }
+        const SBTContractInner = new web3.eth.Contract(ABISBT as any, Address.PlianContractSBTTest, {
             gasPrice: gasPrice
         })
         const total = await SBTContractInner.methods.balanceOf(ethereum.selectedAddress).call();
@@ -200,17 +242,22 @@ export const useContract = () => {
     };
     //Mint总量查询
     const officalTotalSupply = async (): Promise<number> => {
-        const NFTContractInner = new web3.eth.Contract(ABI721 as any, MODE === 'production' ? PlianContractAddress721Main : PlianContractAddress721Test, {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return 0
+        }
+        const NFTContractInner = new web3.eth.Contract(ABI721 as any, NFTAddress, {
             gasPrice: gasPrice
         })
         const total = await NFTContractInner.methods.totalSupply().call();
         return total
     }
     //授权查询
-    const queryApprove = async (_token_id: number) : Promise<string> => {
-        // const NFTContractInner = new web3.eth.Contract(ABI721 as any, MODE === 'production' ? PlianContractAddress721Main : PlianContractAddress721Test, {
-        //     gasPrice: gasPrice
-        // })
+    const queryApprove = async (_token_id: number): Promise<string> => {
+        if(!ethereum){
+            message.error('You need to install Metamask to use this feature');
+            return 'uninstall'
+        }
         const approve = await NFTContract.methods.getApproved(_token_id).call();
         return approve
     }

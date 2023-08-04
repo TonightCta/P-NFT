@@ -3,7 +3,7 @@ import './index.scss'
 import TabList from "./components/tab.list";
 import { Button, Spin, message } from "antd";
 import VerifyModal from "./components/verify.address";
-import { useContract } from "../../utils/contract";
+import { LAND, useContract } from "../../utils/contract";
 import { PNft } from "../../App";
 import { Type, web3 } from "../../utils/types";
 import { calsAddress } from "../../utils";
@@ -15,9 +15,10 @@ import { NFTInfoService, ProfileService } from '../../request/api'
 import MaskCard from "../../components/mask";
 import { useNavigate } from "react-router-dom";
 import { flag } from "../../utils/source";
+import { useSwitchChain } from "../../hooks/chain";
 
 const DetailView = (): ReactElement<ReactNode> => {
-    const [active, setActive] = useState<number>(0);
+    const { switchC } = useSwitchChain();
     const { connectMetamask } = useMetamask();
     const { buy } = useContract();
     const { state } = useContext(PNft);
@@ -31,7 +32,7 @@ const DetailView = (): ReactElement<ReactNode> => {
     const navigate = useNavigate();
     const getNFTInfo = async () => {
         const result = await NFTInfoService({
-            chain_id: '8007736',
+            chain_id: process.env.REACT_APP_CHAIN,
             sender: state.address,
             order_id: item.order_id
         });
@@ -52,6 +53,7 @@ const DetailView = (): ReactElement<ReactNode> => {
         setOwnerItem(result.data)
     }
     const buyNFTFN = async () => {
+        await switchC(Number(process.env.REACT_APP_CHAIN))
         if (!state.address) {
             await connectMetamask();
             return
@@ -64,7 +66,7 @@ const DetailView = (): ReactElement<ReactNode> => {
             return
         }
         const maker = await NFTBuyService({
-            chain_id: '8007736',
+            chain_id: process.env.REACT_APP_CHAIN,
             sender: state.address,
             tx_hash: result['transactionHash']
         });
@@ -179,7 +181,7 @@ const DetailView = (): ReactElement<ReactNode> => {
                                 </li>
                                 <li>
                                     <p>BLOCKCHAIN</p>
-                                    <p>Plian Mainnet Subchain 1</p>
+                                    <p>{LAND ==='taiko' ? 'Taiko Grimsvotn L2' : 'Plian Mainnet Subchain 1'}</p>
                                 </li>
                             </ul>
                         </div>

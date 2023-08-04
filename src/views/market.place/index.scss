@@ -3,8 +3,6 @@
   margin: 0 auto;
   padding-top: 130px;
   text-align: left;
-  height: 100vh;
-  overflow: auto;
   .place-title {
     font-size: 30px;
     font-weight: bold;
@@ -156,6 +154,7 @@
       padding-bottom: 28px;
       padding-top: 20px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 24px;
       ul {
         display: flex;
         color: white;
@@ -201,6 +200,13 @@
         padding-left: 12px;
         color: white;
         font-size: 16px;
+      }
+    }
+    .data-list{
+      .page-oper{
+        margin: 40px auto;
+        display: flex;
+        justify-content: center;
       }
     }
     .catefilter-list {

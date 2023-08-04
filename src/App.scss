@@ -4,9 +4,23 @@
 .list-item {
   display: flex;
   flex-wrap: wrap;
-  padding-bottom: 50px;
-  padding: 1px;
   padding-top: 15px;
+  position: relative;
+  min-height: 100px;
+  .load-data-box {
+    width: 100%;
+    height: calc(100% - 30px);
+    position: absolute;
+    border-radius: 8px;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    z-index: 100;
+    justify-content: center;
+  }
   .market-card {
     width: calc(20% - 24px);
     margin-right: 30px;
@@ -203,7 +217,7 @@
       font-size: 16px;
     }
     .coin-select {
-      width: 110px;
+      width: 130px;
       display: flex;
       align-items: center;
       border-radius: 8px;
@@ -214,10 +228,11 @@
       img {
         width: 24px;
         height: 24px;
+        border-radius: 50%;
       }
       p {
-        width: 44px;
         text-align: center;
+        padding: 0 8px;
       }
       span {
         color: #666;
@@ -295,4 +310,70 @@
 }
 .ant-message {
   z-index: 4000 !important;
+}
+.ant-popover {
+  z-index: 4000 !important;
+}
+.token-list {
+  // width: 76px;
+  ul {
+    li {
+      cursor: pointer;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      border-radius: 8px;
+      padding: 4px 8px;
+      img {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        margin-right: 12px;
+      }
+      p {
+        transition: 0.3s all;
+        margin-right: 20px;
+      }
+    }
+    .active-token {
+      color: #df0885;
+    }
+    li:hover {
+      background-color: #eee;
+      p {
+        color: #df0885;
+      }
+    }
+    li:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+.ant-pagination {
+  li {
+    a {
+      color: white !important;
+      span{
+        color: white!important;
+      }
+      span:hover{
+        color: #df0885 !important;
+      }
+    }
+    a:hover{
+      color: #df0885 !important;
+    }
+    button:hover{
+      color: #df0885 !important;
+    }
+    button {
+      color: white !important;
+    }
+  }
+  .ant-pagination-item-active {
+    background-color: rgba(0, 0, 0, 0);
+    a {
+      color: #df0885 !important;
+    }
+  }
 }

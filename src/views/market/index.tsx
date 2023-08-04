@@ -1,14 +1,12 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
 import './index.scss'
 import CardItem from "./components/item.card";
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { Spin } from "antd";
 import { NFTMarketService } from '../../request/api'
 import { NFTItem } from "../../utils/types";
 // import { NFTs } from "../../utils/source";
 import IconFont from "../../utils/icon";
-import EmptyCard from "../../components/empty";
 import MaskCard from "../../components/mask";
+import { Pagination, Spin } from "antd";
 
 interface Community {
     icon: ReactNode,
@@ -74,8 +72,8 @@ const MarketIndex = (): ReactElement<ReactNode> => {
     const [total, setTotal] = useState<number>(1);
     const marketListFN = async () => {
         const result = await NFTMarketService({
-            chain_id: '8007736',
-            page_size: 10,
+            chain_id: process.env.REACT_APP_CHAIN,
+            page_size: 15,
             page_num: page
         });
         // console.log(result);
@@ -84,7 +82,6 @@ const MarketIndex = (): ReactElement<ReactNode> => {
         if (status !== 200) {
             return
         };
-
         setTotal(data.data.total)
         if (!data.data.item) {
             setList([]);
@@ -97,19 +94,19 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                 play: false
             }
         });
-        setList(page > 1 ? [...list, ...filter] : filter);
+        console.log(filter)
+        setList(filter);
     }
     const loadMoreData = () => {
-        if (loading) {
-            return;
-        }
-        setPage(page + 1)
         setLoading(true);
         marketListFN()
     };
     useEffect(() => {
+        console.log(list)
+    }, [list])
+    useEffect(() => {
         loadMoreData();
-    }, []);
+    }, [page]);
     return (
         <div className="market-index" id="dataList">
             <MaskCard />
@@ -167,22 +164,6 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                     }
                 </ul>
             </div> */}
-
-                {/* <div className="scroll-box">
-                    <div className="shadow-line line-left"></div>
-                    <div className="shadow-line line-right"></div>
-                    <ul>
-                        {
-                            NFTs.map((item: string, index: number) => {
-                                return (
-                                    <li key={index}>
-                                        <img src={item} />
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
-                </div> */}
                 {/* List */}
                 <div className="market-list">
                     {/* <Affix offsetTop={flag ? 80 : 100} onChange={(affixed) => console.log(affixed)} target={() => container}> */}
@@ -206,25 +187,27 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                     </div>
                     {/* </Affix> */}
                     <div className="data-list">
-                        <InfiniteScroll
-                            key={list.length}
-                            dataLength={list.length}
-                            next={loadMoreData}
-                            hasMore={list.length < total}
-                            loader={<div className="loading-box"><Spin /><p>Loading...</p></div>}
-                            endMessage={<EmptyCard />}
-                            scrollableTarget="dataList"
-                        >
-                            <div className="list-item" >
-                                {
-                                    list.map((item: NFTItem, index: number) => {
-                                        return (
-                                            <CardItem key={index} item={item} />
-                                        )
-                                    })
-                                }
-                            </div>
-                        </InfiniteScroll>
+                        <div className="list-item" >
+                            {loading && <div className="load-data-box">
+                                <Spin size="large" />
+                            </div>}
+                            {
+                                list.map((item: NFTItem, index: number) => {
+                                    return (
+                                        <CardItem key={index} item={item} />
+                                    )
+                                })
+                            }
+                        </div>
+                        <div className="page-oper">
+                            <Pagination defaultCurrent={page} pageSize={15} total={total} onChange={(page) => {
+                                window.scrollTo({
+                                    top:170,
+                                    behavior:'smooth'
+                                })
+                                setPage(page)
+                            }} />
+                        </div>
                     </div>
 
                 </div>

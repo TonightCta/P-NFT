@@ -1,20 +1,20 @@
 export const NFTs: string[] = [
-    require('../assets/nfts/s_1.png'),
-    require('../assets/nfts/s_2.png'),
-    require('../assets/nfts/s_3.png'),
-    require('../assets/nfts/s_4.png'),
-    require('../assets/nfts/s_5.png'),
-    require('../assets/nfts/s_6.png'),
-    require('../assets/nfts/s_7.png'),
-    require('../assets/nfts/s_8.png'),
-    require('../assets/nfts/s_9.png'),
-    require('../assets/nfts/s_10.png'),
-    require('../assets/nfts/s_11.png'),
-    require('../assets/nfts/s_12.png'),
-    require('../assets/nfts/s_13.png'),
-    require('../assets/nfts/s_14.png'),
-    require('../assets/nfts/s_15.png'),
-    require('../assets/nfts/s_16.png'),
+    // require('../assets/nfts/s_1.png'),
+    // require('../assets/nfts/s_2.png'),
+    // require('../assets/nfts/s_3.png'),
+    // require('../assets/nfts/s_4.png'),
+    // require('../assets/nfts/s_5.png'),
+    // require('../assets/nfts/s_6.png'),
+    // require('../assets/nfts/s_7.png'),
+    // require('../assets/nfts/s_8.png'),
+    // require('../assets/nfts/s_9.png'),
+    // require('../assets/nfts/s_10.png'),
+    // require('../assets/nfts/s_11.png'),
+    // require('../assets/nfts/s_12.png'),
+    // require('../assets/nfts/s_13.png'),
+    // require('../assets/nfts/s_14.png'),
+    // require('../assets/nfts/s_15.png'),
+    // require('../assets/nfts/s_16.png'),
     // require('../assets/nfts/s_17.png'),
     // require('../assets/nfts/s_18.png'),
     // require('../assets/nfts/s_19.png'),
@@ -453,5 +453,10 @@ export const PlianContractERC20Test : string = "0xFcb06A1a2E8834Fe9E0b49F533E14A
 export const PlianContractSBTTest : string = "0x27e67a318f41d7475f409f4a390084b6aa16ac50";
 export const SystemAddress : string = "0x0000000000000000000000000000000000000000"
 
+export const TaikoContractAddress721Main : string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";
+export const TaikoContractAddress721Test : string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";
+export const TaikoContractAddressMarketTest : string = "0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb";
+export const TaikoContractAddressMarketMain : string = "0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb";
+export const TaikoContractAddressERC20Test : string = "0x6302744962a0578e814c675b40909e64d9966b0d";
 
 export const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);

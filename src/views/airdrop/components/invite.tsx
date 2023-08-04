@@ -6,6 +6,7 @@ import { GetUrlKey } from "../../../utils";
 import copy from 'copy-to-clipboard'
 import { useContract } from "../../../utils/contract";
 import { useMetamask } from "../../../utils/metamask";
+import { useSwitchChain } from "../../../hooks/chain";
 
 interface Mint {
     title: string,
@@ -35,6 +36,7 @@ const InviteCard = (): ReactElement => {
     const [wait, setWait] = useState<boolean>(false);
     const [code, setCode] = useState<string>(GetUrlKey('code', window.location.href));
     const { connectMetamask } = useMetamask();
+    const { switchC } = useSwitchChain();
     const [inviteInfo, setInviteInfo] = useState<Info>({
         code: '',
         reward_num: 0,
@@ -72,6 +74,7 @@ const InviteCard = (): ReactElement => {
             await connectMetamask();
             return
         }
+        await switchC(Number(process.env.REACT_APP_CHAIN))
         setWait(true);
         const result = await ActivityJoinService({
             user_address: state.address,

@@ -7,7 +7,7 @@ import { PNft } from "../../App";
 const IndexView = (): ReactElement<ReactNode> => {
     const { state } = useContext(PNft);
     const location = useLocation();
-    const private_r :string[] = ['/profile','/owner']
+    const private_r :string[] = ['/profile']
     return (
         <div className="index-view">
             <HeaderWapper />

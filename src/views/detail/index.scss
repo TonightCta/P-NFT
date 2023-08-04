@@ -255,7 +255,7 @@
     max-width: 1733px;
     padding-bottom: 80px;
     padding: 24px 40px;
-    background-color: #23262F;
+    background-color: #23262f;
     margin-top: 30px;
     border-radius: 16px;
     .list-content {
@@ -348,22 +348,7 @@
   .page-oper {
     display: flex;
     justify-content: flex-end;
-    .ant-pagination {
-      li {
-        a {
-          color: white;
-        }
-        button {
-          color: white;
-        }
-      }
-      .ant-pagination-item-active {
-        background-color: rgba(0, 0, 0, 0);
-        a {
-          color: #df0885;
-        }
-      }
-    }
+    
   }
 }
 @media screen and (max-width: 1440px) {
@@ -392,23 +377,6 @@
 .ant-modal-title {
   font-size: 24px !important;
 }
-.token-list {
-  width: 76px;
-  p {
-    cursor: pointer;
-    margin-bottom: 10px;
-    transition: 0.3s all;
-  }
-  .active-token {
-    color: #df0885;
-  }
-  p:last-child {
-    margin-bottom: 0;
-  }
-  p:hover {
-    color: #df0885;
-  }
-}
 .verify-modal-inner {
   margin-top: 20px;
   .verify-remark {
@@ -430,8 +398,8 @@
   .detail-view {
     width: 90%;
     margin: 0 auto;
-    padding:100px 0;
-    .up-mask{
+    padding: 100px 0;
+    .up-mask {
       width: 100%;
     }
     .nft-msg {

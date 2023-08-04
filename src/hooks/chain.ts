@@ -7,29 +7,29 @@ import { message } from "antd";
 // Switch public chain
 export const useSwitchChain = () => {
     const { state } = useContext(PNft);
-    const switchInner = async (chain_id?: number): Promise<void> => {
+    const switchInner = async (chain_id: number): Promise<void> => {
         const withChainID: any = SupportNetwork.filter((item: Network) => {
             return item.chain_id === chain_id
         });
         try {
             const result = await ethereum.request({
                 method: "wallet_switchEthereumChain",
-                params: [{ chainId: state.web3.utils.toHex(chain_id ? chain_id : 8007736) }],
+                params: [{ chainId: state.web3.utils.toHex(chain_id) }],
             });
             return result
         } catch (error: any) {
             const add = async () => {
                 const params = [
                     {
-                        chainId: state.web3.utils.toHex(chain_id ? chain_id : SupportNetwork[0].chain_id), // A 0x-prefixed hexadecimal string
-                        chainName: chain_id ? withChainID[0].chainName : SupportNetwork[0].chain_name,
+                        chainId: state.web3.utils.toHex(chain_id), // A 0x-prefixed hexadecimal string
+                        chainName: withChainID[0].chain_name,
                         nativeCurrency: {
-                            name: 'PI',
-                            symbol: 'PI', // 2-6 characters long
-                            decimals: 18,
+                            name: withChainID[0].nativeCurrency.name,
+                            symbol: withChainID[0].nativeCurrency.name, // 2-6 characters long
+                            decimals: withChainID[0].nativeCurrency.decimals,
                         },
-                        rpcUrls: chain_id ? withChainID[0].rpcUrls : SupportNetwork[0].rpcUrls,
-                        blockExplorerUrls: chain_id ? withChainID[0].blockExplorerUrls : SupportNetwork[0].blockExplorerUrls,
+                        rpcUrls: withChainID[0].rpcUrls,
+                        blockExplorerUrls: withChainID[0].blockExplorerUrls,
                     }
                 ];
                 try {
@@ -39,7 +39,7 @@ export const useSwitchChain = () => {
                     });
                     await ethereum.request({
                         method: "wallet_switchEthereumChain",
-                        params: [{ chainId: state.web3.utils.toHex(chain_id ? chain_id : 8007736) }],
+                        params: [{ chainId: state.web3.utils.toHex(chain_id) }],
                     });
                 } catch (addError) {
                     // handle "add" error

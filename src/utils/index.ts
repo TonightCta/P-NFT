@@ -44,6 +44,17 @@ export const SupportNetwork: Network[] = [
         rpcUrls: ['https://testnet.plian.io/child_test'],
         blockExplorerUrls: ['https://piscan.plian.org/index.html']
     },
+    {
+        chain_id: 167005,
+        chain_name: 'Taiko Testnet',
+        nativeCurrency: {
+            name: 'ETH',
+            symbol: 'ETH',
+            decimals: 18
+        },
+        rpcUrls: ['https://rpc.test.taiko.xyz'],
+        blockExplorerUrls: ['https://explorer.test.taiko.xyz']
+    }
 ];
 type AddressCall = {
     8007736: Address,
@@ -66,7 +77,7 @@ export const NetworkAddress: AddressCall = {
 export const calsAddress = (_address: string) => {
     return _address.substring(0, 6) + '...' + _address.substring(_address.length - 4, _address.length)
 }
-export const calsMarks = (_address:string) => {
+export const calsMarks = (_address: string) => {
     return _address.replace(/\"/g, "'")
 }
 

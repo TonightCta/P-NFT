@@ -8,6 +8,7 @@ import { MFTOffService } from "../../../request/api";
 import { useContract } from "../../../utils/contract";
 import { CaretRightOutlined, RotateRightOutlined } from "@ant-design/icons";
 import IconFont from "../../../utils/icon";
+import { useSwitchChain } from "../../../hooks/chain";
 
 interface Props {
     item: NFTItem,
@@ -23,13 +24,18 @@ const CardItem = (props: Props): ReactElement => {
     const { takeOff } = useContract();
     const [fixedVisible, setFixedVisible] = useState<boolean>(false);
     const [player, setPlayer] = useState<any>();
+    const { switchC } = useSwitchChain();
+    useEffect(() => {
+        setItem(props.item)
+    },[props.item])
     const confirm = async () => {
+        await switchC(Number(process.env.REACT_APP_CHAIN))
         const hash: any = await takeOff(+item.order_id);
         if (!hash || hash.message) {
             return
         };
         const maker = await MFTOffService({
-            chain_id: '8007736',
+            chain_id: process.env.REACT_APP_CHAIN,
             sender: state.address,
             tx_hash: hash['transactionHash']
         });

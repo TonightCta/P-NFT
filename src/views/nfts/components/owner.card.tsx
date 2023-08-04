@@ -76,9 +76,11 @@ const OwnerCard = (props: Props): ReactElement => {
                     </div>
                     <div className="outside-url">
                         <IconFont type="icon-globe-simple-bold" />
-                        <p className={`${profile.link && 'with-hand'}`} onClick={() => {
-                            profile.link && window.open(profile.link)
-                        }}>{profile.link ? profile.link : '-'}</p>
+                        <div className={`${profile.link && 'with-hand'}`} onClick={() => {
+                            profile.link && window.open(profile.link as string)
+                        }}>
+                            <p>{profile.link ? profile.link : '-'}</p>
+                        </div>
                     </div>
                     <div className="ourside-account">
                         <IconFont type="icon-twitter-logo-bold" onClick={() => {
@@ -91,7 +93,6 @@ const OwnerCard = (props: Props): ReactElement => {
                 </div>
             </div>
         </Affix>
-
     )
 };
 
