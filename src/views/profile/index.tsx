@@ -3,7 +3,6 @@ import { CloudUploadOutlined, EditOutlined } from '@ant-design/icons'
 import { ProfileService, EditAvatarService, EditProfileService, QueryFile, AuthTwitterService, UploadAudioService, UploadBackGroundService } from "../../request/api";
 import './index.scss'
 import { PNft } from "../../App";
-import { calsAddress } from "../../utils";
 import IconFont from "../../utils/icon";
 import { Button, Spin, message } from "antd";
 import { Type } from "../../utils/types";
@@ -49,6 +48,8 @@ const ProfileView = (): ReactElement<ReactNode> => {
     const { audioFile, mediaUrl, startRecord, stopRecord } = useMediaRecorder();
     const [audio, setAudio] = useState<string>('');
     const audioRef: any = useRef('');
+    const fileRef: any = useRef('');
+    const fileBgRef: any = useRef('');
     const [upAvatar, setUpAvatar] = useState<boolean>(false);
     const upDateAccount = async () => {
         const account = await ProfileService({
@@ -240,118 +241,123 @@ const ProfileView = (): ReactElement<ReactNode> => {
         <div className="profile-view">
             <MaskCard />
             <div className="up-mask">
-                <div className="edit-msg">
-                    <p className="profile-name">Profile</p>
-                    <div className="mobile-edit-avatar">
+                <div className="setting-content">
+                    <div className="edit-msg">
+                        <p className="profile-name">Profile</p>
                         <div className="avatar-box">
-                            <div className="img-box">
-                                {!state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar diameter={120} />}
-                                <div className="edit-btn">
-                                    <input type="file" title="Select File" accept="image/*" onChange={selectAvatar} />
-                                    <EditOutlined />
-                                </div>
-                                {
-                                    upAvatar && <div className="loading-up">
-                                        <Spin />
+                            <p>Profile Image</p>
+                            <div className="up-box">
+                                <div className="img-box">
+                                    {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar diameter={192} />}
+                                    <div className="edit-btn">
+                                        <input type="file" title="Select File" ref={fileRef} accept="image/*" onChange={selectAvatar} />
                                     </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div className="public-inp">
-                        <p className="inp-label">Username</p>
-                        <input type="text" className={`${error.name ? 'f-border' : ''}`} onFocus={() => {
-                            setError({
-                                ...error,
-                                name: false
-                            })
-                        }} placeholder="Username" value={profile.username} onChange={(e) => {
-                            setProfile({
-                                ...profile,
-                                username: e.target.value
-                            })
-                        }} />
-                    </div>
-                    <div className="public-inp">
-                        <p className="inp-label">Bio</p>
-                        <input type="text" className={`${error.bio ? 'f-border' : ''}`} onFocus={() => {
-                            setError({
-                                ...error,
-                                bio: false
-                            })
-                        }} placeholder="Bio" value={profile.bio} onChange={(e) => {
-                            setProfile({
-                                ...profile,
-                                bio: e.target.value
-                            })
-                        }} />
-                    </div>
-                    <div className="public-inp">
-                        <p className="inp-label">Email Address</p>
-                        <input type="text" className={`${error.email ? 'f-border' : ''}`} onFocus={() => {
-                            setError({
-                                ...error,
-                                email: false
-                            })
-                        }} placeholder="Email address" value={profile.email_address} onChange={(e) => {
-                            setProfile({
-                                ...profile,
-                                email_address: e.target.value
-                            })
-                        }} />
-                    </div>
-                    <div className="outside-account">
-                        <p>Social Connections</p>
-                        <p className="outside-remark">Help collectors verify your account by connecting social accounts</p>
-                        <ul>
-                            <li>
-                                <IconFont style={{ color: `${state.account.auth_twitter ? 'rgb(29, 155, 240)' : ''}` }} type="icon-tuitetwitter43" onClick={() => {
-                                    !state.account.auth_twitter && bindTwitterFN()
-                                }} />
-                            </li>
-                            <li>
-                                <IconFont type="icon-discord" onClick={() => {
-                                    message.info('Under Construction');
-                                }} />
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="public-inp">
-                        <p className="inp-label">Links</p>
-                        <input type="text" className={`${error.link ? 'f-border' : ''}`} onFocus={() => {
-                            setError({
-                                ...error,
-                                link: false
-                            })
-                        }} placeholder="Links" value={profile.links} onChange={(e) => {
-                            setProfile({
-                                ...profile,
-                                links: e.target.value
-                            })
-                        }} />
-                    </div>
-                    <div className="public-inp">
-                        <p className="inp-label">Wallet Address</p>
-                        <input type="text" placeholder="Wallet Address" value={calsAddress(state.address as string)} readOnly />
-                    </div>
-                </div>
-                <div className="edit-save">
-                    <div className="avatar-box">
-                        <p>Profile Image</p>
-                        <div className="img-box">
-                            {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar diameter={192} />}
-                            <div className="edit-btn">
-                                <input type="file" title="Select File" accept="image/*" onChange={selectAvatar} />
-                                <EditOutlined />
-                            </div>
-                            {
-                                upAvatar && <div className="loading-up">
-                                    <Spin />
+                                    {
+                                        upAvatar && <div className="loading-up">
+                                            <Spin />
+                                        </div>
+                                    }
                                 </div>
-                            }
+                                <Button type="default" onClick={() => {
+                                    fileRef.current.click();
+                                }}>
+                                    <IconFont type="icon-pencil-simple-line-bold" />
+                                    Upload Image
+                                </Button>
+                            </div>
                         </div>
+                        <div className="inp-set">
+                            <div className="public-inp">
+                                <p className="inp-label">Username</p>
+                                <input type="text" className={`${error.name ? 'f-border' : ''}`} onFocus={() => {
+                                    setError({
+                                        ...error,
+                                        name: false
+                                    })
+                                }} placeholder="Username" value={profile.username} onChange={(e) => {
+                                    setProfile({
+                                        ...profile,
+                                        username: e.target.value
+                                    })
+                                }} />
+                            </div>
+                            <div className="public-inp">
+                                <p className="inp-label">Email Address</p>
+                                <input type="text" className={`${error.email ? 'f-border' : ''}`} onFocus={() => {
+                                    setError({
+                                        ...error,
+                                        email: false
+                                    })
+                                }} placeholder="Email address" value={profile.email_address} onChange={(e) => {
+                                    setProfile({
+                                        ...profile,
+                                        email_address: e.target.value
+                                    })
+                                }} />
+                            </div>
+                            <div className="public-inp">
+                                <p className="inp-label">Bio</p>
+                                <input type="text" className={`${error.bio ? 'f-border' : ''}`} onFocus={() => {
+                                    setError({
+                                        ...error,
+                                        bio: false
+                                    })
+                                }} placeholder="Bio" value={profile.bio} onChange={(e) => {
+                                    setProfile({
+                                        ...profile,
+                                        bio: e.target.value
+                                    })
+                                }} />
+                            </div>
+                            <div className="public-inp">
+                                <p className="inp-label">Links</p>
+                                <input type="text" className={`${error.link ? 'f-border' : ''}`} onFocus={() => {
+                                    setError({
+                                        ...error,
+                                        link: false
+                                    })
+                                }} placeholder="Links" value={profile.links} onChange={(e) => {
+                                    setProfile({
+                                        ...profile,
+                                        links: e.target.value
+                                    })
+                                }} />
+                            </div>
+                        </div>
+                        <div className="public-inp n-top">
+                            <p className="inp-label">Wallet Address</p>
+                            <input type="text" placeholder="Wallet Address" value={state.address as string} readOnly />
+                        </div>
+                        <div className="outside-account">
+                            <p>Social Connections</p>
+                            <p className="outside-remark">Help collectors verify your account by connecting social accounts</p>
+                            <ul>
+                                <li onClick={() => {
+                                    !state.account.auth_twitter && bindTwitterFN()
+                                }}>
+                                    <div className={`icon-box ${state.account.auth_twitter ? 'has-bind' : ''}`}>
+                                        <IconFont type="icon-twitter-logo-bold" />
+                                    </div>
+                                    <p>{state.account.auth_twitter ? 'Connected' : 'Connect'}</p>
+                                    {state.account.auth_twitter && <div className="has-bind-tag">
+                                        <IconFont type="icon-check-bold" />
+                                    </div>}
+                                </li>
+                                <li>
+                                    <div className="icon-box">
+                                        <IconFont type="icon-discord-logo-bold" onClick={() => {
+                                            message.info('Under Construction');
+                                        }} />
+                                    </div>
+                                    <p>Connect</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="edit-save">
                         <div className="voice-remark">
-                            <p>Voice Introduction</p>
+                            <p className="public-edit-title">Voice Introduction</p>
+                            <p className="title-remark">Click button to start Recording</p>
                             <div className="record-box">
                                 <div className="record-btn">
                                     <div className="btn-start" onClick={() => {
@@ -361,9 +367,10 @@ const ProfileView = (): ReactElement<ReactNode> => {
                                         {!record ? <img src={require('../../assets/images/record_icon.png')} alt="" />
                                             : <Recording />}
                                     </div>
-                                    <div className="review-audio">
-                                        <audio ref={audioRef} src={audio} controls></audio>
-                                    </div>
+
+                                </div>
+                                <div className="review-audio">
+                                    <audio ref={audioRef} src={audio} controls></audio>
                                 </div>
                                 <Button type="primary" disabled={save} loading={save} onClick={saveVioceFN}>
                                     <CloudUploadOutlined />
@@ -371,26 +378,27 @@ const ProfileView = (): ReactElement<ReactNode> => {
                             </div>
                         </div>
                         <div className="custom-bg">
-                            <p>Custom Background</p>
+                            <p className="public-edit-title">Custom Background</p>
                             <div className="upload-bg">
                                 <img src={state.account.bgimage_url ? state.account.bgimage_url : require('../../assets/images/test_bg.png')} alt="" />
-                                <input type="file" accept="image/*" onChange={selectCustomBack} />
-                                <div className="edit-mask">
-                                    <EditOutlined />
-                                </div>
+                                <input ref={fileBgRef} type="file" accept="image/*" onChange={selectCustomBack} />
                                 {custom && <div className="wait-up">
                                     <Spin />
                                 </div>}
+                                <div className="upload-btn" onClick={() => {
+                                    fileBgRef.current.click()
+                                }}>
+                                    <IconFont type="icon-pencil-simple-line-bold" />
+                                    <p>Upload image</p>
+                                </div>
                             </div>
                         </div>
+                        <p className="submit-all">
+                            <Button type="primary" onClick={submitSave} loading={wait} disabled={wait}>SAVE</Button>
+                        </p>
                     </div>
-                    <p className="submit-all">
-                        <Button type="primary" onClick={submitSave} loading={wait} disabled={wait}>SAVE</Button>
-                    </p>
                 </div>
-                <div className="mobile-save">
-                    <Button type="primary" size="large" onClick={submitSave} loading={wait} disabled={wait}>Save</Button>
-                </div>
+
             </div>
             {/* <ConnectModal/> */}
         </div>
