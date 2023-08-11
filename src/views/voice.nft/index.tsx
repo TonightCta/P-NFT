@@ -183,13 +183,14 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             return
         };
         setImageWait(true);
-        const result:any = await axios.post(`${process.env.REACT_APP_BASEURL_AI}/text2img`, {
+        const result: any = await axios.post(`${process.env.REACT_APP_BASEURL_AI}/text2img`, {
             prompts: aiImageText
         });
         setImageWait(false);
-        const { data, errcode,message } = result;
-        if (errcode !== 200) {
-            message.error(message);
+        const { data } = result;
+        const { errcode } = data;
+        if (errcode !== 0) {
+            message.error(data.message);
             return
         };
         setAiImageView({

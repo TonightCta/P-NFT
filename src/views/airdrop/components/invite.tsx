@@ -19,11 +19,11 @@ interface Info {
 }
 const MintRemark: Mint[] = [
     {
-        title: 'Activity Rules:',
-        text: '1.Creators who create AI NFTs will get certain income.   2.Users who invite 3 friends to join through the invitation link and verify personal Twitter account on Pizzap web page (limited to 1,000 per day, distributed on the next day) will get 10 $PI'
+        title: 'Activity Rules',
+        text: '1.Creators who create AI NFTs will get certain income.'
     },
     {
-        title: 'Quantity of activity:',
+        title: 'Quantity of activity',
         text: 'Limited to 1000 users per day, first come first served until supplies last.'
     }
 ]
@@ -70,7 +70,7 @@ const InviteCard = (): ReactElement => {
         updateJoinStatus();
     }, []);
     const joinActivityFN = async () => {
-        if(!state.address){
+        if (!state.address) {
             await connectMetamask();
             return
         }
@@ -100,13 +100,18 @@ const InviteCard = (): ReactElement => {
     return (
         <div className="invite-card">
             <div className="free-mint-card">
+                <div className="card-msg">
+                    <p className="card-name">INVITE</p>
+                    <p className="name-2">Invite</p>
+                </div>
                 <ul>
                     {
                         MintRemark.map((item: Mint, index: number): ReactElement => {
                             return (
                                 <li key={index}>
                                     <p>{item.title}</p>
-                                    <p>{item.text}</p>
+                                    <p className="rule-options">{item.text}</p>
+                                    {index === 0 && <p className="rule-options">2.Users who invite 3 friends to join through the invitation link and verify personal Twitter account on Pizzap web page (limited to 1,000 per day, distributed on the next day) will get 10 $PI.</p>}
                                 </li>
                             )
                         })
@@ -126,8 +131,7 @@ const InviteCard = (): ReactElement => {
                                     <p className="join-content">Content 1</p>
                                     <div>
                                         <div className="invite-code-inp">
-                                            <p>Invite Code&nbsp;:</p>
-                                            <input type="text" value={code} readOnly={code ? true : false} placeholder="Invite Code" onChange={(e) => {
+                                            <input type="text" value={code} readOnly={GetUrlKey('code', window.location.href) ? true : false} placeholder="Invite Code(Optional)" onChange={(e) => {
                                                 setCode(e.target.value)
                                             }} />
                                         </div>
@@ -144,6 +148,7 @@ const InviteCard = (): ReactElement => {
                                                 <div className="progress-inner" style={{ width: `${+inviteInfo.invite_num / 3 * 100}%` }}></div>
                                             </div>
                                         </div>
+                                        <p>You had invited <span style={{ color: '#FF5C92' }}>{inviteInfo.invite_num}</span> friend</p>
                                         <p className="public-btn">
                                             <Button type="primary" onClick={() => {
                                                 copy(`${window.location.href}?code=${inviteInfo.code}`);
@@ -153,7 +158,7 @@ const InviteCard = (): ReactElement => {
                                     </li>
                                     <li>
                                         <p className="public-title">RECEIVE PI</p>
-                                        <p className="pledge-num">Your unclaimed PI: {inviteInfo.reward_num}</p>
+                                        <p className="pledge-num">Your unclaimed PI: <span>{inviteInfo.reward_num}</span></p>
                                         <p className="public-btn disable-btn">
                                             <Button type="default" disabled={true} loading={wait} onClick={() => {
                                                 claimForChainFN()

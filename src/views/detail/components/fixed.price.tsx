@@ -36,7 +36,7 @@ const TokenList: Token[] =
         ? [
             {
                 symbol: 'ETH',
-                icon: "https://static.optimism.io/data/ENS/logo.png",
+                icon: "https://static.optimism.io/data/ETH/logo.svg",
                 address: SystemAddress
             },
             {

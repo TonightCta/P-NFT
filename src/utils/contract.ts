@@ -7,6 +7,7 @@ import { message } from "antd"
 import { useEffect, useState } from 'react';
 import * as Address from "./source"
 import { calsMarks } from "."
+import { useSwitchChain } from "../hooks/chain"
 
 
 interface Send {
@@ -28,6 +29,7 @@ export const useContract = () => {
     const [ERC20Contract, setERC20Contract] = useState<any>();
     const [MARKETContract, setMARKETContract] = useState<any>();
     const [SBTContract, setSBTContract] = useState<any>();
+    const { switchC } = useSwitchChain();
     const owner: string = ethereum ? ethereum.selectedAddress : '';
     const send: Send = {
         from: owner,
@@ -82,6 +84,7 @@ export const useContract = () => {
             message.error('You need to install Metamask to use this feature');
             return
         }
+        await switchC(8007736);
         const total = await NFTContract.methods.balanceOf(ethereum.selectedAddress).call();
         const actions = []
         let getInfo = async (index: number) => {

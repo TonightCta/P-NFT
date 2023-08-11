@@ -166,7 +166,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                                 setList([]);
                                                 setPage(1);
                                                 setLoading(true);
-                                                itemQuery();
+                                                saleListFN();
                                             }} upload={() => {
                                                 setItemList([]);
                                                 setLoading(true);

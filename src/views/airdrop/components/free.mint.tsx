@@ -21,7 +21,7 @@ const MintRemark: Mint[] = [
 ]
 
 const FreeMintCard = (): ReactElement => {
-    const { queryMint,claimMint } = useContract();
+    const { queryMint, claimMint } = useContract();
     const [mint, setMint] = useState<number>(0);
     const [wait, setWait] = useState<boolean>(false);
     const { state } = useContext(PNft);
@@ -32,7 +32,7 @@ const FreeMintCard = (): ReactElement => {
         setMint(+result);
     };
     const mintFN = async () => {
-        if(!state.address){
+        if (!state.address) {
             await connectMetamask();
             return
         }
@@ -48,25 +48,34 @@ const FreeMintCard = (): ReactElement => {
         queryFN()
     }, [])
     return (
-        <div className="free-mint-card">
-            <ul>
-                {
-                    MintRemark.map((item: Mint, index: number): ReactElement => {
-                        return (
-                            <li key={index}>
-                                <p>{item.title}</p>
-                                <p>{item.text}</p>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
-            <div className="oper-btns">
-                <p>
-                    <Button loading={wait} disabled={mint > 0 || wait} type="primary" onClick={mint > 0 ? () => {} : mintFN}>
-                        {mint > 0 ? 'ALREADY MINTED' : 'MINT'}
-                    </Button>
-                </p>
+        <div className="free-card">
+            <div className="free-mint-card">
+                <div className="card-msg">
+                    <div className="card-name other-set">
+                        <p>FREE</p>
+                        <p>MINT</p>
+                    </div>
+                    <p className="name-2">Free mint</p>
+                </div>
+                <ul>
+                    {
+                        MintRemark.map((item: Mint, index: number): ReactElement => {
+                            return (
+                                <li key={index}>
+                                    <p>{item.title}</p>
+                                    <p className="rule-options">{item.text}</p>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+                <div className="oper-btns">
+                    <p>
+                        <Button loading={wait} disabled={mint > 0 || wait} type="primary" onClick={mint > 0 ? () => { } : mintFN}>
+                            {mint > 0 ? 'ALREADY MINTED' : 'MINT'}
+                        </Button>
+                    </p>
+                </div>
             </div>
         </div>
     )

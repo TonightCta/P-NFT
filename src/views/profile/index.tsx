@@ -12,6 +12,7 @@ import { useMediaRecorder } from "../../hooks/record";
 import Recording from "../voice.nft/components/recording";
 // import ConnectModal from "./components/modal";
 import DefaultAvatar from "../../components/default_avatar/default.avatar";
+import MaskElement from "../voice.nft/components/mask.element";
 
 interface Profile {
     username: string,
@@ -400,7 +401,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
                 </div>
 
             </div>
-            {/* <ConnectModal/> */}
+            <MaskElement/>
         </div>
     )
 };

@@ -46,6 +46,13 @@ body {
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Spark';
+  src: url('./assets/fonts/Spark.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .ant-message {
   z-index: 2000;
 }
