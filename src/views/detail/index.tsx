@@ -3,29 +3,24 @@ import './index.scss'
 import TabList from "./components/tab.list";
 import { Button, Spin, message } from "antd";
 import VerifyModal from "./components/verify.address";
-import { LAND, useContract } from "../../utils/contract";
+import { LAND } from "../../utils/contract";
 import { PNft } from "../../App";
 import { Type, web3 } from "../../utils/types";
 import { calsAddress } from "../../utils";
-import { NFTBuyService } from "../../request/api";
 import IconFont from "../../utils/icon";
 import { CaretRightOutlined } from "@ant-design/icons";
-import { useMetamask } from "../../utils/metamask";
 import { NFTInfoService, ProfileService } from '../../request/api'
 import MaskCard from "../../components/mask";
 import { useNavigate } from "react-router-dom";
 import { flag } from "../../utils/source";
-import { useSwitchChain } from "../../hooks/chain";
+import BuyNFTsModal from "./components/buy.nft";
 
 const DetailView = (): ReactElement<ReactNode> => {
-    const { switchC } = useSwitchChain();
-    const { connectMetamask } = useMetamask();
-    const { buy } = useContract();
     const { state } = useContext(PNft);
     const [item, setItem] = useState<any>(state.card);
     const [virifyVisible, setVerifyVisible] = useState<boolean>(false);
+    const [takeVisible, setTakeVisible] = useState<boolean>(false);
     const [imgLoad, setImgLoad] = useState<boolean>(true);
-    const [wait, setWait] = useState<boolean>(false);
     const [player, setPlayer] = useState<any>();
     const [ownerItem, setOwnerItem] = useState<any>({});
     const { dispatch } = useContext(PNft);
@@ -51,31 +46,6 @@ const DetailView = (): ReactElement<ReactNode> => {
             user_address: item.seller
         });
         setOwnerItem(result.data)
-    }
-    const buyNFTFN = async () => {
-        await switchC(Number(process.env.REACT_APP_CHAIN))
-        if (!state.address) {
-            await connectMetamask();
-            return
-        }
-        setWait(true)
-        const result: any = await buy(item.order_id, item.price,item.paymod);
-        setWait(false)
-        // console.log(result);
-        if (!result || result.message) {
-            return
-        }
-        const maker = await NFTBuyService({
-            chain_id: process.env.REACT_APP_CHAIN,
-            sender: state.address,
-            tx_hash: result['transactionHash']
-        });
-        const { status } = maker;
-        if (status !== 200) {
-            message.error(maker.message);
-            return
-        };
-        message.success('Successfully Purchase!');
     }
     return (
         <div className="detail-view">
@@ -148,8 +118,11 @@ const DetailView = (): ReactElement<ReactNode> => {
                                     <p><span>{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item.paymod}</span></p>
                                 </div>
                                 <div className="btn-oper">
-                                    {state.address?.toUpperCase() !== item.seller.toUpperCase() && <Button onClick={buyNFTFN} loading={wait} disabled={wait}>
-                                        <IconFont type="icon-gouwuche1_shopping-cart-one"/>
+                                    {state.address?.toUpperCase() !== item.seller.toUpperCase() && <Button onClick={() => {
+                                        setTakeVisible(true)
+
+                                    }}>
+                                        <IconFont type="icon-gouwuche1_shopping-cart-one" />
                                         Buy now
                                     </Button>}
                                     {/* <p><span>Cancel</span> the listing</p> */}
@@ -181,7 +154,7 @@ const DetailView = (): ReactElement<ReactNode> => {
                                 </li>
                                 <li>
                                     <p>BLOCKCHAIN</p>
-                                    <p>{LAND ==='taiko' ? 'Taiko Grimsvotn L2' : 'Plian Mainnet Subchain 1'}</p>
+                                    <p>{LAND === 'taiko' ? 'Taiko Grimsvotn L2' : 'Plian Mainnet Subchain 1'}</p>
                                 </li>
                             </ul>
                         </div>
@@ -204,6 +177,12 @@ const DetailView = (): ReactElement<ReactNode> => {
             <VerifyModal visible={virifyVisible} closeModal={(val: boolean) => {
                 setVerifyVisible(val)
             }} />
+            {/* 购买NFT */}
+            <BuyNFTsModal visible={takeVisible} closeModal={(val: boolean) => {
+                setTakeVisible(val)
+            }} upRefresh={() => {
+                getNFTInfo();
+            }} item={item} />
         </div>
     )
 };

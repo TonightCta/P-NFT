@@ -60,7 +60,7 @@ export const useContract = () => {
     }, [])
     //铸币
     const mint = async (_data_ipfs: string) => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return
         }
@@ -80,7 +80,7 @@ export const useContract = () => {
     };
     //查询Owner NFT
     const queryOwner = async () => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return
         }
@@ -102,10 +102,24 @@ export const useContract = () => {
 
         let results = await Promise.all(actions)
         return results
+    };
+    //ERC20授权
+    const approveToken = async () => {
+        return new Promise((resolve, reject) => {
+            ERC20Contract.methods.approve(
+                calsMarks(LAND === 'taiko' ? Address.TaikoContractAddressMarketTest : Address.PlianContractAddressMarketTest),
+                "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            ).send(send).on('receipt', (res: any) => {
+                resolve(res)
+            }).on('error', (err: any) => {
+                resolve(err);
+                message.error(err.message)
+            })
+        })
     }
     //购买
     const buy = async (_order_id: string, _price: string, _paymod: string) => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return
         }
@@ -120,38 +134,23 @@ export const useContract = () => {
                 }).on('error', ((err: any) => {
                     resolve(err)
                     message.error(err.message)
-                    // reject(err)
                 }))
             } else {
-                ERC20Contract.methods.approve(
-                    calsMarks(LAND === 'taiko' ? Address.TaikoContractAddressMarketTest : Address.PlianContractAddressMarketTest),
-                    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-                ).send(send)
-                    .on('receipt', (res: any) => {
-                        MARKETContract.methods.buy(_order_id).send({
-                            from: owner,
-                            gas: Gas,
-                        }).on('receipt', (res: any) => {
-                            resolve(res)
-                        }).on('error', ((err: any) => {
-                            resolve(err)
-                            message.error(err.message)
-                            // reject(err)
-                        }))
-                    }).on('error', ((err: any) => {
-                        resolve(err)
-                        message.error(err.message)
-                        // return
-                        resolve(err)
-                    }));
+                MARKETContract.methods.buy(_order_id).send({
+                    from: owner,
+                    gas: Gas,
+                }).on('receipt', (res: any) => {
+                    resolve(res)
+                }).on('error', ((err: any) => {
+                    resolve(err)
+                    message.error(err.message)
+                }))
             }
-
-
         })
     }
     //上架 - 授权
     const putApprove = async (_token_id: number): Promise<string> => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         }
@@ -171,7 +170,7 @@ export const useContract = () => {
     }
     //上架 - list
     const putList = async (_token_id: number, _price: number, _address: string): Promise<string> => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         }
@@ -195,7 +194,7 @@ export const useContract = () => {
     }
     //下架
     const takeOff = async (_order_id: number) => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         }
@@ -214,7 +213,7 @@ export const useContract = () => {
     }
     //活动领奖
     const claimMint = async () => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         }
@@ -233,7 +232,7 @@ export const useContract = () => {
     };
     //活动Mint查询
     const queryMint = async () => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return
         }
@@ -245,7 +244,7 @@ export const useContract = () => {
     };
     //Mint总量查询
     const officalTotalSupply = async (): Promise<number> => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 0
         }
@@ -257,12 +256,20 @@ export const useContract = () => {
     }
     //授权查询
     const queryApprove = async (_token_id: number): Promise<string> => {
-        if(!ethereum){
+        if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         }
         const approve = await NFTContract.methods.getApproved(_token_id).call();
         return approve
+    }
+    const queryERC20Approve = async (_owner: string, _market_address: string): Promise<string | number> => {
+        if (!ethereum) {
+            message.error('You need to install Metamask to use this feature');
+            return 'uninstall'
+        };
+        const result = await ERC20Contract.methods.allowance(_owner, _market_address).call();
+        return result
     }
     return {
         mint,
@@ -274,6 +281,8 @@ export const useContract = () => {
         claimMint,
         queryMint,
         officalTotalSupply,
-        queryApprove
+        queryApprove,
+        queryERC20Approve,
+        approveToken
     }
 }
