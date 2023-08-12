@@ -82,11 +82,18 @@
         background-image: url("../../assets/images/drop_tabs_3.png");
         margin-right: 0;
       }
+      li:hover {
+        transform: translateY(-5px);
+        filter: grayscale(0);
+      }
       .active-tab {
         filter: grayscale(0);
         .ac-mask {
           opacity: 1;
         }
+      }
+      .active-tab:hover {
+        transform: translateY(0);
       }
     }
   }
@@ -176,15 +183,23 @@
       }
     }
     .free-card {
+      opacity: 0;
+      transition: 1s all;
       .free-mint-card {
         .card-msg {
+          filter: grayscale(1);
+          transition: 1.3s all;
           background-image: url("../../assets/images/drop_card_1.png");
         }
       }
     }
     .invite-card {
+      opacity: 0;
+      transition: 1s all;
       .free-mint-card {
         .card-msg {
+          filter: grayscale(1);
+          transition: 1.3s all;
           background-image: url("../../assets/images/drop_card_2.png");
         }
       }
@@ -320,8 +335,12 @@
       }
     }
     .activity-card {
+      opacity: 0;
+      transition: 1s all;
       .free-mint-card {
         .card-msg {
+          filter: grayscale(1);
+          transition: 1.3s all;
           background-image: url("../../assets/images/drop_card_3.png");
         }
       }
@@ -505,6 +524,36 @@
           margin-top: 24px;
           font-size: 16px;
           color: rgba(255, 255, 255, 0.5);
+        }
+      }
+    }
+  }
+  .view-0 {
+    .free-card {
+      opacity: 1;
+      .free-mint-card {
+        .card-msg {
+          filter: grayscale(0);
+        }
+      }
+    }
+  }
+  .view-1 {
+    .invite-card {
+      opacity: 1;
+      .free-mint-card {
+        .card-msg {
+          filter: grayscale(0);
+        }
+      }
+    }
+  }
+  .view-2 {
+    .activity-card {
+      opacity: 1;
+      .free-mint-card {
+        .card-msg {
+          filter: grayscale(0);
         }
       }
     }

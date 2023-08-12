@@ -24,6 +24,7 @@ const FreeMintCard = (): ReactElement => {
     const { queryMint, claimMint } = useContract();
     const [mint, setMint] = useState<number>(0);
     const [wait, setWait] = useState<boolean>(false);
+    const [show, setShow] = useState<string>('')
     const { state } = useContext(PNft);
     const { connectMetamask } = useMetamask();
     const { switchC } = useSwitchChain();
@@ -45,36 +46,41 @@ const FreeMintCard = (): ReactElement => {
         };
     }
     useEffect(() => {
-        queryFN()
+        queryFN();
+        setTimeout(() => {
+            setShow('view-0')
+        })
     }, [])
     return (
-        <div className="free-card">
-            <div className="free-mint-card">
-                <div className="card-msg">
-                    <div className="card-name other-set">
-                        <p>FREE</p>
-                        <p>MINT</p>
+        <div className={show}>
+            <div className="free-card">
+                <div className="free-mint-card">
+                    <div className="card-msg">
+                        <div className="card-name other-set">
+                            <p>FREE</p>
+                            <p>MINT</p>
+                        </div>
+                        <p className="name-2">Free mint</p>
                     </div>
-                    <p className="name-2">Free mint</p>
-                </div>
-                <ul>
-                    {
-                        MintRemark.map((item: Mint, index: number): ReactElement => {
-                            return (
-                                <li key={index}>
-                                    <p>{item.title}</p>
-                                    <p className="rule-options">{item.text}</p>
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
-                <div className="oper-btns">
-                    <p>
-                        <Button loading={wait} disabled={mint > 0 || wait} type="primary" onClick={mint > 0 ? () => { } : mintFN}>
-                            {mint > 0 ? 'ALREADY MINTED' : 'MINT'}
-                        </Button>
-                    </p>
+                    <ul>
+                        {
+                            MintRemark.map((item: Mint, index: number): ReactElement => {
+                                return (
+                                    <li key={index}>
+                                        <p>{item.title}</p>
+                                        <p className="rule-options">{item.text}</p>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                    <div className="oper-btns">
+                        <p>
+                            <Button loading={wait} disabled={mint > 0 || wait} type="primary" onClick={mint > 0 ? () => { } : mintFN}>
+                                {mint > 0 ? 'ALREADY MINTED' : 'MINT'}
+                            </Button>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
