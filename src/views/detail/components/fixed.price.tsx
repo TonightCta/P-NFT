@@ -113,8 +113,6 @@ const FixedModal = (props: Props): ReactElement => {
     const queryApproveFN = async () => {
         const approve = await queryApprove(props.id);
         const bol = OwnerAddress.indexOf(approve) > -1;
-        console.log(OwnerAddress)
-        console.log(bol)
         setApproved(bol);
         setWait({
             ...wait,

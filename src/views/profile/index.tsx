@@ -83,6 +83,10 @@ const ProfileView = (): ReactElement<ReactNode> => {
                 ...error,
                 name: true
             });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
             return
         }
         if (!profile.bio) {
@@ -90,6 +94,10 @@ const ProfileView = (): ReactElement<ReactNode> => {
                 ...error,
                 bio: true
             });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
             return
         }
         if (!profile.email_address) {
@@ -97,6 +105,10 @@ const ProfileView = (): ReactElement<ReactNode> => {
                 ...error,
                 email: true
             });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
             return
         }
         if (!check.test(profile.email_address)) {
@@ -104,6 +116,10 @@ const ProfileView = (): ReactElement<ReactNode> => {
                 ...error,
                 email: true
             });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
             return
         }
         if (!profile.links) {
@@ -111,6 +127,10 @@ const ProfileView = (): ReactElement<ReactNode> => {
                 ...error,
                 link: true
             });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            })
             return
         };
         setWait(true)

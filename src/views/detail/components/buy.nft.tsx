@@ -39,7 +39,6 @@ const BuyNFTsModal = (props: Props): ReactElement => {
     const [approved, setApproved] = useState<boolean>(false);
     const queryApproveFN = async () => {
         const approve = await queryERC20Approve(state.address as string, LAND === 'taiko' ? TaikoContractAddressMarketTest : MarketAddress);
-        console.log(+approve / 1e18)
         const bol = +approve / 1e18 >= +props.item.price / 1e18;
         setApproved(bol);
         setWait({

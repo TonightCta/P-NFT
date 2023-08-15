@@ -67,7 +67,7 @@ const CardItem = (props: Props): ReactElement => {
                 {item.load && <div className="load-box">
                     <Spin />
                 </div>}
-                <div className="play-btn" onClick={(e) => {
+                {item.file_voice_ipfs && item.file_voice_ipfs !== 'undefined' && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
                     if (!item.file_voice_ipfs) {
                         message.error('Failed')
@@ -93,7 +93,7 @@ const CardItem = (props: Props): ReactElement => {
                     });
                 }}>
                     {item.play ? <IconFont type="icon-tingzhi" /> : <CaretRightOutlined />}
-                </div>
+                </div>}
             </div>
             <div className="card-oper">
                 <div className="name-price">

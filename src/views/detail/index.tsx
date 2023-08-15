@@ -14,6 +14,7 @@ import MaskCard from "../../components/mask";
 import { useNavigate } from "react-router-dom";
 import { flag } from "../../utils/source";
 import BuyNFTsModal from "./components/buy.nft";
+import { useMetamask } from "../../utils/metamask";
 
 const DetailView = (): ReactElement<ReactNode> => {
     const { state } = useContext(PNft);
@@ -24,6 +25,7 @@ const DetailView = (): ReactElement<ReactNode> => {
     const [player, setPlayer] = useState<any>();
     const [ownerItem, setOwnerItem] = useState<any>({});
     const { dispatch } = useContext(PNft);
+    const { connectMetamask } = useMetamask();
     const navigate = useNavigate();
     const getNFTInfo = async () => {
         const result = await NFTInfoService({
@@ -118,9 +120,11 @@ const DetailView = (): ReactElement<ReactNode> => {
                                     <p><span>{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item.paymod}</span></p>
                                 </div>
                                 <div className="btn-oper">
-                                    {state.address?.toUpperCase() !== item.seller.toUpperCase() && <Button onClick={() => {
+                                    {state.address?.toUpperCase() !== item.seller.toUpperCase() && <Button onClick={async () => {
+                                        if (!state.address) {
+                                            await connectMetamask()
+                                        };
                                         setTakeVisible(true)
-
                                     }}>
                                         <IconFont type="icon-gouwuche1_shopping-cart-one" />
                                         Buy now

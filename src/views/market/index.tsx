@@ -94,16 +94,12 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                 play: false
             }
         });
-        console.log(filter)
         setList(filter);
     }
     const loadMoreData = () => {
         setLoading(true);
         marketListFN()
     };
-    useEffect(() => {
-        console.log(list)
-    }, [list])
     useEffect(() => {
         loadMoreData();
     }, [page]);

@@ -155,7 +155,6 @@ export const useContract = () => {
             return 'uninstall'
         }
         return new Promise(async (resolve, reject) => {
-            console.log(MarketAddress)
             NFTContract.methods.approve(MarketAddress, _token_id).send(LAND === 'taiko' ? {
                 from: owner,
                 gas: Gas,
@@ -186,7 +185,6 @@ export const useContract = () => {
                 }).on('receipt', (res: string) => {
                     resolve(res)
                 }).on('error', ((err: any) => {
-                    console.log(err)
                     message.error(err.message)
                     resolve(err)
                 }))

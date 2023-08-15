@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ReactElement, ReactNode } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import * as View from '../views/view'
 import { Spin } from "antd";
 
 
 const RouteConfig = (): ReactElement<ReactNode> => {
+    const location = useLocation();
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }, [location.pathname])
     const Loading = () => {
         return (
             <div className="loading-route">
-                <Spin size="large"/>
+                <Spin size="large" />
             </div>
         )
     }

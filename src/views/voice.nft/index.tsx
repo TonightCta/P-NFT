@@ -116,6 +116,9 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
     };
     //IPFS Upload
     const uploadFileFN = async (_file_name: string, _file: any) => {
+        if (!_file) {
+            return
+        }
         const formData = new FormData();
         const fileSize = _file.size / (1024 * 1024);
         if (fileSize > 5) {
@@ -130,6 +133,9 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
     };
     //Service Upload
     const uploadFileLocaFN = async (_file: any) => {
+        if (!_file) {
+            return
+        }
         const formData = new FormData()
         formData.append('file', _file);
         const result = await UploadFileService(formData);
@@ -238,20 +244,20 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             sc();
             return
         }
-        if (cType === 0 && !audioFile) {
-            setError({
-                ...error,
-                audio: true
-            });
-            return
-        };
-        if (cType === 1 && !aiReview.minio_key) {
-            setError({
-                ...error,
-                aiText: true
-            });
-            return
-        };
+        // if (cType === 0 && !audioFile) {
+        //     setError({
+        //         ...error,
+        //         audio: true
+        //     });
+        //     return
+        // };
+        // if (cType === 1 && !aiReview.minio_key) {
+        //     setError({
+        //         ...error,
+        //         aiText: true
+        //     });
+        //     return
+        // };
         setWait(true);
         const img_ipfs = imageType === 0 ? await uploadFileFN(`${new Date().getTime()}.png`, nftFile.source) : null;
         //img_ipfs.ipfshash
@@ -263,7 +269,7 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             name: form.name,
             description: form.desc,
             image: imageType === 0 ? img_ipfs.ipfshash : aiImageView.ipfs,
-            external_url: cType === 0 ? voice_ipfs.ipfshash : aiReview.ipfs
+            external_url: cType === 0 ? voice_ipfs?.ipfshash : aiReview?.ipfs
         }
         if (typeof data === 'object') {
             data = JSON.stringify(data, undefined, 4)
@@ -282,10 +288,10 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
         formData.append('sender', ethereum.selectedAddress);
         formData.append('tx_hash', result['transactionHash']);
         formData.append('image_minio', imageType === 0 ? img_local.minio_key : aiImageView.minio_key);
-        formData.append('voice_minio', cType === 0 ? voice_local.minio_key : aiReview.minio_key);
+        formData.append('voice_minio', cType === 0 ? voice_local?.minio_key : aiReview?.minio_key);
         formData.append('meta_data_ipfs', blob_ipfs.ipfshash);
         formData.append('image_ipfs', imageType === 0 ? img_ipfs.ipfshash : aiImageView.ipfs);
-        formData.append('voice_ipfs', cType === 0 ? voice_ipfs.ipfshash : aiReview.ipfs);
+        formData.append('voice_ipfs', cType === 0 ? voice_ipfs?.ipfshash : aiReview?.ipfs);
         formData.append('name', form.name);
         formData.append('description', form.desc);
         const mintResult = await NFTMintService(formData);
@@ -429,7 +435,7 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
                     </div>
                     {/* Voice */}
                     <div className="inp-public">
-                        <p className="inp-label"><sup>*</sup>Audio
+                        <p className="inp-label">Audio
                             <Tooltip placement="top" title="unknow">
                                 <QuestionCircleOutlined />
                             </Tooltip>
