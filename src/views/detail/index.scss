@@ -151,12 +151,14 @@
             cursor: pointer;
             font-size: 17px;
             font-weight: 500;
+            border: 0;
             background: linear-gradient(
               90deg,
               #fa3370 0%,
               #ac22b1 49%,
               #6641ff 100%
             );
+            box-shadow: 0px 0px 20px #ac22b1;
             .anticon {
               color: rgba(255, 255, 255, 0.6);
             }
@@ -348,7 +350,6 @@
   .page-oper {
     display: flex;
     justify-content: flex-end;
-    
   }
 }
 @media screen and (max-width: 1440px) {

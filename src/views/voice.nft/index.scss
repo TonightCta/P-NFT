@@ -368,12 +368,14 @@
         border-radius: 20px;
         width: 200px;
         font-family: Kanit;
+        border: 0;
         background: linear-gradient(
           90deg,
           #fa3370 0%,
           #ac22b1 49%,
           #6641ff 100%
         );
+        box-shadow: 0px 0px 20px #ac22b1;
       }
     }
   }

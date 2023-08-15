@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode, useEffect } from "react";
 import { InitCanvas } from '../tool/canvas'
-import FooterWapper from "../../../components/footer";
+// import FooterWapper from "../../../components/footer";
 import { useNavigate } from "react-router-dom";
 import { LAND } from "../../../utils/contract";
 
@@ -34,7 +34,7 @@ const ScreenIndex = (): ReactElement<ReactNode> => {
                     }
                 </ul>
             </div>}
-            <FooterWapper/>
+            {/* <FooterWapper/> */}
         </div>
     )
 };

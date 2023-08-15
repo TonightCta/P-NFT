@@ -1,7 +1,7 @@
 .screen-view {
   width: 100%;
   height: 100%;
-  .swiper {
+  .swiper-index {
     width: 100%;
     height: 100vh;
     position: fixed;
@@ -66,19 +66,21 @@
     }
   }
   .screen-index {
-    background: #000;
+    background-color: #000;
+    background-image: url("../../assets/images/screen_bg_1.png");
+    background-size: 100% 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     padding-bottom: 100px;
     button {
-      width: 160px;
-      height: 44px;
-      border-radius: 4px;
-      background-image: linear-gradient(to right, #12d6df, #f70fff);
+      width: 240px;
+      height: 54px;
+      border-radius: 34px;
+      background: linear-gradient(90deg, #fa3370 0%, #ac22b1 49%, #6641ff 100%);
       color: white;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: bold;
       margin-top: 120px;
       position: relative;
@@ -88,16 +90,23 @@
     .public-title {
       position: relative;
       z-index: 200;
-      color: white;
-      font-size: 120px;
-      letter-spacing: 30px;
+      background: linear-gradient(
+        to right,
+        #ffffff 30%,
+        #9d92ff 50%,
+        #ff307c 80%
+      );
+      -webkit-background-clip: text;
+      color: transparent;
+      font-size: 144px;
       width: 100%;
       text-align: center;
       padding-left: 40px;
     }
     .screen-remark {
-      font-size: 30px;
+      font-size: 24px;
       margin-top: 24px;
+      color: rgba(255, 255, 255, 0.8);
     }
     .airdrop-banners {
       position: relative;
@@ -141,25 +150,43 @@
     flex-direction: column;
     background-image: url("../../assets/images/screen_2_bg.png");
     background-size: 100% 100%;
+    background-color: #05010c;
+    .public-title {
+      font-size: 48px;
+    }
     .build-list {
       margin-top: 62px;
       display: flex;
       li {
-        width: 400px;
-        height: 430px;
+        width: 380px;
+        height: 422px;
         border-radius: 20px;
         backdrop-filter: blur(3px);
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 70px 84px;
+        padding: 0 48px;
+        padding-top: 170px;
         color: white;
         text-align: left;
+        position: relative;
+        overflow: hidden;
+        background-color: #23262F;
+        .bg-box {
+          width: 100%;
+          height: 240px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
         p:first-child {
-          font-size: 60px;
-          font-weight: bold;
+          font-size: 32px;
+          font-family: Spark;
         }
         p:last-child {
-          font-size: 24px;
-          margin-top: 34px;
+          font-size: 20px;
+          margin-top: 16px;
           line-height: 28px;
           font-weight: 400;
         }
@@ -175,134 +202,193 @@
     padding-top: 150px;
     background-image: url("../../assets/images/screen_3_bg.png");
     background-size: 100% 100%;
+    background-color: #000;
     padding-bottom: 100px;
-    .voice-list {
-      margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+    .map-inner {
+      z-index: 100;
       display: flex;
-      flex-wrap: wrap;
+      width: 100%;
       justify-content: space-between;
+    }
+    .text-bg {
+      position: absolute;
+      height: 552px;
+      top: 270px;
+      img {
+        height: 100%;
+      }
+    }
+    .list-inner {
+      display: flex;
+    }
+    .title-msg {
+      .title-box {
+        .public-title {
+          font-size: 48px;
+          font-weight: 400;
+          text-align: right;
+        }
+        p:last-child {
+          margin-top: 8px;
+        }
+      }
+    }
+    .voice-list {
+      display: flex;
+      flex-direction: column;
+      margin-right: 40px;
       li {
-        width: calc(50% - 36px);
-        height: 200px;
-        background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(3px);
+        width: 380px;
+        background-color: #23262f;
         border-radius: 20px;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         display: flex;
-        align-items: center;
-        padding: 64px 46px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
         text-align: left;
         .img-box {
-          min-width: 150px;
-          width: 150px;
-          height: 140px;
-          margin-right: 52px;
+          width: 64px;
+          height: 64px;
+          margin-bottom: 40px;
           img {
             width: 100%;
           }
         }
         .text-box {
-          display: flex;
-          align-items: center;
-          flex-direction: column;
-          justify-content: center;
           p {
             text-align: left;
             width: 100%;
+            font-size: 20px;
             color: white;
-            width: 200px;
-          }
-          p:first-child {
-            font-size: 24px;
-            margin-bottom: 12px;
-            font-weight: 500;
-          }
-          p:last-child {
-            font-size: 18px;
-            line-height: 26px;
-          }
-        }
-      }
-      li:nth-child(3),
-      li:last-child {
-        margin-bottom: 0;
-      }
-      li:last-child {
-        .text-box {
-          p {
-            width: 300px;
+            line-height: 24px;
           }
         }
       }
     }
   }
   .voice-nft-wapper {
-    position: relative;
-    .canvas-box {
+    background-image: url("../../assets/images/screen_4_bg.png");
+    background-size: 100% 100%;
+    background-color: #000;
+    flex-direction: column;
+    padding-top: 220px;
+    .public-title {
+      width: 100%;
+      font-size: 48px;
+      text-align: left;
+      padding-left: 200px;
+    }
+    .swiper-4 {
+      padding: 0 200px;
       width: 100%;
       height: 100%;
-    }
-    .player-list {
-      position: absolute;
-      bottom: 10px;
-      left: 0;
-      right: 0;
-      height: 10rem;
-      box-sizing: border-box;
-      background: transparent;
-      display: flex;
-      align-items: end;
-      overflow-x: auto;
-      padding: 0 2rem;
-      p {
-        position: fixed;
-        bottom: 8rem;
-        left: 10%;
-        font-family: AccentGraphic-Medium, AccentGraphic, sans-serif;
-        font-weight: bolder;
-        letter-spacing: 3px;
+      margin-top: 80px;
+      padding-top: 40px;
+      position: relative;
+      .mask-public {
+        position: absolute;
+        width: 200px;
+        height: 320px;
+        top: 40px;
+        z-index: 1;
+        border-radius: 16px;
       }
-      .list-inner {
+      .left-mask {
+        background: linear-gradient(
+          to right,
+          rgba(0, 0, 0, 1),
+          rgba(0, 0, 0, 0)
+        );
+        left: -20px;
+      }
+      .right-mask {
+        background: linear-gradient(
+          to left,
+          rgba(0, 0, 0, 1),
+          rgba(0, 0, 0, 0.5)
+        );
+        right: -80px;
+      }
+      .swiper-slide {
+        height: 320px;
+        color: white;
+        transition: 0.3s all;
+        border-radius: 16px;
         position: relative;
-        white-space: nowrap;
-        text-align: center;
-        img {
-          opacity: 1;
-          cursor: pointer;
-          transition: all ease-in-out 200ms;
-          width: 6rem;
-          height: 6rem;
-          margin: 0 0.8rem;
-          border-radius: 100%;
-          animation: rollRock ease-in-out 2s;
-          @media (max-device-width: 450px) {
-            width: 3rem;
-            height: 3rem;
+        overflow: hidden;
+        z-index: 2;
+        .bg-img {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+        }
+        .inner-msg {
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.2);
+          backdrop-filter: blur(20px);
+          padding-top: 40px;
+          .avatar-box {
+            width: 160px;
+            height: 160px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            transition: 0.3s all;
+            .avatar-inner {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              overflow: hidden;
+              cursor: pointer;
+              position: relative;
+              span{
+                font-size: 60px;
+                position: absolute;
+                z-index: 1;
+                left: 50%;
+                top: 50%;
+                color: #fa3370;
+                margin-left: -30px;
+                margin-top: -30px;
+              }
+              img {
+                width: 100%;
+              }
+            }
           }
-          &:hover {
-            border: 2px solid #f3398d;
-            opacity: 0.8;
+          p {
+            margin-top: 16px;
+            font-size: 20px;
+            font-weight: bold;
+          }
+          p:last-child {
+            font-weight: 400;
+            font-size: 18px;
           }
         }
       }
-      .load-player {
-        img {
-          opacity: 0.8;
-          cursor: not-allowed;
-        }
-      }
-      @keyframes rollRock {
-        0% {
-          margin: 0 -100% 0 -100%;
-          transform: rotate(720deg);
-        }
-        65% {
-          margin: 0 0.2rem;
-          transform: rotate(360deg);
-        }
-        100% {
-          margin: 0 0.8rem;
-          transform: rotate(0);
+      .swiper-slide-active {
+        width: 320px !important;
+        height: 400px !important;
+        transform: translateY(-40px);
+        .inner-msg {
+          .avatar-box {
+            width: 218px;
+            height: 218px;
+          }
+          p {
+            font-size: 24px;
+          }
+          p:last-child {
+            font-size: 20px;
+          }
         }
       }
     }
@@ -310,17 +396,33 @@
   .voice-pool {
     flex-direction: column;
     padding-top: 200px;
-    background-image: url("../../assets/images/screen_4_bg.png");
+    background-image: url("../../assets/images/screen_5_bg.png");
+    background-color: #000;
     background-size: 100% 100%;
     justify-content: flex-start;
+    position: relative;
+    .pool-inner {
+      z-index: 100;
+    }
+    .text-bg {
+      position: absolute;
+      height: 552px;
+      top: 150px;
+      img {
+        height: 100%;
+      }
+    }
+    .public-title {
+      font-size: 48px;
+    }
     .more-top {
-      margin-top: 120px;
+      margin-top: 80px;
     }
     .pool-text {
-      width: 640px;
-      text-align: center;
-      font-size: 18px;
-      color: white;
+      width: 740px;
+      text-align: left;
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.8);
       line-height: 26px;
     }
     .need-top {
@@ -386,18 +488,18 @@
               font-size: 36px;
               // transform: translateX(20px);
             }
-            .screen-remark{
+            .screen-remark {
               font-size: 16px;
               padding-left: 8px;
             }
-            .airdrop-banners{
-              li{
+            .airdrop-banners {
+              li {
                 margin-right: 0;
               }
-              li:nth-child(2){
+              li:nth-child(2) {
                 display: none;
               }
-              li:last-child{
+              li:last-child {
                 display: none;
               }
             }

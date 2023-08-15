@@ -1,8 +1,11 @@
-import { ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import Sketch from "../tool/sketch";
+import { ReactElement, ReactNode, useCallback, useRef, useState } from "react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import IconFont from "../../../utils/icon";
+// import Sketch from "../tool/sketch";
 
 const VoiceNFTWapper = (): ReactElement<ReactNode> => {
-    const [canvasEle, setCanvasEle]: Array<any> = useState(null);
+    // const [canvasEle, setCanvasEle]: Array<any> = useState(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [activeIndex, setActiveIndex] = useState(999)
     const voiceSrc = [
@@ -32,13 +35,16 @@ const VoiceNFTWapper = (): ReactElement<ReactNode> => {
         // src: `https://randomuser.me/api/portraits/lego/${(i + 1) % 8}.jpg`,
     }));
     const refVoice: any = useRef()
+    const [play,setPlay] = useState<boolean>(false);
     const [sayer, setSayer] = useState({ name: '', voice: '' });
     const toggleAudio = (trigger: boolean, audio: any) => {
         if (trigger) {
             audio && audio.play()
+            setPlay(true)
             // canvas && canvas.play()
         } else {
             audio && audio.pause()
+            setPlay(false)
             // canvas && canvas.stop()
         }
     }
@@ -75,41 +81,57 @@ const VoiceNFTWapper = (): ReactElement<ReactNode> => {
                 }, 1000)
             }
         },
-        [canvasEle, loading, activeIndex]
+        [loading, activeIndex]
     )
-    useEffect(() => {
-        const rel = document.getElementById('container')
-        if (rel && !canvasEle?.container) {
-            const ele = new Sketch({
-                dom: document.getElementById('container'),
-            })
-            // ele.stop()
-            setCanvasEle(ele)
-        }
-    }, [])
+    // useEffect(() => {
+    //     const rel = document.getElementById('container')
+    //     if (rel && !canvasEle?.container) {
+    //         const ele = new Sketch({
+    //             dom: document.getElementById('container'),
+    //         })
+    //         // ele.stop()
+    //         setCanvasEle(ele)
+    //     }
+    // }, [])
     return (
         <div className="voice-nft-wapper public-screen">
-            <section className="canvas-box" id="container">
-            
-            </section>
-            <div className="player-list">
-                <div className={`list-inner ${loading ? 'load-player' : ''}`}>
-                    <audio ref={refVoice} autoPlay={false} loop preload="auto" src={sayer.voice} />
-                    {ds_avatar.map((item, i) => (
-                        <img
-                            key={item.id}
-                            src={item.src}
-                            alt=""
-                            onClick={() => {
-                                playVoice(item)
-                            }}
-                            style={{
-                                border: i === activeIndex ? '2px solid #f3398d' : 'none',
-                            }}
-                        />
-                    ))}
-                </div>
-            </div>
+            <p className="public-title">
+                TRAFFIC OF<br />VOICENFT
+            </p>
+            <audio ref={refVoice} autoPlay={false} loop preload="auto" src={sayer.voice} />
+            <Swiper
+                slidesPerView={5}
+                spaceBetween={30}
+                autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                }}
+                loop
+                className="swiper-4"
+            >
+                <div className="right-mask mask-public"></div>
+                {
+                    ds_avatar.map((item, index) => {
+                        return (
+                            <SwiperSlide key={index}>
+                                <img className="bg-img" src={item.src} alt="" />
+                                <div className="inner-msg">
+                                    <div className="avatar-box">
+                                        <div className="avatar-inner" onClick={() => {
+                                            playVoice(item)
+                                        }}>
+                                            {sayer.name === item.name && play ? <IconFont type="icon-zanting1"/> : <IconFont type="icon-bofang_play-one" />}
+                                            <img src={item.src} alt="" />
+                                        </div>
+                                    </div>
+                                    <p>{item.name}</p>
+                                    <p>Business Development</p>
+                                </div>
+                            </SwiperSlide>
+                        )
+                    })
+                }
+            </Swiper>
         </div>
     )
 };

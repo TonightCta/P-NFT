@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useContext, useEffect, useRef } from "react";
+import { ReactElement, ReactNode, useContext, useEffect } from "react";
 // import { Button } from "antd";
 import './index.scss'
 // import { useMetamask } from "../../utils/metamask";
@@ -53,7 +53,7 @@ const ScreenView = (): ReactElement<ReactNode> => {
                 mousewheel
                 cssMode
                 direction={"vertical"}
-                className="mySwiper"
+                className="swiper-index"
                 speed={800}
                 pagination={pagination}
                 modules={[Pagination]}

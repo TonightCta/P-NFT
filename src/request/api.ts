@@ -50,3 +50,7 @@ export const BindTwitterService = (p:o) => get('/twitter/maketoken',p);
 export const UploadAudioService = (p:FormData) => post('/profile/uploadaudio',p);
 //Upload Background
 export const UploadBackGroundService = (p:FormData) => post('/profile/uploadbgimg',p);
+//Sign-in Info
+export const SignInfoService = (p:o) => post('/checkin/info',p);
+//Sign-in Up
+export const SignUpService = (p:o) => post('/checkin/checkin',p);
