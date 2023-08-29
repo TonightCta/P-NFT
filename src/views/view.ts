@@ -2,6 +2,7 @@ import React from 'react';
 
 const IndexView = React.lazy(() => import('./index/index'));
 const ScreenView = React.lazy(() => import('./screen/index'));
+const ScreenViewNew = React.lazy(() => import('./screen.new/index'));
 const MarketView = React.lazy(() => import('./market/index'));
 const ProfileView = React.lazy(() => import('./profile/index'));
 const DetailView = React.lazy(() => import('./detail/index'));
@@ -13,6 +14,7 @@ const ToolView = React.lazy(() => import('./tool/index'))
 export {
     IndexView,
     ScreenView,
+    ScreenViewNew,
     MarketView,
     ProfileView,
     DetailView,

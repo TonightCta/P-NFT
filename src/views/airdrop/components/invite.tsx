@@ -107,8 +107,9 @@ const InviteCard = (): ReactElement => {
                 <div className="free-mint-card">
                     <div className="card-msg">
                         <p className="card-name">INVITE</p>
-                        <p className="name-2">Invite</p>
+                        {/* <p className="name-2">Invite</p> */}
                     </div>
+                    <p className="mobile-title">Invite</p>
                     <ul>
                         {
                             MintRemark.map((item: Mint, index: number): ReactElement => {
@@ -133,7 +134,7 @@ const InviteCard = (): ReactElement => {
                                 ? <div className="step-1">
                                     <div className="join-box public-bg">
                                         <p className="join-title">Join a friend's activity</p>
-                                        <p className="join-content">Content 1</p>
+                                        {/* <p className="join-content">Content 1</p> */}
                                         <div>
                                             <div className="invite-code-inp">
                                                 <input type="text" value={code} readOnly={GetUrlKey('code', window.location.href) ? true : false} placeholder="Invite Code(Optional)" onChange={(e) => {

@@ -5,29 +5,34 @@
   left: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 40px;
   ul {
     display: flex;
     li {
       margin-right: 24px;
       cursor: pointer;
-      span{
+      opacity: 0.6;
+      transition: 0.3s all;
+      span {
         font-size: 26px;
       }
     }
-    li:nth-child(2){
-      span{
+    li:nth-child(2) {
+      span {
         font-size: 24px;
       }
     }
-    li:nth-child(3){
-      span{
+    li:nth-child(3) {
+      span {
         font-size: 24px;
       }
     }
     li:last-child {
       margin-right: 0;
+    }
+    li:hover {
+      opacity: 1;
     }
   }
   p {

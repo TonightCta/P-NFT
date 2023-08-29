@@ -4,6 +4,7 @@ import { useReducer, createContext, useEffect } from 'react'
 import { HashRouter, useLocation } from 'react-router-dom';
 import { Context } from './utils/types';
 import { defaultContext, defaultState, defaultStateInit, initState } from './reducer';
+import { VERSION } from './utils/source';
 
 export const PNft = createContext<Context>(defaultContext);
 
@@ -12,7 +13,7 @@ function App() {
   return (
     <HashRouter>
       <PNft.Provider value={{ state, dispatch }}>
-        <div className='App'>
+        <div className={`App ${VERSION === 'new' ? 'new-app' : ''}`}>
           <RouteConfig />
         </div>
       </PNft.Provider>

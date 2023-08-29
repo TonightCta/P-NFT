@@ -9,24 +9,54 @@
   }
   .cate-list {
     margin: 48px 0;
-    ul {
+    display: flex;
+    position: relative;
+    .next-silde {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 140px;
+      padding-left: 60px;
+      background: linear-gradient(
+        to left,
+        #141416,
+        rgba(0, 0, 0, 0)
+      );
       display: flex;
+      justify-content: center;
+      align-items: center;
+      span {
+        font-size: 48px;
+        cursor: pointer;
+      }
+      z-index: 2;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+    .swiper {
+      flex: 1;
+    }
+    ul,
+    .swiper {
+      display: flex;
+      min-width: 310px;
       justify-content: space-between;
-      li {
-        width: 25%;
+      li,
+      .swiper-slide {
         margin-right: 40px;
         overflow: hidden;
         position: relative;
         transition: 0.3s all;
         cursor: pointer;
         position: relative;
-        .loading-box{
+        .loading-box {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: rgba(0, 0, 0, .5);
+          background-color: rgba(0, 0, 0, 0.5);
           backdrop-filter: blur(5px);
           display: flex;
           align-items: center;
@@ -142,7 +172,7 @@
         }
       }
       margin-right: 0;
-      li:hover {
+      li:hover,.swiper-slide:hover {
         transform: translateY(-4px);
       }
     }
@@ -202,8 +232,8 @@
         font-size: 16px;
       }
     }
-    .data-list{
-      .page-oper{
+    .data-list {
+      .page-oper {
         margin: 40px auto;
         display: flex;
         justify-content: center;
@@ -246,18 +276,17 @@
           .banner-box {
             // height: 120px;
             justify-content: flex-start;
-            .alone-img{
+            .alone-img {
               width: 186px;
               margin-right: 20px;
             }
-            .img-other{
-              img{
+            .img-other {
+              img {
                 width: 56px;
                 height: 56px;
               }
             }
           }
-          
         }
       }
     }

@@ -68,6 +68,7 @@
     }
   }
 }
+
 .need-line {
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(6px);
@@ -75,6 +76,9 @@
 .need-blur {
   background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(6px);
+}
+.new-version {
+  background-color: white;
 }
 .pop-menu {
   width: 100px;
@@ -170,9 +174,9 @@
         }
       }
     }
-    .connect-wallet{
+    .connect-wallet {
       text-align: center;
-      button{
+      button {
         border-radius: 20px;
       }
     }
@@ -187,7 +191,7 @@
   }
   .login-out {
     text-align: center;
-    button{
+    button {
       border-radius: 20px;
     }
     .login-out {

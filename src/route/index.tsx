@@ -3,6 +3,8 @@ import { ReactElement, ReactNode } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import * as View from '../views/view'
 import { Spin } from "antd";
+import { VERSION } from "../utils/source";
+
 
 
 const RouteConfig = (): ReactElement<ReactNode> => {
@@ -26,7 +28,7 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <View.IndexView />
             </React.Suspense>}>
                 <Route index element={<React.Suspense fallback={<Loading />}>
-                    <View.ScreenView />
+                    {VERSION === 'new' ? <View.ScreenViewNew/> : <View.ScreenView />}
                 </React.Suspense>}></Route>
                 <Route path="/voice-nft" element={<React.Suspense fallback={<Loading />}>
                     <View.VoiceNFTView />

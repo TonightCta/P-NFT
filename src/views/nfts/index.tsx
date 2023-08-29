@@ -59,7 +59,6 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const itemQuery = async () => {
         setLoading(true);
         const result: any = await queryOwner();
-        console.log(result)
         setTotal(result.length);
         const now: NFTItem[] = [];
         result.forEach(async (e: any) => {

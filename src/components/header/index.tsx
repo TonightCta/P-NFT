@@ -19,7 +19,7 @@ const MODE: string = process.env.REACT_APP_LAND as string;
 const Menu: Menu[] = MODE === 'taiko'
     ? [
         {
-            name: 'Ai creation',
+            name: 'AI creation',
             url: '/voice-nft'
         },
         {
@@ -29,7 +29,7 @@ const Menu: Menu[] = MODE === 'taiko'
     ]
     : [
         {
-            name: 'Ai creation',
+            name: 'AI creation',
             url: '/voice-nft'
         },
         {
@@ -136,7 +136,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                             : <div className={`connect-wallet ${state.address ? 'w-200' : ''}`} onClick={() => {
                                 setInnerVisible(true)
                             }}>
-                                {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar />}
+                                {state.account.avatar_url ? <img src={state.account.avatar_url} alt="" /> : <DefaultAvatar diameter={32}/>}
                             </div>
                         : <MenuOutlined onClick={() => {
                             setInnerVisible(true)

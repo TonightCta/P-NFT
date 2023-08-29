@@ -48,7 +48,7 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
     const { connectMetamask } = useMetamask();
     const audioRef: any = useRef('');
     const { switchC } = useSwitchChain();
-    const { mint } = useContract();
+    const { mint, getBalance } = useContract();
     const [cType, setCType] = useState<number>(0);
     const [rate, setRate] = useState<number>(100);
     const [aiText, setAIText] = useState<string>('');
@@ -207,6 +207,12 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
     }
     //Mint NFT
     const mintNFTFN = async () => {
+        const balance = await getBalance();
+        const numberBalance: number = +balance / 1e18;
+        if (numberBalance <= 0) {
+            message.warning('Your available balance is insufficient.');
+            return
+        }
         if (!state.address) {
             await connectMetamask();
             return
@@ -282,6 +288,8 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             return
         }
         const formData = new FormData();
+        console.log(voice_local)
+        console.log(aiReview)
         formData.append('chain_id', process.env.REACT_APP_CHAIN as string);
         formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');
@@ -533,6 +541,9 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
                     </p>
                 </div>
             </div>
+            {/* <Button onClick={() => {
+                balanceErc20('0x6302744962a0578E814c675B40909e64D9966B0d');
+            }}>Test Query</Button> */}
         </div>
     )
 };

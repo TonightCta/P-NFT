@@ -13,7 +13,7 @@ interface Mint {
 const MintRemark: Mint[] = [
     {
         title: 'Activity Rules:',
-        text: 'X-certified users sign in at Pizzap will receive $PI (up to 1.5PI).'
+        text: 'Users sign in at Pizzap will receive $PI randomly (1~10,000).'
     },
     {
         title: 'Total Reward:',
@@ -29,7 +29,7 @@ const FreeMintCard = (): ReactElement => {
     const [point, setPoint] = useState<number>(0);
     const [pointReward, setPointReward] = useState<number>(0);
     const [checkInfo, setCheckInfo] = useState<any>();
-    const time = 1 * 60 * 1000;
+    const time = 24 * 60 * 60 * 1000;
     const queryFN = async () => {
         if (!state.address) {
             await connectMetamask();
@@ -41,13 +41,20 @@ const FreeMintCard = (): ReactElement => {
         if (status !== 200) {
             message.error(result.msg);
             setCheckInfo({
-                last_check_in:new Date().getTime() - 7 * 24 * 60 * 60 * 1000
+                last_check_in: new Date().getTime() - 24 * 60 * 60 * 1000
             })
             return
         };
         setPoint(data.check_in_count);
         setPointReward(data.check_in_count);
-        setCheckInfo(data);
+        if (data.check_in_count === 0) {
+            setCheckInfo({
+                ...data,
+                last_check_in: new Date().getTime() - 24 * 60 * 60 * 1000
+            });
+        } else {
+            setCheckInfo(data)
+        }
     }
     const signInFN = async () => {
         if (!state.address) {
@@ -55,12 +62,12 @@ const FreeMintCard = (): ReactElement => {
         }
         setWait(true);
         const result = await SignUpService({
-            user_address:state.address,
-            day:point + 1
+            user_address: state.address,
+            day: point + 1
         });
         setWait(false);
         const { status } = result;
-        if(status !== 200){
+        if (status !== 200) {
             message.error(result.msg);
             return
         };
@@ -82,8 +89,9 @@ const FreeMintCard = (): ReactElement => {
                             <p>DAILY</p>
                             <p>BONUS</p>
                         </div>
-                        <p className="name-2">Daily bonus</p>
+                        {/* <p className="name-2">Daily bonus</p> */}
                     </div>
+                    <p className="mobile-title">Daily bonus</p>
                     <ul>
                         {
                             MintRemark.map((item: Mint, index: number): ReactElement => {
@@ -107,7 +115,7 @@ const FreeMintCard = (): ReactElement => {
                                             return
                                         }
                                         setPointReward(item);
-                                    }} className={`${point >= item && 'checked-point'} ${pointReward === item && 'active-point'}`}>
+                                    }} className={`${point >= item && 'checked-point'} ${pointReward === item && 'active-point'} ${point + 1 === item && 'next-check'}`}>
                                         <div>
                                             {
                                                 point >= item
@@ -126,14 +134,17 @@ const FreeMintCard = (): ReactElement => {
                     {pointReward >= 1 && <div className={`rewark-msg left-${pointReward}`}>
                         {/* <div className="arrow-box"></div> */}
                         <div className="title-msg">
-                            <p>Rewards have been issued</p>
+                            <p>Rewards have been distributed</p>
                             <p onClick={() => {
-                                if(!checkInfo[`d${pointReward}_reward_tx_hash`]){
+                                if (!checkInfo[`d${pointReward}_reward_tx_hash`]) {
                                     message.info('Transaction in progress')
                                     return
                                 }
                                 window.open(`https://v2-piscan.plian.org/tx/${checkInfo[`d${pointReward}_reward_tx_hash`]}`)
-                            }}>View on explorer</p>
+                            }}>
+                                <span className="pc-view-out">View on explorer</span>
+                                <IconFont type="icon-globe-simple-bold" />
+                            </p>
                         </div>
                         <p className="hash-pub">Transaction Hash:</p>
                         <p className="hash-pub">{checkInfo[`d${pointReward}_reward_tx_hash`] ? checkInfo[`d${pointReward}_reward_tx_hash`] : '[Transaction in progress...]'}</p>
@@ -142,7 +153,7 @@ const FreeMintCard = (): ReactElement => {
                         {
                             (new Date().getTime() - new Date(checkInfo?.last_check_in).getTime() < time) && point < 7
                                 ? <Button type="default" className="count-done-btn" disabled>
-                                    <Countdown valueStyle={{color:'white',fontSize:20}} onFinish={() => {
+                                    <Countdown valueStyle={{ color: 'white', fontSize: 20 }} onFinish={() => {
                                         queryFN();
                                     }} title={null} value={Date.now() + (time - (new Date().getTime() - new Date(checkInfo?.last_check_in).getTime()))} />
                                 </Button>

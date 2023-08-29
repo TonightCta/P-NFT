@@ -5,17 +5,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #141416;
   color: white;
+  font-family: Kanit;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-body {
-  font-family: Kanit;
 }
 
 @font-face {
@@ -42,6 +38,12 @@ body {
 @font-face {
   font-family: 'Spark';
   src: url('./assets/fonts/Spark.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face{
+  font-family: 'SparkTitleNew';
+  src: url('./assets/fonts/Urbanist-Black.ttf');
   font-weight: normal;
   font-style: normal;
 }

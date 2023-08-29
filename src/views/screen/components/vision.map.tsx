@@ -1,36 +1,42 @@
 import { ReactElement, ReactNode } from "react";
+import IconFont from "../../../utils/icon";
 
 
 interface List {
-    img: string,
     title: string,
-    text: string
+    text: string,
+    color: string,
+    icon: string
 }
 
 const VisionMap = (): ReactElement<ReactNode> => {
     const list: List[] = [
         {
-            img: require('../../../assets/images/map_1.png'),
             title: 'MultiVerse',
-            text: 'We are now building a multi-chain NFT platform that supports NFT trading.'
+            text: 'We are now building a multi-chain NFT platform that supports NFT trading.',
+            color: 'linear-gradient(135deg, #FA3370 0%, #FA89CB 100%)',
+            icon: 'icon-a-AIIcons-15'
         },
 
         {
-            img: require('../../../assets/images/map_3.png'),
             title: 'Owners Gallery',
-            text: 'VoiceNFT owners will create digital works for sale on Pizzap.'
+            text: 'VoiceNFT owners will create digital works for sale on Pizzap.',
+            icon: 'icon-a-AIIcons-7',
+            color: 'linear-gradient(135deg, #5C34FF 0%, #7070FF 100%)'
         },
     ];
     const list_2: List[] = [
         {
-            img: require('../../../assets/images/map_2.png'),
             title: 'Voice Training',
-            text: 'We will provide voice training services based on speech intelligence.'
+            text: 'We will provide voice training services based on speech intelligence.',
+            icon: 'icon-a-AIIcons-22',
+            color: 'linear-gradient(135deg, #5C34FF 0%, #7070FF 100%)'
         },
         {
-            img: require('../../../assets/images/map_4.png'),
             title: 'AIGC Artwork Collections',
-            text: 'We will showcase the value of machine-generated creations at the AIGC track,and unlock the commercial potential of the AIGC Collection.'
+            text: 'We will showcase the value of machine-generated creations at the AIGC track,and unlock the commercial potential of the AIGC Collection.',
+            icon: 'icon-a-AIIcons-1',
+            color: 'linear-gradient(135deg, #FA3370 0%, #FA89CB 100%)'
         },
     ]
     return (
@@ -42,8 +48,8 @@ const VisionMap = (): ReactElement<ReactNode> => {
                             list.map((item: List, index: number): ReactElement => {
                                 return (
                                     <li key={index}>
-                                        <div className="img-box">
-                                            <img src={item.img} alt="" />
+                                        <div className="img-box" style={{background:item.color}}>
+                                            <IconFont type={item.icon} />
                                         </div>
                                         <div className="text-box">
                                             {/* <p>{item.title}</p> */}
@@ -54,13 +60,13 @@ const VisionMap = (): ReactElement<ReactNode> => {
                             })
                         }
                     </ul>
-                    <ul className="voice-list" style={{paddingTop:'80px'}}>
+                    <ul className="voice-list need-top-8">
                         {
                             list_2.map((item: List, index: number): ReactElement => {
                                 return (
-                                    <li key={index}>
-                                        <div className="img-box">
-                                            <img src={item.img} alt="" />
+                                    <li key={index}> 
+                                        <div className="img-box" style={{background:item.color}}>
+                                            <IconFont type={item.icon} />
                                         </div>
                                         <div className="text-box">
                                             {/* <p>{item.title}</p> */}
@@ -76,6 +82,9 @@ const VisionMap = (): ReactElement<ReactNode> => {
                     <div className="title-box">
                         <p className="public-title">VISIONMAP OF</p>
                         <p className="public-title">PIZZAP</p>
+                    </div>
+                    <div className="img-box">
+                        <img src={require('../../../assets/images/map_icon_1.png')} alt="" />
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import './index.scss'
 import { useNavigate } from "react-router-dom";
 import { Pagination, Spin } from "antd";
@@ -8,10 +8,11 @@ import { NFTItem, Type } from "../../utils/types";
 import MaskCard from "../../components/mask";
 import { PNft } from "../../App";
 import { NFTAddress, useContract } from "../../utils/contract";
-import { calsAddress } from "../../utils";
 import { useSwitchChain } from "../../hooks/chain";
+import SwiperUser from "./components/swiper.user";
+import IconFont from "../../utils/icon";
 
-interface Cate {
+export interface Cate {
     img: string,
     img_1: string,
     img_2: string,
@@ -26,14 +27,7 @@ interface Cate {
     rank_color: string,
 }
 
-interface Rank {
-    total_mint: number,
-    minter: string,
-    minter_name: string,
-    minter_avatar_url: string,
-    img_urls: { ipfs_url: string }[],
-    loading: boolean
-}
+
 const cateList: Cate[] = [
     {
         img: require('../../assets/nfts/s_1.png'),
@@ -49,138 +43,23 @@ const cateList: Cate[] = [
         item: 1211,
         rank_color: '#3772FF'
     },
-    {
-        img: '',
-        img_1: '',
-        img_2: '',
-        img_3: '',
-        name: "First",
-        rank_icon: require('../../assets/images/rank_1.png'),
-        name_p: 'Spark',
-        id: 1,
-        icon: require('../../assets/images/WechatIMG20.jpeg'),
-        show: true,
-        item: 521,
-        rank_color: '#EF466F'
-    },
-    {
-        img: '',
-        img_1: '',
-        img_2: '',
-        img_3: '',
-        name: "Second",
-        rank_icon: require('../../assets/images/rank_2.png'),
-        name_p: 'Digi ART',
-        id: 2,
-        icon: require('../../assets/images/WechatIMG20.jpeg'),
-        show: true,
-        item: 238,
-        rank_color: '#9757D7'
-    },
-    {
-        img: '',
-        img_1: '',
-        img_2: '',
-        img_3: '',
-        name: "Third",
-        rank_icon: require('../../assets/images/rank_3.png'),
-        name_p: 'Something Beautiful',
-        id: 3,
-        icon: require('../../assets/images/WechatIMG20.jpeg'),
-        show: true,
-        item: 196,
-        rank_color: '#45B26B'
-    },
 ];
+
 const MarketPlaceView = (): ReactElement<ReactNode> => {
     const navigate = useNavigate();
-    const { dispatch } = useContext(PNft);
     const [activeTab, setActiveTab] = useState<number>(0);
     const [list, setList] = useState<NFTItem[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
+    const swiperRef: any = useRef(null)
     const [total, setTotal] = useState<number>(1);
     // const [activeCate, setActiveCate] = useState<number>(0);
-    const { officalTotalSupply } = useContract();
     const [officalTotal, setOfficalTotal] = useState<number>(0);
-    const [rankMsg, setRankMsg] = useState<Rank[]>([
-        {
-            total_mint: 0,
-            minter: '',
-            minter_name: '',
-            minter_avatar_url: '',
-            loading: true,
-            img_urls: [
-                {
-                    ipfs_url: ''
-                },
-                {
-                    ipfs_url: ''
-                },
-                {
-                    ipfs_url: ''
-                },
-                {
-                    ipfs_url: ''
-                },
-            ],
-        },
-        {
-            total_mint: 0,
-            minter: '',
-            minter_name: '',
-            minter_avatar_url: '',
-            loading: true,
-            img_urls: [
-                {
-                    ipfs_url: ''
-                },
-                {
-                    ipfs_url: ''
-                },
-                {
-                    ipfs_url: ''
-                },
-                {
-                    ipfs_url: ''
-                },
-            ],
-        },
-        {
-            total_mint: 0,
-            minter: '',
-            minter_name: '',
-            minter_avatar_url: '',
-            loading: true,
-            img_urls: [
-                {
-                    ipfs_url: ''
-                },
-                {
-                    ipfs_url: ''
-                },
-                {
-                    ipfs_url: ''
-                },
-                {
-                    ipfs_url: ''
-                },
-            ],
-        },
-    ]);
-    const { switchC } = useSwitchChain();
-    const getMintRank = async () => {
-        await switchC(Number(process.env.REACT_APP_CHAIN))
-        const result = await MintRankService({
-            chain_id: process.env.REACT_APP_CHAIN,
-            contract_address: NFTAddress,
-            page_size: 3,
-            page_num: 1
-        });
-        result.data.data.item && setRankMsg(result.data.data.item);
+    const { officalTotalSupply } = useContract();
+    const [nextBtn, setNextBtn] = useState<boolean>(false);
+    const getRank = async () => {
         setOfficalTotal(await officalTotalSupply())
-    };
-
+    }
     const marketListFN = async () => {
         setLoading(true);
         const result = await NFTMarketService({
@@ -209,7 +88,7 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
         setList(filter);
     };
     useEffect(() => {
-        getMintRank();
+        getRank();
     }, []);
     useEffect(() => {
         marketListFN();
@@ -218,55 +97,50 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
         <div className="market-place-view" id="marketPlaceList">
             <MaskCard />
             <div className="up-mask">
-                <p className="place-title">Explore Collections</p>
+                <p className="place-title">The Explore Collections</p>
                 <div className="cate-list">
                     <ul>
                         {
                             cateList.map((item: Cate, index: number): ReactElement => {
                                 return (
                                     <li key={index} onClick={() => {
-                                        const detail = () => {
-                                            if (!rankMsg[index - 1]) {
-                                                return
-                                            }
-                                            dispatch({
-                                                type: Type.SET_OWNER_ADDRESS,
-                                                payload: {
-                                                    owner_address: rankMsg[index - 1].minter
-                                                }
-                                            });
-                                            navigate('/owner')
-                                        }
-                                        item.id === 0 ? navigate('/market') : detail();
+                                        navigate('/market')
                                     }}>
-                                        {item.id !== 0 && rankMsg[index - 1] && rankMsg[index - 1].loading && <div className="loading-box">
-                                            <Spin size="large" />
-                                        </div>}
                                         <div className="banner-box">
                                             <div className="rank-box" style={{ backgroundColor: item.rank_color }}>
                                                 <img src={item.rank_icon} alt="" />
-                                                <p>{item.id === 0 ? 'Hot' : `#${item.id}`}</p>
+                                                <p>Hot</p>
                                             </div>
-                                            <img src={item.id === 0 ? item.img : rankMsg[index - 1] ? rankMsg[index - 1].img_urls[0] ? rankMsg[index - 1].img_urls[0].ipfs_url : item.img : item.img} className="alone-img" alt="" />
+                                            <img src={item.img} className="alone-img" alt="" />
                                             <div className="img-other">
-                                                <img src={item.id === 0 ? item.img_1 : rankMsg[index - 1] ? rankMsg[index - 1].img_urls[1] ? rankMsg[index - 1].img_urls[1].ipfs_url : item.img_1 : item.img_1} alt="" />
-                                                <img src={item.id === 0 ? item.img_2 : rankMsg[index - 1] ? rankMsg[index - 1].img_urls[2] ? rankMsg[index - 1].img_urls[2].ipfs_url : item.img_2 : item.img_2} alt="" />
-                                                <img src={item.id === 0 ? item.img_3 : rankMsg[index - 1] ? rankMsg[index - 1].img_urls[3] ? rankMsg[index - 1].img_urls[3].ipfs_url : item.img_3 : item.img_3} alt="" />
+                                                <img src={item.img_1} alt="" />
+                                                <img src={item.img_2} alt="" />
+                                                <img src={item.img_3} alt="" />
                                             </div>
                                         </div>
-                                        <p className={`${!item.show ? 'need-left' : ''}`}>{item.id === 0 ? item.name : (rankMsg[index - 1] ? rankMsg[index - 1].minter_name : item.name)}</p>
+                                        <p className={`${!item.show ? 'need-left' : ''}`}>{item.name}</p>
                                         <div className="icon-box">
                                             <div>
-                                                <img src={item.id === 0 ? item.icon : rankMsg[index - 1] ? rankMsg[index - 1].minter_avatar_url : ''} alt="" />
-                                                <span>{item.id === 0 ? item.name_p : calsAddress(rankMsg[index - 1] ? rankMsg[index - 1].minter : '')}</span>
+                                                <img src={item.icon} alt="" />
+                                                <span>{item.name_p}</span>
                                             </div>
-                                            <p>{item.id === 0 ? officalTotal : rankMsg[index - 1] ? rankMsg[index - 1].total_mint : 0}&nbsp;ITEMS</p>
+                                            <p>{officalTotal}&nbsp;ITEMS</p>
                                         </div>
                                     </li>
                                 )
                             })
                         }
                     </ul>
+                    <SwiperUser showNext={(val: boolean) => {
+                        setNextBtn(val);
+                    }} outSwiper={(current: any) => {
+                        swiperRef.current = current;
+                    }} />
+                    {nextBtn && <div className="next-silde">
+                        <IconFont type="icon-caret-circle-right" onClick={() => {
+                            swiperRef.current.slideNext()
+                        }} />
+                    </div>}
                 </div>
                 <p className="place-title">Discover</p>
                 <div className="discover-card">
@@ -319,8 +193,8 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
                         <div className="page-oper">
                             <Pagination defaultCurrent={page} pageSize={15} total={total} onChange={(page) => {
                                 window.scrollTo({
-                                    top:220,
-                                    behavior:'smooth'
+                                    top: 220,
+                                    behavior: 'smooth'
                                 })
                                 setPage(page)
                             }} />

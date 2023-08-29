@@ -35,8 +35,9 @@ const ActivityCard = (): ReactElement => {
                 <div className="free-mint-card">
                     <div className="card-msg">
                         <p className="card-name">RANK</p>
-                        <p className="name-2">Rank</p>
+                        {/* <p className="name-2">Rank</p> */}
                     </div>
+                    <p className="mobile-title">Rank</p>
                     <ul>
                         <li>
                             <p>Activity Rules</p>

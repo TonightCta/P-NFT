@@ -11,31 +11,106 @@ const AirdropView = (): ReactElement<ReactNode> => {
             <div className="bg-box">
                 <img src={require('../../assets/images/drop_bg.png')} alt="" />
             </div>
-            <div style={{ zIndex: 100, position: 'relative' }}>
+            <div className="drop-inner" style={{ zIndex: 100, position: 'relative' }}>
                 <p className="drop-title">PIZZAP</p>
-                <p className="drop-remark">Referral reward: Free voiceNFT minting</p>
-                <div className="tabs">
-                    <ul>
+                <p className="drop-remark">Referral reward: Daily bonus</p>
+                <div className="pc-card">
+                    <div className="tabs">
+                        <ul className="select-card">
+                            {
+                                ['DAILY BONUS', 'INVITE', 'Rank'].map((item: string, index: number): ReactElement => {
+                                    return (
+                                        <li key={index} className={`select-card-li ${active === index ? 'active-tab' : ''}`} onClick={() => {
+                                            setActive(index)
+                                        }}>
+                                            <p>{item}</p>
+                                            <div className="ac-mask"></div>
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="card-view">
                         {
-                            ['DAILY BONUS', 'INVITE', 'Rank'].map((item: string, index: number): ReactElement => {
-                                return (
-                                    <li key={index} className={`${active === index ? 'active-tab' : ''}`} onClick={() => {
-                                        setActive(index)
-                                    }}>
-                                        <p>{item}</p>
-                                        <div className="ac-mask"></div>
-                                    </li>
-                                )
-                            })
+                            active === 0 && <FreeMintCard /> ||
+                            active === 1 && <InviteCard /> ||
+                            active === 2 && <ActivityCard />
                         }
-                    </ul>
+                    </div>
                 </div>
-                <div className="card-view">
-                    {
-                        active === 0 && <FreeMintCard /> ||
-                        active === 1 && <InviteCard /> ||
-                        active === 2 && <ActivityCard />
-                    }
+                <div className="mobile-card">
+                    <div className="tabs">
+                        <ul className="select-card">
+                            {/* {
+                                ['DAILY BONUS', 'INVITE', 'Rank'].map((item: string, index: number): ReactElement => {
+                                    return (
+                                        <li key={index} className={`${active === index ? 'active-tab' : ''}`} onClick={() => {
+                                            setActive(index)
+                                        }}>
+                                            <p>{item}</p>
+                                            <div className="ac-mask"></div>
+                                        </li>
+                                    )
+                                })
+                            } */}
+                            <li className={`select-card-li ${active === 0 ? 'active-tab' : ''}`} onClick={() => {
+                                setActive(0)
+                                window.scrollTo({
+                                    top:100,
+                                    behavior:'smooth'
+                                })
+                            }}>
+                                <p>DAILY BONUS</p>
+                                <div className="ac-mask"></div>
+                            </li>
+                            {
+                                active === 0 &&
+                                <div className="card-view">
+                                    <FreeMintCard />
+                                </div>
+                            }
+                            <li className={`select-card-li ${active === 1 ? 'active-tab' : ''}`} onClick={() => {
+                                setActive(1)
+                                window.scrollTo({
+                                    top:100,
+                                    behavior:'smooth'
+                                })
+                            }}>
+                                <p>INVITE</p>
+                                <div className="ac-mask"></div>
+                            </li>
+                            {
+                                active === 1 &&
+                                <div className="card-view">
+                                    <InviteCard />
+                                </div>
+                            }
+                            <li className={`select-card-li ${active === 2 ? 'active-tab' : ''}`} onClick={() => {
+                                setActive(2)
+                                // window.scrollTo({
+                                //     top:-200,
+                                //     behavior:'smooth'
+                                // })
+                            }}>
+                                <p>Rank</p>
+                                <div className="ac-mask"></div>
+                            </li>
+                            {
+                                active === 2 &&
+                                <div className="card-view">
+                                    <ActivityCard />
+                                </div>
+                            }
+                        </ul>
+                    </div>
+                    {/* <div className="card-view">
+                        {
+                            active === 0 && <FreeMintCard /> ||
+                            active === 1 && <InviteCard /> ||
+                            active === 2 && <ActivityCard />
+                        }
+                    </div> */}
                 </div>
                 <p className="outside-remark">
                     Note: VoiceNFT of Pizzap is currently issued on Plian Mainnet Subchain 1. If your Plian Mainnet Main $PI tokens(from gate.io ) need to switch to the  Plian Mainnet Subchain 1, please go to <a target="_blank" href="https://wallet.plian.org/">https://wallet.plian.org/</a>.

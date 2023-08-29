@@ -62,10 +62,10 @@ const TabList = (): ReactElement => {
                                         <p className="color-g">{Number(web3.utils.fromWei(state.card.price, 'ether')).toFixed(2)}&nbsp;{state.card.paymod}</p>
                                     </li>
                                     <li>
-                                        <p>{calsAddress(item.ContractAddress)}</p>
+                                        <p>{calsAddress(item.From)}</p>
                                     </li>
                                     <li>
-                                        <p>{calsAddress(item.From)}</p>
+                                        <p>{calsAddress(item.ContractAddress)}</p>
                                     </li>
                                     <li>
                                         <p className="color-g">{item.Time}</p>

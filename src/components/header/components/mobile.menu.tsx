@@ -7,8 +7,6 @@ import { calsAddress } from "../../../utils";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { Type } from "../../../utils/types";
 import { useMetamask } from "../../../utils/metamask";
-import { useSwiper } from "swiper/react";
-import { flag } from "../../../utils/source";
 import DefaultAvatar from "../../default_avatar/default.avatar";
 
 interface Props {
@@ -18,7 +16,7 @@ interface Props {
 
 const RouteList: Menu[] = [
     {
-        name: 'Ai creation',
+        name: 'AI creation',
         url: '/voice-nft'
     },
     {
@@ -69,6 +67,7 @@ const MobileMenu = (props: Props): ReactElement => {
     };
     useEffect(() => {
         props.visible && setVisible(props.visible)
+        console.log(state.swiper_ref)
     }, [props.visible])
     return (
         <Drawer

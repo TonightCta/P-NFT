@@ -2,12 +2,15 @@ import { ReactElement, ReactNode, useCallback, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import IconFont from "../../../utils/icon";
+// import { Navigation } from 'swiper/modules';
 // import Sketch from "../tool/sketch";
 
 const VoiceNFTWapper = (): ReactElement<ReactNode> => {
     // const [canvasEle, setCanvasEle]: Array<any> = useState(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [activeIndex, setActiveIndex] = useState(999)
+    const [activeIndex, setActiveIndex] = useState(999);
+    const [swiperActive, setSwiperActive] = useState<number>(0);
+    // const [progress, setProgress] = useState<number>(0);
     const voiceSrc = [
         'ANGELINA_JOLIE',
         'Bill_Gates',
@@ -35,8 +38,9 @@ const VoiceNFTWapper = (): ReactElement<ReactNode> => {
         // src: `https://randomuser.me/api/portraits/lego/${(i + 1) % 8}.jpg`,
     }));
     const refVoice: any = useRef()
-    const [play,setPlay] = useState<boolean>(false);
+    const [play, setPlay] = useState<boolean>(false);
     const [sayer, setSayer] = useState({ name: '', voice: '' });
+    const swiperRef: any = useRef(null)
     const toggleAudio = (trigger: boolean, audio: any) => {
         if (trigger) {
             audio && audio.play()
@@ -52,7 +56,18 @@ const VoiceNFTWapper = (): ReactElement<ReactNode> => {
         (item: any) => {
             if (loading) return
             setActiveIndex(item.id)
-            const audioEle: any = refVoice.current
+            const audioEle: any = refVoice.current;
+            // audioEle.addEventListener('timeupdate', () => {
+            //     const timeDisplay = Math.floor(audioEle.currentTime);
+            //     const duration = Math.floor(audioEle.duration);
+            //     if (!isNaN(+timeDisplay) && !isNaN(+duration)) {
+            //         setProgress(Math.floor(+timeDisplay / +duration))
+            //     }
+            //     if (+timeDisplay >= +duration) {
+            //         audioEle.pause();
+            //         setPlay(false);
+            //     }
+            // })
             if (audioEle && sayer.voice && item.id === activeIndex) {
                 toggleAudio(audioEle.paused, audioEle)
             } else {
@@ -82,7 +97,26 @@ const VoiceNFTWapper = (): ReactElement<ReactNode> => {
             }
         },
         [loading, activeIndex]
-    )
+    );
+    const renderRightRate = (rate: number) => {
+        if (rate < 50) {
+            return {
+                trans: 'rotate(' + 3.6 * rate + 'deg)',
+                color: ''
+            };
+        } else {
+            return {
+                trans: 'rotate(0)',
+                color: '#FA3370'
+            };
+        }
+    };
+
+    const renderLeftRate = (rate: number) => {
+        if (rate >= 50) {
+            return 'rotate(' + 3.6 * (rate - 50) + 'deg)';
+        }
+    };
     // useEffect(() => {
     //     const rel = document.getElementById('container')
     //     if (rel && !canvasEle?.container) {
@@ -95,18 +129,39 @@ const VoiceNFTWapper = (): ReactElement<ReactNode> => {
     // }, [])
     return (
         <div className="voice-nft-wapper public-screen">
-            <p className="public-title">
+            <p className="public-title" onClick={() => {
+                swiperRef.current.slideNext()
+            }}>
                 TRAFFIC OF<br />VOICENFT
             </p>
+            <div className="swiper-page">
+                <IconFont type="icon-caret-circle-left" className={`${swiperActive === 0 && 'disabled-btn'}`} onClick={() => {
+                    if (swiperActive === 0) {
+                        return
+                    }
+                    swiperRef.current.slidePrev()
+                }} />
+                <IconFont type="icon-caret-circle-right" className={`${swiperActive === (ds_avatar.length - 1) && 'disabled-btn'}`} onClick={() => {
+                    if (swiperActive === (ds_avatar.length - 1)) {
+                        return
+                    }
+                    swiperRef.current.slideNext()
+                }} />
+            </div>
             <audio ref={refVoice} autoPlay={false} loop preload="auto" src={sayer.voice} />
             <Swiper
                 slidesPerView={5}
                 spaceBetween={30}
+                onSwiper={(swiper) => {
+                    swiperRef.current = swiper
+                }}
                 autoplay={{
                     delay: 2500,
                     disableOnInteraction: false,
                 }}
-                loop
+                onSlideChange={(e) => {
+                    setSwiperActive(e.activeIndex);
+                }}
                 className="swiper-4"
             >
                 <div className="right-mask mask-public"></div>
@@ -117,22 +172,27 @@ const VoiceNFTWapper = (): ReactElement<ReactNode> => {
                                 <img className="bg-img" src={item.src} alt="" />
                                 <div className="inner-msg">
                                     <div className="avatar-box">
-                                        <div className="avatar-inner" onClick={() => {
+                                        {/* <div className="circle_left ab" style={{ transform: renderLeftRate(progress) }}></div>
+                                        <div className="circle_right ab" style={{ transform: renderRightRate(progress).trans, borderColor: renderRightRate(progress).color }}></div> */}
+                                        <div className={`avatar-inner`} onClick={() => {
+                                            swiperRef.current.slideTo(index)
                                             playVoice(item)
                                         }}>
-                                            {sayer.name === item.name && play ? <IconFont type="icon-zanting1"/> : <IconFont type="icon-bofang_play-one" />}
-                                            <img src={item.src} alt="" />
+                                            <div className="play-mask">
+                                                {sayer.name === item.name && play ? <IconFont type="icon-zanting_pause" /> : <IconFont type="icon-bofang_play-one" />}
+                                            </div>
+                                            <img src={item.src} alt="" className={`${sayer.name === item.name && play && 'play-img'}`} />
                                         </div>
                                     </div>
                                     <p>{item.name}</p>
                                     <p>Business Development</p>
                                 </div>
-                            </SwiperSlide>
+                            </SwiperSlide >
                         )
                     })
                 }
-            </Swiper>
-        </div>
+            </Swiper >
+        </div >
     )
 };
 

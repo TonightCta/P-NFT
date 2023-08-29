@@ -2,6 +2,7 @@ import { ethereum, web3 } from "./types"
 import ABI721 from './abi/721.json'
 import ABIMarket from './abi/market.json'
 import ABIERC20 from './abi/erc20.json'
+import NormalABIERC20 from './abi/normal_erc20.json'
 import ABISBT from './abi/sbt.json'
 import { message } from "antd"
 import { useEffect, useState } from 'react';
@@ -20,7 +21,7 @@ export const MODE: string = process.env.REACT_APP_CURRENTMODE as string;
 
 export const NFTAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? Address.PlianContractAddress721Main : Address.PlianContractAddress721Test;
 export const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? Address.PlianContractAddressMarketMain : Address.PlianContractAddressMarketTest;
-const Fee: string = LAND === 'taiko' ? web3.utils.toWei('0.01', "ether") : MODE === 'production' ? web3.utils.toWei('0.1', "ether") : '0'
+const Fee: string = LAND === 'taiko' ? web3.utils.toWei('0.01', "ether") : MODE === 'production' ? web3.utils.toWei('0.4', "ether") : '0'
 const Gas: string = LAND === 'taiko' ? '420000' : '7000000'
 
 export const useContract = () => {
@@ -54,7 +55,7 @@ export const useContract = () => {
         setSBTContract(new web3.eth.Contract(ABISBT as any, Address.PlianContractSBTTest, {
             gasPrice: gasPrice
         }));
-    }
+    };
     useEffect(() => {
         init();
     }, [])
@@ -268,6 +269,18 @@ export const useContract = () => {
         };
         const result = await ERC20Contract.methods.allowance(_owner, _market_address).call();
         return result
+    };
+    const getBalance = async () => {
+        const result = await web3.eth.getBalance(owner);
+        return result;
+    }
+    const balanceErc20 = async (_token_address: string) => {
+        console.log(_token_address)
+        const contract = new web3.eth.Contract(NormalABIERC20 as any, _token_address,{
+            gasPrice:gasPrice
+        });
+        const balance = await contract.methods.balanceOf(owner).call()
+        console.log(balance);
     }
     return {
         mint,
@@ -281,6 +294,8 @@ export const useContract = () => {
         officalTotalSupply,
         queryApprove,
         queryERC20Approve,
-        approveToken
+        approveToken,
+        getBalance,
+        balanceErc20
     }
 }

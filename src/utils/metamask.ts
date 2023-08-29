@@ -54,6 +54,7 @@ export const useMetamask = () => {
             const account = await ProfileService({
                 user_address: result[0]
             });
+            console.log(account)
             dispatch({
                 type: Type.SET_ACCOUNT,
                 payload: {

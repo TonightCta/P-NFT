@@ -12,7 +12,7 @@ const ScreenIndex = (): ReactElement<ReactNode> => {
     return (
         <div className="screen-index public-screen">
             <p className="public-title">PIZZAP</p>
-            <p className="screen-remark">AI empower your creative inspiration</p>
+            <p className="screen-remark">AI Empowers Your Creative Inspiration</p>
             <p>
                 <button onClick={() => {
                     navigate('/voice-nft')

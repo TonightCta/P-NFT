@@ -28,7 +28,7 @@ interface Wait {
 const BuyNFTsModal = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const { state } = useContext(PNft)
-    const { queryERC20Approve, approveToken, buy } = useContract();
+    const { queryERC20Approve, approveToken, buy, getBalance } = useContract();
     const { switchC } = useSwitchChain();
     const [wait, setWait] = useState<Wait>({
         approve: false,
@@ -45,20 +45,19 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             ...wait,
             approve_dis: bol ? true : false,
             list_dis: bol ? false : true
-        })
-    }
-    useEffect(() => {
-        props.visible && queryApproveFN();
-        setVisible(props.visible);
+        });
         if (props.item.paymod === 'ETH' || props.item.paymod === 'PI') {
             setWait({
                 ...wait,
                 approve_dis: true,
-                approve: false,
                 list_dis: false
             });
             setApproved(true);
         }
+    }
+    useEffect(() => {
+        props.visible && queryApproveFN();
+        setVisible(props.visible);
     }, [props.visible]);
     const putApproveFN = async () => {
         await switchC(Number(process.env.REACT_APP_CHAIN))
@@ -92,6 +91,18 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             list_dis: true,
             list: true
         });
+        const balance = await getBalance();
+        const numberBalance: number = +balance / 1e18;
+        const numberPrice: number = +props.item.price / 1e18;
+        if (numberBalance < numberPrice) {
+            message.warning('Your available balance is insufficient.');
+            setWait({
+                ...wait,
+                list_dis: false,
+                list: false
+            });
+            return
+        }
         const hash: any = await buy(props.item.order_id, props.item.price, props.item.paymod);
         if (!hash || hash.message) {
             setWait({
