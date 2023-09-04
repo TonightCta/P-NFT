@@ -1,4 +1,4 @@
-import { post,get } from './index';
+import { post, get } from './index';
 
 type o = {};
 
@@ -45,12 +45,16 @@ export const MintRankService = (p: o) => post('/rank/topnftmint', p);
 //Auth Twitter
 export const AuthTwitterService = (p: o) => post('/twitter/requesturl', p);
 //Bind Twitter
-export const BindTwitterService = (p:o) => get('/twitter/maketoken',p);
+export const BindTwitterService = (p: o) => get('/twitter/maketoken', p);
 //Upload Audio
-export const UploadAudioService = (p:FormData) => post('/profile/uploadaudio',p);
+export const UploadAudioService = (p: FormData) => post('/profile/uploadaudio', p);
 //Upload Background
-export const UploadBackGroundService = (p:FormData) => post('/profile/uploadbgimg',p);
+export const UploadBackGroundService = (p: FormData) => post('/profile/uploadbgimg', p);
 //Sign-in Info
-export const SignInfoService = (p:o) => post('/checkin/info',p);
+export const SignInfoService = (p: o) => post('/checkin/info', p);
 //Sign-in Up
-export const SignUpService = (p:o) => post('/checkin/checkin',p);
+export const SignUpService = (p: o) => post('/checkin/checkin', p);
+//Screen 1 List
+export const Screen1List = (p: o) => post('/homepage/poster1/list', p);
+//Screen 2 List
+export const Screen2List = (p: o) => post('/homepage/poster2/list', p);

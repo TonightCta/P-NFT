@@ -103,7 +103,8 @@ module.exports = function (proxy, allowedHost) {
     proxy: {
       ...proxy,
       '/api': {
-        target: 'http://54.69.86.125:3000/api/v1',
+        target: 'https://app.pizzap.io/api/v1',
+        // target: 'http://54.69.86.125:3000/api/v1',
         changeOrigin: true,
         logLevel: 'debug',
         pathRewrite: {

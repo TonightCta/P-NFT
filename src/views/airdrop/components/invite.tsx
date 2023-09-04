@@ -130,7 +130,7 @@ const InviteCard = (): ReactElement => {
                 {
                     !resultS && <div>
                         {
-                            !isJoin
+                            isJoin
                                 ? <div className="step-1">
                                     <div className="join-box public-bg">
                                         <p className="join-title">Join a friend's activity</p>

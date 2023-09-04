@@ -1,15 +1,32 @@
 import { Button } from "antd";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import IconFont from '../../../utils/icon';
+import { Screen1List } from '../../../request/api'
+
+interface Data {
+    file_minio_url: string,
+    hposter_id: number
+}
 
 const ScreenIndexNew = (): ReactElement => {
+    const [data, setData] = useState<Data[]>([]);
+    const getDataList = async () => {
+        const result = await Screen1List({
+            page_size: 30
+        });
+        const { data } = result;
+        setData(data.data.item);
+    };
+    useEffect(() => {
+        getDataList();
+    }, []);
     return (
         <div className="screen-index-new">
             <div className="left-top-mask"></div>
             <div className="left-text">
-                <IconFont type="icon-zixing" className="star-1"/>
-                <IconFont type="icon-zixing" className="star-2"/>
-                <IconFont type="icon-zixing" className="star-3"/>
+                <IconFont type="icon-zixing" className="star-1" />
+                <IconFont type="icon-zixing" className="star-2" />
+                <IconFont type="icon-zixing" className="star-3" />
                 <p>AI Empowers Your</p>
                 <p>Creative</p>
                 <p className="with-bg">Inspiration</p>
@@ -21,10 +38,10 @@ const ScreenIndexNew = (): ReactElement => {
                 <div className="bottom-mask"></div>
                 <ul>
                     {
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item: number, index: number) => {
+                        data.slice(0, 10).map((item: Data, index: number) => {
                             return (
                                 <li key={index}>
-                                    <img src={require('../../../assets/new/test_banner.png')} alt="" />
+                                    <img src={item.file_minio_url} alt="" />
                                 </li>
                             )
                         })
@@ -32,10 +49,10 @@ const ScreenIndexNew = (): ReactElement => {
                 </ul>
                 <ul>
                     {
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item: number, index: number) => {
+                        data.slice(10, 20).map((item: Data, index: number) => {
                             return (
                                 <li key={index}>
-                                    <img src={require('../../../assets/new/test_banner.png')} alt="" />
+                                    <img src={item.file_minio_url} alt="" />
                                 </li>
                             )
                         })
@@ -43,10 +60,10 @@ const ScreenIndexNew = (): ReactElement => {
                 </ul>
                 <ul>
                     {
-                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item: number, index: number) => {
+                        data.slice(20, 30).map((item: Data, index: number) => {
                             return (
                                 <li key={index}>
-                                    <img src={require('../../../assets/new/test_banner.png')} alt="" />
+                                    <img src={item.file_minio_url} alt="" />
                                 </li>
                             )
                         })

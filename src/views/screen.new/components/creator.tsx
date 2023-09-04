@@ -1,6 +1,7 @@
 import { Button } from "antd";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import IconFont from "../../../utils/icon";
+import { Screen2List } from '../../../request/api'
 
 interface Card {
     img: string,
@@ -37,6 +38,18 @@ const Te: Card[] = [
 ]
 
 const CreatorWapper = (): ReactElement<ReactNode> => {
+    const [data, setData] = useState<Card[]>([]);
+    const getDataList = async () => {
+        const result = await Screen2List({
+            page_size: 24,
+        });
+        console.log(result);
+        const { data } = result;
+        setData(data.data.item);
+    };
+    useEffect(() => {
+        getDataList();
+    }, [])
     const CreatorCard = (props: { item: Card }) => {
         return (
             <div className="creator-card">

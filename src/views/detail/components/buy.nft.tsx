@@ -4,6 +4,7 @@ import { LAND, useContract, MarketAddress } from "../../../utils/contract";
 import { PNft } from "../../../App";
 import { useSwitchChain } from "../../../hooks/chain";
 import { TaikoContractAddressMarketTest } from "../../../utils/source";
+import { NFTBuyService } from '../../../request/api'
 interface Item {
     price: string
     file_image_ipfs: string,
@@ -111,13 +112,18 @@ const BuyNFTsModal = (props: Props): ReactElement => {
                 list: false
             });
             return
-        }
+        };
+        const upService = await NFTBuyService({
+            chain_id:process.env.REACT_APP_CHAIN,
+            sender:state.address,
+            tx_hash:hash['transactionHash']
+        });
         setWait({
             ...wait,
             list_dis: false,
             list: false
         });
-        message.success('Sell Successful!');
+        message.success('Buy Successful!');
         setVisible(false);
         props.upRefresh();
     }
