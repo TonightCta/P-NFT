@@ -4,38 +4,11 @@ import IconFont from "../../../utils/icon";
 import { Screen2List } from '../../../request/api'
 
 interface Card {
-    img: string,
-    nft_name: string,
-    icon: string,
-    name: string
+    file_minio_url: string,
+    file_name: string,
+    minter_minio_url: string,
+    minter_name: string
 }
-
-const Te: Card[] = [
-    {
-        img: require('../../../assets/new/IMG_2130.png'),
-        nft_name: 'Flourish',
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
-        name: 'Marquez'
-    },
-    {
-        img: require('../../../assets/new/IMG_2740.png'),
-        nft_name: 'Flourish',
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
-        name: 'Marquez'
-    },
-    {
-        img: require('../../../assets/new/IMG_4038.png'),
-        nft_name: 'Flourish',
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
-        name: 'Marquez'
-    },
-    {
-        img: require('../../../assets/new/test_banner.png'),
-        nft_name: 'Flourish',
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
-        name: 'Marquez'
-    }
-]
 
 const CreatorWapper = (): ReactElement<ReactNode> => {
     const [data, setData] = useState<Card[]>([]);
@@ -53,11 +26,11 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
     const CreatorCard = (props: { item: Card }) => {
         return (
             <div className="creator-card">
-                <img src={props.item.img} alt="" className="nft-box" />
-                <p>{props.item.nft_name}</p>
+                <img src={props.item.file_minio_url} alt="" className="nft-box" />
+                <p>{props.item.file_name}</p>
                 <div className="account-box">
-                    <img src={props.item.icon} alt="" />
-                    <p>{props.item.name}</p>
+                    <img src={props.item.minter_minio_url} alt="" />
+                    <p>{props.item.minter_name}</p>
                 </div>
             </div>
         )
@@ -67,7 +40,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
             <div className="list-box">
                 <ul>
                     {
-                        Te.map((item: Card, index: number) => {
+                        data.slice(0, 4).map((item: Card, index: number) => {
                             return (
                                 <li key={index}>
                                     <CreatorCard item={item} />
@@ -78,7 +51,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                 </ul>
                 <ul>
                     {
-                        Te.map((item: Card, index: number) => {
+                        data.slice(4, 8).map((item: Card, index: number) => {
                             return (
                                 <li key={index}>
                                     <CreatorCard item={item} />
@@ -89,7 +62,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                 </ul>
                 <ul>
                     {
-                        Te.map((item: Card, index: number) => {
+                        data.slice(8, 12).map((item: Card, index: number) => {
                             return (
                                 <li key={index}>
                                     <CreatorCard item={item} />
@@ -100,7 +73,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                 </ul>
                 <ul>
                     {
-                        Te.map((item: Card, index: number) => {
+                        data.slice(12, 16).map((item: Card, index: number) => {
                             return (
                                 <li key={index}>
                                     <CreatorCard item={item} />
@@ -111,7 +84,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                 </ul>
                 <ul>
                     {
-                        Te.map((item: Card, index: number) => {
+                        data.slice(16, 20).map((item: Card, index: number) => {
                             return (
                                 <li key={index}>
                                     <CreatorCard item={item} />
@@ -122,7 +95,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                 </ul>
                 <ul className="no-right">
                     {
-                        Te.map((item: Card, index: number) => {
+                        data.slice(20, 25).map((item: Card, index: number) => {
                             return (
                                 <li key={index}>
                                     <CreatorCard item={item} />

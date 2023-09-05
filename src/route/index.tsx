@@ -28,7 +28,7 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <View.IndexView />
             </React.Suspense>}>
                 <Route index element={<React.Suspense fallback={<Loading />}>
-                    {VERSION === 'new' ? <View.ScreenViewNew/> : <View.ScreenView />}
+                    {VERSION === 'new' ? <View.ScreenViewNew /> : <View.ScreenView />}
                 </React.Suspense>}></Route>
                 <Route path="/voice-nft" element={<React.Suspense fallback={<Loading />}>
                     <View.VoiceNFTView />
@@ -37,10 +37,13 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                     <View.AirdropView />
                 </React.Suspense>}></Route>
                 <Route path="/marketplace" element={<React.Suspense fallback={<Loading />}>
-                    <View.MarketPlaceView />
+                    {VERSION === 'new' ? <View.MarketPlaceViewNew /> : <View.MarketPlaceView />}
                 </React.Suspense>}></Route>
                 <Route path="/market" element={<React.Suspense fallback={<Loading />}>
-                    <View.MarketView />
+                    {VERSION === 'new' ? <View.MarketViewNew /> : <View.MarketView />}
+                </React.Suspense>}></Route>
+                <Route path="/collection" element={<React.Suspense fallback={<Loading />}>
+                    <View.MarketViewAll />
                 </React.Suspense>}></Route>
                 <Route path="/profile" element={<React.Suspense fallback={<Loading />}>
                     <View.ProfileView />

@@ -288,8 +288,6 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             return
         }
         const formData = new FormData();
-        console.log(voice_local)
-        console.log(aiReview)
         formData.append('chain_id', process.env.REACT_APP_CHAIN as string);
         formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');

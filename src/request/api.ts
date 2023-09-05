@@ -58,3 +58,5 @@ export const SignUpService = (p: o) => post('/checkin/checkin', p);
 export const Screen1List = (p: o) => post('/homepage/poster1/list', p);
 //Screen 2 List
 export const Screen2List = (p: o) => post('/homepage/poster2/list', p);
+//Collection List
+export const CollectionList = (p:o) => post('/collection/list',p);

@@ -49,7 +49,6 @@ const VoiceNftNew = (): ReactElement<ReactNode> => {
     }
     const onScrollVoice = () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-        console.log(scrollTop)
         if (scrollTop >= 3800) {
             setMovingBg('rgba(32,36,42,0.2)');
         } else {

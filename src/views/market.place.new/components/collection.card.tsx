@@ -1,0 +1,136 @@
+import { Button, Popover, Spin } from "antd";
+import { ReactElement, useEffect, useState } from "react";
+import IconFont from "../../../utils/icon";
+import { CollectionList } from '../../../request/api';
+import { Swiper, SwiperSlide } from "swiper/react";
+import 'swiper/css';
+import { useNavigate } from "react-router-dom";
+
+interface Data {
+    logo_minio_url: string,
+    collection_name: string,
+    poster_minio_url: string,
+    collection_id: number,
+    total_supply: number,
+    creator_name: string
+}
+
+const CollectionCard = (): ReactElement => {
+    const [open, setOpen] = useState(false);
+    const [wait, setWait] = useState<boolean>(false);
+    const [data, setData] = useState<Data[]>([]);
+    const navigate = useNavigate();
+    const hide = () => {
+        setOpen(false);
+    };
+    const [swiperRef, setSwiperRef] = useState<any>(null);
+    const handleOpenChange = (newOpen: boolean) => {
+        setOpen(newOpen);
+    };
+    const getDataList = async () => {
+        setWait(true)
+        const result = await CollectionList({
+            page_size: 2
+        });
+        const { data } = result;
+        setWait(false)
+        setData(data.data.item);
+    };
+    useEffect(() => {
+        getDataList()
+    }, [])
+    const content = (
+        <div className="select-chains-popover">
+            <ul onClick={hide}>
+                <li>All chains</li>
+                <li>Plian</li>
+            </ul>
+        </div>
+    )
+    return (
+        <div className="collection-card">
+            <div className="card-title-filter">
+                <p className="title-tag">Explore Collections</p>
+                <div className="filter-box">
+                    <Popover onOpenChange={handleOpenChange} open={open} content={content} placement="bottom" trigger={['click']} title={null}>
+                        <div className="select-chain">
+                            <p>All chains</p>
+                            <IconFont type="icon-xiangxia" className={`${open ? 'down-arrow' : ''}`} />
+                        </div>
+                    </Popover>
+                    <div className="view-more">
+                        <Button type="default" onClick={() => {
+                            navigate('/collection')
+                        }}>
+                            View More
+                            <IconFont type="icon-arrow-up-right" />
+                        </Button>
+                    </div>
+                </div>
+            </div>
+            <div className="card-list">
+                {wait && <div className="loading-mask">
+                    <Spin size="large" />
+                </div>}
+                {/* <div className="page-btn prev" onClick={() => {
+                    swiperRef.slidePrev()
+                }}>
+                    <IconFont type="icon-xiangxia" />
+                </div>
+                <div className="page-btn next" onClick={() => {
+                    swiperRef.slideNext()
+                }}>
+                    <IconFont type="icon-xiangxia" />
+                </div> */}
+                <div className="mask"></div>
+                <div className="mask left"></div>
+                <Swiper
+                    slidesPerView={2}
+                    spaceBetween={48}
+                    onSwiper={(swiper) => {
+                        setSwiperRef(swiper);
+                    }}
+                    className="swiper-5"
+                >
+                    {
+                        data.map((item: Data, index: number) => {
+                            return (
+                                <SwiperSlide key={index}>
+                                    <div className="card-inner">
+                                        <div className="colleciton-logo">
+                                            <img src={require('../../../assets/new/plian_logo.png')} alt="" />
+                                        </div>
+                                        <img className="poster-img" src={item.poster_minio_url} alt="" />
+                                        <div className="msg-box">
+                                            <p className="name">{item.collection_name}</p>
+                                            <div className="items-creator">
+                                                <div className="account">
+                                                    <img src={item.logo_minio_url} alt="" />
+                                                    <p>{item.creator_name}</p>
+                                                </div>
+                                                <div className="items-box">{item.total_supply}&nbsp;ITEMS</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            )
+                        })
+                    }
+                </Swiper>
+                {/* <ul>
+                    {
+                        data.map((item: Data, index: number) => {
+                            return (
+                                <li key={index}>
+
+                                </li>
+                            )
+                        })
+                    }
+                </ul> */}
+            </div>
+        </div>
+    )
+};
+
+export default CollectionCard;

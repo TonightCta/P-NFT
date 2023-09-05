@@ -55,6 +55,7 @@ export interface IResponse {
 export interface NFTItem {
     file_image_ipfs: string,
     file_voice_ipfs:string,
+    file_image_minio_url:string,
     price?: string,
     paymod?: string,
     token_id: number,
