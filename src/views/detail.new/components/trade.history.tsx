@@ -4,8 +4,9 @@ import { NFTLogsService } from '../../../request/api';
 import { PNft } from "../../../App";
 import { web3 } from "../../../utils/types";
 import { calsAddress } from "../../../utils";
+import IconFont from "../../../utils/icon";
 
-const TabList = (): ReactElement => {
+const TabHistory = (): ReactElement => {
     const { state } = useContext(PNft);
     const [data, setData] = useState<any[]>([]);
     const logsListFN = async () => {
@@ -25,9 +26,13 @@ const TabList = (): ReactElement => {
     };
     useEffect(() => {
         logsListFN();
-    }, []);
+    }, [])
     return (
-        <div className="tab-list">
+        <div className="trade-history-list">
+            <p className="list-title">
+                <IconFont type="icon-detail" />
+                Item Activity
+            </p>
             <div className="list-content">
                 <div className="content-title">
                     <ul>
@@ -40,6 +45,9 @@ const TabList = (): ReactElement => {
                     </ul>
                 </div>
                 <div className="content-data">
+                    {
+                        data.length < 1 && <p className="no-data">No Data</p>
+                    }
                     {
                         data.map((item: any, index: number): ReactElement => {
                             return (
@@ -76,16 +84,16 @@ const TabList = (): ReactElement => {
                     }
                 </div>
             </div>
-            <div className="page-oper">
+            {data.length > 0 && <div className="page-oper">
                 <Pagination defaultCurrent={1} total={data.length} onChange={() => {
                     window.scrollTo({
                         top: 700,
                         behavior: 'smooth'
                     })
                 }} />
-            </div>
+            </div>}
         </div>
     )
 };
 
-export default TabList;
+export default TabHistory;

@@ -13,7 +13,7 @@ function App() {
   return (
     <HashRouter>
       <PNft.Provider value={{ state, dispatch }}>
-        <div className={`App ${VERSION === 'new' ? 'new-app' : ''}`}>
+        <div className={`App ${VERSION === 'new' ? 'new-app' : 'old-app'}`}>
           <RouteConfig />
         </div>
       </PNft.Provider>

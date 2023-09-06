@@ -1,0 +1,112 @@
+.market-view-all {
+  padding: 144px 60px 0;
+  .all-title {
+    text-align: left;
+    font-size: 40px;
+    color: #191919;
+    font-weight: bold;
+    font-family: SparkNewTitle;
+  }
+  .all-filter-box {
+    margin-top: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .select-box {
+      padding: 10px 24px;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      border-radius: 16px;
+      min-width: 178px;
+      cursor: pointer;
+      justify-content: space-between;
+      p {
+        color: #0d0d0d;
+        margin-right: 6px;
+      }
+      span {
+        font-size: 24px;
+      }
+    }
+    .left-filter {
+      display: flex;
+      align-items: center;
+      .select-chain {
+        margin-left: 12px;
+        ul {
+          display: flex;
+          padding: 3px;
+          background-color: #f0f0f0;
+          border-radius: 16px;
+          li {
+            height: 36px;
+            line-height: 36px;
+            padding: 0 16px;
+            font-size: 18px;
+            cursor: pointer;
+            img {
+              width: 20px;
+              height: 14px;
+              transform: translateY(1px);
+            }
+          }
+          li:first-child {
+            background-color: white;
+            border-radius: 16px;
+            color: #202025;
+          }
+        }
+      }
+    }
+  }
+  .data-box {
+    margin-top: 32px;
+    .img-box {
+      display: flex;
+      align-items: center;
+      img {
+        border-radius: 16px;
+      }
+      p {
+        font-family: SparkTitleNew;
+        font-weight: bold;
+        color: #000;
+        margin-left: 30px;
+        font-size: 16px;
+      }
+    }
+  }
+  .footer-wapper-new {
+    padding: 80px 0;
+  }
+}
+
+.filter-popover {
+  width: 165px;
+  ul {
+    max-height: 300px;
+    overflow: auto;
+    li {
+      width: 100%;
+      text-align: center;
+      padding: 12px 0;
+      cursor: pointer;
+      transition: 0.3s all;
+      font-size: 16px;
+      color: #686a6c;
+      border-radius: 14px;
+    }
+    li:hover {
+      background-color: #f0f0f0;
+      color: #202025;
+    }
+    .active-filter {
+      background-color: #f0f0f0;
+      color: #202025;
+    }
+  }
+}
+.ant-popover-inner {
+  padding: 6px !important;
+}

@@ -15,7 +15,9 @@ export interface State {
     account?:any,
     avatar?:string,
     swiper_ref?:any,
-    owner_address?:string
+    owner_address?:string,
+    info_id?:string,
+    collection_id?:string,
 }
 
 export interface IResponse {
@@ -33,7 +35,9 @@ export enum Type {
     SET_ACCOUNT = 'set_account',
     SET_AVATAR = 'set_avatar',
     SET_SWIPER = 'set_swiper',
-    SET_OWNER_ADDRESS = 'set_owner_address'
+    SET_OWNER_ADDRESS = 'set_owner_address',
+    SET_INFO_ID = 'set_info_id',
+    SET_COLLECTION_ID = 'set_collection_id'
 };
 
 export interface IAction {
@@ -64,5 +68,7 @@ export interface NFTItem {
     off?: boolean,
     order_id:string,
     play:boolean,
-    seller:string
+    seller:string,
+    fid:number,
+    seller_avatar_url:string
 }

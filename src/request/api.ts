@@ -59,4 +59,14 @@ export const Screen1List = (p: o) => post('/homepage/poster1/list', p);
 //Screen 2 List
 export const Screen2List = (p: o) => post('/homepage/poster2/list', p);
 //Collection List
-export const CollectionList = (p:o) => post('/collection/list',p);
+export const CollectionList = (p: o) => post('/collection/list', p);
+//Category List
+export const CategoryList = (p: o) => post('/category/list', p);
+//NFT Info
+export const NFTInfo = (p: o) => post('/nft/info', p);
+//Colleciton Info
+export const CollectionInfo = (p: o) => post('/collection/info', p);
+//Collection Info NFT
+export const CollectionInfoNFT = (p: o) => post('/collection/nft/list', p);
+//Collection Search
+export const CollectionSearch = (p: o) => post('/collection/nft/sarch', p);

@@ -52,7 +52,7 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                     <View.OwnerNFTSView />
                 </React.Suspense>}></Route>
                 <Route path="/detail" element={<React.Suspense fallback={<Loading />}>
-                    <View.DetailView />
+                    {VERSION === 'new' ? <View.DetailNewView /> : <View.DetailView />}
                 </React.Suspense>}></Route>
                 <Route path="/tool" element={<React.Suspense fallback={<Loading />}>
                     <View.ToolView />

@@ -1,10 +1,12 @@
 import { Button, Popover, Spin } from "antd";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import IconFont from "../../../utils/icon";
 import { CollectionList } from '../../../request/api';
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import { useNavigate } from "react-router-dom";
+import { PNft } from "../../../App";
+import { Type } from "../../../utils/types";
 
 interface Data {
     logo_minio_url: string,
@@ -20,6 +22,7 @@ const CollectionCard = (): ReactElement => {
     const [wait, setWait] = useState<boolean>(false);
     const [data, setData] = useState<Data[]>([]);
     const navigate = useNavigate();
+    const { dispatch } = useContext(PNft);
     const hide = () => {
         setOpen(false);
     };
@@ -96,7 +99,15 @@ const CollectionCard = (): ReactElement => {
                         data.map((item: Data, index: number) => {
                             return (
                                 <SwiperSlide key={index}>
-                                    <div className="card-inner">
+                                    <div className="card-inner" onClick={() => {
+                                        dispatch({
+                                            type: Type.SET_COLLECTION_ID,
+                                            payload: {
+                                                collection_id: String(item.collection_id)
+                                            }
+                                        });
+                                        navigate('/market')
+                                    }}>
                                         <div className="colleciton-logo">
                                             <img src={require('../../../assets/new/plian_logo.png')} alt="" />
                                         </div>

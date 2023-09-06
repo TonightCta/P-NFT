@@ -10,6 +10,8 @@ export const defaultState: State = {
     avatar: sessionStorage.getItem('avatar') || '',
     swiper_ref: null,
     owner_address: sessionStorage.getItem('owner_address') || '',
+    info_id:sessionStorage.getItem('info_id') || '',
+    collection_id:sessionStorage.getItem('collection_id') || ''
 };
 
 export const defaultContext: Context = {
@@ -44,6 +46,12 @@ export const initState = (state: State, action: IAction) => {
         case Type.SET_OWNER_ADDRESS:
             sessionStorage.setItem('owner_address', payload.owner_address as string);
             return { ...state, owner_address: payload.owner_address }
+        case Type.SET_INFO_ID:
+            sessionStorage.setItem('info_id', payload.info_id as string);
+            return { ...state, info_id: payload.info_id }
+        case Type.SET_COLLECTION_ID:
+            sessionStorage.setItem('collection_id', payload.collection_id as string);
+            return { ...state, collection_id: payload.collection_id }
         default:
             return state;
     }

@@ -13,7 +13,8 @@ const MarketPlaceView = React.lazy(() => import('./market.place/index'));
 const ToolView = React.lazy(() => import('./tool/index'))
 const MarketViewNew = React.lazy(() => import('./market.new/index'));
 const MarketPlaceViewNew = React.lazy(() => import('./market.place.new/index'));
-const MarketViewAll = React.lazy(() => import('./market.all/index'))
+const MarketViewAll = React.lazy(() => import('./market.all/index'));
+const DetailNewView = React.lazy(() => import('./detail.new/index'));
 
 
 export {
@@ -30,5 +31,6 @@ export {
     ToolView,
     MarketViewNew,
     MarketPlaceViewNew,
-    MarketViewAll
+    MarketViewAll,
+    DetailNewView
 }
