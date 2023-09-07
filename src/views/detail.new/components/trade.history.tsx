@@ -6,7 +6,7 @@ import { web3 } from "../../../utils/types";
 import { calsAddress } from "../../../utils";
 import IconFont from "../../../utils/icon";
 
-const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string}): ReactElement => {
+const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string,price:string,paymod:string}): ReactElement => {
     const { state } = useContext(PNft);
     const [data, setData] = useState<any[]>([]);
     const logsListFN = async () => {
@@ -67,7 +67,7 @@ const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string}
                                     </li>
                                     <li>
                                         {/* <p>$64321.12</p> */}
-                                        <p className="color-g">{Number(web3.utils.fromWei(state.card.price, 'ether')).toFixed(2)}&nbsp;{state.card.paymod}</p>
+                                        <p className="color-g">{Number(web3.utils.fromWei(props.price, 'ether')).toFixed(2)}&nbsp;{props.paymod}</p>
                                     </li>
                                     <li>
                                         <p>{calsAddress(item.From)}</p>

@@ -33,6 +33,7 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
     const { state } = useContext(PNft);
     const [sideList, setSideList] = useState<Account[]>([]);
     const [wait, setWait] = useState<boolean>(false);
+    const [bgLoad, setBgLoad] = useState<boolean>(true);
     const getInfo = async () => {
         setWait(true);
         const result = await CollectionInfo({
@@ -78,7 +79,12 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                     </div>
                     : <div>
                         <div className="bg-box">
-                            <img src={info?.bg_image_minio_url} alt="" />
+                            <img src={info?.bg_image_minio_url} onLoad={() => {
+                                setBgLoad(false)
+                            }} alt="" />
+                            {bgLoad && <div className="load">
+                                <Spin size="large" />
+                            </div>}
                         </div>
                         <div className="content-box">
                             <div className="collection-logo">

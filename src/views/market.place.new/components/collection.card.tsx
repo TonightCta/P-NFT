@@ -36,7 +36,7 @@ const CollectionCard = (): ReactElement => {
             page_size: 2
         });
         const { data } = result;
-        setWait(false)
+        setWait(false);
         setData(data.data.item);
     };
     useEffect(() => {
@@ -55,12 +55,12 @@ const CollectionCard = (): ReactElement => {
             <div className="card-title-filter">
                 <p className="title-tag">Explore Collections</p>
                 <div className="filter-box">
-                    <Popover onOpenChange={handleOpenChange} open={open} content={content} placement="bottom" trigger={['click']} title={null}>
+                    {/* <Popover onOpenChange={handleOpenChange} open={open} content={content} placement="bottom" trigger={['click']} title={null}>
                         <div className="select-chain">
                             <p>All chains</p>
                             <IconFont type="icon-xiangxia" className={`${open ? 'down-arrow' : ''}`} />
                         </div>
-                    </Popover>
+                    </Popover> */}
                     <div className="view-more">
                         <Button type="default" onClick={() => {
                             navigate('/collection')

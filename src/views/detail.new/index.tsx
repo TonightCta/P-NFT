@@ -21,11 +21,11 @@ interface Info {
     contract_address: string,
     price: string,
     file_description: string,
-    seller:string
+    seller: string
 }
 
 const DetailNewView = (): ReactElement<ReactNode> => {
-    const { state,dispatch } = useContext(PNft);
+    const { state, dispatch } = useContext(PNft);
     const [loading, setLoading] = useState<boolean>(false);
     const [imgLoad, setImgLoad] = useState<boolean>(true);
     const navigate = useNavigate();
@@ -90,7 +90,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 <p className="msg-title">Current price</p>
                                 <div className="price-text">
                                     <img src={require('../../assets/images/pi_logo.png')} alt="" />
-                                    <p>{web3.utils.fromWei(info?.price as string, 'ether')}</p>
+                                    {info?.price && <p>{web3.utils.fromWei(info?.price as string, 'ether')}</p>}
                                     <p>Price</p>
                                 </div>
                                 <p className="buy-btn">
@@ -125,7 +125,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                         </div>
                     </div>
                     <MsgCard about="" description={info!.file_description} />
-                    <TradeHistory image_minio_url={info.image_minio_url} tokenID={info!.token_id} address={info!.contract_address} />
+                    <TradeHistory price={info.price} paymod="PI" image_minio_url={info.image_minio_url} tokenID={info!.token_id} address={info!.contract_address} />
                     <FooterNew />
                     <BuyNFTsModal visible={takeVisible} closeModal={(val: boolean) => {
                         setTakeVisible(val)

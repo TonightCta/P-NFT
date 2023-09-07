@@ -17,6 +17,9 @@ interface DataType {
     collection_name: string;
     floor_price: number,
     listed_amount: number;
+    pay_token_name: string;
+    total_supply: number;
+    owners_amount: number;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -40,28 +43,38 @@ const columns: ColumnsType<DataType> = [
         )
     },
     {
-        title: 'Vloume',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Sales',
+        dataIndex: 'listed_amount',
+        key: 'listed_amount'
     },
     {
         title: 'Floor Price',
         dataIndex: 'floor_price',
         key: 'floor_price',
-        align:'center',
-        render: (_, { floor_price }) => <p>
-            {floor_price}&nbsp;Pi
+        align: 'center',
+        render: (_, { floor_price, pay_token_name }) => <p>
+            {floor_price}&nbsp;{pay_token_name}
         </p>
     },
     {
-        title: 'Sales',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Total Items',
+        dataIndex: 'total_supply',
+        key: 'total_supply',
+    },
+    {
+        title: 'Owners',
+        dataIndex: 'owners_amount',
+        key: 'owners_amount',
     },
     {
         title: '% Unique owners',
-        dataIndex: 'age',
-        key: 'age',
+        dataIndex: 'owners_amount',
+        align:'right',
+        key: 'owners_amount',
+        render: (_, { owners_amount, total_supply }) => <div className="flex-d">
+            <p>{(owners_amount / total_supply).toFixed(2)}%</p>
+            <p>{owners_amount}&nbsp;owners</p>
+        </div>
     },
 ];
 
@@ -70,17 +83,20 @@ const MarketViewAll = (): ReactElement<ReactNode> => {
     const [openCate, setOpenCate] = useState(false);
     const [openSort, setOpenSort] = useState(false);
     const [categoryList, setCategoryList] = useState<Category[]>([]);
+    const [wait, setWait] = useState<boolean>(false);
     const [selectCate, setSelectCate] = useState<Category>({
         category_name: 'All categories',
         category_id: 0
     })
     const getCategoryList = async () => {
+        setWait(true)
         const result = await CategoryList({ page_size: 100 });
         const { data } = result;
         data.data.item.unshift({
             category_name: 'All categories',
             category_id: 0
         })
+        setWait(false)
         setCategoryList(data.data.item);
     };
     useEffect(() => {
@@ -160,6 +176,11 @@ const MarketViewAll = (): ReactElement<ReactNode> => {
                         <ul>
                             <li>All chains</li>
                             <li>
+                                <Tooltip title="Ethereum">
+                                    <img src={require('../../assets/new/eth_logo.png')} alt="" />
+                                </Tooltip>
+                            </li>
+                            <li>
                                 <Tooltip title="Plian">
                                     <img src={require('../../assets/new/plian_logo_black.png')} alt="" />
                                 </Tooltip>
@@ -184,7 +205,7 @@ const MarketViewAll = (): ReactElement<ReactNode> => {
                 </div>}
             </div>
             <div className="data-box">
-                <Table columns={columns} dataSource={data} />
+                <Table loading={wait} columns={columns} dataSource={data} />
             </div>
             <FooterNew />
         </div>
