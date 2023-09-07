@@ -6,14 +6,14 @@ import { web3 } from "../../../utils/types";
 import { calsAddress } from "../../../utils";
 import IconFont from "../../../utils/icon";
 
-const TabHistory = (): ReactElement => {
+const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string}): ReactElement => {
     const { state } = useContext(PNft);
     const [data, setData] = useState<any[]>([]);
     const logsListFN = async () => {
         const result = await NFTLogsService({
             chain_id: process.env.REACT_APP_CHAIN,
-            contract_address: state.card.contract_address,
-            token_id: state.card.token_id,
+            contract_address: props.address,
+            token_id: props.tokenID,
             page_size: 200,
             page_num: 1
         });
@@ -58,7 +58,7 @@ const TabHistory = (): ReactElement => {
                                     </li>
                                     <li>
                                         <div className="with-img">
-                                            <img src={state.card.file_image_ipfs} alt="" />
+                                            <img src={props.image_minio_url} alt="" />
                                             <div className="name-msg">
                                                 <p className="color-g">PAI SPACE</p>
                                                 <p>*****</p>

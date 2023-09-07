@@ -24,8 +24,8 @@ const OwnerCard = (props: Props): ReactElement => {
         const account = await ProfileService({
             user_address: state.owner_address
         });
-        setProfile(account.data.data.item);
-        props.updateBG(account.data.data.item.bgimage_url);
+        setProfile(account.data);
+        props.updateBG(account.data.bgimage_url);
     };
     useEffect(() => {
         state.owner_address === state.address ? setProfile(state.account) : otherProfile();

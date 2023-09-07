@@ -7,18 +7,40 @@ import MsgCard from "./components/msg.card";
 import TradeHistory from "./components/trade.history";
 import FooterNew from "../screen.new/components/footer.new";
 import { NFTInfo } from '../../request/api'
+import { Type, web3 } from "../../utils/types";
+import BuyNFTsModal from "../detail/components/buy.nft";
+import { useNavigate } from "react-router-dom";
+
+interface Info {
+    image_minio_url: string,
+    order_id: string,
+    file_name: string,
+    token_id: number,
+    seller_name: string,
+    seller_avatar_url: string,
+    contract_address: string,
+    price: string,
+    file_description: string,
+    seller:string
+}
 
 const DetailNewView = (): ReactElement<ReactNode> => {
-    const { state } = useContext(PNft);
+    const { state,dispatch } = useContext(PNft);
     const [loading, setLoading] = useState<boolean>(false);
-    const [info, setInfo] = useState<{}>({});
+    const [imgLoad, setImgLoad] = useState<boolean>(true);
+    const navigate = useNavigate();
+    const [info, setInfo] = useState<Info | any>({
+        price: '0'
+    });
+    const [takeVisible, setTakeVisible] = useState<boolean>(false);
     const getInfo = async () => {
         setLoading(true);
         const result = await NFTInfo({
-            fid: state.info_id,
+            fid: +(state.info_id as string),
         });
         setLoading(false);
-        console.log(result);
+        const { data } = result;
+        setInfo(data);
     }
     useEffect(() => {
         getInfo();
@@ -32,7 +54,8 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                 : <div className="detail-inner">
                     <div className="first-screen">
                         <div className="left-nft">
-                            <img src={require('../../assets/images/WechatIMG20.jpeg')} alt="" />
+                            {imgLoad && <Spin size="large" />}
+                            <img onLoad={() => { setImgLoad(false) }} src={info?.image_minio_url} alt="" />
                         </div>
                         <div className="right-msg">
                             <div className="coll-msg">
@@ -40,10 +63,18 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 <img src={require('../../assets/images/WechatIMG20.jpeg')} alt="" />
                                 <p>Pai Space</p>
                             </div>
-                            <p className="nft-name">A fashion girl&nbsp;#003</p>
-                            <div className="owner-msg">
-                                <img src={require('../../assets/images/WechatIMG20.jpeg')} alt="" />
-                                <p>Owner<span>Alex</span></p>
+                            <p className="nft-name">{info?.file_name}&nbsp;#{info?.token_id}</p>
+                            <div className="owner-msg" onClick={() => {
+                                dispatch({
+                                    type: Type.SET_OWNER_ADDRESS,
+                                    payload: {
+                                        owner_address: info.seller
+                                    }
+                                });
+                                navigate('/owner')
+                            }}>
+                                <img src={info?.seller_avatar_url} alt="" />
+                                <p>Owner<span>{info?.seller_name}</span></p>
                             </div>
                             <div className="labels-msg">
                                 <p>
@@ -58,12 +89,14 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             <div className="price-msg">
                                 <p className="msg-title">Current price</p>
                                 <div className="price-text">
-                                    <img src={require('../../assets/images/WechatIMG20.jpeg')} alt="" />
-                                    <p>2.515</p>
+                                    <img src={require('../../assets/images/pi_logo.png')} alt="" />
+                                    <p>{web3.utils.fromWei(info?.price as string, 'ether')}</p>
                                     <p>Price</p>
                                 </div>
                                 <p className="buy-btn">
-                                    <Button type="primary">
+                                    <Button type="primary" onClick={() => {
+                                        setTakeVisible(true);
+                                    }}>
                                         <IconFont type="icon-gouwuche1_shopping-cart-one" />
                                         Buy now
                                     </Button>
@@ -77,11 +110,11 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 <ul>
                                     <li>
                                         <p>Contract</p>
-                                        <p>0xB368...B5C8</p>
+                                        <p>{info?.contract_address}</p>
                                     </li>
                                     <li>
                                         <p>Token ID</p>
-                                        <p>11</p>
+                                        <p>{info?.token_id}</p>
                                     </li>
                                     <li>
                                         <p>Blockchain</p>
@@ -91,9 +124,14 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             </div>
                         </div>
                     </div>
-                    <MsgCard />
-                    <TradeHistory />
+                    <MsgCard about="" description={info!.file_description} />
+                    <TradeHistory image_minio_url={info.image_minio_url} tokenID={info!.token_id} address={info!.contract_address} />
                     <FooterNew />
+                    <BuyNFTsModal visible={takeVisible} closeModal={(val: boolean) => {
+                        setTakeVisible(val)
+                    }} upRefresh={() => {
+                        getInfo();
+                    }} item={info} />
                 </div>}
         </div>
     )

@@ -69,4 +69,6 @@ export const CollectionInfo = (p: o) => post('/collection/info', p);
 //Collection Info NFT
 export const CollectionInfoNFT = (p: o) => post('/collection/nft/list', p);
 //Collection Search
-export const CollectionSearch = (p: o) => post('/collection/nft/sarch', p);
+export const CollectionSearch = (p: o) => post('/collection/nft/search', p);
+//Label List
+export const LabelList = (p:o) => post('/nft/label/list',p);

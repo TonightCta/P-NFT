@@ -1,20 +1,36 @@
 import { Button } from "antd";
-import { ReactElement } from "react";
+import { ReactElement, useContext } from "react";
+import { Type, web3 } from "../../../utils/types";
+import { PNft } from "../../../App";
+import { useNavigate } from "react-router-dom";
 
 
-const InnerCard = (): ReactElement => {
+const InnerCard = (props: { item: any }): ReactElement => {
+    const { dispatch } = useContext(PNft);
+    const navigate = useNavigate();
     return (
-        <div className="inner-card">
+        <div className={`inner-card ${!props.item.price ? 'un-sale' : ''}`} onClick={() => {
+            if (!props.item.price) {
+                return
+            };
+            dispatch({
+                type: Type.SET_INFO_ID,
+                payload: {
+                    info_id: String(props.item.fid)
+                }
+            });
+            navigate('/detail')
+        }}>
             <div className="nft-box">
-                <img src={require('../../../assets/images/WechatIMG20.jpeg')} alt="" />
+                <img src={props.item.image_minio_url} alt="" />
                 <div className="nft-tag">
                     <img src={require('../../../assets/new/plian_logo.png')} alt="" />
                 </div>
             </div>
             <div className="msg-box">
-                <p className="nft-name">A fashion girl #0098</p>
-                <p className="price-text">0.0289&nbsp;ETH</p>
-                <p className="last-price">Last sale:{`<`}0.02 ETH</p>
+                <p className="nft-name">{props.item.file_name} #{props.item.token_id}</p>
+                {props.item.price && <p className="price-text">{web3.utils.fromWei(props.item.price, 'ether')}&nbsp;TODO</p>}
+                {props.item.price && <p className="last-price">Last sale:{`<`}TODO TODO</p>}
             </div>
             <p className="oper-btn">
                 <Button type="primary">Buy now</Button>
