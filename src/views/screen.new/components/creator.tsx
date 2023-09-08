@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import { ReactElement, ReactNode, useEffect, useState } from "react";
 import IconFont from "../../../utils/icon";
 import { Screen2List } from '../../../request/api'
@@ -26,6 +26,9 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
     const CreatorCard = (props: { item: Card }) => {
         return (
             <div className="creator-card">
+                <div className="loading-box-public">
+                    <Spin />
+                </div>
                 <img src={props.item.file_minio_url} alt="" className="nft-box" />
                 <p>{props.item.file_name}</p>
                 <div className="account-box">

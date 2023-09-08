@@ -117,8 +117,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         img {
           height: 100%;
+          position: relative;
+          z-index: 20;
         }
       }
     }
@@ -201,6 +204,16 @@
         width: 230px;
         border-radius: 16px;
         margin-bottom: 16px;
+      }
+      .creator-card{
+        position: relative;
+        .loading-box-public{
+          min-height: 100px;
+        }
+        img{
+          position: relative;
+          z-index: 20;
+        }
       }
       p {
         font-size: 18px;

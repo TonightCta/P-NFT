@@ -17,7 +17,7 @@ interface Data {
 
 const CreatorCard = (): ReactElement => {
     const [swiperRef, setSwiperRef] = useState<any>(null);
-    const [wait,setWait] = useState<boolean>(false);
+    const [wait, setWait] = useState<boolean>(false);
     const [data, setData] = useState<[]>([]);
     const getDataList = async () => {
         setWait(true)
@@ -79,6 +79,9 @@ const CreatorCard = (): ReactElement => {
                                         <div className="img-box">
                                             <div className="img-outside">
                                                 <img src={item.img_urls[0]?.minio_url} alt="" />
+                                                <div className="loading-box-public">
+                                                    <Spin/>
+                                                </div>
                                             </div>
                                             <div className="img-list">
                                                 {

@@ -27,6 +27,10 @@
         color: #202025;
         margin-right: 60px;
         cursor: pointer;
+        transition: .2s all;
+      }
+      .active-menu{
+        color: #DF0885;
       }
     }
     .connect-box {

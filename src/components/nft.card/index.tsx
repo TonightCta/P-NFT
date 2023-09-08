@@ -4,6 +4,7 @@ import { NFTItem, Type, web3 } from "../../utils/types";
 import { calsAddress } from "../../utils";
 import { PNft } from "../../App";
 import { useNavigate } from "react-router-dom";
+import { Spin } from "antd";
 
 interface Props {
     info: NFTItem
@@ -24,6 +25,9 @@ const NftCard = (props: Props): ReactElement => {
         }}>
             <div className="nft-msg">
                 <img src={props.info.file_image_minio_url} alt="" />
+                <div className="loading-box-public">
+                    <Spin />
+                </div>
             </div>
             <p>{props.info.file_name}</p>
             <div className="minter-msg">

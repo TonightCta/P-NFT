@@ -33,6 +33,15 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route path="/voice-nft" element={<React.Suspense fallback={<Loading />}>
                     <View.VoiceNFTView />
                 </React.Suspense>}></Route>
+                <Route path="/gallery" element={<React.Suspense fallback={<Loading />}>
+                    <View.GalleryView />
+                </React.Suspense>}></Route>
+                <Route path="/contest" element={<React.Suspense fallback={<Loading />}>
+                    <View.ContestView />
+                </React.Suspense>}></Route>
+                <Route path="/contest-detail" element={<React.Suspense fallback={<Loading />}>
+                    <View.ContestDetailView />
+                </React.Suspense>}></Route>
                 <Route path="/airdrop" element={<React.Suspense fallback={<Loading />}>
                     <View.AirdropView />
                 </React.Suspense>}></Route>

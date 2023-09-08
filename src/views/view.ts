@@ -10,11 +10,14 @@ const OwnerNFTSView = React.lazy(() => import('./nfts/index'));
 const VoiceNFTView = React.lazy(() => import('./voice.nft/index'));
 const AirdropView = React.lazy(() => import('./airdrop/index'));
 const MarketPlaceView = React.lazy(() => import('./market.place/index'));
-const ToolView = React.lazy(() => import('./tool/index'))
+const ToolView = React.lazy(() => import('./tool/index'));
 const MarketViewNew = React.lazy(() => import('./market.new/index'));
 const MarketPlaceViewNew = React.lazy(() => import('./market.place.new/index'));
 const MarketViewAll = React.lazy(() => import('./market.all/index'));
 const DetailNewView = React.lazy(() => import('./detail.new/index'));
+const GalleryView = React.lazy(() => import('./gallery/index'));
+const ContestView = React.lazy(() => import('./contest/index'));
+const ContestDetailView = React.lazy(() => import('./contest.detail/index'))
 
 
 export {
@@ -32,5 +35,8 @@ export {
     MarketViewNew,
     MarketPlaceViewNew,
     MarketViewAll,
-    DetailNewView
+    DetailNewView,
+    GalleryView,
+    ContestView,
+    ContestDetailView
 }

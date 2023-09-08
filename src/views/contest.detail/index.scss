@@ -1,0 +1,303 @@
+.contest-detail-view {
+  padding-top: 80px;
+  .top-bg {
+    width: 100%;
+    height: 360px;
+  }
+  .detail-inner {
+    padding: 0 280px;
+    margin-top: -282px;
+    position: relative;
+    z-index: 100;
+    .info-card {
+      width: 100%;
+      padding: 40px;
+      border-radius: 24px;
+      background-color: white;
+      box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
+      display: flex;
+      .left-bg {
+        width: 620px;
+        height: 348px;
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #eee;
+        margin-right: 40px;
+        position: relative;
+        .loading-box {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10;
+        }
+        img {
+          width: 100%;
+          position: relative;
+          z-index: 20;
+        }
+      }
+      .right-msg {
+        flex: 1;
+        .msg-title {
+          text-align: left;
+          font-family: SparkTitleNew;
+          font-size: 28px;
+          font-weight: bold;
+          color: black;
+          line-height: 36px;
+        }
+        .active-msg {
+          margin-top: 8px;
+          display: flex;
+          align-items: center;
+          p {
+            color: #686a6c;
+            margin-right: 16px;
+            span {
+              margin-left: 4px;
+            }
+          }
+        }
+        .remark-text {
+          margin-top: 24px;
+          text-align: left;
+          color: #686a6c;
+          font-size: 14px;
+          line-height: 20px;
+        }
+        .date-msg {
+          margin-top: 24px;
+          width: 100%;
+          padding: 18px;
+          background-color: #f3f7fb;
+          display: flex;
+          justify-content: space-between;
+          border-radius: 8px;
+          .time-text {
+            display: flex;
+            align-items: center;
+            span {
+              color: #686a6c;
+              margin-right: 6px;
+              font-size: 20px;
+            }
+            font-size: 16px;
+            color: #202025;
+          }
+          .end-msg {
+            display: flex;
+            align-items: center;
+            .point {
+              width: 16px;
+              height: 16px;
+              border-radius: 50%;
+              background-color: rgba(255, 51, 170, 0.2);
+              padding: 4px;
+              margin-right: 8px;
+              .point-inner {
+                width: 100%;
+                height: 100%;
+                background: #f5319d;
+                border-radius: 50%;
+              }
+            }
+            .end-point {
+              .point {
+                background-color: rgba(0, 0, 0, 0);
+                .point-inner {
+                  background-color: #9da0a3;
+                }
+              }
+            }
+            p {
+              font-size: 16px;
+              color: #202025;
+            }
+          }
+        }
+        .submit-work {
+          margin-top: 24px;
+          text-align: right;
+          button {
+            border: 0;
+            border-radius: 12px;
+            font-size: 16px;
+            width: 178px;
+            height: 46px;
+            background: linear-gradient(90deg, #f5319d 0%, #6665e6 100%);
+          }
+        }
+      }
+    }
+    .data-list {
+      margin-top: 84px;
+      .filter-box {
+        display: flex;
+        ul {
+          display: flex;
+          padding: 3px;
+          background-color: #f0f0f0;
+          border-radius: 16px;
+          margin-right: 26px;
+          height: 48px;
+          li {
+            height: 100%;
+            line-height: 42px;
+            padding: 0 20px;
+            font-size: 16px;
+            color: #686a6c;
+            cursor: pointer;
+            transition: 0.2s all;
+            border-radius: 14px;
+          }
+          .active-f {
+            background-color: white;
+            color: #202025;
+          }
+        }
+        .search-inp {
+          flex: 1;
+          height: 48px;
+          border: 1px solid #e6e6e6;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          padding: 0 24px;
+          input {
+            flex: 1;
+          }
+          span {
+            font-size: 20px;
+            color: #505050;
+            margin-right: 12px;
+          }
+        }
+        .sort-box {
+          display: flex;
+          align-items: center;
+          padding: 12px 24px;
+          border-radius: 16px;
+          background-color: #f0f0f0;
+          margin-left: 16px;
+          cursor: pointer;
+          p {
+            font-size: 16px;
+            color: #202025;
+          }
+          span {
+            margin-left: 8px;
+            color: #4e5969;
+            font-size: 22px;
+          }
+        }
+      }
+      .data-inner {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 48px;
+        .contest-card {
+          width: 22%;
+          margin-right: 40px;
+          margin-bottom: 50px;
+          .nft-box {
+            width: 100%;
+            height: 280px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            .vote-num {
+              position: absolute;
+              z-index: 3;
+              top: 16px;
+              right: 16px;
+              padding: 6px 8px;
+              border-radius: 8px;
+              background-color: rgba(0, 0, 0, 0.5);
+              backdrop-filter: blur(10px);
+              display: flex;
+              align-items: center;
+              p {
+                margin-left: 4px;
+                font-size: 16px;
+                color: white;
+              }
+            }
+            img {
+              width: 100%;
+              position: relative;
+              z-index: 2;
+            }
+            .loading-box {
+              position: absolute;
+              top: 0;
+              left: 0;
+              display: flex;
+              width: 100%;
+              height: 100%;
+              align-items: center;
+              justify-content: center;
+              z-index: 1;
+            }
+          }
+          .nft-name {
+            margin-top: 12px;
+            font-size: 20px;
+            color: black;
+            font-family: SparkTitleNew;
+            text-align: left;
+          }
+          .owner-msg {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 6px;
+            .owner {
+              display: flex;
+              align-items: center;
+              img {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                margin-right: 8px;
+              }
+              p {
+                font-size: 16px;
+                color: black;
+              }
+            }
+            button {
+              width: 64px;
+              height: 28px;
+              border-radius: 16px;
+              font-size: 14px;
+            }
+          }
+        }
+        .contest-card:nth-child(4n) {
+          margin-right: 0;
+        }
+      }
+      .load-box {
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .no-data {
+        font-weight: 16px;
+        color: #686a6c;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 100px;
+      }
+    }
+  }
+}

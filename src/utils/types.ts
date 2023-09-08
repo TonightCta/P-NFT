@@ -18,6 +18,7 @@ export interface State {
     owner_address?:string,
     info_id?:string,
     collection_id?:string,
+    contest_id?:string
 }
 
 export interface IResponse {
@@ -37,7 +38,8 @@ export enum Type {
     SET_SWIPER = 'set_swiper',
     SET_OWNER_ADDRESS = 'set_owner_address',
     SET_INFO_ID = 'set_info_id',
-    SET_COLLECTION_ID = 'set_collection_id'
+    SET_COLLECTION_ID = 'set_collection_id',
+    SET_CONTEST_ID = 'set_contest_id'
 };
 
 export interface IAction {

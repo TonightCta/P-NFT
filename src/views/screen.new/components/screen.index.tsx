@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import { ReactElement, useEffect, useState } from "react";
 import IconFont from '../../../utils/icon';
 import { Screen1List } from '../../../request/api'
@@ -42,6 +42,9 @@ const ScreenIndexNew = (): ReactElement => {
                             return (
                                 <li key={index}>
                                     <img src={item.file_minio_url} alt="" />
+                                    <div className="loading-box-public">
+                                        <Spin />
+                                    </div>
                                 </li>
                             )
                         })
@@ -53,6 +56,9 @@ const ScreenIndexNew = (): ReactElement => {
                             return (
                                 <li key={index}>
                                     <img src={item.file_minio_url} alt="" />
+                                    <div className="loading-box-public">
+                                        <Spin />
+                                    </div>
                                 </li>
                             )
                         })
@@ -64,6 +70,9 @@ const ScreenIndexNew = (): ReactElement => {
                             return (
                                 <li key={index}>
                                     <img src={item.file_minio_url} alt="" />
+                                    <div className="loading-box-public">
+                                        <Spin />
+                                    </div>
                                 </li>
                             )
                         })

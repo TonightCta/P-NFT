@@ -85,3 +85,11 @@ export const calsMarks = (_address: string) => {
 export const GetUrlKey = (name: string, url: string): string => {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(url) || [, ""])[1].replace(/\+/g, '%20')) || ''
 };
+//Date conversion
+export const DateConvert = (_time: number): string => {
+    const date = new Date(_time * 1000);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+    const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
+    return `${month}/${day}/${year}`
+};

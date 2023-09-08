@@ -1,6 +1,6 @@
-import { ReactElement, ReactNode, useContext, useState } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Popover } from "antd";
 import IconFont from "../../utils/icon";
 import { useMetamask } from "../../utils/metamask";
@@ -23,6 +23,14 @@ const MenuList: Menu[] = [
         url: '/marketplace',
     },
     {
+        name: 'Gallery',
+        url: '/gallery',
+    },
+    {
+        name: 'Contest',
+        url: '/contest',
+    },
+    {
         name: 'Airdrops',
         url: '/airdrop',
     },
@@ -33,14 +41,35 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
     const { connectMetamask } = useMetamask();
     const { state, dispatch } = useContext(PNft);
     const [open, setOpen] = useState(false);
+    const location = useLocation();
     const hide = () => {
         setOpen(false);
     };
-
     const handleOpenChange = (newOpen: boolean) => {
         setOpen(newOpen);
     };
-
+    useEffect(() => {
+        switch (location.pathname) {
+            case '/voice-nft':
+                setActive(0);
+                break;
+            case '/marketplace':
+                setActive(1);
+                break;
+            case '/gallery':
+                setActive(2);
+                break;
+            case '/contest':
+                setActive(3);
+                break;
+            case '/airdrop':
+                setActive(4);
+                break;
+            default:
+                setActive(99)
+        }
+    }, [location.pathname])
+    const [active, setActive] = useState<number>(99);
     const content = (
         <div className="connect-menu" onClick={hide}>
             <ul>
@@ -78,7 +107,8 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     {
                         MenuList.map((item: Menu, index: number) => {
                             return (
-                                <li key={index} onClick={() => {
+                                <li className={`${index === active ? 'active-menu' : ''}`} key={index} onClick={() => {
+                                    setActive(index);
                                     navigate(item.url)
                                 }}>{item.name}</li>
                             )

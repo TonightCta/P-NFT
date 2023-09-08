@@ -15,8 +15,11 @@
     justify-content: center;
     overflow: hidden;
     margin-bottom: 20px;
+    position: relative;
     img {
       width: 100%;
+      position: relative;
+      z-index: 20;
     }
   }
   p {

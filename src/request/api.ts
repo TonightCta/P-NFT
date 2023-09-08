@@ -71,4 +71,12 @@ export const CollectionInfoNFT = (p: o) => post('/collection/nft/list', p);
 //Collection Search
 export const CollectionSearch = (p: o) => post('/collection/nft/search', p);
 //Label List
-export const LabelList = (p:o) => post('/nft/label/list',p);
+export const LabelList = (p: o) => post('/nft/label/list', p);
+//Competition List
+export const CompetitionList = (p: o) => post('/competition/list', p);
+//Competition Info
+export const CompetitionInfo = (p: o) => post('/competition/info', p);
+//Competition NFT List
+export const CompetitionNFTList = (p: o) => post('/competition/compitems/list', p);
+//Competition Vote
+export const CompetitionVote = (p: o) => post('/compitems/vote', p);

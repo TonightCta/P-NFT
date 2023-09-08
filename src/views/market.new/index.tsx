@@ -6,6 +6,7 @@ import { PNft } from "../../App";
 import { CollectionInfo } from "../../request/api";
 import { PlianContractAddress721Main } from "../../utils/source";
 import { Spin } from "antd";
+import { DateConvert } from "../../utils";
 
 interface Account {
     icon: string,
@@ -13,7 +14,7 @@ interface Account {
 };
 
 
-interface Info {
+export interface Info {
     bg_image_minio_url: string,
     collection_description: string,
     collection_name: string,
@@ -25,7 +26,8 @@ interface Info {
     tg_link: string,
     twitter_link: string,
     website_link: string,
-    category_id: number
+    category_id: number,
+    creat_time:number
 }
 
 const MarketViewNew = (): ReactElement<ReactNode> => {
@@ -109,7 +111,7 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                             <p className="collection-owner">By Pizzap</p>
                             <div className="collection-total">
                                 <p>Total items<span>{info?.total_supply}</span></p>
-                                <p>Created<span>Mar 2022</span></p>
+                                {info?.creat_time && <p>Created<span>{DateConvert(info?.creat_time)}</span></p>}
                                 <p>Creator earnings<span>{info?.creator_earnings}%</span></p>
                                 <p>Chain<span>Plian</span></p>
                                 <p>Category<span>{info?.category_id}</span></p>

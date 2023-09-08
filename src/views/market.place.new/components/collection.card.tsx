@@ -111,7 +111,12 @@ const CollectionCard = (): ReactElement => {
                                         <div className="colleciton-logo">
                                             <img src={require('../../../assets/new/plian_logo.png')} alt="" />
                                         </div>
-                                        <img className="poster-img" src={item.poster_minio_url} alt="" />
+                                        <div className="poster-img">
+                                            <img className="poster-img" src={item.poster_minio_url} alt="" />
+                                            <div className="loading-box-public">
+                                                <Spin size="large" />
+                                            </div>
+                                        </div>
                                         <div className="msg-box">
                                             <p className="name">{item.collection_name}</p>
                                             <div className="items-creator">

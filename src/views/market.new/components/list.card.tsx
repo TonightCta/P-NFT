@@ -88,6 +88,11 @@ const ListCard = (): ReactElement => {
         });
         setListWait(false);
         const { data } = result;
+        if (!data.data.item) {
+            setTotal(10)
+            setData([]);
+            return
+        }
         setTotal(data.data.total)
         setData(data.data.item);
     };
@@ -104,6 +109,7 @@ const ListCard = (): ReactElement => {
         if (!data.data.item) {
             setTotal(10)
             setData([]);
+            return
         }
         setTotal(data.data.total)
         setData(data.data.item);
@@ -220,25 +226,27 @@ const ListCard = (): ReactElement => {
                         ? <div className="loading-box">
                             <Spin size="large" />
                         </div>
-                        : <div className={`list-box ${!show.filter ? 'more-items' : ''}`}>
-                            {
-                                data.map((item: any, index: number) => {
-                                    return (
-                                        <InnerCard key={index} item={item} />
-                                    )
-                                })
-                            }
+                        : <div>
+                            {data.length > 0 && <div className={`list-box ${!show.filter ? 'more-items' : ''}`}>
+                                {
+                                    data.map((item: any, index: number) => {
+                                        return (
+                                            <InnerCard key={index} item={item} />
+                                        )
+                                    })
+                                }
+                            </div>}
                         </div>
                 }
                 {
-                    !listWait && total < 1 && <p className="no-data">No data</p>
+                    !listWait && data.length < 1 && <p className="no-data">No data</p>
                 }
             </div>
-            <div className={`page-box ${!show.filter ? 'normal-center' : ''}`}>
+            {!listWait && data.length > 0 && <div className={`page-box ${!show.filter ? 'normal-center' : ''}`}>
                 <Pagination defaultCurrent={1} total={total} onChange={(e) => {
                     setPage(e)
                 }} />
-            </div>
+            </div>}
         </div>
     )
 };

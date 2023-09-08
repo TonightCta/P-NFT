@@ -6,10 +6,11 @@ import IconFont from "../../utils/icon";
 import MsgCard from "./components/msg.card";
 import TradeHistory from "./components/trade.history";
 import FooterNew from "../screen.new/components/footer.new";
-import { NFTInfo } from '../../request/api'
+import { NFTInfo, CollectionInfo } from '../../request/api'
 import { Type, web3 } from "../../utils/types";
 import BuyNFTsModal from "../detail/components/buy.nft";
 import { useNavigate } from "react-router-dom";
+import { PlianContractAddress721Main } from "../../utils/source";
 
 interface Info {
     image_minio_url: string,
@@ -21,13 +22,22 @@ interface Info {
     contract_address: string,
     price: string,
     file_description: string,
-    seller: string
+    collection_id: number,
+    seller: string,
+    pay_currency_name:string
+}
+
+interface CollInfo {
+    collection_description: string,
+    collection_name: string,
+    logo_minio_url: string
 }
 
 const DetailNewView = (): ReactElement<ReactNode> => {
     const { state, dispatch } = useContext(PNft);
     const [loading, setLoading] = useState<boolean>(false);
     const [imgLoad, setImgLoad] = useState<boolean>(true);
+    const [collInfo, setCollInfo] = useState<CollInfo>()
     const navigate = useNavigate();
     const [info, setInfo] = useState<Info | any>({
         price: '0'
@@ -41,6 +51,12 @@ const DetailNewView = (): ReactElement<ReactNode> => {
         setLoading(false);
         const { data } = result;
         setInfo(data);
+        const cc = await CollectionInfo({
+            collection_id: data.collection_id,
+            chain_id: '1',
+            contract_address: PlianContractAddress721Main
+        });
+        setCollInfo(cc.data)
     }
     useEffect(() => {
         getInfo();
@@ -59,9 +75,11 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                         </div>
                         <div className="right-msg">
                             <div className="coll-msg">
-                                <IconFont type="icon-fanhuijiantou" />
-                                <img src={require('../../assets/images/WechatIMG20.jpeg')} alt="" />
-                                <p>Pai Space</p>
+                                <IconFont type="icon-fanhuijiantou" onClick={() => {
+                                    window.history.back()
+                                }} />
+                                <img src={collInfo?.logo_minio_url} alt="" />
+                                <p>{collInfo?.collection_name}</p>
                             </div>
                             <p className="nft-name">{info?.file_name}&nbsp;#{info?.token_id}</p>
                             <div className="owner-msg" onClick={() => {
@@ -89,7 +107,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             <div className="price-msg">
                                 <p className="msg-title">Current price</p>
                                 <div className="price-text">
-                                    <img src={require('../../assets/images/pi_logo.png')} alt="" />
+                                    <img src={info?.pay_currency_name === 'PI' ? require('../../assets/images/pi_logo.png') : require('../../assets/new/eth_logo.png')} alt="" />
                                     {info?.price && <p>{web3.utils.fromWei(info?.price as string, 'ether')}</p>}
                                     <p>Price</p>
                                 </div>
@@ -124,7 +142,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             </div>
                         </div>
                     </div>
-                    <MsgCard about="" description={info!.file_description} />
+                    <MsgCard about={collInfo?.collection_description as string} description={info!.file_description} />
                     <TradeHistory price={info.price} paymod="PI" image_minio_url={info.image_minio_url} tokenID={info!.token_id} address={info!.contract_address} />
                     <FooterNew />
                     <BuyNFTsModal visible={takeVisible} closeModal={(val: boolean) => {
