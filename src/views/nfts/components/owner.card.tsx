@@ -1,13 +1,14 @@
 import { ReactElement, useContext, useEffect, useRef, useState } from "react";
-import { CaretRightOutlined, CopyOutlined } from "@ant-design/icons";
+import { CaretRightOutlined, CopyOutlined, SettingOutlined } from "@ant-design/icons";
 import copy from 'copy-to-clipboard'
-import { Affix, Spin, message } from "antd";
+import { Affix, Button, Spin, message } from "antd";
 import { PNft } from "../../../App";
 import { calsAddress } from '../../../utils/index';
 import IconFont from "../../../utils/icon";
 import { ProfileService } from "../../../request/api";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
-import { flag } from '../../../utils/source';
+import { VERSION, flag } from '../../../utils/source';
+import { useNavigate } from "react-router-dom";
 interface Props {
     updateBG: (val: string) => void
 }
@@ -15,6 +16,7 @@ interface Props {
 const OwnerCard = (props: Props): ReactElement => {
     const { state } = useContext(PNft)
     const audioRef: any = useRef('');
+    const navigate = useNavigate();
     const [play, setPlay] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [profile, setProfile] = useState<any>({
@@ -39,7 +41,7 @@ const OwnerCard = (props: Props): ReactElement => {
                             ? <img onLoad={() => {
                                 setLoading(false)
                             }} src={profile.avatar_url} alt="" />
-                            : <DefaultAvatar diameter={220} address={profile.user_address}/>
+                            : <DefaultAvatar diameter={220} address={profile.user_address} />
                         }
                         {profile.avatar_url && loading && <div className="loading-avatar">
                             <Spin />
@@ -69,19 +71,32 @@ const OwnerCard = (props: Props): ReactElement => {
                                 <audio src={profile.audio_url} ref={audioRef}></audio>
                             </div>
                             <div className="audio-progress">
-                                <img src={require('../../../assets/images/audio_bg.png')} alt="" />
+                                {
+                                    VERSION === 'old'
+                                        ? <img src={require('../../../assets/images/audio_bg.png')} alt="" />
+                                        : <img src={require('../../../assets/new/progress_bg.png')} alt="" />}
                             </div>
                             <p className="audio-end"></p>
                         </div>
                     </div>
-                    <div className="outside-url">
+                    {VERSION === 'old' && <div className="outside-url">
                         <IconFont type="icon-globe-simple-bold" />
                         <div className={`${profile.link && 'with-hand'}`} onClick={() => {
                             profile.link && window.open(profile.link as string)
                         }}>
                             <p>{profile.link ? profile.link : '-'}</p>
                         </div>
-                    </div>
+                    </div>}
+                    {
+                        VERSION === 'new' && <div className="set-box">
+                            <Button type="default" onClick={() => {
+                                navigate('/profile')
+                            }}>
+                                <SettingOutlined />
+                                Setting
+                            </Button>
+                        </div>
+                    }
                     <div className="ourside-account">
                         <IconFont type="icon-twitter-logo-bold" onClick={() => {
                             profile.auth_twitter ? window.open(profile.auth_twitter) : message.error('The user has not set up a Twitter account');

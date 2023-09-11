@@ -11,6 +11,9 @@ import { SettingOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import MaskCard from "../../components/mask";
 import { PNft } from "../../App";
+import { VERSION } from "../../utils/source";
+import NewNFTCard from "./components/new.card";
+import FooterNew from "../screen.new/components/footer.new";
 
 const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const [activeTop, setActiveTop] = useState<number>(0);
@@ -79,7 +82,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     }
     useEffect(() => {
         loadMoreData();
-    }, [state.owner_address,page]);
+    }, [state.owner_address, page]);
     const selectTop = (_type: number) => {
         // switch (_type) {
         //     case 0:
@@ -115,7 +118,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     }, [])
     return (
         <div className="owner-view">
-            <MaskCard />
+            {VERSION === 'old' && <MaskCard />}
             <div className="up-mask">
                 <div className="owner-bg">
                     <img className={`${calsBG() ? '' : 'max-height'}`} src={calsBG() ? calsBG() : require('../../assets/images/test_bg.png')} onLoad={() => {
@@ -130,7 +133,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         setOtherBG(_url);
                     }} />
                     <div className="inner-data">
-                        {state.owner_address === state.address && <div className="set-btn" onClick={() => {
+                        {state.owner_address === state.address && VERSION === 'old' && <div className="set-btn" onClick={() => {
                             navigate('/profile')
                         }}>
                             <SettingOutlined />
@@ -154,15 +157,16 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                 <input type="text" placeholder="Search" />
                             </div>
                         </div>
-                        <div className="conponenst-gater" id="ownerView">
+                        <div className={`conponenst-gater ${loading ? 'gater-6n' : ''}`} id="ownerView">
                             <div className="list-item" >
                                 {loading && <div className="load-data-box">
                                     <Spin size="large" />
                                 </div>}
                                 {
                                     (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
+                                    // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
                                         return (
-                                            <CardItem key={index} item={item} uploadSell={() => {
+                                            <NewNFTCard type={activeTop === 0 ? 1 : 2} key={index} item={item} uploadSell={() => {
                                                 setList([]);
                                                 setPage(1);
                                                 setLoading(true);
@@ -178,10 +182,10 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             </div>
                         </div>
                         {
-                            activeTop === 1 && !loading && <p>No more</p>
+                            activeTop === 1 && !loading && <p className="no-more">No more</p>
                         }
                         {
-                            activeTop === 0 && total === 0 && !loading && <p>No more</p>
+                            activeTop === 0 && total === 0 && !loading && <p className="no-more">No more</p>
                         }
                         {activeTop === 0 && total > 0 && <div className="page-oper">
                             <Pagination defaultCurrent={1} pageSize={12} total={total} onChange={(page) => {
@@ -195,6 +199,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                     </div>
                 </div>
             </div>
+            {/* <FooterNew/> */}
         </div>
     )
 };

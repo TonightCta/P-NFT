@@ -47,6 +47,12 @@ code {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'SparkTextNew';
+  src: url('./assets/fonts/Poppins-Medium.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
 
 .ant-message {
   z-index: 2000;

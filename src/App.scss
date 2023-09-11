@@ -36,6 +36,16 @@
     }
   }
 }
+.gater-6n {
+  .list-item {
+    .new-nft-card:nth-child(5n) {
+      margin-right: 32px!important;
+    }
+    .new-nft-card:nth-child(6n) {
+      margin-right: 0;
+    }
+  }
+}
 .list-item {
   display: flex;
   flex-wrap: wrap;
@@ -46,11 +56,8 @@
     width: 100%;
     height: calc(100% - 30px);
     position: absolute;
-    border-radius: 8px;
     left: 0;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     z-index: 100;
