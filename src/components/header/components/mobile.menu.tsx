@@ -67,7 +67,6 @@ const MobileMenu = (props: Props): ReactElement => {
     };
     useEffect(() => {
         props.visible && setVisible(props.visible)
-        console.log(state.swiper_ref)
     }, [props.visible])
     return (
         <Drawer

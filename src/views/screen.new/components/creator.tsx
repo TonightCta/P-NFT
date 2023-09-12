@@ -16,7 +16,6 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
         const result = await Screen2List({
             page_size: 24,
         });
-        console.log(result);
         const { data } = result;
         setData(data.data.item);
     };

@@ -275,12 +275,10 @@ export const useContract = () => {
         return result;
     }
     const balanceErc20 = async (_token_address: string) => {
-        console.log(_token_address)
         const contract = new web3.eth.Contract(NormalABIERC20 as any, _token_address,{
             gasPrice:gasPrice
         });
         const balance = await contract.methods.balanceOf(owner).call()
-        console.log(balance);
     }
     return {
         mint,
