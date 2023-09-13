@@ -31,7 +31,7 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                     {VERSION === 'new' ? <View.ScreenViewNew /> : <View.ScreenView />}
                 </React.Suspense>}></Route>
                 <Route path="/voice-nft" element={<React.Suspense fallback={<Loading />}>
-                    <View.VoiceNFTView />
+                    {VERSION === 'new' ? <View.VoiceNFTNewView /> : <View.VoiceNFTView />}
                 </React.Suspense>}></Route>
                 <Route path="/gallery" element={<React.Suspense fallback={<Loading />}>
                     <View.GalleryView />

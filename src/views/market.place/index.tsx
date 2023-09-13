@@ -147,7 +147,6 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
                     {/* <Affix offsetTop={100} onChange={(affixed) => console.log(affixed)} target={() => container}> */}
                     <div className="filter-box">
                         <ul>
-
                             {
                                 ['Activities'].map((item: string, index: number): ReactElement => {
                                     return (
