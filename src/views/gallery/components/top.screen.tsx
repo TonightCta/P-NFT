@@ -25,16 +25,8 @@ const TopScreen = (): ReactElement => {
             page_size: 100
         });
         const { data } = result;
-        const periods = await GalleryPeriodList({
-            class_id: data.data.item[0].class_id
-        });
-        const arr = periods.data.data.item.filter((item: any) => {
-            if (item.is_default) {
-                return item
-            }
-        })
         const lastShow = await GalleryNFTList({
-            series_id: arr[0].series_id
+            class_id: data.data.item[0].class_id
         });
         setData(lastShow.data.data.item);
     };

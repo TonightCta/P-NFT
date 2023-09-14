@@ -24,7 +24,9 @@ interface Info {
     file_description: string,
     collection_id: number,
     seller: string,
-    pay_currency_name:string
+    pay_currency_name:string,
+    cateory_name:string,
+    labels:string[]
 }
 
 interface CollInfo {
@@ -97,11 +99,11 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             <div className="labels-msg">
                                 <p>
                                     <IconFont type="icon-biaoqian" />
-                                    AI/character/Voice
+                                    {info?.labels?.join('/')}
                                 </p>
                                 <p>
                                     <IconFont type="icon-fenlei" />
-                                    Art
+                                    {info?.cateory_name}
                                 </p>
                             </div>
                             {info?.is_onsale && state.address !== info.seller && <div className="price-msg">
