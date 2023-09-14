@@ -1,16 +1,30 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import IconFont from "../../../utils/icon";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useMediaRecorder } from "../../../hooks/record";
 import Recording from "../../voice.nft/components/recording";
-import { VERSION } from "../../../utils/source";
+import { Input } from "..";
+import axios from "axios";
+import { NFTAddress, useContract } from "../../../utils/contract";
+import { ethereum } from "../../../utils/types";
+import { NFTMintService, UploadFileService } from "../../../request/api";
+import { PNft } from "../../../App";
+import { useMetamask } from "../../../utils/metamask";
+import { useSwitchChain } from "../../../hooks/chain";
+import { useNavigate } from "react-router-dom";
 
-const BasicBox = (): ReactElement => {
+const BasicBox = (props: { info: Input }): ReactElement => {
     const { audioFile, mediaUrl, startRecord, stopRecord } = useMediaRecorder();
     const [audio, setAudio] = useState<string>('');
+    const [wait, setWait] = useState<boolean>(false);
     const audioRef: any = useRef('');
+    const { connectMetamask } = useMetamask();
+    const { mint, getBalance } = useContract();
     const [record, setRecord] = useState<boolean>(false);
+    const { state } = useContext(PNft);
+    const { switchC } = useSwitchChain();
+    const navigate = useNavigate();
     const [review, setReview] = useState<{ source: string | File, view: string }>({
         source: '',
         view: ''
@@ -28,6 +42,101 @@ const BasicBox = (): ReactElement => {
             mediaUrl && audioRef.current.play()
         }, 100)
     }, [mediaUrl]);
+    const uploadFileFN = async (_file_name: string, _file: any) => {
+        if (!_file) {
+            return
+        }
+        const formData = new FormData();
+        const fileSize = _file.size / (1024 * 1024);
+        if (fileSize > 5) {
+            message.warning('The maximum file size is 5MB.');
+            setWait(false);
+            return
+        }
+        formData.append('file', _file);
+        formData.append('name', _file_name);
+        const result = await axios.post(`${process.env.REACT_APP_BASEURL_IPFS}/upload-file`, formData);
+        return result.data.data;
+    };
+    const uploadFileLocaFN = async (_file: any) => {
+        if (!_file) {
+            return
+        }
+        const formData = new FormData()
+        formData.append('file', _file);
+        const result = await UploadFileService(formData);
+        return result.data;
+    };
+    const submitMint = async () => {
+        const balance = await getBalance();
+        const numberBalance: number = +balance / 1e18;
+        if (numberBalance <= 0) {
+            message.warning('Your available balance is insufficient.');
+            return
+        }
+        if (!state.address) {
+            await connectMetamask();
+            return
+        }
+        await switchC(Number(process.env.REACT_APP_CHAIN))
+        if (!props.info.name) {
+            message.error('Please enter the name');
+            return
+        };
+        if (props.info.labels.length < 1) {
+            message.error('Please select at least one NFT Label');
+            return
+        };
+        if (!review.source) {
+            message.error('Please upload NFT file');
+            return
+        }
+        setWait(true);
+        const img_ipfs = await uploadFileFN(`${new Date().getTime()}.png`, review.source);
+        const voice_ipfs = audioFile && await uploadFileFN(`${new Date().getTime()}.mp3`, audioFile);
+        const img_local = await uploadFileLocaFN(review.source);
+        const voice_local = audioFile && await uploadFileLocaFN(audioFile);
+        let data: any = {
+            name: props.info.name,
+            description: props.info.desc,
+            image: img_ipfs.ipfshash,
+            external_url: audioFile ? voice_ipfs.ipfshash : ''
+        };
+        if (typeof data === 'object') {
+            data = JSON.stringify(data, undefined, 4)
+        }
+        const blob = new Blob([data], { type: 'text/json' });
+        const blob_ipfs = await uploadFileFN(`${new Date().getTime()}.json`, blob);
+        const result: any = await mint(blob_ipfs.ipfshash);
+        if (!result || result.message) {
+            setWait(false);
+            return
+        };
+        const formData = new FormData();
+        formData.append('chain_id', process.env.REACT_APP_CHAIN as string);
+        formData.append('contract_address', NFTAddress);
+        formData.append('contract_type', '721');
+        formData.append('sender', ethereum.selectedAddress);
+        formData.append('tx_hash', result['transactionHash']);
+        formData.append('image_minio', img_local.minio_key);
+        formData.append('voice_minio', voice_local.minio_key);
+        formData.append('meta_data_ipfs', blob_ipfs.ipfshash);
+        formData.append('image_ipfs', img_ipfs.ipfshash);
+        formData.append('voice_ipfs', audioFile ? voice_ipfs.ipfshash : '');
+        formData.append('name', props.info.name);
+        formData.append('description', props.info.desc);
+        formData.append('category_id', props.info.category as any);
+        formData.append('labels', props.info.labels as any);
+        const mintResult = await NFTMintService(formData);
+        const { status } = mintResult;
+        if (status !== 200) {
+            message.error(mintResult.msg);
+            return
+        }
+        message.success('Mint Successfully!');
+        setWait(false);
+        navigate('/owner')
+    }
     return (
         <div className="basic-box">
             <div className="up-image-box up-public">
@@ -59,7 +168,6 @@ const BasicBox = (): ReactElement => {
             <div className="up-audio-box up-public">
                 <p className="up-title">
                     <IconFont type="icon-yinpin" />
-                    <sup>*</sup>
                     Audio
                 </p>
                 <div className="up-box">
@@ -71,11 +179,11 @@ const BasicBox = (): ReactElement => {
                             : <Recording />}
                     </div>
                     <p>Click button to start Recording</p>
-                    <audio  ref={audioRef} src={audio} controls />
+                    <audio ref={audioRef} src={audio} controls />
                 </div>
             </div>
             <p className="submit-btn">
-                <Button type="primary">Confirm and Mint</Button>
+                <Button type="primary" loading={wait} disabled={wait} onClick={submitMint}>Confirm and Mint</Button>
             </p>
         </div>
     )

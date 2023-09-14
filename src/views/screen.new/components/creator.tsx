@@ -107,12 +107,12 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                     }
                 </ul>
             </div>
-            <p className="view-more">
+            {/* <p className="view-more">
                 <Button type="default">
                     View More
                     <IconFont type="icon-arrow-up-right" />
                 </Button>
-            </p>
+            </p> */}
             <div className="mask-box"></div>
         </div>
     )

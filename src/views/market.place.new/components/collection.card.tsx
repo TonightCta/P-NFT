@@ -108,8 +108,8 @@ const CollectionCard = (): ReactElement => {
                                         });
                                         navigate('/market')
                                     }}>
-                                        <div className="colleciton-logo">
-                                            <img src={require('../../../assets/new/plian_logo.png')} alt="" />
+                                        <div className={`colleciton-logo ${item.collection_name === 'PAI SPACE' ? '' : 'other-l'}`}>
+                                            <img src={item.collection_name === 'PAI SPACE' ? require('../../../assets/new/plian_logo.png') : require('../../../assets/new/eht_white_logo.png')} alt="" />
                                         </div>
                                         <div className="poster-img">
                                             <img className="poster-img" src={item.poster_minio_url} alt="" />

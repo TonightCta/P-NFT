@@ -498,3 +498,27 @@
     }
   }
 }
+
+@media screen and (max-width: 1440px) {
+  .gallery-view {
+    .top-screen {
+      .nft-inner-1 {
+        padding: 100px 140px 0;
+      }
+      .next-btn{
+        right: 50px;
+      }
+    }
+    .show-content{
+      .content-title{
+        padding: 0 140px;
+      }
+      .content-1{
+        padding: 0 140px;
+      }
+      .content-3{
+        padding: 0 140px;
+      }
+    }
+  }
+}

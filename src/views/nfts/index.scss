@@ -497,3 +497,27 @@
     }
   }
 }
+@media screen and (max-width: 1440px) {
+  .owner-view {
+    .owner-inner {
+      .owner-card {
+        width: 200px;
+        min-width: 200px;
+        .account-msg {
+          .avatar-box {
+            height: 200px;
+          }
+        }
+      }
+      .inner-data{
+        .conponenst-gater{
+          .list-item{
+            .nft-box{
+              height: 200px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

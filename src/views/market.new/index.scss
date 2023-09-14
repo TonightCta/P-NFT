@@ -180,6 +180,7 @@
         margin-top: 28px;
         .filter-box-data {
           width: 300px;
+          min-width: 300px;
           margin-right: 26px;
           border-right: 1px solid #e8e8e8;
           transition: 0.5s all;
@@ -276,6 +277,7 @@
         }
         .hide-filter-box {
           width: 0;
+          min-width: 0;
           overflow: hidden;
           border: 0;
           margin: 0;
@@ -285,7 +287,7 @@
           display: flex;
           flex-wrap: wrap;
           .inner-card {
-            width: 18.15%;
+            width: calc(20% - 28px);
             max-height: 354px;
             margin-right: 32px;
             border-radius: 16px;
@@ -445,6 +447,47 @@
     li:hover {
       background-color: #f0f0f0;
       color: #050505;
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .market-view-new {
+    .content-box {
+      .list-card {
+        .data-box {
+          .filter-box-data {
+            width: 200px;
+            min-width: 200px;
+          }
+          .hide-filter-box {
+            width: 0;
+            min-width: 0;
+          }
+          .list-box {
+            .inner-card {
+              margin-right: 26px;
+              .nft-box {
+                height: 180px;
+              }
+            }
+            .inner-card:nth-child(4n) {
+              margin-right: 24px;
+            }
+            .inner-card:nth-child(5n) {
+              margin-right: 0;
+            }
+          }
+          .more-items {
+            .inner-card:nth-child(5n) {
+              margin-right: 24px;
+            }
+            .inner-card:nth-child(6n) {
+              margin-right: 0;
+            }
+          }
+        }
+      }
     }
   }
 }

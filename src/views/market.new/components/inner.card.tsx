@@ -10,9 +10,6 @@ const InnerCard = (props: { item: any }): ReactElement => {
     const navigate = useNavigate();
     return (
         <div className={`inner-card ${!props.item.price ? 'un-sale' : ''}`} onClick={() => {
-            if (!props.item.price) {
-                return
-            };
             dispatch({
                 type: Type.SET_INFO_ID,
                 payload: {

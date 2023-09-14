@@ -81,7 +81,7 @@ const ListCard = (): ReactElement => {
             category_id: categoryID,
             label_ids: labelsID,
             sort: sortID,
-            page_size: 10,
+            page_size: show.filter ? 10 : 12,
             page_num: page,
             sort_by: 1,
             is_listed: status === 0 ? false : true
@@ -117,7 +117,7 @@ const ListCard = (): ReactElement => {
     useEffect(() => {
         setSearch('');
         getCollectionNFTs();
-    }, [labelsID, categoryID, sortID, page, status]);
+    }, [labelsID, categoryID, sortID, page, status, show.filter]);
     useEffect(() => {
         if (!search) {
             getCollectionNFTs();

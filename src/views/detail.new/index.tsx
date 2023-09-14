@@ -91,8 +91,8 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 });
                                 navigate('/owner')
                             }}>
-                                <img src={info?.seller_avatar_url} alt="" />
-                                <p>Owner<span>{info?.seller_name}</span></p>
+                                <img src={info?.seller_avatar_url ? info?.seller_avatar_url : info?.minter_avatar_url} alt="" />
+                                <p>Owner<span>{info?.seller_name ? info?.seller_name : info?.minter_name}</span></p>
                             </div>
                             <div className="labels-msg">
                                 <p>
@@ -104,7 +104,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                     Art
                                 </p>
                             </div>
-                            <div className="price-msg">
+                            {info?.is_onsale && state.address !== info.seller && <div className="price-msg">
                                 <p className="msg-title">Current price</p>
                                 <div className="price-text">
                                     <img src={info?.pay_currency_name === 'PI' ? require('../../assets/images/pi_logo.png') : require('../../assets/new/eth_logo.png')} alt="" />
@@ -119,7 +119,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                         Buy now
                                     </Button>
                                 </p>
-                            </div>
+                            </div>}
                             <div className="nft-info-msg public-msg-s">
                                 <p className="msg-title">
                                     <IconFont type="icon-detail" />

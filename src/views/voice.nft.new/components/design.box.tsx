@@ -1,8 +1,14 @@
 import { ReactElement, useState } from "react";
 import BasicBox from "./basic.box";
 import AigcBox from "./aigc.box";
+import { Input } from "..";
 
-const DesignBox = (props:{upDateBack:() => void}): ReactElement => {
+interface Props {
+    info: Input,
+    upDateBack: () => void
+}
+
+const DesignBox = (props: Props): ReactElement => {
     const [active, setActive] = useState<number>(0);
     return (
         <div className="design-box">
@@ -30,8 +36,8 @@ const DesignBox = (props:{upDateBack:() => void}): ReactElement => {
             <div className="right-view">
                 {
                     active === 0
-                        ? <BasicBox />
-                        : <AigcBox />
+                        ? <BasicBox info={props.info}/>
+                        : <AigcBox info={props.info}/>
                 }
             </div>
         </div>

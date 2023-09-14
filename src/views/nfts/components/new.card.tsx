@@ -69,9 +69,9 @@ const NewNFTCard = (props: Props): ReactElement => {
                     </Button>
                 }
             </div>
-            <p className="coll-name">Baby Bunny</p>
+            <p className="coll-name">Pai Space</p>
             <div className="nft-msg">
-                <p>{props.item.file_name}&nbsp;#004</p>
+                <p>{props.item.file_name}&nbsp;#{props.item.token_id}</p>
                 {props.type === 1 && <p className="nft-price">{web3.utils.fromWei(props.item.price as string, 'ether')}&nbsp;{props.item.paymod}</p>}
             </div>
             <FixedModal upRefresh={() => {

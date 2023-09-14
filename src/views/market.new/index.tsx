@@ -27,7 +27,8 @@ export interface Info {
     twitter_link: string,
     website_link: string,
     category_id: number,
-    creat_time:number
+    creat_time:number,
+    category_name:string
 }
 
 const MarketViewNew = (): ReactElement<ReactNode> => {
@@ -113,8 +114,8 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                                 <p>Total items<span>{info?.total_supply}</span></p>
                                 {info?.creat_time && <p>Created<span>{DateConvert(info?.creat_time)}</span></p>}
                                 <p>Creator earnings<span>{info?.creator_earnings}%</span></p>
-                                <p>Chain<span>Plian</span></p>
-                                <p>Category<span>{info?.category_id}</span></p>
+                                <p>Chain<span>{info?.collection_name === 'PAI SPACE' ? 'Plian' : 'Ethereum'}</span></p>
+                                <p>Category<span>{info?.category_name}</span></p>
                             </div>
                             <p className="unknow-text">Sci-fi collectable card game with NFTs</p>
                             <ListCard />

@@ -30,9 +30,9 @@ const ScreenIndexNew = (): ReactElement => {
                 <p>AI Empowers Your</p>
                 <p>Creative</p>
                 <p className="with-bg">Inspiration</p>
-                <p>
+                {/* <p>
                     <Button type="primary">Enter</Button>
-                </p>
+                </p> */}
             </div>
             <div className="right-screen-banner">
                 <div className="bottom-mask"></div>
