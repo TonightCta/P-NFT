@@ -2,7 +2,7 @@ import { ReactElement, ReactNode, useEffect, useState } from "react";
 import './index.scss'
 import FooterNew from "../screen.new/components/footer.new";
 import IconFont from "../../utils/icon";
-import { Button, Select } from "antd";
+import { Button, Select, message } from "antd";
 // import InputBox from "./components/input.box";
 import DesignBox from "./components/design.box";
 import { CategoryList, LabelList } from "../../request/api";
@@ -152,7 +152,9 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                                 <Button type="primary" onClick={() => {
                                     setShow(true);
                                 }}>NEW NFT</Button>
-                                <Button type="primary">NEW COLLECTION</Button>
+                                <Button type="primary" onClick={() => {
+                                    message.info('Coming soon')
+                                }}>NEW COLLECTION</Button>
                             </div>
                             : <div>
                                 <p className="page-step">

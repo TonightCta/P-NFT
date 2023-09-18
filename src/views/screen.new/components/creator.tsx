@@ -17,6 +17,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
             page_size: 24,
         });
         const { data } = result;
+        //TODO voice_ipfs
         setData(data.data.item);
     };
     useEffect(() => {
@@ -39,6 +40,10 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
     }
     return (
         <div className="creator-wapper">
+            <p className="wapper-title">
+                <img src={require('../../../assets/new/fire.gif')} alt="" />
+                Hot NFTs
+            </p>
             <div className="list-box">
                 <ul>
                     {

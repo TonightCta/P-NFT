@@ -13,7 +13,7 @@ import MaskCard from "../../components/mask";
 import { PNft } from "../../App";
 import { VERSION } from "../../utils/source";
 import NewNFTCard from "./components/new.card";
-import FooterNew from "../screen.new/components/footer.new";
+// import FooterNew from "../screen.new/components/footer.new";
 
 const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const [activeTop, setActiveTop] = useState<number>(0);

@@ -97,9 +97,11 @@
       p {
         margin-right: 20px;
         color: rgba(0, 0, 0, 0.8);
+        font-family: SparkTextNew;
         span {
           color: #050505;
           margin-left: 8px;
+          font-family: SparkSemiBold;
         }
       }
     }
@@ -150,6 +152,7 @@
             margin-left: 14px;
             font-size: 16px;
             color: black;
+            font-family: SparkTextNew;
           }
           input::placeholder {
             color: rgba(5, 5, 5, 0.7);
@@ -220,6 +223,7 @@
                 align-items: center;
                 justify-content: center;
                 transition: 0.3s all;
+                font-family: SparkTextNew;
                 .point {
                   width: 8px;
                   height: 8px;
@@ -305,6 +309,25 @@
               justify-content: center;
               overflow: hidden;
               position: relative;
+              .play-btn {
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                background-color: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(10px);
+                border-top-left-radius: 16px;
+                bottom: 0;
+                right: 0;
+                z-index: 21;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                span {
+                  font-size: 20px;
+                  color: #e10a86;
+                }
+              }
               .nft-tag {
                 width: 42px;
                 height: 42px;

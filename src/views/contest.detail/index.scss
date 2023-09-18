@@ -48,7 +48,7 @@
         flex: 1;
         .msg-title {
           text-align: left;
-          font-family: SparkTitleNew;
+          font-family: SparkSemiBold;
           font-size: 28px;
           font-weight: bold;
           color: black;
@@ -72,6 +72,7 @@
           color: #686a6c;
           font-size: 14px;
           line-height: 20px;
+          font-family: SparkTextNew;
         }
         .date-msg {
           margin-top: 24px;

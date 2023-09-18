@@ -41,15 +41,31 @@ code {
   font-weight: normal;
   font-style: normal;
 }
-@font-face{
+
+@font-face {
   font-family: 'SparkTitleNew';
   src: url('./assets/fonts/Urbanist-Black.ttf');
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'SparkTextNew';
   src: url('./assets/fonts/Poppins-Medium.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SparkSemiBold';
+  src: url('./assets/fonts/Poppins-SemiBold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SparkBold';
+  src: url('./assets/fonts/Poppins-Bold.ttf');
   font-weight: normal;
   font-style: normal;
 }
@@ -99,4 +115,20 @@ button {
   border-color: rgba(0, 0, 0, 0);
   background-color: #e10185;
   color: white;
+}
+
+.ant-checkbox-wrapper span {
+  font-family: SparkTextNew;
+}
+
+.ant-radio-wrapper span {
+  font-family: SparkTextNew;
+}
+
+button span {
+  font-family: SparkTextNew;
+}
+
+input {
+  font-family: SparkTextNew;
 }

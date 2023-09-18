@@ -81,13 +81,15 @@ export const CompetitionNFTList = (p: o) => post('/competition/compitems/list', 
 //Competition Vote
 export const CompetitionVote = (p: o) => post('/compitems/vote', p);
 //Gallery List
-export const GalleryList = (p:o) => post('/gallery/class/list',p);
+export const GalleryList = (p: o) => post('/gallery/class/list', p);
 //Gallery Period List
-export const GalleryPeriodList = (p:o) => post('/gallery/series/list',p);
+export const GalleryPeriodList = (p: o) => post('/gallery/series/list', p);
 //Gallery NFT List
-export const GalleryNFTList = (p:o) => post('/gallery/list',p);
+export const GalleryNFTList = (p: o) => post('/gallery/list', p);
 //Group List
-export const GroupList = (p:o) => post('/gallery/user/grouplist',p);
+export const GroupList = (p: o) => post('/gallery/user/grouplist', p);
 //Group Users List
-export const GroupUsersList = (p:o) => post('/gallery/userlist',p);
+export const GroupUsersList = (p: o) => post('/gallery/userlist', p);
+//Submit Competition
+export const SubmitCompetition = (p: o) => post('/compitems/submit', p);
 

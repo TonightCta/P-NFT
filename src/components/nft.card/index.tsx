@@ -1,10 +1,11 @@
-import { ReactElement, useContext } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import './index.scss'
 import { NFTItem, Type, web3 } from "../../utils/types";
 import { calsAddress } from "../../utils";
 import { PNft } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { Spin } from "antd";
+import IconFont from "../../utils/icon";
 
 interface Props {
     info: NFTItem
@@ -12,7 +13,12 @@ interface Props {
 
 const NftCard = (props: Props): ReactElement => {
     const { dispatch } = useContext(PNft);
+    const [item, setItem] = useState<NFTItem>({
+        ...props.info,
+        play: false
+    });
     const navigate = useNavigate();
+    const [player, setPlayer] = useState<any>();
     return (
         <div className="nft-card" onClick={() => {
             dispatch({
@@ -28,6 +34,33 @@ const NftCard = (props: Props): ReactElement => {
                 <div className="loading-box-public">
                     <Spin />
                 </div>
+                {props.info.file_voice_minio_url && <div className="play-btn" onClick={(e) => {
+                    e.stopPropagation();
+                    if (item.play) {
+                        player.pause();
+                        setItem({
+                            ...item,
+                            play: false
+                        });
+                        setPlayer(null);
+                        return
+                    }
+                    const play = document.createElement('audio');
+                    setPlayer(play)
+                    play.src = item.file_voice_ipfs;
+                    play.loop = false;
+                    play.play();
+                    setItem({
+                        ...item,
+                        play: true
+                    });
+                }}>
+                    {
+                        item.play
+                            ? <IconFont type="icon-tingzhi" />
+                            : <IconFont type="icon-play-fill" />
+                    }
+                </div>}
             </div>
             <p>{props.info.file_name}</p>
             <div className="minter-msg">

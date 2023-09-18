@@ -96,11 +96,12 @@
             font-size: 20px;
             color: #686a6c;
             margin-bottom: 20px;
+            font-family: SparkTextNew;
           }
           .price-text {
             display: flex;
             align-items: center;
-
+            font-family: SparkSemiBold;
             img {
               width: 30px;
               height: 30px;
@@ -153,6 +154,7 @@
       color: #202025;
       text-align: left;
       border-bottom: 1px solid #e6e6e6;
+      font-family: SparkTextNew;
       span {
         margin-right: 14px;
       }
@@ -182,6 +184,7 @@
       font-size: 14px;
       color: #202025;
       line-height: 18px;
+      font-family: SparkTextNew;
     }
   }
   .msg-card {

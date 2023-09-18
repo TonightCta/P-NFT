@@ -170,13 +170,28 @@ const VoiceNftNew = (): ReactElement<ReactNode> => {
                     </ul>
                 </div>
             </div>
-            <div className="company-box">
+            {/* <div className="company-box">
                 <ul>
                     {
                         CompanyList.map((item: Company, index: number) => {
                             return (
                                 <li key={index}>
                                     <img src={item.logo} alt="" />
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            </div> */}
+            <div className="ribbon-box">
+                <ul>
+                    {
+                        CompanyList.map((item: Company, index: number) => {
+                            return (
+                                <li key={index}>
+                                    {/* <IconFont type="icon-zixing" /> */}
+                                    <img src={item.logo} alt="" />
+                                    {/* <p>Pizzap AI Empowers Your Creative Inspiration</p> */}
                                 </li>
                             )
                         })

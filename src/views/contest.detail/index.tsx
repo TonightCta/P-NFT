@@ -7,6 +7,8 @@ import FooterNew from "../screen.new/components/footer.new";
 import ContestCard from "./components/card";
 import { CompetitionInfo, CompetitionNFTList } from '../../request/api'
 import { DateConvert } from "../../utils/index";
+import { useNavigate } from "react-router-dom";
+import { Type } from "../../utils/types";
 
 interface Info {
     bg_image_minio: string,
@@ -16,6 +18,7 @@ interface Info {
     end_time: number,
     description: string,
     total_submit_items: number,
+    total_view:number,
 }
 
 export interface Data {
@@ -29,10 +32,11 @@ export interface Data {
 }
 
 const ContestDetailView = (): ReactElement<ReactNode> => {
-    const { state } = useContext(PNft);
+    const { state,dispatch } = useContext(PNft);
     const [active, setAction] = useState<number>(0);
     const [info, setInfo] = useState<Info>();
     const [wait, setWait] = useState<boolean>(false);
+    const navigate = useNavigate();
     const [page, setPage] = useState<{ num: number, total: number }>({
         num: 1,
         total: 10
@@ -95,7 +99,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                         <p className="msg-title">{info?.name}</p>
                         <div className="active-msg">
                             <p>🔥<span>{info?.total_submit_items}</span></p>
-                            <p>😊<span>127</span></p>
+                            <p>😊<span>{info?.total_view}</span></p>
                         </div>
                         <p className="remark-text">
                             {info?.description}
@@ -113,7 +117,15 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                             </div>
                         </div>}
                         <p className="submit-work">
-                            <Button type="primary">Submit your work</Button>
+                            <Button type="primary" onClick={() => {
+                                 dispatch({
+                                    type: Type.SET_OWNER_ADDRESS,
+                                    payload: {
+                                        owner_address: state.address as string
+                                    }
+                                });
+                                navigate('/owner')
+                            }}>Submit your work</Button>
                         </p>
                     </div>
                 </div>

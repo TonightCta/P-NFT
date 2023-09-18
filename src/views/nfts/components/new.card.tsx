@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { NFTItem, web3 } from "../../../utils/types";
-import { Button, Popconfirm, message } from "antd";
+import { Button, Popconfirm, Tooltip, message } from "antd";
 import IconFont from "../../../utils/icon";
 import { FlagOutlined } from "@ant-design/icons";
 import { useSwitchChain } from "../../../hooks/chain";
@@ -8,6 +8,7 @@ import { useContract } from "../../../utils/contract";
 import { MFTOffService } from "../../../request/api";
 import { PNft } from "../../../App";
 import FixedModal from "../../detail/components/fixed.price";
+import EditWorkModal from "./edit.work";
 
 interface Props {
     uploadSell: () => void,
@@ -18,12 +19,21 @@ interface Props {
 
 const NewNFTCard = (props: Props): ReactElement => {
     const { switchC } = useSwitchChain();
-    const [item, setItem] = useState<NFTItem>(props.item);
+    const [item, setItem] = useState<NFTItem>({
+        ...props.item,
+        play:false
+    });
     const { state } = useContext(PNft);
     const { takeOff } = useContract();
-    const [fixedVisible,setFixedVisible] = useState<boolean>(false);
+    const [workBox, setWorkBox] = useState<boolean>(false);
+    const [workID, setWorkID] = useState<number>(0);
+    const [player, setPlayer] = useState<any>();
+    const [fixedVisible, setFixedVisible] = useState<boolean>(false);
     useEffect(() => {
-        setItem(props.item)
+        setItem({
+            ...props.item,
+            play:false
+        })
     }, [props.item])
     const confirm = async () => {
         await switchC(Number(process.env.REACT_APP_CHAIN))
@@ -68,6 +78,41 @@ const NewNFTCard = (props: Props): ReactElement => {
                         Sell
                     </Button>
                 }
+                {props.item.file_voice_minio_url && <div className="play-btn" onClick={(e) => {
+                    e.stopPropagation();
+                    if (item.play) {
+                        player.pause();
+                        setItem({
+                            ...item,
+                            play: false
+                        });
+                        setPlayer(null);
+                        return
+                    }
+                    const play = document.createElement('audio');
+                    setPlayer(play)
+                    play.src = item.file_voice_ipfs;
+                    play.loop = false;
+                    play.play();
+                    setItem({
+                        ...item,
+                        play: true
+                    });
+                }}>
+                    {
+                        item.play
+                            ? <IconFont type="icon-tingzhi" />
+                            : <IconFont type="icon-play-fill" />
+                    }
+                </div>}
+                <Tooltip title="Contest submit">
+                    <Button className="submit-btn" onClick={() => {
+                        setWorkID(props.item.token_id);
+                        setWorkBox(true);
+                    }} type="primary">
+                        <IconFont type="icon-jiangbei" />
+                    </Button>
+                </Tooltip>
             </div>
             <p className="coll-name">Pai Space</p>
             <div className="nft-msg">
@@ -78,6 +123,9 @@ const NewNFTCard = (props: Props): ReactElement => {
                 props.upload && props.upload();
             }} sell visible={fixedVisible} image={item.file_image_ipfs} id={item.token_id} closeModal={(val: boolean) => {
                 setFixedVisible(val);
+            }} />
+            <EditWorkModal visible={workBox} work_id={workID} closeModal={(val: boolean) => {
+                setWorkBox(val);
             }} />
         </div>
     )
