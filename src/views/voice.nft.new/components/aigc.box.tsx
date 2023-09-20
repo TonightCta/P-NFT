@@ -236,8 +236,9 @@ const AigcBox = (props: { info: Input }): ReactElement => {
                 <p className="create-title">
                     <IconFont type="icon-tupian" />
                     <sup>*</sup>
-                    Vocabulary generator
+                    Image or 3D Model
                 </p>
+                <p className="create-remark">Vocabulary generator</p>
                 <div className="word-box">
                     <div className="left-word">
                         <ul className="top-tabs">

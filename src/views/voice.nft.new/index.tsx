@@ -158,7 +158,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                             </div>
                             : <div>
                                 <p className="page-step">
-                                    Create{`>`}New NFTs{'>'}{`${active === 0 ? 'Information' : 'Design'}`}
+                                    Create&nbs;{`>`}&nbs;New NFTs&nbs;{'>'}&nbs;{`${active === 0 ? 'Information' : 'Design'}`}
                                 </p>
                                 <div className="step-box">
                                     <Button onClick={() => { setActive(0) }} className={`${active === 0 ? 'active-btn' : ''}`} type="default">Information</Button>

@@ -242,7 +242,7 @@ const ListCard = (): ReactElement => {
                     !listWait && data.length < 1 && <p className="no-data">No data</p>
                 }
             </div>
-            {!listWait && data.length > 0 && <div className={`page-box ${!show.filter ? 'normal-center' : ''}`}>
+            {<div className={`page-box ${!show.filter ? 'normal-center' : ''}`}>
                 <Pagination defaultCurrent={1} total={total} onChange={(e) => {
                     setPage(e)
                 }} />

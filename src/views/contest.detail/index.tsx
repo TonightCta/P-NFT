@@ -133,14 +133,15 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                     <div className="filter-box">
                         <ul>
                             {
-                                ['Entries', 'Award-winning works', 'Introduction'].map((item: string, index: React.Key) => {
+                                // 'Award-winning works', 'Introduction'
+                                ['Entries'].map((item: string, index: React.Key) => {
                                     return (
                                         <li key={index} className={`${+index === active ? 'active-f' : ''}`} onClick={() => { setAction(+index) }}>{item}</li>
                                     )
                                 })
                             }
                         </ul>
-                        <div className="search-inp">
+                        {/* <div className="search-inp">
                             <IconFont type="icon-sousuo_search" />
                             <input type="text" placeholder="Search by name" />
                         </div>
@@ -149,7 +150,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                                 <p>Votes high to low</p>
                                 <IconFont type="icon-xiangxia" />
                             </div>
-                        </Popover>
+                        </Popover> */}
                     </div>
                     {
                         wait
