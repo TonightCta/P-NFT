@@ -565,6 +565,44 @@
     }
   }
 }
+@media screen and (max-width:1720px){
+  .screen-index-new{
+    padding: 80px;
+    .left-text{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .right-screen-banner{
+      ul{
+        li{
+          width: 220px;
+          height: 330px;
+        }
+      }
+    }
+  }
+  .creator-wapper{
+    .list-box{
+      .no-right{
+        display: none;
+      }
+    }
+  }
+  .voice-map-new{
+    padding: 80px;
+    .map-new-inner{
+      .right-pic{
+        display: flex;
+        align-items: center;
+        img{
+          width: 580px;
+          height: 470px;
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 1440px) {
   .screen-index-new {
     padding: 80px;

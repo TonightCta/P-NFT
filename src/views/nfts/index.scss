@@ -561,36 +561,16 @@
     justify-content: center;
   }
   ul {
-    display: flex;
     height: 400px;
     overflow: auto;
-    flex-wrap: wrap;
     li {
-      width: calc(50% - 20px);
-      margin-right: 40px;
+      width: 100%;
       margin-bottom: 32px;
-      cursor: pointer;
       position: relative;
-      .select-box {
-        position: absolute;
-        width: 24px;
-        height: 24px;
-        background-color: #ccc;
-        border-radius: 50%;
-        top: 16px;
-        right: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.3s all;
-        box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
-        span {
-          color: white;
-        }
-      }
+      display: inline-flex;
       .poster-box {
-        width: 100%;
-        height: 200px;
+        width: 282px;
+        height: 164px;
         border-radius: 16px;
         display: flex;
         align-items: center;
@@ -601,14 +581,24 @@
           width: 100%;
         }
       }
+      .right-oper {
+        margin-left: 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
       .com-title {
         font-size: 18px;
-        margin-top: 12px;
         font-family: SparkTitleNew;
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+      .com-remark {
+        font-size: 14px;
+        color: #686a6c;
       }
       .com-msg {
         margin-top: 12px;
@@ -618,6 +608,18 @@
 
         display: flex;
         align-items: center;
+        .left-i {
+          display: flex;
+          align-items: center;
+        }
+        button {
+          width: 188px;
+          height: 48px;
+          border-radius: 12px;
+          border: 0;
+          font-size: 16px;
+          background: linear-gradient(90deg, #f23176 0%, #6a40fb 100%);
+        }
         .end-date {
           padding: 6px 10px;
           border-radius: 8px;
@@ -648,11 +650,19 @@
         .hot-num {
           font-size: 14px;
           color: #202025;
+          margin-left: 24px;
         }
       }
     }
-    li:nth-child(2n) {
-      margin-right: 0;
+    .no-data {
+      padding-top: 100px;
+      p {
+        text-align: center;
+        width: 100%;
+        font-size: 14px;
+        font-family: SparkSemiBold;
+        color: #686a6c;
+      }
     }
     .selected-contest {
       .select-box {

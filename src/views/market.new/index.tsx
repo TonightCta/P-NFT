@@ -13,7 +13,6 @@ interface Account {
     url: string
 };
 
-
 export interface Info {
     bg_image_minio_url: string,
     collection_description: string,

@@ -17,6 +17,8 @@ interface Data {
     poster_minio: string
 }
 
+export const LOCAL : string = process.env.REACT_APP_LOCAL as string;
+
 const ContestView = (): ReactElement<ReactNode> => {
     const [data, setData] = useState<Data[]>([]);
     const [wait, setWait] = useState<boolean>(false);
@@ -29,6 +31,10 @@ const ContestView = (): ReactElement<ReactNode> => {
         });
         setWait(false)
         const { data } = result;
+        if(!data.data.item || LOCAL === 'online'){
+            setData([]);
+            return
+        }
         setData(data.data.item);
     };
     useEffect(() => {
@@ -83,6 +89,15 @@ const ContestView = (): ReactElement<ReactNode> => {
                                 }
                             </ul>
                         </div>
+                }
+                {
+                    !wait && data.length === 0 && LOCAL !== 'online' && <p className="no-data">No Data</p>
+                }
+                {
+                    !wait && data.length === 0 && LOCAL === 'online' && <div className="coming-box">
+                        <img src={require('../../assets/new/coming_soon.png')} alt="" />
+                        <p>Stay Tuned for something amazing!</p>
+                    </div>
                 }
             </div>
             <FooterNew />

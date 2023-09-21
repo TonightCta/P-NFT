@@ -103,6 +103,40 @@
           top: 50%;
           margin-top: -49px;
           cursor: pointer;
+          display: flex;
+          span {
+            font-size: 80px;
+          }
+          span:first-child {
+            animation: arrow1 2s infinite linear normal;
+          }
+          span:last-child {
+            margin-left: -42px;
+            opacity: 0.5;
+            animation: arrow2 2s infinite linear normal;
+          }
+          @keyframes arrow1 {
+            0% {
+              opacity: 1;
+            }
+            50% {
+              opacity: 0.3;
+            }
+            100% {
+              opacity: 1;
+            }
+          }
+          @keyframes arrow2 {
+            0% {
+              opacity: 0.3;
+            }
+            50% {
+              opacity: 1;
+            }
+            100% {
+              opacity: 0.3;
+            }
+          }
         }
         .public-inp-box {
           margin-bottom: 24px;
@@ -175,11 +209,21 @@
           position: absolute;
           top: 300px;
           left: -132px;
-          img {
-            width: 98px;
-            height: 102px;
+          width: 98px;
+          height: 102px;
+          display: flex;
+          span {
             transform: scaleX(-1);
+            font-size: 80px;
             cursor: pointer;
+          }
+          span:first-child {
+            animation: arrow1 2s infinite linear normal;
+          }
+          span:last-child {
+            margin-left: -42px;
+            opacity: 0.5;
+            animation: arrow2 2s infinite linear normal;
           }
         }
         .left-menu {

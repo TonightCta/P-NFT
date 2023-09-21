@@ -2,6 +2,7 @@ import { ReactElement, useState } from "react";
 import BasicBox from "./basic.box";
 import AigcBox from "./aigc.box";
 import { Input } from "..";
+import IconFont from "../../../utils/icon";
 
 interface Props {
     info: Input,
@@ -15,7 +16,8 @@ const DesignBox = (props: Props): ReactElement => {
             <div className="back-btn" onClick={() => {
                 props.upDateBack()
             }}>
-                <img src={require('../../../assets/new/next_right.png')} alt="" />
+                <IconFont type="icon-jiantou"/>
+                <IconFont type="icon-jiantou"/>
             </div>
             <div className="left-menu">
                 <ul>

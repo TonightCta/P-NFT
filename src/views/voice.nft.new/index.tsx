@@ -130,7 +130,8 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             <div className="next-btn" onClick={() => {
                 setActive(1);
             }}>
-                <img src={require('../../assets/new/next_right.png')} alt="" />
+                <IconFont type="icon-jiantou"/>
+                <IconFont type="icon-jiantou"/>
             </div>
         </div>
     )
@@ -158,7 +159,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                             </div>
                             : <div>
                                 <p className="page-step">
-                                    Create&nbs;{`>`}&nbs;New NFTs&nbs;{'>'}&nbs;{`${active === 0 ? 'Information' : 'Design'}`}
+                                    Create&nbsp;{`>`}&nbsp;New NFTs&nbsp;{'>'}&nbsp;{`${active === 0 ? 'Information' : 'Design'}`}
                                 </p>
                                 <div className="step-box">
                                     <Button onClick={() => { setActive(0) }} className={`${active === 0 ? 'active-btn' : ''}`} type="default">Information</Button>

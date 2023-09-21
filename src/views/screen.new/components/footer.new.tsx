@@ -9,23 +9,23 @@ interface Account {
 const SideList: Account[] = [
     {
         icon: 'icon-github',
-        url: ''
+        url: 'https://github.com/Pizzap-io'
     },
     {
         icon: 'icon-telegram1',
-        url: ''
+        url: 'http://t.me/pizzap_io'
     },
     {
         icon: 'icon-twitter-fill',
-        url: ''
+        url: 'https://twitter.com/pizzap_io'
     },
     {
         icon: 'icon-medium1',
-        url: ''
+        url: 'https://medium.com/@Pizzap_io'
     },
     {
         icon: 'icon-discord1',
-        url: ''
+        url: 'http://discord.gg/eATngqtx3m'
     }
 ]
 
