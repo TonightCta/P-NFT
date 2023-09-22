@@ -39,7 +39,7 @@
 .gater-6n {
   .list-item {
     .new-nft-card:nth-child(5n) {
-      margin-right: 32px!important;
+      margin-right: 32px !important;
     }
     .new-nft-card:nth-child(6n) {
       margin-right: 0;
@@ -557,4 +557,41 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+}
+// @media screen and (max-width: 1280px) {
+//   audio {
+//     display: none;
+//   }
+// }
+@media screen and (max-width: 1280px) {
+  .footer-wapper-new {
+    padding: 40px 0;
+    flex-direction: column;
+    justify-content: center;
+    border-top: 1px solid #ddd;
+    .left-msg {
+      text-align: center;
+      img {
+        width: 80px;
+        height: 20px;
+      }
+      p {
+        margin-top: 12px;
+        font-size: 12px;
+      }
+    }
+    .right-account {
+      margin-top: 24px;
+      ul {
+        li {
+          width: 32px;
+          height: 32px;
+          border-radius: 12px;
+          span {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
 }

@@ -11,6 +11,9 @@
   justify-content: space-between;
   padding: 0 60px;
   box-shadow: 0px 0px 10px #eee;
+  .mobile-menu {
+    display: none;
+  }
   .left-logo {
     width: 138px;
     height: 36px;
@@ -27,11 +30,11 @@
         color: #202025;
         margin-right: 60px;
         cursor: pointer;
-        transition: .2s all;
+        transition: 0.2s all;
         font-family: SparkSemiBold;
       }
-      .active-menu{
-        color: #DF0885;
+      .active-menu {
+        color: #df0885;
       }
     }
     .connect-box {
@@ -97,11 +100,86 @@
       font-weight: bold;
       padding: 12px;
       cursor: pointer;
-      transition: .3s all;
+      transition: 0.3s all;
       border-radius: 8px;
     }
-    li:hover{
-        background-color: #ddd;
+    li:hover {
+      background-color: #ddd;
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  .header-wapper-new {
+    width: 100%;
+    padding: 0 12px;
+    height: 60px;
+    .mobile-menu {
+      display: block;
+      margin-left: 16px;
+      span {
+        color: #686a6c;
+        font-weight: bold;
+      }
+    }
+    .left-logo {
+      width: 80px;
+      height: 20px;
+    }
+    .right-menu {
+      ul {
+        display: none;
+      }
+      .connect-box {
+        width: 124px;
+        height: 28px;
+        padding: 4px 8px;
+        border-radius: 8px;
+        button {
+          font-size: 12px;
+          .anticon {
+            font-size: 14px;
+          }
+          span {
+            transform: translateY(2px) scale(0.9) translateX(-5px);
+          }
+        }
+        .connected-box {
+          img {
+            width: 20px;
+            height: 20px;
+          }
+          p {
+            margin-left: 6px;
+            font-size: 12px;
+          }
+          .arrow-box {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+.mobile-menu {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  .menu-box {
+    flex: 1;
+    width: 100%;
+    ul {
+      width: 100%;
+      li {
+        margin-bottom: 32px;
+        p {
+          color: #202025;
+          text-align: left;
+          font-family: SparkSemiBold;
+          font-size: 14px;
+        }
+      }
     }
   }
 }

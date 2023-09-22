@@ -138,7 +138,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                     </li>
                                     <li>
                                         <p>Blockchain</p>
-                                        <p>Plian Mainnet Subcha</p>
+                                        <p>Plian Mainnet Subchain</p>
                                     </li>
                                 </ul>
                             </div>

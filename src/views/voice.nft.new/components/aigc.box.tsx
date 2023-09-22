@@ -10,7 +10,7 @@ import { useMetamask } from "../../../utils/metamask";
 import { NFTAddress, useContract } from "../../../utils/contract";
 import { useSwitchChain } from "../../../hooks/chain";
 import { PNft } from "../../../App";
-import { ethereum } from "../../../utils/types";
+import { Type, ethereum } from "../../../utils/types";
 import { useNavigate } from "react-router-dom";
 
 interface Coll {
@@ -87,7 +87,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
     const [modelType, setModelType] = useState<string>('1');
     const { connectMetamask } = useMetamask();
     const { mint, getBalance } = useContract();
-    const { state } = useContext(PNft);
+    const { state,dispatch } = useContext(PNft);
     const { switchC } = useSwitchChain();
     const navigate = useNavigate();
     const [aiImageView, setAiImageView] = useState<{ url: string, minio_key: string, ipfs: string }>({
@@ -228,6 +228,12 @@ const AigcBox = (props: { info: Input }): ReactElement => {
         }
         message.success('Mint Successfully!');
         setWait(false);
+        dispatch({
+            type: Type.SET_OWNER_ADDRESS,
+            payload: {
+                owner_address: state.address as string
+            }
+        })
         navigate('/owner')
     }
     return (

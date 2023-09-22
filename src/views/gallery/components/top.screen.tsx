@@ -1,11 +1,12 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
-import { GalleryList, GalleryPeriodList, GalleryNFTList } from '../../../request/api';
+import { ReactElement, useEffect, useState } from "react";
+import { GalleryList, GalleryNFTList } from '../../../request/api';
 import { Spin } from "antd";
 import IconFont from "../../../utils/icon";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from 'swiper'
 import "swiper/css";
-// import 'swiper/css/effect-fade';
-// import { EffectFade } from 'swiper';
+import 'swiper/css/pagination';
+import { flag } from "../../../utils/source";
 
 export interface Data {
     minter_minio_url: string,
@@ -43,7 +44,7 @@ const TopScreen = (): ReactElement => {
             {data.length === 0 && <div className="loading-box">
                 <Spin size="large" />
             </div>}
-            <Swiper className="swiper-gallery" effect={'fade'} loop onSwiper={(swiper) => {
+            <Swiper pagination={flag ? true : false} className="swiper-gallery" modules={[Pagination]} effect={'fade'} loop onSwiper={(swiper) => {
                 setSwiperRef(swiper)
             }}>
                 {
@@ -71,6 +72,14 @@ const TopScreen = (): ReactElement => {
                                             <Spin size="large" />
                                         </div>
                                     </div>
+                                    <div className="mobile-creator-msg creator-msg">
+                                        <p className="creator-name">
+                                            <img src={item.minter_minio_url} alt="" />
+                                            {item.minter_name}
+                                        </p>
+                                        <p className="creator-title">{item.file_name}</p>
+                                        <p className="creator-remark">{item.file_description}</p>
+                                    </div>
                                 </div>
                             </SwiperSlide>
                         )
@@ -83,7 +92,7 @@ const TopScreen = (): ReactElement => {
                 setActive((active + 1) === data.length ? 0 : (active + 1))
                 setTimeout(() => {
                     setAni('')
-                },100)
+                }, 100)
             }}>
                 <IconFont type="icon-fanhuijiantou" />
             </div>

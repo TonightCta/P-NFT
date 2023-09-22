@@ -5,6 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const resolve = require('resolve');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const px2rem = require('postcss-pxtorem');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -147,6 +148,7 @@ module.exports = function (webpackEnv) {
                   // so that it honors browserslist config in package.json
                   // which in turn let's users customize the target behavior as per their needs.
                   'postcss-normalize',
+                  // px2rem({remUnit:750,exclude:/node_modules/i})
                 ]
               : [
                   'tailwindcss',
@@ -160,6 +162,7 @@ module.exports = function (webpackEnv) {
                       stage: 3,
                     },
                   ],
+                  // px2rem({remUnit:75,exclude:/node_modules/i})
                 ],
           },
           sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,

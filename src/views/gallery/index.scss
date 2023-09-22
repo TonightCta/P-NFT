@@ -55,6 +55,35 @@
       padding: 100px 280px 0;
       display: flex;
       justify-content: space-between;
+      .creator-msg {
+        padding-left: 40px;
+        text-align: left;
+        .creator-name {
+          display: flex;
+          align-items: center;
+          img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            margin-right: 16px;
+          }
+          font-size: 32px;
+          color: #202025;
+        }
+        .creator-title {
+          margin-top: 16px;
+          font-size: 56px;
+          color: #202025;
+          font-family: SparkTextNew;
+        }
+        .creator-remark {
+          margin-top: 16px;
+          font-size: 20px;
+          color: #686a6c;
+          line-height: 28px;
+          padding-right: 120px;
+        }
+      }
       .first-nft-msg {
         padding-top: 64px;
         .nft-title {
@@ -69,35 +98,6 @@
             width: 48px;
             height: 48px;
             margin-right: 16px;
-          }
-        }
-        .creator-msg {
-          padding-left: 40px;
-          text-align: left;
-          .creator-name {
-            display: flex;
-            align-items: center;
-            img {
-              width: 64px;
-              height: 64px;
-              border-radius: 50%;
-              margin-right: 16px;
-            }
-            font-size: 32px;
-            color: #202025;
-          }
-          .creator-title {
-            margin-top: 16px;
-            font-size: 56px;
-            color: #202025;
-            font-family: SparkTextNew;
-          }
-          .creator-remark {
-            margin-top: 16px;
-            font-size: 20px;
-            color: #686a6c;
-            line-height: 28px;
-            padding-right: 120px;
           }
         }
       }
@@ -129,6 +129,9 @@
           position: relative;
           z-index: 20;
         }
+      }
+      .mobile-creator-msg {
+        display: none;
       }
     }
     .next-btn {
@@ -505,19 +508,261 @@
       .nft-inner-1 {
         padding: 100px 140px 0;
       }
-      .next-btn{
+      .next-btn {
         right: 50px;
       }
     }
-    .show-content{
-      .content-title{
+    .show-content {
+      .content-title {
         padding: 0 140px;
       }
-      .content-1{
+      .content-1 {
         padding: 0 140px;
       }
-      .content-3{
+      .content-3 {
         padding: 0 140px;
+      }
+    }
+  }
+}
+.swiper-pagination {
+  top: 595px !important;
+  .swiper-pagination-bullet {
+    margin: 0 !important;
+    border-radius: 0 !important;
+    height: 2px !important;
+    width: 30px !important;
+    background-color: #c1c2c3 !important;
+  }
+  .swiper-pagination-bullet-active {
+    background: linear-gradient(90deg, #fa3370 0%, #fa89cb 100%) !important;
+  }
+  .swiper-pagination-bullet:first-child {
+    border-top-left-radius: 2px !important;
+    border-bottom-left-radius: 2px !important;
+  }
+  .swiper-pagination-bullet:last-child {
+    border-top-right-radius: 2px !important;
+    border-bottom-right-radius: 2px !important;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .gallery-view {
+    padding-top: 60px;
+    .top-screen {
+      min-height: 500px;
+      .bg-box {
+        height: 375px;
+      }
+      .next-btn {
+        display: none;
+      }
+      .nft-inner-1 {
+        margin-top: 100px;
+        padding: 100px 20px 0;
+        flex-direction: column;
+        .first-nft-msg {
+          padding-top: 12px;
+          .nft-title {
+            margin-bottom: 24px;
+            img {
+              width: 24px;
+              height: 24px;
+            }
+            font-size: 20px;
+          }
+          .creator-msg {
+            display: none;
+          }
+        }
+        .first-nft-pic {
+          min-width: 100%;
+          max-width: 100%;
+          max-height: 336px;
+          width: 100%;
+          height: 336px;
+          margin-bottom: 34px;
+        }
+        .mobile-creator-msg {
+          display: block;
+          padding-left: 0;
+          .creator-name {
+            font-size: 16px;
+            img {
+              width: 32px;
+              height: 32px;
+            }
+          }
+          .creator-title {
+            margin-top: 8px;
+            font-size: 28px;
+          }
+          .creator-remark {
+            font-size: 12px;
+            margin-top: 12px;
+            line-height: 16px;
+            padding-right: 0;
+          }
+        }
+      }
+    }
+    .show-content {
+      margin-top: 60px;
+      .content-title {
+        padding: 0 20px;
+        img {
+          width: 24px;
+          height: 24px;
+        }
+        font-size: 20px;
+      }
+      .content-1 {
+        margin-top: 20px;
+        padding: 0;
+        ul {
+          overflow: auto;
+          flex-direction: row-reverse;
+          padding: 0 20px;
+          li {
+            width: 250px;
+            min-width: 250px;
+            .nft-box {
+              height: 220px;
+            }
+            .nft-name {
+              font-size: 16px;
+            }
+            .minter-msg {
+              img {
+                width: 20px;
+                height: 20px;
+              }
+              p {
+                font-size: 14px;
+              }
+            }
+          }
+          li:first-child {
+            padding-top: 110px;
+          }
+          li:nth-child(2) {
+            padding-top: 68px;
+            .nft-box {
+              height: 260px;
+            }
+          }
+          li:last-child {
+            .nft-box {
+              height: 326px;
+            }
+          }
+        }
+      }
+      .ribbon-box {
+        margin-top: 60px;
+        height: 40px;
+        ul {
+          animation: scrollLeft 12s infinite linear;
+          li {
+            height: 40px;
+            span {
+              font-size: 18px;
+            }
+            p {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+      .content-3 {
+        margin-top: 60px;
+        padding: 0 20px;
+        width: 100%;
+        .left-list {
+          .public-card {
+            .nft-name {
+              font-size: 16px;
+            }
+            .minter-msg {
+              img {
+                width: 20px;
+                height: 20px;
+              }
+              p {
+                font-size: 14px;
+              }
+            }
+            .nft-remark {
+              font-size: 12px;
+              line-height: 16px;
+            }
+          }
+          .right-down {
+            width: 100%;
+            .public-card {
+              width: calc(50% - 10px);
+            }
+            .public-card:first-child {
+              .nft-box {
+                width: 158px;
+                height: 202px;
+              }
+            }
+            .public-card:last-child {
+              margin-top: 120px;
+              .nft-box {
+                width: 158px;
+                height: 152px;
+              }
+            }
+          }
+          .left-down{
+            width: 100%;
+            margin-top: 60px;
+            .public-card {
+              width: calc(50% - 10px);
+            }
+            .public-card:first-child{
+              margin-top: 120px;
+              .nft-box{
+                width: 158px;
+                height: 236px;
+              }
+            }
+            .public-card:last-child{
+              .nft-box{
+                width: 158px;
+                height: 218px;
+              }
+            }
+          }
+          .w-width {
+            margin-top: 60px;
+            width: 100%;
+            .nft-box {
+              height: 160px;
+            }
+          }
+          .r-w-width{
+            width: 100%;
+            margin-top: 60px;
+            margin-left: 0;
+            .nft-box{
+              height: 178px;
+            }
+          }
+          .last-card{
+            width: 158px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            .nft-box{
+              height: 158px;
+            }
+          }
+        }
+        .right-list {
+          display: none;
+        }
       }
     }
   }

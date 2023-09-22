@@ -7,13 +7,16 @@ import { useMetamask } from "../../utils/metamask";
 import { PNft } from "../../App";
 import { calsAddress } from "../../utils";
 import { Type } from "../../utils/types";
+import { flag } from "../../utils/source";
+import { MenuOutlined } from "@ant-design/icons";
+import MobileMenuDraw from "./components/mobile.menu";
 
-interface Menu {
+export interface Menu {
     name: string,
     url: string
 }
 
-const MenuList: Menu[] = [
+export const MenuList: Menu[] = [
     {
         name: 'AI creation',
         url: '/voice-nft',
@@ -42,10 +45,15 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
     const { state, dispatch } = useContext(PNft);
     const [open, setOpen] = useState(false);
     const location = useLocation();
+    const [mobileMenu, setMobileMenu] = useState<boolean>(false);
     const hide = () => {
         setOpen(false);
     };
     const handleOpenChange = (newOpen: boolean) => {
+        if (flag) {
+            setOpen(false);
+            return
+        }
         setOpen(newOpen);
     };
     useEffect(() => {
@@ -133,6 +141,14 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                             </div>
                         </Popover>
                     }
+                </div>
+                <div className="mobile-menu">
+                    <MenuOutlined onClick={() => {
+                        setMobileMenu(true)
+                    }} />
+                    <MobileMenuDraw visible={mobileMenu} closeDraw={(val: boolean) => {
+                        setMobileMenu(val);
+                    }} />
                 </div>
             </div>
         </div>

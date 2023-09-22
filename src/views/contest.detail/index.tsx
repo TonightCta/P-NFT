@@ -18,7 +18,7 @@ interface Info {
     end_time: number,
     description: string,
     total_submit_items: number,
-    total_view:number,
+    total_view: number,
 }
 
 export interface Data {
@@ -32,7 +32,7 @@ export interface Data {
 }
 
 const ContestDetailView = (): ReactElement<ReactNode> => {
-    const { state,dispatch } = useContext(PNft);
+    const { state, dispatch } = useContext(PNft);
     const [active, setAction] = useState<number>(0);
     const [info, setInfo] = useState<Info>();
     const [wait, setWait] = useState<boolean>(false);
@@ -117,8 +117,16 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                             </div>
                         </div>}
                         <p className="submit-work">
+                            {
+                                info?.start_time && <div className={`end-msg mobild-end-msg ${(info!.end_time - (new Date().getTime() / 1000)) < 1 ? 'end-point' : ''}`}>
+                                    <div className="point">
+                                        <div className="point-inner"></div>
+                                    </div>
+                                    <p>{`${(info!.end_time - (new Date().getTime() / 1000)) < 1 ? 'Ended' : `${Math.floor((info!.end_time - (new Date().getTime() / 1000)) / 86400)} days left`}`}</p>
+                                </div>
+                            }
                             <Button type="primary" onClick={() => {
-                                 dispatch({
+                                dispatch({
                                     type: Type.SET_OWNER_ADDRESS,
                                     payload: {
                                         owner_address: state.address as string

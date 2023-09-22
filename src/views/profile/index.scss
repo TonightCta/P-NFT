@@ -338,8 +338,8 @@
 .profile-view-new {
   width: 100%;
   padding-bottom: 0;
-  .footer-wapper-new{
-    border: 1px solid #ddd;
+  .footer-wapper-new {
+    border-top: 1px solid #ddd;
     margin-top: 100px;
   }
   .up-mask {
@@ -489,9 +489,9 @@
             }
           }
         }
-        .submit-all{
+        .submit-all {
           text-align: right;
-          button{
+          button {
             margin-top: 48px;
             width: 132px;
             height: 46px;
@@ -519,11 +519,29 @@
   .profile-view {
     width: 90%;
     overflow: hidden;
-    padding-top: 100px;
+    padding-top: 80px;
     .up-mask {
+      width: 100%;
       .setting-content {
-        padding: 24px;
         width: 100%;
+        .profile-name-new {
+          font-size: 24px;
+          font-family: SparkSemiBold;
+        }
+        .new-setting-inner {
+          flex-direction: column;
+          .new-set-avatar {
+            margin-bottom: 24px;
+          }
+          .edit-msg {
+            .public-inp {
+              input {
+                height: 40px;
+                font-size: 14px;
+              }
+            }
+          }
+        }
       }
     }
     .edit-msg {
@@ -546,9 +564,17 @@
       }
       .outside-account {
         ul {
-          flex-direction: column;
           li {
             margin-top: 16px;
+            margin-right: 14px;
+            height: 34px;
+            .icon-box {
+              width: 32px;
+              height: 32px;
+              span{
+                font-size: 16px;
+              }
+            }
           }
         }
       }

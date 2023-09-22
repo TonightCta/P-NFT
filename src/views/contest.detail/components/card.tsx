@@ -26,7 +26,7 @@ const ContestCard = (props: { item: Data,upDate:() => void }): ReactElement<Reac
                 <div className="loading-box">
                     <Spin />
                 </div>
-                <div className="vote-num">💗<p>{props.item.vote_amount}</p></div>
+                <div className="vote-num"><span>💗</span><p>{props.item.vote_amount}</p></div>
             </div>
             <p className="nft-name">{props.item.name}</p>
             <div className="owner-msg">

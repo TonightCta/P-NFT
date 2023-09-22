@@ -7,7 +7,7 @@ import Recording from "../../voice.nft/components/recording";
 import { Input } from "..";
 import axios from "axios";
 import { NFTAddress, useContract } from "../../../utils/contract";
-import { ethereum } from "../../../utils/types";
+import { Type, ethereum } from "../../../utils/types";
 import { NFTMintService, UploadFileService } from "../../../request/api";
 import { PNft } from "../../../App";
 import { useMetamask } from "../../../utils/metamask";
@@ -22,7 +22,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
     const { connectMetamask } = useMetamask();
     const { mint, getBalance } = useContract();
     const [record, setRecord] = useState<boolean>(false);
-    const { state } = useContext(PNft);
+    const { state,dispatch } = useContext(PNft);
     const { switchC } = useSwitchChain();
     const navigate = useNavigate();
     const [review, setReview] = useState<{ source: string | File, view: string }>({
@@ -119,7 +119,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         formData.append('sender', ethereum.selectedAddress);
         formData.append('tx_hash', result['transactionHash']);
         formData.append('image_minio', img_local.minio_key);
-        formData.append('voice_minio', voice_local.minio_key);
+        formData.append('voice_minio', audioFile ? voice_local.minio_key : '');
         formData.append('meta_data_ipfs', blob_ipfs.ipfshash);
         formData.append('image_ipfs', img_ipfs.ipfshash);
         formData.append('voice_ipfs', audioFile ? voice_ipfs.ipfshash : '');
@@ -135,6 +135,12 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         }
         message.success('Mint Successfully!');
         setWait(false);
+        dispatch({
+            type: Type.SET_OWNER_ADDRESS,
+            payload: {
+                owner_address: state.address as string
+            }
+        })
         navigate('/owner')
     }
     return (

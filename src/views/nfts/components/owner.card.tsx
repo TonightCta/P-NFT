@@ -78,6 +78,14 @@ const OwnerCard = (props: Props): ReactElement => {
                             </div>
                             <p className="audio-end"></p>
                         </div>
+                        <div className="set-box-mobile">
+                            <Button type="default" onClick={() => {
+                                navigate('/profile')
+                            }}>
+                                <SettingOutlined />
+                                Setting
+                            </Button>
+                        </div>
                     </div>
                     {VERSION === 'old' && <div className="outside-url">
                         <IconFont type="icon-globe-simple-bold" />
@@ -98,12 +106,22 @@ const OwnerCard = (props: Props): ReactElement => {
                         </div>
                     }
                     <div className="ourside-account">
-                        <IconFont type="icon-twitter-logo-bold" onClick={() => {
-                            profile.auth_twitter ? window.open(profile.auth_twitter) : message.error('The user has not set up a Twitter account');
-                        }} />
-                        <IconFont type="icon-discord-logo-bold" onClick={() => {
-                            profile.auth_discord ? window.open(profile.auth_twitter) : message.error('The user has not set up a Discord account');
-                        }} />
+                        <div className="outside-url-mobile">
+                            <IconFont type="icon-globe-simple-bold" />
+                            <div className={`${profile.link && 'with-hand'}`} onClick={() => {
+                                profile.link && window.open(profile.link as string)
+                            }}>
+                                <p>{profile.link ? profile.link : '-'}https://www.baidu.com</p>
+                            </div>
+                        </div>
+                        <p>
+                            <IconFont type="icon-twitter-logo-bold" onClick={() => {
+                                profile.auth_twitter ? window.open(profile.auth_twitter) : message.error('The user has not set up a Twitter account');
+                            }} />
+                            <IconFont type="icon-discord-logo-bold" onClick={() => {
+                                profile.auth_discord ? window.open(profile.auth_twitter) : message.error('The user has not set up a Discord account');
+                            }} />
+                        </p>
                     </div>
                 </div>
             </div>
