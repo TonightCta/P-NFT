@@ -11,6 +11,7 @@ import { Type, web3 } from "../../utils/types";
 import BuyNFTsModal from "../detail/components/buy.nft";
 import { useNavigate } from "react-router-dom";
 import { PlianContractAddress721Main } from "../../utils/source";
+import { useSwitchChain } from "../../hooks/chain";
 
 interface Info {
     image_minio_url: string,
@@ -24,9 +25,9 @@ interface Info {
     file_description: string,
     collection_id: number,
     seller: string,
-    pay_currency_name:string,
-    cateory_name:string,
-    labels:string[]
+    pay_currency_name: string,
+    cateory_name: string,
+    labels: string[]
 }
 
 interface CollInfo {
@@ -39,6 +40,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
     const { state, dispatch } = useContext(PNft);
     const [loading, setLoading] = useState<boolean>(false);
     const [imgLoad, setImgLoad] = useState<boolean>(true);
+    const { switchC } = useSwitchChain();
     const [collInfo, setCollInfo] = useState<CollInfo>()
     const navigate = useNavigate();
     const [info, setInfo] = useState<Info | any>({
@@ -70,6 +72,13 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                     <Spin size="large" />
                 </div>
                 : <div className="detail-inner">
+                    <div className="coll-msg coll-msg-mobile">
+                        <IconFont type="icon-fanhuijiantou" onClick={() => {
+                            window.history.back()
+                        }} />
+                        <img src={collInfo?.logo_minio_url} alt="" />
+                        <p>{collInfo?.collection_name}</p>
+                    </div>
                     <div className="first-screen">
                         <div className="left-nft">
                             {imgLoad && <Spin size="large" />}
@@ -114,7 +123,8 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                     <p>Price</p>
                                 </div>
                                 <p className="buy-btn">
-                                    <Button type="primary" onClick={() => {
+                                    <Button type="primary" onClick={async () => {
+                                        await switchC(8007736);
                                         setTakeVisible(true);
                                     }}>
                                         <IconFont type="icon-gouwuche1_shopping-cart-one" />
@@ -145,7 +155,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                         </div>
                     </div>
                     <MsgCard about={collInfo?.collection_description as string} description={info!.file_description} />
-                    <TradeHistory price={info.price} paymod="PI" image_minio_url={info.image_minio_url} tokenID={info!.token_id} address={info!.contract_address} />
+                    <TradeHistory price={info.price} pay_currency_name="PI" image_minio_url={info.image_minio_url} tokenID={info!.token_id} address={info!.contract_address} />
                     <FooterNew />
                     <BuyNFTsModal visible={takeVisible} closeModal={(val: boolean) => {
                         setTakeVisible(val)

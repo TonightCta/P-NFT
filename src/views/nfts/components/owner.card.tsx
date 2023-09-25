@@ -33,7 +33,7 @@ const OwnerCard = (props: Props): ReactElement => {
         state.owner_address === state.address ? setProfile(state.account) : otherProfile();
     }, [state.owner_address]);
     return (
-        <Affix offsetTop={flag ? -300 : 200}>
+        <Affix offsetTop={flag ? 60 : 200}>
             <div className="owner-card">
                 <div className="account-msg">
                     <div className="avatar-box">
@@ -111,7 +111,7 @@ const OwnerCard = (props: Props): ReactElement => {
                             <div className={`${profile.link && 'with-hand'}`} onClick={() => {
                                 profile.link && window.open(profile.link as string)
                             }}>
-                                <p>{profile.link ? profile.link : '-'}https://www.baidu.com</p>
+                                <p>{profile.link ? profile.link : '-'}</p>
                             </div>
                         </div>
                         <p>

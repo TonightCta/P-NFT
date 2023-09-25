@@ -7,6 +7,7 @@ import 'swiper/css';
 import { useNavigate } from "react-router-dom";
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
+import { flag } from "../../../utils/source";
 
 interface Data {
     logo_minio_url: string,
@@ -75,7 +76,7 @@ const CollectionCard = (): ReactElement => {
                 {wait && <div className="loading-mask">
                     <Spin size="large" />
                 </div>}
-                {/* <div className="page-btn prev" onClick={() => {
+                <div className="page-btn prev" onClick={() => {
                     swiperRef.slidePrev()
                 }}>
                     <IconFont type="icon-xiangxia" />
@@ -84,12 +85,13 @@ const CollectionCard = (): ReactElement => {
                     swiperRef.slideNext()
                 }}>
                     <IconFont type="icon-xiangxia" />
-                </div> */}
+                </div>
                 <div className="mask"></div>
                 <div className="mask left"></div>
                 <Swiper
-                    slidesPerView={2}
+                    slidesPerView={flag ? 1 : 2}
                     spaceBetween={48}
+                    loop
                     onSwiper={(swiper) => {
                         setSwiperRef(swiper);
                     }}

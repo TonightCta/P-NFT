@@ -59,7 +59,7 @@ const TabList = (): ReactElement => {
                                     </li>
                                     <li>
                                         {/* <p>$64321.12</p> */}
-                                        <p className="color-g">{Number(web3.utils.fromWei(state.card.price, 'ether')).toFixed(2)}&nbsp;{state.card.paymod}</p>
+                                        <p className="color-g">{Number(web3.utils.fromWei(state.card.price, 'ether')).toFixed(2)}&nbsp;{state.card.pay_currency_name}</p>
                                     </li>
                                     <li>
                                         <p>{calsAddress(item.From)}</p>

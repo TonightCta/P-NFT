@@ -117,7 +117,7 @@ const NewNFTCard = (props: Props): ReactElement => {
             <p className="coll-name">Pai Space</p>
             <div className="nft-msg">
                 <p>{props.item.file_name}&nbsp;#{props.item.token_id}</p>
-                {props.type === 1 && <p className="nft-price">{web3.utils.fromWei(props.item.price as string, 'ether')}&nbsp;{props.item.paymod}</p>}
+                {props.type === 1 && <p className="nft-price">{web3.utils.fromWei(props.item.price as string, 'ether')}&nbsp;{props.item.pay_currency_name}</p>}
             </div>
             <FixedModal upRefresh={() => {
                 props.upload && props.upload();

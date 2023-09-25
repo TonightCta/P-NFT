@@ -773,16 +773,24 @@
               margin-right: 20px;
               .nft-box {
                 height: 158px;
-                .submit-btn{
+                .submit-btn {
                   left: 8px;
                   top: 8px;
                   height: 24px;
                   width: 46px;
-                  span{
+                  span {
                     font-size: 14px;
                   }
                 }
-                .up-top{
+                .sell-btn{
+                  top: 8px;
+                  right: 8px;
+                  font-size: 12px;
+                  padding: 2px 6px;
+                  height: auto;
+                  width: auto;
+                }
+                .up-top {
                   font-size: 12px;
                   top: 8px;
                   right: 8px;
@@ -800,7 +808,7 @@
                 padding: 0 12px;
                 flex-wrap: wrap;
                 font-size: 12px;
-                .nft-price{
+                .nft-price {
                   width: 100%;
                   text-align: right;
                   margin-top: 8px;
@@ -809,6 +817,55 @@
             }
             .new-nft-card:nth-child(2n) {
               margin-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  .competition-list {
+    ul {
+      li {
+        .poster-box {
+          width: 140px;
+          height: 82px;
+        }
+        .right-oper {
+          .com-title {
+            font-size: 16px;
+          }
+          .com-remark {
+            font-size: 12px;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+          }
+          .com-msg {
+            flex-direction: column;
+            align-items: flex-start;
+            .left-i {
+              width: 100%;
+              justify-content: space-between;
+              align-items: center;
+              .end-date {
+                padding: 3px 7px;
+                p {
+                  font-size: 12px;
+                }
+              }
+              .hot-num {
+                font-size: 12px;
+              }
+            }
+            button {
+              margin-top: 12px;
+              width: 100px;
+              height: 24px;
+              border-radius: 6px;
+              padding: 0;
+              font-size: 12px;
             }
           }
         }

@@ -5,6 +5,7 @@ import { MintRankService } from '../../../request/api'
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import { calsAddress } from "../../../utils";
+import { flag } from "../../../utils/source";
 
 interface Data {
     img_urls: { minio_url: string }[],
@@ -64,8 +65,9 @@ const CreatorCard = (): ReactElement => {
                     <IconFont type="icon-xiangxia" />
                 </div>
                 <Swiper
-                    slidesPerView={window.innerWidth <= 1440 ? 3 : 4}
+                    slidesPerView={flag ? 1 : window.innerWidth <= 1440 ? 3 : 4}
                     spaceBetween={30}
+                    loop={flag ? true : false}
                     onSwiper={(swiper) => {
                         setSwiperRef(swiper);
                     }}

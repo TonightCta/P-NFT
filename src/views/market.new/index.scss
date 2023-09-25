@@ -181,99 +181,7 @@
       .data-box {
         display: flex;
         margin-top: 28px;
-        .filter-box-data {
-          width: 300px;
-          min-width: 300px;
-          margin-right: 26px;
-          border-right: 1px solid #e8e8e8;
-          transition: 0.5s all;
-          .filter-title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 26px;
-            padding-right: 24px;
-            cursor: pointer;
-            p {
-              font-size: 18px;
-              color: #050505;
-            }
-            span {
-              font-size: 24px;
-              display: inline-block;
-              transition: 0.3s all;
-              transform: rotate(180deg);
-            }
-            .hide-arrow {
-              transform: rotate(0);
-            }
-          }
-          .filter-status {
-            ul {
-              display: flex;
-              li {
-                padding: 8px 12px;
-                border-radius: 16px;
-                background-color: #f6f6f6;
-                font-size: 16px;
-                color: #050505;
-                margin-right: 20px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: 0.3s all;
-                font-family: SparkTextNew;
-                .point {
-                  width: 8px;
-                  height: 8px;
-                  background-color: #4ade61;
-                  border-radius: 50%;
-                  margin-right: 4px;
-                }
-              }
-              .active-status {
-                background-color: #121212;
-                color: white;
-              }
-            }
-          }
-          .filter-labels {
-            .ant-checkbox-group {
-              flex-direction: column;
-              .ant-checkbox-wrapper {
-                margin-bottom: 24px;
-              }
-              .ant-checkbox-wrapper:last-child {
-                margin-bottom: 0;
-              }
-            }
-          }
-          .filter-category {
-            .ant-radio-group {
-              .ant-space {
-                .ant-space-item {
-                  label {
-                    span {
-                      white-space: nowrap;
-                    }
-                  }
-                }
-              }
-            }
-          }
-          .filter-open-box {
-            border-bottom: 1px solid #e8e8e8;
-            margin-bottom: 34px;
-            padding-bottom: 36px;
-            transition: 0.3s all;
-          }
-          .hide-box {
-            height: 0;
-            padding-bottom: 0;
-            overflow: hidden;
-          }
-        }
+
         @media screen and (max-width: 1700px) {
           .filter-box-data {
             width: 200px;
@@ -473,8 +381,119 @@
     }
   }
 }
-
+.filter-box-data {
+  width: 300px;
+  min-width: 300px;
+  margin-right: 26px;
+  border-right: 1px solid #e8e8e8;
+  transition: 0.5s all;
+  .filter-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 26px;
+    padding-right: 24px;
+    cursor: pointer;
+    p {
+      font-size: 18px;
+      color: #050505;
+    }
+    span {
+      font-size: 24px;
+      display: inline-block;
+      transition: 0.3s all;
+      transform: rotate(180deg);
+    }
+    .hide-arrow {
+      transform: rotate(0);
+    }
+  }
+  .filter-status {
+    ul {
+      display: flex;
+      li {
+        padding: 8px 12px;
+        border-radius: 16px;
+        background-color: #f6f6f6;
+        font-size: 16px;
+        color: #050505;
+        margin-right: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s all;
+        font-family: SparkTextNew;
+        .point {
+          width: 8px;
+          height: 8px;
+          background-color: #4ade61;
+          border-radius: 50%;
+          margin-right: 4px;
+        }
+      }
+      .active-status {
+        background-color: #121212;
+        color: white;
+      }
+    }
+  }
+  .filter-labels {
+    .ant-checkbox-group {
+      flex-direction: column;
+      .ant-checkbox-wrapper {
+        margin-bottom: 24px;
+      }
+      .ant-checkbox-wrapper:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .filter-category {
+    .ant-radio-group {
+      .ant-space {
+        .ant-space-item {
+          label {
+            span {
+              white-space: nowrap;
+            }
+          }
+        }
+      }
+    }
+  }
+  .filter-open-box {
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 34px;
+    padding-bottom: 36px;
+    transition: 0.3s all;
+  }
+  .hide-box {
+    height: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+}
 @media screen and (max-width: 1440px) {
+  .filter-box-data{
+    width: 100%;
+    border-right: 0;
+    .filter-title{
+      p{
+        font-size: 16px;
+      }
+      span{
+        font-size: 18px;
+      }
+    }
+    .filter-status{
+      ul{
+        li{
+          font-size: 14px;
+        }
+      }
+    }
+  }
   .market-view-new {
     .content-box {
       .list-card {
@@ -509,6 +528,138 @@
               margin-right: 0;
             }
           }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  .sort-popover-box {
+    width: 80px;
+    ul {
+      li {
+        padding: 8px 0;
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  .market-view-new {
+    padding: 60px 0 0;
+    .bg-box {
+      height: 128px;
+    }
+    .content-box {
+      padding: 0 24px;
+      transform: translateY(-30px);
+      .collection-logo {
+        width: 80px;
+        height: 80px;
+        border-width: 3px;
+      }
+      .collection-name {
+        margin-top: 12px;
+        p {
+          font-size: 24px;
+        }
+        ul {
+          transform: translateY(-50px);
+          li {
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
+            span {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+      .collection-owner {
+        margin-right: 12px;
+        font-size: 14px;
+        margin-top: 6px;
+      }
+      .collection-total {
+        flex-wrap: wrap;
+        font-size: 12px;
+        p {
+          margin-bottom: 8px;
+        }
+      }
+      .unknow-text {
+        margin-top: 0;
+        font-size: 12px;
+      }
+      .list-card {
+        margin-top: 24px;
+        .filter-box {
+          .left-menu {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            span {
+              font-size: 14px;
+            }
+          }
+          .search-box {
+            margin: 0 8px;
+            height: 32px;
+            padding-left: 8px;
+            border-radius: 8px;
+            span {
+              font-size: 14px;
+            }
+            input {
+              font-size: 12px;
+              margin-left: 8px;
+            }
+          }
+          .sort-box {
+            .sort-inner {
+              width: 60px;
+              height: 32px;
+              border-radius: 8px;
+              padding: 0 8px;
+              p {
+                font-size: 14px;
+              }
+              span {
+                font-size: 18px;
+              }
+            }
+          }
+        }
+        .data-box {
+          .filter-box-data {
+            display: none;
+          }
+          .list-box {
+            .inner-card {
+              width: calc(50% - 10px);
+              margin-right: 20px;
+              .nft-box {
+                height: 158px;
+              }
+              .msg-box {
+                padding: 12px;
+                .nft-name {
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                }
+              }
+            }
+            .inner-card:nth-child(5n) {
+              margin-right: 20px;
+            }
+            .inner-card:nth-child(2n) {
+              margin-right: 0;
+            }
+          }
+        }
+        .page-box {
+          padding: 0;
         }
       }
     }

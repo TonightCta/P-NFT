@@ -3,7 +3,7 @@ import { GalleryList, GalleryNFTList } from '../../../request/api';
 import { Spin } from "antd";
 import IconFont from "../../../utils/icon";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from 'swiper'
+import { Pagination, Autoplay } from 'swiper'
 import "swiper/css";
 import 'swiper/css/pagination';
 import { flag } from "../../../utils/source";
@@ -44,7 +44,7 @@ const TopScreen = (): ReactElement => {
             {data.length === 0 && <div className="loading-box">
                 <Spin size="large" />
             </div>}
-            <Swiper pagination={flag ? true : false} className="swiper-gallery" modules={[Pagination]} effect={'fade'} loop onSwiper={(swiper) => {
+            <Swiper autoplay={flag ? true : false} pagination={flag ? true : false} className="swiper-gallery" modules={[Pagination, Autoplay]} effect={'fade'} loop onSwiper={(swiper) => {
                 setSwiperRef(swiper)
             }}>
                 {

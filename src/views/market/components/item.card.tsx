@@ -98,7 +98,7 @@ const CardItem = (props: Props): ReactElement => {
             <div className="card-oper">
                 <div className="name-price">
                     <p className="card-type">PAI SPACE</p>
-                    {item.price && <p className="price-box">{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item?.paymod}</p>}
+                    {item.price && <p className="price-box">{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item?.pay_currency_name}</p>}
                 </div>
                 <div className="other-msg">
                     <p>{item.file_name} #{item.token_id}</p>

@@ -51,12 +51,12 @@
               transform: translateY(1px);
             }
           }
-          li:nth-child(2){
-            img{
-                width: 20px;
-                height: 20px;
-                display: inline-block;
-                transform: translateY(4px);
+          li:nth-child(2) {
+            img {
+              width: 20px;
+              height: 20px;
+              display: inline-block;
+              transform: translateY(4px);
             }
           }
           li:first-child {
@@ -122,4 +122,53 @@
 }
 .ant-popover-inner {
   padding: 6px !important;
+}
+@media screen and (max-width: 1280px) {
+  .market-view-all {
+    padding: 90px 24px 0;
+    .all-title {
+      font-size: 22px;
+    }
+    .all-filter-box {
+      margin-top: 24px;
+      .left-filter {
+        .select-box {
+          padding: 4px 8px;
+          min-width: 140px;
+          border-radius: 8px;
+          p {
+            font-size: 14px;
+          }
+        }
+        .select-chain {
+          ul {
+            padding: 0;
+            li {
+              display: none;
+            }
+            li:first-child {
+              display: block;
+              height: 32px;
+              line-height: 32px;
+              background-color: #f0f0f0;
+              font-size: 14px;
+              border-radius: 8px;
+            }
+          }
+        }
+      }
+    }
+    .data-box{
+      width: 100%;
+      .img-box{
+        img{
+          border-radius: 8px;
+        }
+        p{
+          font-size: 14px;
+          margin-left: 8px;
+        }
+      }
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useEffect, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import './index.scss'
 import { NFTItem, Type, web3 } from "../../utils/types";
 import { calsAddress } from "../../utils";
@@ -68,7 +68,7 @@ const NftCard = (props: Props): ReactElement => {
                     <img src={props.info.seller_avatar_url} alt="" />
                     <p>{calsAddress(props.info.seller)}</p>
                 </div>
-                <p className="price-text">{web3.utils.fromWei(props.info.price as string, 'ether')}&nbsp;{props.info.paymod}</p>
+                <p className="price-text">{web3.utils.fromWei(props.info.price as string, 'ether')}&nbsp;{props.info.pay_currency_name}</p>
             </div>
         </div>
     )

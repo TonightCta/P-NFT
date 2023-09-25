@@ -73,5 +73,6 @@ export interface NFTItem {
     play:boolean,
     seller:string,
     fid:number,
-    seller_avatar_url:string
+    seller_avatar_url:string,
+    pay_currency_name:string
 }

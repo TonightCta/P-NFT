@@ -9,7 +9,7 @@ interface Item {
     price: string
     file_image_ipfs: string,
     order_id: string,
-    paymod: string,
+    pay_currency_name: string,
     token_id: number,
     image_minio_url:string
 }
@@ -48,7 +48,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             approve_dis: bol ? true : false,
             list_dis: bol ? false : true
         });
-        if (props.item.paymod === 'ETH' || props.item.paymod === 'PI') {
+        if (props.item.pay_currency_name === 'ETH' || props.item.pay_currency_name === 'PI') {
             setWait({
                 ...wait,
                 approve_dis: true,
@@ -105,7 +105,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             });
             return
         }
-        const hash: any = await buy(props.item.order_id, props.item.price, props.item.paymod);
+        const hash: any = await buy(props.item.order_id, props.item.price, props.item.pay_currency_name);
         if (!hash || hash.message) {
             setWait({
                 ...wait,
@@ -145,7 +145,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
                 }
                 <p className="label">Price</p>
                 <p className="price-text">
-                    {+props.item.price / 1e18}&nbsp;{props.item.paymod}
+                    {+props.item.price / 1e18}&nbsp;{props.item.pay_currency_name}
                 </p>
                 <div className="submit-btn">
                     <div className="btns-oper">

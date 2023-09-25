@@ -133,6 +133,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                 <IconFont type="icon-jiantou"/>
                 <IconFont type="icon-jiantou"/>
             </div>
+
         </div>
     )
     return (
@@ -141,7 +142,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                 <img src={require('../../assets/new/voice_nft_mask.png')} className="left-mask" alt="" />
                 <img src={require('../../assets/new/voice_nft_mask.png')} className="right-mask" alt="" />
             </div>
-            <div className="view-inner">
+            <div className={`view-inner ${active === 1 ? 'out-b' : ''}`}>
                 <div className={`inner-w ${active === 1 ? 'm-w' : ''}`}>
                     <p className="page-icon">
                         <IconFont type="icon-create-2" />

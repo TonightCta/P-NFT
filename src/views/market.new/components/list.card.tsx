@@ -6,6 +6,8 @@ import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import type { RadioChangeEvent } from 'antd';
 import { CategoryList, LabelList, CollectionInfoNFT, CollectionSearch } from '../../../request/api';
 import { PNft } from "../../../App";
+import MobileFilter from "./mobile.filter";
+import { flag } from "../../../utils/source";
 
 interface Show {
     status: boolean,
@@ -16,6 +18,7 @@ interface Show {
 
 const ListCard = (): ReactElement => {
     const { state } = useContext(PNft);
+    const [mobileDrawer, setMobileDrawer] = useState<boolean>(false);
     const [labelsList, setLabelsList] = useState<{ label_id: number, label_name: string }[]>([]);
     const [labelsID, setLabelsID] = useState<number[]>([]);
     const [plainOptions, setPlainOptions] = useState<string[]>([]);
@@ -102,7 +105,7 @@ const ListCard = (): ReactElement => {
             collection_id: +(state.collection_id as string),
             key_word: search,
             page_size: 10,
-            page: page
+            page_num: page
         });
         setListWait(false);
         const { data } = result;
@@ -142,7 +145,9 @@ const ListCard = (): ReactElement => {
     return (
         <div className="list-card">
             <div className="filter-box">
-                <div className="left-menu" onClick={() => {
+                <div className="left-menu" onClick={flag ? () => {
+                    setMobileDrawer(true)
+                } : () => {
                     setShow({
                         ...show,
                         filter: !show.filter
@@ -247,6 +252,15 @@ const ListCard = (): ReactElement => {
                     setPage(e)
                 }} />
             </div>}
+            <MobileFilter visible={mobileDrawer} closeDrawer={(val: boolean) => {
+                setMobileDrawer(val)
+            }} setStatus={(val: number) => {
+                setStatus(val)
+            }} setCategoryID={(val: number) => {
+                setCategoryID(val);
+            }} setLabelsID={(val: number[]) => {
+                setLabelsID(val);
+            }} />
         </div>
     )
 };

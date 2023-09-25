@@ -1,6 +1,7 @@
 .voice-nft-new-view {
   .mask-box {
     position: fixed;
+    z-index: 100;
     img {
       width: 1412px;
       height: 1358px;
@@ -623,6 +624,324 @@
       .inner-w {
         width: 900px;
       }
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  .voice-nft-new-view {
+    .mask-box {
+      z-index: 100;
+    }
+    .view-inner {
+      padding-top: 60px;
+      padding-bottom: 100px;
+      position: relative;
+      z-index: 200;
+      .inner-w {
+        width: 100%;
+        padding-top: 30px;
+        .page-icon {
+          span {
+            font-size: 25px;
+          }
+        }
+        .page-title {
+          font-size: 24px;
+        }
+        .create-box {
+          flex-direction: column;
+          width: 90%;
+          transform: translateX(0);
+          margin: 0 auto;
+          margin-top: 52px;
+          border-radius: 8px;
+          button {
+            width: 265px;
+            height: 70px;
+            margin-right: 0;
+            margin-bottom: 16px;
+            font-size: 17px;
+          }
+          button:last-child {
+            margin-bottom: 0;
+          }
+        }
+        .page-step {
+          display: none;
+        }
+        .step-box {
+          button {
+            width: 115px;
+            height: 30px;
+            padding: 0;
+            border-radius: 8px;
+            font-size: 14px;
+          }
+        }
+        .input-box {
+          width: 90%;
+          margin: 0 auto;
+          margin-top: 24px;
+          .next-btn {
+            right: 50%;
+            width: 62px;
+            height: 82px;
+            top: auto;
+            bottom: -100px;
+            margin-right: -31px;
+            span {
+              font-size: 38px;
+            }
+            span:last-child {
+              margin-left: -22px;
+            }
+          }
+        }
+        .public-inp-box {
+          p {
+            font-size: 16px;
+          }
+          .other-in {
+            height: 38px;
+            font-size: 14px;
+          }
+          input {
+            height: 38px;
+            font-size: 14px;
+          }
+          textarea {
+            font-size: 14px;
+            height: 100px;
+          }
+          .ant-select {
+            margin-top: 0px;
+            width: 100%;
+            height: 38px;
+            .ant-select-selector {
+              height: 100%;
+              border-radius: 8px;
+              border-color: #ccc;
+              .ant-select-selection-item {
+                height: 100%;
+                line-height: 34px;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+        .design-box {
+          margin-top: 52px;
+          flex-direction: column;
+          .back-btn {
+            left: 0;
+            top: -250px;
+            span {
+              font-size: 30px;
+            }
+            span:last-child {
+              margin-left: -16px;
+            }
+          }
+          .left-menu {
+            margin-right: 0;
+            ul {
+              flex-direction: row;
+              background-color: rgba(0, 0, 0, 0);
+              justify-content: center;
+              li {
+                width: auto;
+                height: auto;
+                padding: 0;
+                margin-right: 26px;
+                background-color: rgba(0, 0, 0, 0) !important;
+              }
+              li:last-child {
+                margin-right: 0;
+              }
+            }
+          }
+          .right-view {
+            width: 100%;
+            margin-top: 0px;
+            .basic-box {
+              padding: 12px 24px;
+              border-radius: 0;
+              position: relative;
+              margin-top: 4px;
+              z-index: 100;
+              background: linear-gradient(rgba(255, 255, 255, 0.1), white);
+              .up-public {
+                padding-bottom: 40px;
+                .up-title {
+                  font-size: 16px;
+                  span {
+                    font-size: 16px;
+                    margin-right: 4px;
+                  }
+                }
+                .up-box {
+                  .load-btn {
+                    width: 48px;
+                    height: 48px;
+                    img {
+                      width: 26px;
+                      height: 26px;
+                    }
+                  }
+                  p {
+                    font-size: 14px;
+                  }
+                  audio {
+                    width: 100%;
+                    height: 40px;
+                  }
+                }
+              }
+              .submit-btn {
+                margin-top: 36px;
+                padding-bottom: 24px;
+                button {
+                  width: 100%;
+                  height: 32px;
+                  font-size: 14px;
+                  border-radius: 8px;
+                }
+              }
+            }
+            .aigc-box {
+              background: linear-gradient(rgba(255, 255, 255, 0.4), white);
+              padding-bottom: 30px;
+              .public-create-box {
+                padding: 12px 24px;
+                background-color: rgba(0, 0, 0, 0);
+                .create-title {
+                  font-size: 16px;
+                  span {
+                    font-size: 14px;
+                  }
+                }
+                .create-remark {
+                  font-size: 12px;
+                }
+                .word-box {
+                  flex-direction: column;
+                  margin-top: 16px;
+                  border-top: 1px solid #ccc;
+                  .left-word {
+                    margin-right: 0;
+                    background-color: white;
+                    display: flex;
+                    .top-tabs {
+                      flex-direction: column;
+                      border-radius: 0;
+                      margin-right: 12px;
+                      padding: 0 2px;
+                      li {
+                        border-radius: 0;
+                      }
+                    }
+                    .word-o {
+                      margin-top: 12px;
+                    }
+                  }
+                  .right-view {
+                    margin-top: 16px;
+                    padding: 0 24px;
+                    .prompts-box {
+                      .review {
+                        height: 120px;
+                        background-color: white;
+                        p {
+                          font-size: 14px;
+                        }
+                      }
+                    }
+                    .preview-box {
+                      .review {
+                        background-color: white;
+                        height: 160px;
+                      }
+                    }
+                    .generate-btn {
+                      margin-top: 24px;
+                      button {
+                        width: 122px;
+                        height: 30px;
+                        font-size: 12px;
+                        padding: 0;
+                        border-radius: 8px;
+                      }
+                    }
+                  }
+                }
+              }
+              .img-create-box {
+                padding: 0;
+                .create-title {
+                  padding-top: 12px;
+                  padding-left: 24px;
+                  display: none;
+                }
+                .create-remark {
+                  padding-left: 24px;
+                  display: none;
+                }
+              }
+              .audio-create-box {
+                .public-audio-inp {
+                  p {
+                    font-size: 16px;
+                  }
+                  textarea {
+                    height: 100px;
+                    font-size: 14px;
+                  }
+                  .ant-select {
+                    margin-top: 12px;
+                    width: 100%;
+                    height: 38px;
+                    .ant-select-selector {
+                      height: 100%;
+                      border-radius: 8px;
+                      border-color: #ccc;
+                      .ant-select-selection-item {
+                        height: 100%;
+                        line-height: 34px;
+                        font-size: 14px;
+                      }
+                    }
+                  }
+                  audio {
+                    height: 40px;
+                  }
+                }
+                .generate-btn {
+                  margin-top: 24px;
+                  button {
+                    width: 122px;
+                    height: 30px;
+                    font-size: 12px;
+                    padding: 0;
+                    border-radius: 8px;
+                  }
+                }
+              }
+              .confirm-btn {
+                padding: 0 24px;
+                button {
+                  width: 100%;
+                  height: 32px;
+                  border-radius: 8px;
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .out-b {
+      padding-bottom: 0;
     }
   }
 }

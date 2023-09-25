@@ -125,6 +125,7 @@ export const useContract = () => {
             return
         }
         return new Promise(async (resolve, reject) => {
+            console.log(_paymod,_price,_order_id)
             if (_paymod === 'PI' || _paymod === 'ETH') {
                 MARKETContract.methods.buy(_order_id).send({
                     from: owner,

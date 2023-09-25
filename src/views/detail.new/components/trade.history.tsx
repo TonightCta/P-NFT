@@ -1,13 +1,13 @@
-import { ReactElement, useContext, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Pagination } from 'antd';
 import { NFTLogsService } from '../../../request/api';
 import { PNft } from "../../../App";
 import { web3 } from "../../../utils/types";
 import { calsAddress } from "../../../utils";
 import IconFont from "../../../utils/icon";
+import { flag } from "../../../utils/source";
 
-const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string,price:string,paymod:string}): ReactElement => {
-    const { state } = useContext(PNft);
+const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string,price:string,pay_currency_name:string}): ReactElement => {
     const [data, setData] = useState<any[]>([]);
     const logsListFN = async () => {
         const result = await NFTLogsService({
@@ -39,9 +39,9 @@ const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string,
                         <li>Type</li>
                         <li>Item</li>
                         <li>Price</li>
-                        <li>From</li>
-                        <li>To</li>
-                        <li>Date</li>
+                        {!flag && <li>From</li>}
+                        {!flag && <li>To</li>}
+                        {!flag && <li>Date</li>}
                     </ul>
                 </div>
                 <div className="content-data">
@@ -67,17 +67,17 @@ const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string,
                                     </li>
                                     <li>
                                         {/* <p>$64321.12</p> */}
-                                        <p className="color-g">{Number(web3.utils.fromWei(props.price, 'ether')).toFixed(2)}&nbsp;{props.paymod}</p>
+                                        <p className="color-g">{Number(web3.utils.fromWei(props.price, 'ether')).toFixed(2)}&nbsp;{props.pay_currency_name}</p>
                                     </li>
-                                    <li>
+                                    {!flag && <li>
                                         <p>{calsAddress(item.From)}</p>
-                                    </li>
-                                    <li>
+                                    </li>}
+                                    {!flag && <li>
                                         <p>{calsAddress(item.ContractAddress)}</p>
-                                    </li>
-                                    <li>
+                                    </li>}
+                                    {!flag && <li>
                                         <p className="color-g">{item.Time}</p>
-                                    </li>
+                                    </li>}
                                 </ul>
                             )
                         })

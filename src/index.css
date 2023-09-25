@@ -10,6 +10,11 @@ body {
   /* min-width: 1440px; */
 }
 
+/* @media screen and (max-width: 1280px) {
+  audio {
+    display: none;
+  }
+} */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

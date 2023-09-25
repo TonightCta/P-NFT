@@ -80,6 +80,9 @@
       margin-top: 52px;
       position: relative;
       min-height: 520px;
+      .page-btn {
+        display: none;
+      }
       .swiper-wrapper {
         padding-bottom: 100px;
       }
@@ -425,6 +428,177 @@
           .poster-img {
             height: 300px;
           }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  .market-place-view-new {
+    padding: 76px 24px 0;
+    .page-btn {
+      display: flex !important;
+      width: 40px;
+      height: 40px;
+      top: 25%;
+      span {
+        font-size: 28px;
+      }
+    }
+    .prev {
+      left: -10px;
+    }
+    .next {
+      right: -10px;
+    }
+    .collection-card {
+      .card-title-filter {
+        .title-tag {
+          font-size: 18px;
+        }
+        .filter-box {
+          .view-more {
+            button {
+              width: 120px;
+              height: 32px;
+              border-radius: 8px;
+              padding: 0;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+      .card-list {
+        margin-top: 16px;
+        min-height: 300px;
+        .card-inner {
+          .colleciton-logo {
+            width: 32px;
+            height: 32px;
+            img {
+              width: 20px;
+              height: 14px;
+            }
+          }
+          .poster-img {
+            height: 190px;
+          }
+          .msg-box {
+            padding: 14px;
+            .name {
+              font-size: 18px;
+            }
+            .items-creator {
+              .account {
+                img {
+                  width: 20px;
+                  height: 20px;
+                }
+                p {
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .creator-card {
+      margin-top: -70px;
+      min-height: 300px;
+      .swiper {
+        padding-bottom: 20px;
+      }
+      .card-title-filter {
+        .title-tag {
+          font-size: 18px;
+        }
+      }
+      .creator-list {
+        margin-top: 24px;
+        .creator-inner {
+          .img-box {
+            .img-outside {
+              height: 230px;
+            }
+            .img-list {
+              margin-left: 12px;
+              img {
+                width: 70px;
+                height: 70px;
+              }
+            }
+          }
+          .name {
+            font-size: 16px;
+          }
+          .items-creator {
+            img {
+              width: 20px;
+              height: 20px;
+            }
+            .account {
+              p {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .discover-card {
+      margin-top: 12px;
+      .card-title-filter {
+        .title-tag {
+          font-size: 18px;
+        }
+        .view-more {
+          button {
+            width: 120px;
+            height: 32px;
+            border-radius: 8px;
+            padding: 0;
+            font-size: 14px;
+          }
+        }
+      }
+      .card-list {
+        margin-top: 24px;
+        .nft-card {
+          width: calc(50% - 10px);
+          margin-right: 20px;
+          margin-bottom: 24px;
+          .nft-msg {
+            height: 148px;
+            margin-bottom: 12px;
+          }
+          p {
+            padding: 0 12px;
+            font-size: 14px;
+          }
+          .minter-msg {
+            padding: 12px;
+            flex-direction: column;
+            .minter-avatar {
+              img {
+                width: 20px;
+                height: 20px;
+              }
+              p {
+                font-size: 12px;
+              }
+            }
+            .price-text {
+              padding: 0;
+              margin-top: 12px;
+            }
+          }
+        }
+        .nft-card:nth-child(5n) {
+          margin-right: 20px;
+        }
+        .nft-card:nth-child(2n) {
+          margin-right: 0;
         }
       }
     }

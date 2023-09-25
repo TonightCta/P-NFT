@@ -117,7 +117,7 @@ const DetailView = (): ReactElement<ReactNode> => {
                             <div className="inner-top">
                                 <div className="price-msg">
                                     <p>Current price</p>
-                                    <p><span>{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item.paymod}</span></p>
+                                    <p><span>{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item.pay_currency_name}</span></p>
                                 </div>
                                 <div className="btn-oper">
                                     {state.address?.toUpperCase() !== item.seller.toUpperCase() && <Button onClick={async () => {

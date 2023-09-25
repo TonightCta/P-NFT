@@ -1,6 +1,29 @@
 .detail-new-view {
   padding: 144px 60px 0;
   .detail-inner {
+    .coll-msg {
+      display: flex;
+      align-items: center;
+      span {
+        color: #23262f;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      img {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        margin-left: 24px;
+        margin-right: 12px;
+      }
+      p {
+        font-size: 20px;
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
+    .coll-msg-mobile{
+      display: none;
+    }
     .first-screen {
       display: flex;
       .left-nft {
@@ -20,26 +43,7 @@
       .right-msg {
         flex: 1;
         text-align: left;
-        .coll-msg {
-          display: flex;
-          align-items: center;
-          span {
-            color: #23262f;
-            cursor: pointer;
-            font-size: 20px;
-          }
-          img {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            margin-left: 24px;
-            margin-right: 12px;
-          }
-          p {
-            font-size: 20px;
-            color: rgba(0, 0, 0, 0.6);
-          }
-        }
+
         .nft-name {
           margin-top: 16px;
           margin-bottom: 22px;
@@ -312,5 +316,168 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .detail-new-view {
+    padding: 86px 24px 0;
+    .detail-inner {
+      .coll-msg-mobile{
+        display: flex;
+        margin-bottom: 16px;
+        span{
+          font-size: 16px;
+        }
+        img{
+          width: 20px;
+          height: 20px;
+          margin-left: 12px;
+        }
+        p{
+          font-size: 16px;
+        }
+      }
+      .first-screen {
+        flex-direction: column;
+        .left-nft {
+          width: 100%;
+          height: 300px;
+          border-radius: 8px;
+        }
+        .right-msg {
+          .coll-msg {
+            display: none;
+          }
+          .nft-name {
+            font-size: 18px;
+            line-height: 24px;
+            margin-bottom: 0;
+          }
+          .owner-msg {
+            margin-top: 8px;
+            img {
+              width: 24px;
+              height: 24px;
+            }
+            p {
+              font-size: 14px;
+            }
+          }
+          .labels-msg {
+            margin-top: 16px;
+            p {
+              font-size: 16px;
+              span {
+                font-size: 16px;
+              }
+            }
+          }
+          .price-msg {
+            margin-top: 16px;
+            border-radius: 8px;
+            padding: 14px;
+            .msg-title {
+              font-size: 16px;
+            }
+            .price-text {
+              img {
+                width: 24px;
+                height: 24px;
+              }
+              p {
+                font-size: 24px;
+              }
+              p:last-child {
+                font-size: 14px;
+                margin-bottom: -4px;
+              }
+            }
+            .buy-btn {
+              button {
+                width: 100%;
+                height: 42px;
+                border-radius: 8px;
+                font-size: 16px;
+              }
+            }
+          }
+          .public-msg-s {
+            border-radius: 8px;
+            .msg-title {
+              padding: 14px 16px;
+              font-size: 16px;
+            }
+            ul {
+              padding: 14px 16px;
+              li {
+                p {
+                  font-size: 16px;
+                  margin-right: 0;
+                }
+                p:last-child {
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                }
+              }
+            }
+          }
+        }
+      }
+      .msg-card {
+        flex-direction: column;
+        .public-msg-s {
+          width: 100%;
+          border-radius: 8px;
+          .msg-title {
+            padding: 14px 16px;
+            font-size: 16px;
+          }
+          .msg-text {
+            padding: 14px 16px;
+          }
+        }
+      }
+      .trade-history-list {
+        border-radius: 8px;
+        .list-title {
+          padding: 14px 16px;
+          font-size: 16px;
+        }
+        .list-content {
+          .content-title {
+            ul {
+              padding: 14px;
+              li:nth-child(2) {
+                margin-left: 30px;
+              }
+              li:nth-child(3) {
+                margin-left: 60px;
+              }
+            }
+          }
+          .content-data {
+            ul {
+              padding: 14px;
+              li:nth-child(2) {
+                margin-left: 30px;
+              }
+              li:nth-child(3) {
+                margin-left: 60px;
+                justify-content: center;
+              }
+            }
+            .with-img {
+              img {
+                width: 42px;
+              }
+            }
+          }
+        }
+      }
+      .footer-wapper-new {
+        border-top: 0;
+      }
+    }
   }
 }

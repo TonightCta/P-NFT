@@ -5,6 +5,7 @@ import { Popover, Tooltip, Table, Image } from "antd";
 import IconFont from "../../utils/icon";
 import { CategoryList, CollectionList } from '../../request/api'
 import type { ColumnsType } from 'antd/es/table';
+import { flag } from "../../utils/source";
 
 interface Category {
     category_name: string,
@@ -35,7 +36,7 @@ const columns: ColumnsType<DataType> = [
         render: (_, { logo_minio_url, collection_name }) => (
             <div className="img-box">
                 <Image
-                    width={72}
+                    width={flag ? 42 : 72}
                     src={logo_minio_url}
                 />
                 <p>{collection_name}</p>
@@ -65,6 +66,37 @@ const columns: ColumnsType<DataType> = [
         title: 'Owners',
         dataIndex: 'owners_amount',
         key: 'owners_amount',
+    },
+    {
+        title: '% Unique owners',
+        dataIndex: 'owners_amount',
+        align:'right',
+        key: 'owners_amount',
+        render: (_, { owners_amount, total_supply }) => <div className="flex-d">
+            <p>{(owners_amount / total_supply).toFixed(2)}%</p>
+            <p>{owners_amount}&nbsp;owners</p>
+        </div>
+    },
+];
+const columnsMobile: ColumnsType<DataType> = [
+    {
+        title: '#',
+        dataIndex: 'key',
+        key: 'key',
+    },
+    {
+        title: 'Collection',
+        dataIndex: 'name',
+        key: 'name',
+        render: (_, { logo_minio_url, collection_name }) => (
+            <div className="img-box">
+                <Image
+                    width={flag ? 42 : 72}
+                    src={logo_minio_url}
+                />
+                <p>{collection_name}</p>
+            </div>
+        )
     },
     {
         title: '% Unique owners',
@@ -205,7 +237,7 @@ const MarketViewAll = (): ReactElement<ReactNode> => {
                 </div>}
             </div>
             <div className="data-box">
-                <Table loading={wait} columns={columns} dataSource={data} />
+                <Table loading={wait} columns={flag ? columnsMobile : columns} dataSource={data} />
             </div>
             <FooterNew />
         </div>
