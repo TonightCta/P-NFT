@@ -183,7 +183,7 @@ const VoiceNftNew = (): ReactElement<ReactNode> => {
                     }
                 </ul>
             </div> */}
-            <div className="ribbon-box">
+            <div className="ribbon-box ribbon-cooperate">
                 <ul>
                     {
                         CompanyList.map((item: Company, index: number) => {

@@ -548,28 +548,28 @@
 }
 @media screen and (max-width: 1280px) {
   .gallery-view {
-    padding-top: 60px;
+    padding-top: 6rem;
     .top-screen {
-      min-height: 500px;
+      min-height: 50rem;
       .bg-box {
-        height: 375px;
+        height: 37.5rem;
       }
       .next-btn {
         display: none;
       }
       .nft-inner-1 {
-        margin-top: 100px;
-        padding: 100px 20px 0;
+        margin-top: 10rem;
+        padding: 10rem 2rem 0;
         flex-direction: column;
         .first-nft-msg {
-          padding-top: 12px;
+          padding-top: 1.2rem;
           .nft-title {
-            margin-bottom: 24px;
+            margin-bottom: 2.4rem;
             img {
-              width: 24px;
-              height: 24px;
+              width: 2.4rem;
+              height: 2.4rem;
             }
-            font-size: 20px;
+            font-size: 2rem;
           }
           .creator-msg {
             display: none;
@@ -578,185 +578,185 @@
         .first-nft-pic {
           min-width: 100%;
           max-width: 100%;
-          max-height: 336px;
+          max-height: 33.6rem;
           width: 100%;
-          height: 336px;
-          margin-bottom: 34px;
+          height: 33.6rem;
+          margin-bottom: 3.4rem;
         }
         .mobile-creator-msg {
           display: block;
           padding-left: 0;
           .creator-name {
-            font-size: 16px;
+            font-size: 1.6rem;
             img {
-              width: 32px;
-              height: 32px;
+              width: 3.2rem;
+              height: 3.2rem;
             }
           }
           .creator-title {
-            margin-top: 8px;
-            font-size: 28px;
+            margin-top: 0.8rem;
+            font-size: 2.8rem;
           }
           .creator-remark {
-            font-size: 12px;
-            margin-top: 12px;
-            line-height: 16px;
+            font-size: 1.2rem;
+            margin-top: 1.2rem;
+            line-height: 1.6rem;
             padding-right: 0;
           }
         }
       }
     }
     .show-content {
-      margin-top: 60px;
+      margin-top: 6rem;
       .content-title {
-        padding: 0 20px;
+        padding: 0 2rem;
         img {
-          width: 24px;
-          height: 24px;
+          width: 2.4rem;
+          height: 2.4rem;
         }
-        font-size: 20px;
+        font-size: 2rem;
       }
       .content-1 {
-        margin-top: 20px;
+        margin-top: 2rem;
         padding: 0;
         ul {
           overflow: auto;
           flex-direction: row-reverse;
-          padding: 0 20px;
+          padding: 0 2rem;
           li {
-            width: 250px;
-            min-width: 250px;
+            width: 25rem;
+            min-width: 25rem;
             .nft-box {
-              height: 220px;
+              height: 22rem;
             }
             .nft-name {
-              font-size: 16px;
+              font-size: 1.6rem;
             }
             .minter-msg {
               img {
-                width: 20px;
-                height: 20px;
+                width: 2rem;
+                height: 2rem;
               }
               p {
-                font-size: 14px;
+                font-size: 1.4rem;
               }
             }
           }
           li:first-child {
-            padding-top: 110px;
+            padding-top: 11rem;
           }
           li:nth-child(2) {
-            padding-top: 68px;
+            padding-top: 6.8rem;
             .nft-box {
-              height: 260px;
+              height: 26rem;
             }
           }
           li:last-child {
             .nft-box {
-              height: 326px;
+              height: 32.6rem;
             }
           }
         }
       }
       .ribbon-box {
-        margin-top: 60px;
-        height: 40px;
+        margin-top: 6rem;
+        height: 4rem;
         ul {
           animation: scrollLeft 12s infinite linear;
           li {
-            height: 40px;
+            height: 4rem;
             span {
-              font-size: 18px;
+              font-size: 1.8rem;
             }
             p {
-              font-size: 16px;
+              font-size: 1.6rem;
             }
           }
         }
       }
       .content-3 {
-        margin-top: 60px;
-        padding: 0 20px;
+        margin-top: 6rem;
+        padding: 0 2rem;
         width: 100%;
         .left-list {
           .public-card {
             .nft-name {
-              font-size: 16px;
+              font-size: 1.6rem;
             }
             .minter-msg {
               img {
-                width: 20px;
-                height: 20px;
+                width: 2rem;
+                height: 2rem;
               }
               p {
-                font-size: 14px;
+                font-size: 1.4rem;
               }
             }
             .nft-remark {
-              font-size: 12px;
-              line-height: 16px;
+              font-size: 1.2rem;
+              line-height: 1.6rem;
             }
           }
           .right-down {
             width: 100%;
             .public-card {
-              width: calc(50% - 10px);
+              width: calc(50% - 1rem);
             }
             .public-card:first-child {
               .nft-box {
-                width: 158px;
-                height: 202px;
+                width: 15.8rem;
+                height: 20.2rem;
               }
             }
             .public-card:last-child {
-              margin-top: 120px;
+              margin-top: 12rem;
               .nft-box {
-                width: 158px;
-                height: 152px;
+                width: 15.8rem;
+                height: 15.2rem;
               }
             }
           }
-          .left-down{
+          .left-down {
             width: 100%;
-            margin-top: 60px;
+            margin-top: 6rem;
             .public-card {
-              width: calc(50% - 10px);
+              width: calc(50% - 1rem);
             }
-            .public-card:first-child{
-              margin-top: 120px;
-              .nft-box{
-                width: 158px;
-                height: 236px;
+            .public-card:first-child {
+              margin-top: 12rem;
+              .nft-box {
+                width: 15.8rem;
+                height: 23.6rem;
               }
             }
-            .public-card:last-child{
-              .nft-box{
-                width: 158px;
-                height: 218px;
+            .public-card:last-child {
+              .nft-box {
+                width: 15.8rem;
+                height: 21.8rem;
               }
             }
           }
           .w-width {
-            margin-top: 60px;
+            margin-top: 6rem;
             width: 100%;
             .nft-box {
-              height: 160px;
+              height: 16rem;
             }
           }
-          .r-w-width{
+          .r-w-width {
             width: 100%;
-            margin-top: 60px;
+            margin-top: 6rem;
             margin-left: 0;
-            .nft-box{
-              height: 178px;
+            .nft-box {
+              height: 17.8rem;
             }
           }
-          .last-card{
-            width: 158px;
-            margin-top: 60px;
-            margin-bottom: 60px;
-            .nft-box{
-              height: 158px;
+          .last-card {
+            width: 15.8rem;
+            margin-top: 6rem;
+            margin-bottom: 6rem;
+            .nft-box {
+              height: 15.8rem;
             }
           }
         }

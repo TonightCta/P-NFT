@@ -74,5 +74,6 @@ export interface NFTItem {
     seller:string,
     fid:number,
     seller_avatar_url:string,
-    pay_currency_name:string
+    pay_currency_name:string,
+    image_minio_url:string
 }

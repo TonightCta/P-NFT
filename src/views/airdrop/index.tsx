@@ -3,7 +3,7 @@ import FreeMintCard from "./components/free.mint";
 import InviteCard from "./components/invite";
 import ActivityCard from "./components/activity";
 import './index.scss'
-import { VERSION } from "../../utils/source";
+import { VERSION, flag } from "../../utils/source";
 import IconFont from "../../utils/icon";
 import FooterNew from "../screen.new/components/footer.new";
 
@@ -16,7 +16,7 @@ const AirdropView = (): ReactElement<ReactNode> => {
                     <img src={require('../../assets/images/drop_bg.png')} alt="" />
                 </div>
                 : <div className="bg-box-new">
-                    <img src={require('../../assets/images/airdrop_new_bg.png')} alt="" />
+                    <img src={require(`../../assets/images/${flag ? 'airdrop_mobile_bg' : 'airdrop_new_bg'}.png`)} alt="" />
                 </div>
             }
 
@@ -39,6 +39,9 @@ const AirdropView = (): ReactElement<ReactNode> => {
                                 })
                             }
                         </ul>
+                        <div className="mobile-line">
+                            <div className="line-inner" style={{width:`${active === 0 && 33 || active === 1 && 66 || active === 2 && 100 || 0}%`}}></div>
+                        </div>
                     </div>
                     <div className="card-view">
                         {

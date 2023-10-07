@@ -11,7 +11,7 @@ interface Item {
     order_id: string,
     pay_currency_name: string,
     token_id: number,
-    image_minio_url:string
+    image_minio_url: string
 }
 
 interface Props {
@@ -115,9 +115,9 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             return
         };
         const upService = await NFTBuyService({
-            chain_id:process.env.REACT_APP_CHAIN,
-            sender:state.address,
-            tx_hash:hash['transactionHash']
+            chain_id: process.env.REACT_APP_CHAIN,
+            sender: state.address,
+            tx_hash: hash['transactionHash']
         });
         setWait({
             ...wait,
@@ -126,6 +126,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
         });
         message.success('Buy Successful!');
         setVisible(false);
+        props.closeModal(false);
         props.upRefresh();
     }
     return (

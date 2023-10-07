@@ -119,18 +119,7 @@ const DetailView = (): ReactElement<ReactNode> => {
                                     <p>Current price</p>
                                     <p><span>{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item.pay_currency_name}</span></p>
                                 </div>
-                                <div className="btn-oper">
-                                    {state.address?.toUpperCase() !== item.seller.toUpperCase() && <Button onClick={async () => {
-                                        if (!state.address) {
-                                            await connectMetamask()
-                                        };
-                                        setTakeVisible(true)
-                                    }}>
-                                        <IconFont type="icon-gouwuche1_shopping-cart-one" />
-                                        Buy now
-                                    </Button>}
-                                    {/* <p><span>Cancel</span> the listing</p> */}
-                                </div>
+                                
                             </div>
                         </div>
                         <div className="msg-switch">

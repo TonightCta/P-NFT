@@ -30,7 +30,7 @@ const NftCard = (props: Props): ReactElement => {
             navigate('/detail')
         }}>
             <div className="nft-msg">
-                <img src={props.info.file_image_minio_url} alt="" />
+                <img src={props.info.file_image_minio_url ? props.info.file_image_minio_url : props.info.image_minio_url} alt="" />
                 <div className="loading-box-public">
                     <Spin />
                 </div>

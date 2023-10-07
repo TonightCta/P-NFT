@@ -1,6 +1,7 @@
 import { ReactElement, ReactNode } from "react";
 import IconFont from "../../../utils/icon";
 
+
 interface Account {
     icon: string,
     url: string
@@ -41,7 +42,9 @@ const FooterNew = (): ReactElement<ReactNode> => {
                     {
                         SideList.map((item: Account, index: number) => {
                             return (
-                                <li key={index}>
+                                <li key={index} onClick={() => {
+                                    window.open(item.url)
+                                }}>
                                     <IconFont type={item.icon} />
                                 </li>
                             )

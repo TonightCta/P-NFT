@@ -116,7 +116,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                                 <p>{`${(info!.end_time - (new Date().getTime() / 1000)) < 1 ? 'Ended' : `${Math.floor((info!.end_time - (new Date().getTime() / 1000)) / 86400)} days left`}`}</p>
                             </div>
                         </div>}
-                        <p className="submit-work">
+                        <div className="submit-work">
                             {
                                 info?.start_time && <div className={`end-msg mobild-end-msg ${(info!.end_time - (new Date().getTime() / 1000)) < 1 ? 'end-point' : ''}`}>
                                     <div className="point">
@@ -134,7 +134,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                                 });
                                 navigate('/owner')
                             }}>Submit your work</Button>
-                        </p>
+                        </div>
                     </div>
                 </div>
                 <div className="data-list">

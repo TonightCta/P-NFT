@@ -40,6 +40,9 @@
   }
   .tabs {
     margin-top: 48px;
+    .mobile-line {
+      display: none;
+    }
     .select-card {
       display: inline-flex;
       .select-card-li {
@@ -479,7 +482,7 @@
             .rank-list {
               width: 240px;
               height: 8px;
-              background-color: rgba(255, 255, 255, 0.1);
+              background-color: #ccc;
               border-radius: 8px;
               margin: 0 auto;
               margin-top: 24px;
@@ -617,7 +620,7 @@
         }
       }
       .rank-list {
-        width: calc(100% - 160px);
+        width: calc(100%);
         margin: 0 auto;
         margin-top: 48px;
         .rank-3-list {
@@ -1076,236 +1079,245 @@
   .airdrop-view {
     overflow: hidden;
     width: 100%;
-    padding-top: 150px;
+    padding-top: 6rem;
     .bg-box {
-      width: 200%;
-      height: 50vh;
+      width: 100%;
+      height: 37.5rem;
+    }
+    .bg-box-new {
+      width: 100%;
+      height: 37.5rem;
+      img {
+        width: 100%;
+      }
     }
     .drop-inner {
-      width: 90%;
+      width: 100%;
       margin: 0 auto;
       .drop-title {
-        font-size: 60px;
+        font-size: 6rem;
       }
       .drop-remark {
-        font-size: 16px;
-        margin-top: 16px;
+        font-size: 1.6rem;
+        margin-top: 1.6rem;
       }
       .pc-card {
-        display: none;
-      }
-      .mobile-card {
-        display: block;
-      }
-      .tabs {
-        .select-card {
-          flex-direction: column;
-          .select-card-li {
-            width: 100%;
-            margin-right: 0;
-            margin-bottom: 24px;
-            p {
-              font-size: 20px;
+        margin-top: 4rem;
+        padding: 0;
+        flex-direction: column;
+        .tabs {
+          margin-right: 0;
+          overflow: auto;
+          padding-left: 2.4rem;
+          .mobile-line {
+            display: block;
+            width: 94%;
+            height: 3px;
+            background-color: #ccc;
+            border-radius: 4px;
+            transform: translateY(-12px);
+            .line-inner {
+              height: 100%;
+              transition: 0.3s all;
+              background: linear-gradient(90deg, #fa3370 0%, #fa89cb 100%);
             }
           }
-          .select-card-li:nth-child(3) {
-            background-image: url("../../assets/images/drop_tabs_2.png");
+          .select-card {
+            flex-direction: row;
+            display: flex;
+            width: 120%;
+            li {
+              margin-right: 2.4rem;
+              border-radius: 0;
+              p {
+                white-space: nowrap;
+                font-size: 3.2rem;
+                span {
+                  display: none;
+                }
+              }
+            }
           }
-          .card-view {
+        }
+        .card-view {
+          width: 100%;
+          padding: 0 2.4rem;
+          .free-mint-card {
+            .mobile-title {
+              display: none;
+            }
+            ul {
+              padding-bottom: 2.4rem;
+              li {
+                p:first-child {
+                  font-size: 1.6rem;
+                }
+                .rule-options {
+                  font-size: 1.2rem;
+                  line-height: 1.8rem;
+                }
+              }
+            }
+          }
+          .check-box {
             width: 100%;
-            padding: 24px;
-            .free-mint-card {
-              .card-msg {
-                display: none;
-              }
-              .mobile-title {
-                display: block;
-                text-align: left;
-                margin: 24px 0;
-                margin-top: 12px;
-                font-size: 28px;
-                font-weight: bold;
-              }
-              ul {
-                margin: 0;
-                width: 100%;
-                padding: 24px 0;
-                li {
-                  background: none;
-                  flex-direction: column;
-                  align-items: flex-start;
-                  margin-bottom: 24px;
-                  p {
-                    font-family: Kanit;
-                    font-size: 16px;
-                  }
-                  .rule-options {
-                    font-size: 14px;
-                  }
+            margin-top: 2.4rem;
+            .check-progress {
+              li {
+                width: 3.2rem;
+                height: 3.2rem;
+                span {
+                  font-size: 1.6rem;
+                  transform: translateY(-0.6rem);
                 }
-                li:last-child {
-                  margin-top: 0;
+                p {
+                  font-size: 1.4rem;
+                  transform: translateY(-0.8rem);
+                }
+              }
+              li:last-child {
+                height: 0.4rem;
+                width: 100%;
+                margin-top: -2px;
+              }
+            }
+            .rewark-msg {
+              .title-msg {
+                p {
+                  font-size: 1.2rem;
+                }
+              }
+              .hash-pub {
+                transform: scale(0.9) translateX(-2rem);
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+            }
+            .rewark-msg::before {
+              display: none;
+            }
+            .btn-oper {
+              margin-top: 2.4rem;
+              button {
+                width: 17rem;
+                height: 4rem;
+                font-size: 1.4rem;
+              }
+            }
+          }
+          .step-1 {
+            margin-top: 2.4rem;
+            .public-bg {
+              margin-top: 0;
+              border-radius: 0.8rem;
+              .join-title {
+                font-size: 1.6rem;
+              }
+              .invite-code-inp {
+                margin-bottom: 2.4rem;
+                input {
+                  width: 100%;
+                  height: 3.6rem;
+                  font-size: 1.4rem;
+                }
+              }
+              button {
+                width: 17rem;
+                height: 4rem;
+                font-size: 1.4rem;
+              }
+            }
+          }
+          .step-2 {
+            ul {
+              flex-direction: column;
+              li {
+                width: 100%;
+                margin-bottom: 2.4rem;
+                .public-title {
+                  font-size: 1.8rem;
+                }
+                .rank-list {
+                  height: 0.6rem;
+                }
+                .public-btn {
+                  button {
+                    width: 17rem;
+                    height: 4rem;
+                    font-size: 1.4rem;
+                  }
                 }
               }
             }
-
-            .check-box {
-              padding: 24px 0;
-              margin: 0;
-              margin-top: 40px;
-              .check-progress {
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                li {
-                  background-color: #383b3d;
-                  margin-bottom: 24px;
-                  height: 36px;
-                  width: 36px;
-                  p {
-                    font-family: Spark;
-                    font-size: 16px;
-                  }
-                  span {
-                    font-size: 18px;
-                  }
-                  .progress-inner {
-                    border-radius: 8px;
-                  }
-                  div {
-                    line-height: 26px;
-                  }
-                }
-                li:last-child {
-                  transform: rotate(90deg);
-                  top: 190px;
-                  width: 120%;
-                  left: -30px;
-                  height: 6px;
-                }
-              }
-              .rewark-msg {
-                width: 90%;
-                margin: 0 auto;
-                .title-msg {
-                  align-items: center;
-                  p {
-                    font-size: 14px;
-                  }
-                  .anticon {
-                    display: block;
-                    font-size: 20px;
-                  }
-                  .pc-view-out {
-                    display: none;
-                  }
-                }
-                .hash-pub {
-                  width: 240px;
-                  text-overflow: ellipsis;
-                  overflow: hidden;
-                }
-              }
-              .rewark-msg::before {
-                display: none;
-              }
-              .rewark-msg::after {
-                display: none;
-              }
-              .btn-oper {
-                margin-top: 24px;
-                button {
-                  width: 180px;
-                  height: 40px;
-                  font-size: 16px;
-                }
-              }
-            }
-            .invite-card {
-              .invite-box {
-                width: 100%;
+          }
+          .activity-card {
+            .rank-list {
+              margin-top: 2.4rem;
+              .rank-3-list {
                 ul {
-                  flex-direction: column;
                   li {
-                    width: 100%;
-                    margin-bottom: 24px;
-                    .public-btn {
-                      button {
-                        width: 180px;
-                        height: 40px;
-                        font-size: 16px;
-                        min-width: 180px;
+                    .nfts-box {
+                      width: 6rem;
+                      height: 6rem;
+                      border-width: 2px;
+                      p {
+                        width: 2.4rem;
+                        height: 2.4rem;
+                        margin-left: -1.2rem;
+                        font-size: 1.6rem;
+                        line-height: 2.2rem;
+                        bottom: -1.2rem;
                       }
                     }
-                  }
-                  li:last-child {
-                    margin-bottom: 0;
-                  }
-                }
-              }
-            }
-            .activity-card {
-              .rank-list {
-                width: 100%;
-                .rank-3-list {
-                  ul {
-                    width: 100%;
-                    justify-content: space-between;
-                    li {
-                      .nfts-box {
-                        width: 60px;
-                        height: 60px;
-                        border-width: 2px;
-                        p {
-                          width: 20px;
-                          height: 20px;
-                          font-size: 12px;
-                          margin-left: -10px;
-                          bottom: -8px;
-                          line-height: 20px;
-                        }
-                      }
-                      .address-text {
-                        font-size: 14px;
-                      }
+                    .address-text {
+                      font-size: 1.6rem;
                     }
-                    li:nth-child(2) {
-                      margin: 0;
-                      .rank-1-icon {
-                        width: 20px;
-                        height: 20px;
-                      }
-                      .nfts-box {
-                        width: 80px;
-                        height: 80px;
-                      }
+                    .price-text {
+                      font-size: 1.4rem;
+                    }
+                  }
+                  li:nth-child(2) {
+                    margin: 0 2.4rem;
+                    .rank-1-icon {
+                      width: 2.4rem;
+                      height: 2.4rem;
+                    }
+                    .nfts-box {
+                      width: 8rem;
+                      height: 8rem;
                     }
                   }
                 }
               }
               .list-box {
-                padding: 16px 24px;
+                padding: 1.2rem;
+                border-radius: 0.8rem;
                 .list-title {
+                  margin-bottom: 1.2rem;
+                  width: 100%;
                   padding-right: 0;
                   p {
-                    font-size: 14px;
+                    font-size: 1.2rem;
                   }
                   p:nth-child(2) {
-                    margin-left: 70px;
+                    margin-left: 6rem;
                   }
                 }
                 ul {
                   li {
-                    padding: 24px 0;
-                    .avatar-inner {
-                      width: 40px;
-                      height: 40px;
-                    }
-                    .rank-name {
-                      display: none;
+                    padding: 1.2rem 0;
+                    .avatar-box {
+                      .avatar-inner {
+                        width: 3.2rem;
+                        height: 3.2rem;
+                        border-radius: 0.8rem;
+                      }
+                      .rank-name {
+                        display: none;
+                      }
                     }
                     p {
-                      font-size: 13px;
+                      font-size: 1.2rem;
                     }
                   }
                 }
@@ -1317,7 +1329,7 @@
     }
     .outside-remark {
       width: 100%;
-      padding: 16px 24px;
+      padding: 1.6rem 2.4rem;
     }
   }
 }

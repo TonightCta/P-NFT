@@ -145,41 +145,41 @@
 }
 @media screen and (max-width: 1280px) {
   .contest-view {
-    padding-top: 100px;
+    padding-top: 10rem;
     .page-inner {
-      padding: 0 20px;
+      padding: 0 2rem;
       .view-title {
-        font-size: 24px;
+        font-size: 2.4rem;
       }
       .data-list {
         ul {
           li {
             margin-right: 0;
             width: 100%;
-            margin-bottom: 24px;
+            margin-bottom: 2.4rem;
             .poster-box {
-              height: 150px;
+              height: 15rem;
             }
             .msg-box {
-              padding: 12px;
+              padding: 1.2rem;
               .text-overflow {
-                font-size: 16px;
+                font-size: 1.6rem;
               }
               .contest-msg {
                 .left-end {
-                  padding: 3px 8px;
-                  border-radius: 4px;
+                  padding: 0.3rem 0.8rem;
+                  border-radius: 0.4rem;
                   .point {
-                    width: 14px;
-                    height: 14px;
-                    padding: 5px;
+                    width: 1.4rem;
+                    height: 1.4rem;
+                    padding: 0.5rem;
                   }
-                  p{
-                    font-size: 12px;
+                  p {
+                    font-size: 1.2rem;
                   }
                 }
-                .right-hot{
-                  font-size: 14px;
+                .right-hot {
+                  font-size: 1.4rem;
                 }
               }
             }

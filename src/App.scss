@@ -559,6 +559,27 @@
   justify-content: center;
 }
 @media screen and (max-width: 1280px) {
+  .fixed-price-inner {
+    .sell-nft {
+      .nft-box {
+        width: 15.8rem;
+        height: 15.8rem;
+      }
+    }
+    .label{
+      font-size: 1.4rem;
+    }
+    .inp-and-coin{
+      input{
+        height: 3.2rem;
+      }
+    }
+    .submit-btn{
+      button{
+        width: 12rem;
+      }
+    }
+  }
   .footer-wapper-new {
     padding: 40px 0;
     flex-direction: column;

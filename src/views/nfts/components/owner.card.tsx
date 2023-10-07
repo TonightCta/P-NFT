@@ -58,7 +58,7 @@ const OwnerCard = (props: Props): ReactElement => {
                                 }} />
                             </p>
                         </div>
-                        <div className="audio-box">
+                        <div className={`audio-box ${!profile.audio_url ? 'dis-audio' : ''}`}>
                             <div className="play-btn" onClick={() => {
                                 if (!profile.audio_url) {
                                     message.error('User has not set a sound intro');

@@ -81,7 +81,9 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                     </div>
                     <div className="first-screen">
                         <div className="left-nft">
-                            {imgLoad && <Spin size="large" />}
+                            {imgLoad && <div className="loading-box-public">
+                                <Spin size="large" />
+                            </div>}
                             <img onLoad={() => { setImgLoad(false) }} src={info?.image_minio_url} alt="" />
                         </div>
                         <div className="right-msg">
@@ -120,16 +122,16 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 <div className="price-text">
                                     <img src={info?.pay_currency_name === 'PI' ? require('../../assets/images/pi_logo.png') : require('../../assets/new/eth_logo.png')} alt="" />
                                     {info?.price && <p>{web3.utils.fromWei(info?.price as string, 'ether')}</p>}
-                                    <p>Price</p>
+                                    <p>{info.pay_currency_name}</p>
                                 </div>
                                 <p className="buy-btn">
-                                    <Button type="primary" onClick={async () => {
+                                    {state.address?.toUpperCase() !== info?.seller.toUpperCase() && <Button type="primary" onClick={async () => {
                                         await switchC(8007736);
                                         setTakeVisible(true);
                                     }}>
                                         <IconFont type="icon-gouwuche1_shopping-cart-one" />
                                         Buy now
-                                    </Button>
+                                    </Button>}
                                 </p>
                             </div>}
                             <div className="nft-info-msg public-msg-s">
@@ -140,7 +142,9 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 <ul>
                                     <li>
                                         <p>Contract</p>
-                                        <p>{info?.contract_address}</p>
+                                        <p style={{ cursor: 'pointer' }} onClick={() => {
+                                            window.open(`https://v2-piscan.plian.org/address/${info?.contract_address}`)
+                                        }}>{info?.contract_address}</p>
                                     </li>
                                     <li>
                                         <p>Token ID</p>
@@ -148,7 +152,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                     </li>
                                     <li>
                                         <p>Blockchain</p>
-                                        <p>Plian Mainnet Subchain</p>
+                                        <p>Plian Mainnet Subchain 1</p>
                                     </li>
                                 </ul>
                             </div>

@@ -20,6 +20,8 @@
     padding-top: 80px;
     padding-bottom: 200px;
     background-color: rgba(240, 240, 240, 0.5);
+    position: relative;
+    z-index: 300;
     .inner-w {
       width: 920px;
       margin: 0 auto;
@@ -633,34 +635,34 @@
       z-index: 100;
     }
     .view-inner {
-      padding-top: 60px;
-      padding-bottom: 100px;
+      padding-top: 6rem;
+      padding-bottom: 10rem;
       position: relative;
       z-index: 200;
       .inner-w {
         width: 100%;
-        padding-top: 30px;
+        padding-top: 3rem;
         .page-icon {
           span {
-            font-size: 25px;
+            font-size: 2.5rem;
           }
         }
         .page-title {
-          font-size: 24px;
+          font-size: 2.4rem;
         }
         .create-box {
           flex-direction: column;
           width: 90%;
           transform: translateX(0);
           margin: 0 auto;
-          margin-top: 52px;
-          border-radius: 8px;
+          margin-top: 5.2rem;
+          border-radius: 0.8rem;
           button {
-            width: 265px;
-            height: 70px;
+            width: 26.5rem;
+            height: 7rem;
             margin-right: 0;
-            margin-bottom: 16px;
-            font-size: 17px;
+            margin-bottom: 1.6rem;
+            font-size: 1.7rem;
           }
           button:last-child {
             margin-bottom: 0;
@@ -671,75 +673,75 @@
         }
         .step-box {
           button {
-            width: 115px;
-            height: 30px;
+            width: 11.5rem;
+            height: 3rem;
             padding: 0;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: 0.8rem;
+            font-size: 1.4rem;
           }
         }
         .input-box {
           width: 90%;
           margin: 0 auto;
-          margin-top: 24px;
+          margin-top: 2.4rem;
           .next-btn {
             right: 50%;
-            width: 62px;
-            height: 82px;
+            width: 6.2rem;
+            height: 8.2rem;
             top: auto;
-            bottom: -100px;
-            margin-right: -31px;
+            bottom: -10rem;
+            margin-right: -3.1rem;
             span {
-              font-size: 38px;
+              font-size: 3.8rem;
             }
             span:last-child {
-              margin-left: -22px;
+              margin-left: -2.2rem;
             }
           }
         }
         .public-inp-box {
           p {
-            font-size: 16px;
+            font-size: 1.6rem;
           }
           .other-in {
-            height: 38px;
-            font-size: 14px;
+            height: 3.8rem;
+            font-size: 1.4rem;
           }
           input {
-            height: 38px;
-            font-size: 14px;
+            height: 3.8rem;
+            font-size: 1.4rem;
           }
           textarea {
-            font-size: 14px;
-            height: 100px;
+            font-size: 1.4rem;
+            height: 10rem;
           }
           .ant-select {
             margin-top: 0px;
             width: 100%;
-            height: 38px;
+            height: 3.8rem;
             .ant-select-selector {
               height: 100%;
-              border-radius: 8px;
+              border-radius: 0.8rem;
               border-color: #ccc;
               .ant-select-selection-item {
                 height: 100%;
-                line-height: 34px;
-                font-size: 14px;
+                line-height: 3.4rem;
+                font-size: 1.4rem;
               }
             }
           }
         }
         .design-box {
-          margin-top: 52px;
+          margin-top: 5.2rem;
           flex-direction: column;
           .back-btn {
             left: 0;
-            top: -250px;
+            top: -25rem;
             span {
-              font-size: 30px;
+              font-size: 3rem;
             }
             span:last-child {
-              margin-left: -16px;
+              margin-left: -1.6rem;
             }
           }
           .left-menu {
@@ -752,7 +754,7 @@
                 width: auto;
                 height: auto;
                 padding: 0;
-                margin-right: 26px;
+                margin-right: 2.6rem;
                 background-color: rgba(0, 0, 0, 0) !important;
               }
               li:last-child {
@@ -764,68 +766,68 @@
             width: 100%;
             margin-top: 0px;
             .basic-box {
-              padding: 12px 24px;
+              padding: 1.2rem 2.4rem;
               border-radius: 0;
               position: relative;
-              margin-top: 4px;
+              margin-top: 0.4rem;
               z-index: 100;
               background: linear-gradient(rgba(255, 255, 255, 0.1), white);
               .up-public {
-                padding-bottom: 40px;
+                padding-bottom: 4rem;
                 .up-title {
-                  font-size: 16px;
+                  font-size: 1.6rem;
                   span {
-                    font-size: 16px;
-                    margin-right: 4px;
+                    font-size: 1.6rem;
+                    margin-right: 0.4rem;
                   }
                 }
                 .up-box {
                   .load-btn {
-                    width: 48px;
-                    height: 48px;
+                    width: 4.8rem;
+                    height: 4.8rem;
                     img {
-                      width: 26px;
-                      height: 26px;
+                      width: 2.6rem;
+                      height: 2.6rem;
                     }
                   }
                   p {
-                    font-size: 14px;
+                    font-size: 1.4rem;
                   }
                   audio {
                     width: 100%;
-                    height: 40px;
+                    height: 4rem;
                   }
                 }
               }
               .submit-btn {
-                margin-top: 36px;
-                padding-bottom: 24px;
+                margin-top: 3.6rem;
+                padding-bottom: 2.4rem;
                 button {
                   width: 100%;
-                  height: 32px;
-                  font-size: 14px;
-                  border-radius: 8px;
+                  height: 3.2rem;
+                  font-size: 1.4rem;
+                  border-radius: 0.8rem;
                 }
               }
             }
             .aigc-box {
               background: linear-gradient(rgba(255, 255, 255, 0.4), white);
-              padding-bottom: 30px;
+              padding-bottom: 3rem;
               .public-create-box {
-                padding: 12px 24px;
+                padding: 1.2rem 2.4rem;
                 background-color: rgba(0, 0, 0, 0);
                 .create-title {
-                  font-size: 16px;
+                  font-size: 1.6rem;
                   span {
-                    font-size: 14px;
+                    font-size: 1.4rem;
                   }
                 }
                 .create-remark {
-                  font-size: 12px;
+                  font-size: 1.2rem;
                 }
                 .word-box {
                   flex-direction: column;
-                  margin-top: 16px;
+                  margin-top: 1.6rem;
                   border-top: 1px solid #ccc;
                   .left-word {
                     margin-right: 0;
@@ -834,42 +836,42 @@
                     .top-tabs {
                       flex-direction: column;
                       border-radius: 0;
-                      margin-right: 12px;
-                      padding: 0 2px;
+                      margin-right: 1.2rem;
+                      padding: 0 0.2rem;
                       li {
                         border-radius: 0;
                       }
                     }
                     .word-o {
-                      margin-top: 12px;
+                      margin-top: 1.2rem;
                     }
                   }
                   .right-view {
-                    margin-top: 16px;
-                    padding: 0 24px;
+                    margin-top: 1.6rem;
+                    padding: 0 2.4rem;
                     .prompts-box {
                       .review {
-                        height: 120px;
+                        height: 12rem;
                         background-color: white;
                         p {
-                          font-size: 14px;
+                          font-size: 1.4rem;
                         }
                       }
                     }
                     .preview-box {
                       .review {
                         background-color: white;
-                        height: 160px;
+                        height: 16rem;
                       }
                     }
                     .generate-btn {
-                      margin-top: 24px;
+                      margin-top: 2.4rem;
                       button {
-                        width: 122px;
-                        height: 30px;
-                        font-size: 12px;
+                        width: 12.2rem;
+                        height: 3rem;
+                        font-size: 1.2rem;
                         padding: 0;
-                        border-radius: 8px;
+                        border-radius: 0.8rem;
                       }
                     }
                   }
@@ -878,61 +880,61 @@
               .img-create-box {
                 padding: 0;
                 .create-title {
-                  padding-top: 12px;
-                  padding-left: 24px;
+                  padding-top: 1.2rem;
+                  padding-left: 2.4rem;
                   display: none;
                 }
                 .create-remark {
-                  padding-left: 24px;
+                  padding-left: 2.4rem;
                   display: none;
                 }
               }
               .audio-create-box {
                 .public-audio-inp {
                   p {
-                    font-size: 16px;
+                    font-size: 1.6rem;
                   }
                   textarea {
-                    height: 100px;
-                    font-size: 14px;
+                    height: 10rem;
+                    font-size: 1.4rem;
                   }
                   .ant-select {
-                    margin-top: 12px;
+                    margin-top: 1.2rem;
                     width: 100%;
-                    height: 38px;
+                    height: 3.8rem;
                     .ant-select-selector {
                       height: 100%;
-                      border-radius: 8px;
+                      border-radius: 0.8rem;
                       border-color: #ccc;
                       .ant-select-selection-item {
                         height: 100%;
-                        line-height: 34px;
-                        font-size: 14px;
+                        line-height: 3.4rem;
+                        font-size: 1.4rem;
                       }
                     }
                   }
                   audio {
-                    height: 40px;
+                    height: 4rem;
                   }
                 }
                 .generate-btn {
-                  margin-top: 24px;
+                  margin-top: 2.4rem;
                   button {
-                    width: 122px;
-                    height: 30px;
-                    font-size: 12px;
+                    width: 12.2rem;
+                    height: 3rem;
+                    font-size: 1.2rem;
                     padding: 0;
-                    border-radius: 8px;
+                    border-radius: 0.8rem;
                   }
                 }
               }
               .confirm-btn {
-                padding: 0 24px;
+                padding: 0 2.4rem;
                 button {
                   width: 100%;
-                  height: 32px;
-                  border-radius: 8px;
-                  font-size: 14px;
+                  height: 3.2rem;
+                  border-radius: .8rem;
+                  font-size: 1.4rem;
                 }
               }
             }

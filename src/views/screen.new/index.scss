@@ -127,6 +127,7 @@
     }
   }
 }
+
 .ribbon-box {
   width: 100%;
   position: relative;
@@ -185,6 +186,9 @@
       animation: scrollLeft2 10s infinite linear;
     }
   }
+}
+.ribbon-cooperate{
+ display: none; 
 }
 .creator-wapper {
   margin-top: 120px;
@@ -419,7 +423,7 @@
   }
 }
 .voice-nft-new {
-  padding: 120px 0 0;
+  padding: 120px 0 20px;
   transition: 0.3s all;
   position: relative;
   audio {
@@ -565,37 +569,37 @@
     }
   }
 }
-@media screen and (max-width:1720px){
-  .screen-index-new{
+@media screen and (max-width: 1720px) {
+  .screen-index-new {
     padding: 80px;
-    .left-text{
+    .left-text {
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
-    .right-screen-banner{
-      ul{
-        li{
+    .right-screen-banner {
+      ul {
+        li {
           width: 220px;
           height: 330px;
         }
       }
     }
   }
-  .creator-wapper{
-    .list-box{
-      .no-right{
+  .creator-wapper {
+    .list-box {
+      .no-right {
         display: none;
       }
     }
   }
-  .voice-map-new{
+  .voice-map-new {
     padding: 80px;
-    .map-new-inner{
-      .right-pic{
+    .map-new-inner {
+      .right-pic {
         display: flex;
         align-items: center;
-        img{
+        img {
           width: 580px;
           height: 470px;
         }
@@ -653,6 +657,238 @@
         img {
           width: 500px;
           height: 470px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .screen-view-new {
+    .screen-index-new {
+      padding: 6rem 0;
+      flex-direction: column-reverse;
+      .left-text {
+        padding: 4rem 2.4rem;
+        .anticon {
+          font-size: 2.8rem;
+        }
+        p {
+          font-size: 4.8rem;
+          text-align: center;
+        }
+        .star-1 {
+          top: 0px;
+          left: 2.4rem;
+        }
+        .star-2 {
+          right: 2rem;
+          top: 3rem;
+          font-size: 2.4rem;
+        }
+        .star-3 {
+          top: 10rem;
+          right: 10rem;
+        }
+      }
+      .right-screen-banner {
+        height: 35rem;
+        .bottom-mask {
+          width: calc(100% + 4.8rem);
+          left: -2.4rem;
+          height: 30rem;
+        }
+        ul {
+          li {
+            width: 9.8rem;
+            height: 14.6rem;
+            margin-left: 2.4rem;
+            margin-bottom: 2.8rem;
+            border-radius: 0.8rem;
+          }
+        }
+      }
+    }
+    .ribbon-box {
+      .ribbon-public {
+        height: 6rem;
+        ul {
+          animation-duration: 6s;
+        }
+        li {
+          height: 6rem;
+          span {
+            font-size: 2.6rem;
+          }
+          p {
+            font-size: 2rem;
+          }
+        }
+      }
+    }
+    .creator-wapper {
+      margin-top: 6rem;
+      padding: 0 2.4rem;
+      .wapper-title {
+        margin-bottom: 2.4rem;
+        img {
+          width: 2.4rem;
+          height: 2.4rem;
+        }
+        font-size: 2rem;
+      }
+      ul {
+        display: none;
+        li {
+          margin-bottom: 2.4rem;
+          p {
+            font-size: 1.6rem;
+          }
+          .account-box {
+            img {
+              width: 2rem;
+              height: 2rem;
+            }
+            p {
+              font-size: 1.4rem;
+            }
+          }
+          .creator-card {
+            .nft-box {
+              width: 15.8rem;
+            }
+          }
+        }
+      }
+      ul:first-child,
+      ul:nth-child(2) {
+        display: block;
+      }
+      .mask-box {
+        bottom: 0;
+      }
+    }
+    .voice-map-new {
+      background-color: #1d1d27 !important;
+      padding: 5rem 2.4rem;
+      .map-new-inner {
+        flex-direction: column;
+        .left-msg {
+          .public-title {
+            font-size: 4.8rem;
+          }
+          ul {
+            margin-top: 4rem;
+            li {
+              margin-right: 1.6rem;
+              padding: 1.2rem;
+              width: calc(50% - 0.8rem);
+              .icon-box {
+                width: 3.2rem;
+                height: 3.2rem;
+                border-radius: 0.8rem;
+                margin-bottom: 1.6rem;
+                span {
+                  font-size: 2rem;
+                }
+              }
+              p {
+                font-size: 1.2rem;
+              }
+            }
+            li:nth-child(3) {
+              height: 17rem;
+            }
+            li:nth-child(2n) {
+              margin-right: 0;
+            }
+          }
+        }
+        .right-pic {
+          padding-top: 6rem;
+          img {
+            width: 100%;
+            height: 26.8rem;
+            margin-left: -3.2rem;
+          }
+        }
+      }
+    }
+    .build-in-new {
+      padding: 4.8rem 0;
+      padding-bottom: 6rem;
+      .public-title {
+        text-align: center;
+        font-size: 4.8rem;
+      }
+      ul {
+        margin-top: 3.8rem;
+        overflow: auto;
+        padding: 0 2.4rem;
+        li {
+          padding: 2rem;
+          min-width: 26rem;
+          .icon-box {
+            width: 4rem;
+            height: 4rem;
+            span {
+              font-size: 2.8rem;
+            }
+          }
+          p {
+            margin-top: 2rem;
+          }
+          p:last-child {
+            font-size: 1.4rem;
+            margin-top: 0.8rem;
+          }
+        }
+      }
+    }
+    .voice-nft-new {
+      background-color: #1d1d27 !important;
+      padding-top: 4rem;
+      .public-title {
+        text-align: center;
+        font-size: 4.8rem;
+      }
+      .figure-box {
+        margin-top: 7rem;
+        margin-bottom: 6rem;
+        .box-inner {
+          animation-duration: 10s;
+          ul {
+            li {
+              margin-right: 12rem;
+              .play-btn {
+                width: 15rem;
+                height: 15rem;
+                span {
+                  font-size: 4.8rem;
+                }
+              }
+              img {
+                width: 15rem;
+                height: 15rem;
+              }
+            }
+          }
+        }
+      }
+      .ribbon-box {
+        height: 6rem;
+        ul {
+          height: 100%;
+          animation-duration: 10s;
+          li {
+            height: 6rem;
+            margin: 0 2.4rem;
+            img {
+              width: 7.4rem;
+              margin: 0;
+              height: 2.8rem;
+            }
+          }
         }
       }
     }

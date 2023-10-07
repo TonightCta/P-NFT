@@ -24,7 +24,7 @@ const ListCard = (): ReactElement => {
     const [plainOptions, setPlainOptions] = useState<string[]>([]);
     const [categoryList, setCategoryList] = useState<{ category_id: number, category_name: string }[]>([]);
     const [categoryID, setCategoryID] = useState<number>(0);
-    const [status, setStatus] = useState<number>(0);
+    const [status, setStatus] = useState<number>(1);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(10);
     const [data, setData] = useState<any[]>([]);
@@ -53,7 +53,11 @@ const ListCard = (): ReactElement => {
         getCategoryList();
     }, [])
     const [sort, setSort] = useState<boolean>(false);
-    const [sortID, setSortID] = useState<number>(0);
+    const [sortID, setSortID] = useState<{ sort: number, sory_by: number, text: string }>({
+        sort: 0,
+        sory_by: 1,
+        text: 'Recently Minted'
+    });
     const [show, setShow] = useState<Show>({
         status: true,
         labels: true,
@@ -83,10 +87,10 @@ const ListCard = (): ReactElement => {
             collection_id: +(state.collection_id as string),
             category_id: categoryID,
             label_ids: labelsID,
-            sort: sortID,
+            sort: sortID.sort,
             page_size: show.filter ? 10 : 12,
             page_num: page,
-            sort_by: 1,
+            sort_by: sortID.sory_by,
             is_listed: status === 0 ? false : true
         });
         setListWait(false);
@@ -134,11 +138,37 @@ const ListCard = (): ReactElement => {
                 setSort(false)
             }}>
                 <li onClick={() => {
-                    setSortID(0)
-                }}>Time</li>
+                    setSortID({
+                        sort: 1,
+                        sory_by: 0,
+                        text: 'Price Low to High'
+                    })
+                }}>Price Low to High</li>
                 <li onClick={() => {
-                    setSortID(1)
-                }}>Price</li>
+                    setSortID({
+                        sort: 1,
+                        sory_by: 1,
+                        text: 'Price High to Low'
+                    })
+                }}>Price High to Low</li>
+                <li onClick={() => {
+                    setSortID({
+                        sort: 0,
+                        sory_by: 1,
+                        text: 'Recently Minted'
+                    })
+                }}>
+                    Recently Minted
+                </li>
+                <li onClick={() => {
+                    setSortID({
+                        sort: 0,
+                        sory_by: 0,
+                        text: 'Oldest'
+                    })
+                }}>
+                    Oldest
+                </li>
             </ul>
         </div>
     )
@@ -164,7 +194,7 @@ const ListCard = (): ReactElement => {
                 <div className="sort-box">
                     <Popover open={sort} onOpenChange={handleOpenChange} content={content} placement="bottom" trigger={['click']}>
                         <div className="sort-inner">
-                            <p>{sortID === 0 ? 'Time' : 'Price'}</p>
+                            <p>{sortID.text}</p>
                             <IconFont type="icon-xiangxia" />
                         </div>
                     </Popover>
@@ -231,7 +261,7 @@ const ListCard = (): ReactElement => {
                         ? <div className="loading-box">
                             <Spin size="large" />
                         </div>
-                        : <div>
+                        : <div className="m-w">
                             {data.length > 0 && <div className={`list-box ${!show.filter ? 'more-items' : ''}`}>
                                 {
                                     data.map((item: any, index: number) => {
@@ -241,10 +271,10 @@ const ListCard = (): ReactElement => {
                                     })
                                 }
                             </div>}
+                            {
+                                !listWait && data.length < 1 && <p className="no-data">No data</p>
+                            }
                         </div>
-                }
-                {
-                    !listWait && data.length < 1 && <p className="no-data">No data</p>
                 }
             </div>
             {<div className={`page-box ${!show.filter ? 'normal-center' : ''}`}>

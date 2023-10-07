@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import NftCard from "../../../components/nft.card";
-import { NFTMarketService } from '../../../request/api'
+import { CollectionInfoNFT } from '../../../request/api'
 import { NFTItem, Type } from "../../../utils/types";
 import { Button, Spin } from "antd";
 import IconFont from "../../../utils/icon";
@@ -14,10 +14,15 @@ const DiscoverList = (): ReactElement => {
     const navigate = useNavigate();
     const getDataList = async () => {
         setWait(true);
-        const result = await NFTMarketService({
-            chain_id: "8007736",
+        const result = await CollectionInfoNFT({
+            collection_id: 1,
+            category_id: 0,
+            label_ids: [],
+            sort: 0,
+            page_size: 20,
             page_num: 1,
-            page_size: 20
+            sort_by: 1,
+            is_listed: true
         });
         const { data } = result;
         setWait(false);

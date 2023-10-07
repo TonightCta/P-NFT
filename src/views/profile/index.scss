@@ -519,25 +519,25 @@
   .profile-view {
     width: 90%;
     overflow: hidden;
-    padding-top: 80px;
+    padding-top: 8rem;
     .up-mask {
       width: 100%;
       .setting-content {
         width: 100%;
         .profile-name-new {
-          font-size: 24px;
+          font-size: 2.4rem;
           font-family: SparkSemiBold;
         }
         .new-setting-inner {
           flex-direction: column;
           .new-set-avatar {
-            margin-bottom: 24px;
+            margin-bottom: 2.4rem;
           }
           .edit-msg {
             .public-inp {
               input {
-                height: 40px;
-                font-size: 14px;
+                height: 4rem;
+                font-size: 1.4rem;
               }
             }
           }
@@ -547,13 +547,13 @@
     .edit-msg {
       margin-right: 0;
       .profile-name {
-        font-size: 30px;
+        font-size: 3rem;
       }
       .avatar-box {
         .up-box {
           .img-box {
-            width: 120px;
-            height: 120px;
+            width: 12rem;
+            height: 12rem;
           }
         }
       }
@@ -565,14 +565,14 @@
       .outside-account {
         ul {
           li {
-            margin-top: 16px;
-            margin-right: 14px;
-            height: 34px;
+            margin-top: 1.6rem;
+            margin-right: 1.4rem;
+            height: 3.4rem;
             .icon-box {
-              width: 32px;
-              height: 32px;
-              span{
-                font-size: 16px;
+              width: 3.2rem;
+              height: 3.2rem;
+              span {
+                font-size: 1.6rem;
               }
             }
           }
@@ -582,8 +582,8 @@
     .edit-save {
       width: 100%;
       .img-box {
-        width: 100px;
-        height: 100px;
+        width: 10rem;
+        height: 10rem;
       }
       .voice-remark {
         width: 100%;
@@ -596,9 +596,9 @@
             }
           }
           .review-audio {
-            margin: 12px 0;
+            margin: 1.2rem 0;
             audio {
-              width: 300px;
+              width: 30rem;
             }
           }
         }
@@ -607,7 +607,7 @@
         width: 100%;
         .upload-bg {
           width: 100%;
-          height: 200px;
+          height: 20rem;
         }
       }
     }

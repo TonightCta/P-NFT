@@ -125,7 +125,6 @@ export const useContract = () => {
             return
         }
         return new Promise(async (resolve, reject) => {
-            console.log(_paymod,_price,_order_id)
             if (_paymod === 'PI' || _paymod === 'ETH') {
                 MARKETContract.methods.buy(_order_id).send({
                     from: owner,
@@ -134,6 +133,7 @@ export const useContract = () => {
                 }).on('receipt', (res: any) => {
                     resolve(res)
                 }).on('error', ((err: any) => {
+                    alert(JSON.stringify(err))
                     resolve(err)
                     message.error(err.message)
                 }))
@@ -276,8 +276,8 @@ export const useContract = () => {
         return result;
     }
     const balanceErc20 = async (_token_address: string) => {
-        const contract = new web3.eth.Contract(NormalABIERC20 as any, _token_address,{
-            gasPrice:gasPrice
+        const contract = new web3.eth.Contract(NormalABIERC20 as any, _token_address, {
+            gasPrice: gasPrice
         });
         const balance = await contract.methods.balanceOf(owner).call()
     }

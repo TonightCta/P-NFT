@@ -116,7 +116,7 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                                 <p>Chain<span>{info?.collection_name === 'PAI SPACE' ? 'Plian' : 'Ethereum'}</span></p>
                                 <p>Category<span>{info?.category_name}</span></p>
                             </div>
-                            <p className="unknow-text">Sci-fi collectable card game with NFTs</p>
+                            <p className="unknow-text">{info?.collection_description}</p>
                             <ListCard />
                         </div>
                     </div>}
