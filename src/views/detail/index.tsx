@@ -24,12 +24,11 @@ const DetailView = (): ReactElement<ReactNode> => {
     const [imgLoad, setImgLoad] = useState<boolean>(true);
     const [player, setPlayer] = useState<any>();
     const [ownerItem, setOwnerItem] = useState<any>({});
-    const { dispatch } = useContext(PNft);
     const { connectMetamask } = useMetamask();
     const navigate = useNavigate();
     const getNFTInfo = async () => {
         const result = await NFTInfoService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             sender: state.address,
             order_id: item.order_id
         });
@@ -98,13 +97,14 @@ const DetailView = (): ReactElement<ReactNode> => {
                         </p>
                         <p className="nft-num">{item.file_name}&nbsp;#{item.token_id}</p>
                         <p className="nft-remark public-remark" onClick={() => {
-                            dispatch({
-                                type: Type.SET_OWNER_ADDRESS,
-                                payload: {
-                                    owner_address: item.seller
-                                }
-                            });
-                            navigate('/owner')
+                            // dispatch({
+                            //     type: Type.SET_OWNER_ADDRESS,
+                            //     payload: {
+                            //         owner_address: item.seller
+                            //     }
+                            // });
+                            navigate(`/owner?address=${item.minter}`)
+                            // navigate('/owner')
                         }}>
                             <img src={ownerItem.avatar_url} alt="" />
                             Owner<span>{ownerItem.user_name}</span>
@@ -119,7 +119,18 @@ const DetailView = (): ReactElement<ReactNode> => {
                                     <p>Current price</p>
                                     <p><span>{Number(web3.utils.fromWei(item.price, 'ether')).toFixed(2)}&nbsp;{item.pay_currency_name}</span></p>
                                 </div>
-                                
+                                <div className="btn-oper">
+                                    <p>{state.address?.toUpperCase() !== item.seller.toUpperCase()}</p>
+                                    {state.address?.toUpperCase() !== item.seller.toUpperCase() && <Button onClick={async () => {
+                                        if (!state.address) {
+                                            await connectMetamask()
+                                        };
+                                        setTakeVisible(true)
+                                    }}>
+                                        <IconFont type="icon-gouwuche1_shopping-cart-one" />
+                                        Buy now
+                                    </Button>}
+                                </div>
                             </div>
                         </div>
                         <div className="msg-switch">

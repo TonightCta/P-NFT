@@ -1,5 +1,6 @@
 import ABI1155 from './abi/1155.json';
 import ABI721 from './abi/721.json'
+import { Config, NetworkConfig } from './source';
 
 interface Address {
     address_1155: string,
@@ -19,9 +20,20 @@ export interface Network {
     blockExplorerUrls: string[]
 };
 
-export const SupportID: number[] = [8007736, 10067275]
+export const SupportID: number[] = [8007736, 10067275, 1, 314, 10, 167005]
 export const SupportNetwork: Network[] = [
     //Child chain
+    {
+        chain_id: 1,
+        chain_name: 'Ethereum',
+        nativeCurrency: {
+            name: 'ETH',
+            symbol: 'ETH',
+            decimals: 18
+        },
+        rpcUrls: ['https://ethereum.publicnode.com'],
+        blockExplorerUrls: ['https://etherscan.io']
+    },
     {
         chain_id: 8007736,
         chain_name: 'Plian Mainnet Subchain 1',
@@ -34,16 +46,38 @@ export const SupportNetwork: Network[] = [
         blockExplorerUrls: ['https://piscan.plian.org/index.html']
     },
     {
-        chain_id: 10067275,
-        chain_name: 'Plian Testnet Subchain 1',
+        chain_id: 314,
+        chain_name: 'Filecoin',
         nativeCurrency: {
-            name: 'TPI',
-            symbol: 'TPI',
+            name: 'FIL',
+            symbol: 'FIL',
             decimals: 18
         },
-        rpcUrls: ['https://testnet.plian.io/child_test'],
-        blockExplorerUrls: ['https://piscan.plian.org/index.html']
+        rpcUrls: ['https://api.node.glif.io/'],
+        blockExplorerUrls: ['https://explorer.glif.io/']
     },
+    {
+        chain_id: 10,
+        chain_name: 'OP Mainnet',
+        nativeCurrency: {
+            name: 'ETH',
+            symbol: 'ETH',
+            decimals: 18
+        },
+        rpcUrls: ['https://optimism.publicnode.com'],
+        blockExplorerUrls: ['https://optimistic.etherscan.io']
+    },
+    // {
+    //     chain_id: 10067275,
+    //     chain_name: 'Plian Testnet Subchain 1',
+    //     nativeCurrency: {
+    //         name: 'TPI',
+    //         symbol: 'TPI',
+    //         decimals: 18
+    //     },
+    //     rpcUrls: ['https://testnet.plian.io/child_test'],
+    //     blockExplorerUrls: ['https://piscan.plian.org/index.html']
+    // },
     {
         chain_id: 167005,
         chain_name: 'Taiko Testnet',
@@ -93,3 +127,7 @@ export const DateConvert = (_time: number): string => {
     const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
     return `${month}/${day}/${year}`
 };
+
+export const FilterAddress = (chain_id: string) => {
+    return NetworkConfig.filter((item: Config) => { return item.chain_id === chain_id })[0]
+}

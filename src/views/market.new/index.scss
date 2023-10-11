@@ -475,6 +475,24 @@
     overflow: hidden;
   }
 }
+@media screen and (max-width:1660px){
+  .market-view-new {
+    .content-box {
+      .list-card {
+        .data-box {
+          .list-box {
+            .inner-card {
+              margin-right: 26px;
+              .nft-box {
+                height: 180px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 1440px) {
   .filter-box-data {
     width: 100%;

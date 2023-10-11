@@ -1,8 +1,7 @@
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useState } from "react";
 import './index.scss'
-import { NFTItem, Type, web3 } from "../../utils/types";
+import { NFTItem, web3 } from "../../utils/types";
 import { calsAddress } from "../../utils";
-import { PNft } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { Spin } from "antd";
 import IconFont from "../../utils/icon";
@@ -12,7 +11,6 @@ interface Props {
 }
 
 const NftCard = (props: Props): ReactElement => {
-    const { dispatch } = useContext(PNft);
     const [item, setItem] = useState<NFTItem>({
         ...props.info,
         play: false
@@ -21,13 +19,13 @@ const NftCard = (props: Props): ReactElement => {
     const [player, setPlayer] = useState<any>();
     return (
         <div className="nft-card" onClick={() => {
-            dispatch({
-                type: Type.SET_INFO_ID,
-                payload: {
-                    info_id: String(props.info.fid)
-                }
-            });
-            navigate('/detail')
+            // dispatch({
+            //     type: Type.SET_INFO_ID,
+            //     payload: {
+            //         info_id: String(props.info.fid)
+            //     }
+            // });
+            navigate(`/detail?fid=${props.info.fid}`)
         }}>
             <div className="nft-msg">
                 <img src={props.info.file_image_minio_url ? props.info.file_image_minio_url : props.info.image_minio_url} alt="" />

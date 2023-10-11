@@ -5,10 +5,11 @@ import ABIERC20 from './abi/erc20.json'
 import NormalABIERC20 from './abi/normal_erc20.json'
 import ABISBT from './abi/sbt.json'
 import { message } from "antd"
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import * as Address from "./source"
-import { calsMarks } from "."
+import { FilterAddress, calsMarks } from "."
 import { useSwitchChain } from "../hooks/chain"
+import { PNft } from "../App"
 
 
 interface Send {
@@ -21,7 +22,7 @@ export const MODE: string = process.env.REACT_APP_CURRENTMODE as string;
 
 export const NFTAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? Address.PlianContractAddress721Main : Address.PlianContractAddress721Test;
 export const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? Address.PlianContractAddressMarketMain : Address.PlianContractAddressMarketTest;
-const Fee: string = LAND === 'taiko' ? web3.utils.toWei('0.01', "ether") : MODE === 'production' ? web3.utils.toWei('0.4', "ether") : '0'
+// const Fee: string = LAND === 'taiko' ? web3.utils.toWei('0.01', "ether") : MODE === 'production' ? web3.utils.toWei('0.4', "ether") : '0'
 const Gas: string = LAND === 'taiko' ? '420000' : '7000000'
 
 export const useContract = () => {
@@ -31,6 +32,7 @@ export const useContract = () => {
     const [MARKETContract, setMARKETContract] = useState<any>();
     const [SBTContract, setSBTContract] = useState<any>();
     const { switchC } = useSwitchChain();
+    const { state } = useContext(PNft);
     const owner: string = ethereum ? ethereum.selectedAddress : '';
     const send: Send = {
         from: owner,
@@ -43,10 +45,12 @@ export const useContract = () => {
     };
     const init = async () => {
         await cals();
+        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
+        const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? FilterAddress(state.chain as string).contract_market : FilterAddress(state.chain as string).contract_market_test;
         setNFTContract(new web3.eth.Contract(ABI721 as any, NFTAddress, {
             gasPrice: gasPrice
         }));
-        setERC20Contract(new web3.eth.Contract(ABIERC20 as any, LAND === 'taiko' ? Address.TaikoContractAddressERC20Test : Address.PlianContractERC20Test, {
+        setERC20Contract(new web3.eth.Contract(ABIERC20 as any, FilterAddress(state.chain as string).contract_erc20, {
             gasPrice: gasPrice
         }));
         setMARKETContract(new web3.eth.Contract(ABIMarket as any, MarketAddress, {
@@ -58,13 +62,15 @@ export const useContract = () => {
     };
     useEffect(() => {
         init();
-    }, [])
+    }, [state.chain])
     //铸币
     const mint = async (_data_ipfs: string) => {
         if (!ethereum) {
             message.error('You need to install Metamask to use this feature');
             return
         }
+        const Gas: string = LAND === 'taiko' ? '420000' : `${state.chain === '8007736' && '7000000' || state.chain === '314' && '20000000' || state.chain === '10' && '15000000'}`
+        const Fee: string = LAND === 'taiko' ? web3.utils.toWei('0.01', "ether") : MODE === 'production' ? web3.utils.toWei(`${state.chain === '8007736' && '0.4' || state.chain === '10' && '0.0001' || '0.01'}`, "ether") : '0'
         return new Promise((resolve, reject) => {
             NFTContract.methods.mint(ethereum.selectedAddress, _data_ipfs).send({
                 from: owner,
@@ -75,6 +81,7 @@ export const useContract = () => {
                     resolve(res)
                 }).on('error', ((err: any) => {
                     resolve(err)
+                    console.log(err)
                     message.error(err.message)
                 }))
         })
@@ -85,8 +92,9 @@ export const useContract = () => {
             message.error('You need to install Metamask to use this feature');
             return
         }
-        await switchC(8007736);
+        await switchC(+(state.chain as string));
         const total = await NFTContract.methods.balanceOf(ethereum.selectedAddress).call();
+        console.log(total)
         const actions = []
         let getInfo = async (index: number) => {
             try {
@@ -108,7 +116,7 @@ export const useContract = () => {
     const approveToken = async () => {
         return new Promise((resolve, reject) => {
             ERC20Contract.methods.approve(
-                calsMarks(LAND === 'taiko' ? Address.TaikoContractAddressMarketTest : Address.PlianContractAddressMarketTest),
+                calsMarks(FilterAddress(state.chain as string).contract_erc20),
                 "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
             ).send(send).on('receipt', (res: any) => {
                 resolve(res)
@@ -133,7 +141,6 @@ export const useContract = () => {
                 }).on('receipt', (res: any) => {
                     resolve(res)
                 }).on('error', ((err: any) => {
-                    alert(JSON.stringify(err))
                     resolve(err)
                     message.error(err.message)
                 }))
@@ -156,6 +163,7 @@ export const useContract = () => {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         }
+        const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? FilterAddress(state.chain as string).contract_market : FilterAddress(state.chain as string).contract_market_test;
         return new Promise(async (resolve, reject) => {
             NFTContract.methods.approve(MarketAddress, _token_id).send(LAND === 'taiko' ? {
                 from: owner,
@@ -175,6 +183,7 @@ export const useContract = () => {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         }
+        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         return new Promise((resolve, reject) => {
             MARKETContract.methods.list(
                 calsMarks(NFTAddress),
@@ -248,6 +257,7 @@ export const useContract = () => {
             message.error('You need to install Metamask to use this feature');
             return 0
         }
+        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         const NFTContractInner = new web3.eth.Contract(ABI721 as any, NFTAddress, {
             gasPrice: gasPrice
         })
@@ -260,6 +270,7 @@ export const useContract = () => {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         }
+        console.log(NFTContract)
         const approve = await NFTContract.methods.getApproved(_token_id).call();
         return approve
     }

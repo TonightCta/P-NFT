@@ -9,6 +9,7 @@ import { MFTOffService } from "../../../request/api";
 import { PNft } from "../../../App";
 import FixedModal from "../../detail/components/fixed.price";
 import EditWorkModal from "./edit.work";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
     uploadSell: () => void,
@@ -23,6 +24,7 @@ const NewNFTCard = (props: Props): ReactElement => {
         ...props.item,
         play: false
     });
+    const [searchParams, setSearchParams] = useSearchParams();
     const { state } = useContext(PNft);
     const { takeOff } = useContract();
     const [workBox, setWorkBox] = useState<boolean>(false);
@@ -36,13 +38,13 @@ const NewNFTCard = (props: Props): ReactElement => {
         })
     }, [props.item])
     const confirm = async () => {
-        await switchC(Number(process.env.REACT_APP_CHAIN))
+        await switchC(+(state.chain as string))
         const hash: any = await takeOff(+item.order_id);
         if (!hash || hash.message) {
             return
         };
         const maker = await MFTOffService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             sender: state.address,
             tx_hash: hash['transactionHash']
         });
@@ -57,33 +59,40 @@ const NewNFTCard = (props: Props): ReactElement => {
     return (
         <div className="new-nft-card">
             <div className="nft-box">
-                <img src={props.item.file_image_ipfs} alt="" />
+                <img src={props.item.image_minio_url} alt="" />
                 {
-                    state.address === state.owner_address &&
+                    state.address === searchParams.get('address') &&
                     <div>
                         {props.type === 1
-                            ? <Popconfirm
-                                title="Take off the shelves"
-                                description="Are you sure to take off the shelves?"
-                                onConfirm={confirm}
-                                okText="Yes"
-                                cancelText="No"
-                            >
-                                <Button className="up-top">
-                                    <IconFont type="icon-anzhuang_install" />
-                                    Take Off
-                                </Button>
-                            </Popconfirm>
-                            : <Button type="primary" className="sell-btn" onClick={() => {
-                                setFixedVisible(true)
-                            }}>
-                                <FlagOutlined />
-                                Sell
-                            </Button>
+                            ? <>
+                                {
+                                    props.item.for_unsale &&  <Popconfirm
+                                        title="Take off the shelves"
+                                        description="Are you sure to take off the shelves?"
+                                        onConfirm={confirm}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <Button className="up-top">
+                                            <IconFont type="icon-anzhuang_install" />
+                                            Take Off
+                                        </Button>
+                                    </Popconfirm>
+                                }
+                            </>
+                            : <>
+                                {
+                                    props.item.for_sale && <Button type="primary" className="sell-btn" onClick={() => {
+                                        setFixedVisible(true)
+                                    }}>
+                                        <FlagOutlined />
+                                        Sell
+                                    </Button>
+                                }
+                            </>
                         }
                     </div>
                 }
-
                 {props.item.file_voice_minio_url && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
                     if (item.play) {
@@ -111,7 +120,7 @@ const NewNFTCard = (props: Props): ReactElement => {
                             : <IconFont type="icon-play-fill" />
                     }
                 </div>}
-                {state.address === state.owner_address && <Tooltip title="Contest submit">
+                {state.address === searchParams.get('address') && props.item.for_competetion && <Tooltip title="Contest submit">
                     <Button className="submit-btn" onClick={() => {
                         setWorkID(props.item.token_id);
                         setWorkBox(true);
@@ -120,14 +129,14 @@ const NewNFTCard = (props: Props): ReactElement => {
                     </Button>
                 </Tooltip>}
             </div>
-            <p className="coll-name">Pai Space</p>
+            <p className="coll-name">{props.item.collection_name}</p>
             <div className="nft-msg">
                 <p>{props.item.file_name}&nbsp;#{props.item.token_id}</p>
                 {props.type === 1 && <p className="nft-price">{web3.utils.fromWei(props.item.price as string, 'ether')}&nbsp;{props.item.pay_currency_name}</p>}
             </div>
-            <FixedModal upRefresh={() => {
+            <FixedModal chain={props.item.chain_id} upRefresh={() => {
                 props.upload && props.upload();
-            }} sell visible={fixedVisible} image={item.file_image_ipfs} id={item.token_id} closeModal={(val: boolean) => {
+            }} sell visible={fixedVisible} image={item.image_minio_url} id={item.token_id} closeModal={(val: boolean) => {
                 setFixedVisible(val);
             }} />
             <EditWorkModal visible={workBox} work_id={workID} closeModal={(val: boolean) => {

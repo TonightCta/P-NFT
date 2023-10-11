@@ -7,11 +7,11 @@ import MsgCard from "./components/msg.card";
 import TradeHistory from "./components/trade.history";
 import FooterNew from "../screen.new/components/footer.new";
 import { NFTInfo, CollectionInfo } from '../../request/api'
-import { Type, web3 } from "../../utils/types";
+import { web3 } from "../../utils/types";
 import BuyNFTsModal from "../detail/components/buy.nft";
-import { useNavigate } from "react-router-dom";
-import { PlianContractAddress721Main } from "../../utils/source";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSwitchChain } from "../../hooks/chain";
+import { FilterAddress } from "../../utils";
 
 interface Info {
     image_minio_url: string,
@@ -42,6 +42,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
     const [imgLoad, setImgLoad] = useState<boolean>(true);
     const { switchC } = useSwitchChain();
     const [collInfo, setCollInfo] = useState<CollInfo>()
+    const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const [info, setInfo] = useState<Info | any>({
         price: '0'
@@ -50,7 +51,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
     const getInfo = async () => {
         setLoading(true);
         const result = await NFTInfo({
-            fid: +(state.info_id as string),
+            fid: +(searchParams.get('fid') as string),
         });
         setLoading(false);
         const { data } = result;
@@ -58,7 +59,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
         const cc = await CollectionInfo({
             collection_id: data.collection_id,
             chain_id: '1',
-            contract_address: PlianContractAddress721Main
+            contract_address: FilterAddress(state.chain as string).contract_721
         });
         setCollInfo(cc.data)
     }
@@ -96,13 +97,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             </div>
                             <p className="nft-name">{info?.file_name}&nbsp;#{info?.token_id}</p>
                             <div className="owner-msg" onClick={() => {
-                                dispatch({
-                                    type: Type.SET_OWNER_ADDRESS,
-                                    payload: {
-                                        owner_address: info.seller
-                                    }
-                                });
-                                navigate('/owner')
+                                navigate(`/owner?address=${info.seller}`)
                             }}>
                                 <img src={info?.seller_avatar_url ? info?.seller_avatar_url : info?.minter_avatar_url} alt="" />
                                 <p>Owner<span>{info?.seller_name ? info?.seller_name : info?.minter_name}</span></p>
@@ -126,7 +121,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 </div>
                                 <p className="buy-btn">
                                     {state.address?.toUpperCase() !== info?.seller.toUpperCase() && <Button type="primary" onClick={async () => {
-                                        await switchC(8007736);
+                                        await switchC(+(state.chain as string));
                                         setTakeVisible(true);
                                     }}>
                                         <IconFont type="icon-gouwuche1_shopping-cart-one" />

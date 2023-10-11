@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { PNft } from "../App";
 import { Network, SupportNetwork } from "../utils";
-import { ethereum } from "../utils/types";
+import { Type, ethereum } from "../utils/types";
 import { message } from "antd";
 
 // Switch public chain
 export const useSwitchChain = () => {
-    const { state } = useContext(PNft);
+    const { state, dispatch } = useContext(PNft);
     const switchInner = async (chain_id: number): Promise<void> => {
         const withChainID: any = SupportNetwork.filter((item: Network) => {
             return item.chain_id === chain_id
@@ -16,6 +16,12 @@ export const useSwitchChain = () => {
                 method: "wallet_switchEthereumChain",
                 params: [{ chainId: state.web3.utils.toHex(chain_id) }],
             });
+            dispatch({
+                type: Type.SET_CHAIN,
+                payload: {
+                    chain: String(chain_id)
+                }
+            })
             return result
         } catch (error: any) {
             const add = async () => {
@@ -41,6 +47,12 @@ export const useSwitchChain = () => {
                         method: "wallet_switchEthereumChain",
                         params: [{ chainId: state.web3.utils.toHex(chain_id) }],
                     });
+                    dispatch({
+                        type: Type.SET_CHAIN,
+                        payload: {
+                            chain: String(chain_id)
+                        }
+                    })
                 } catch (addError) {
                     // handle "add" error
                 }

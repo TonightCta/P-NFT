@@ -335,6 +335,7 @@
   .coll-name {
     margin-top: 42px;
     font-size: 20px;
+    line-height: 24px;
     color: #0d0d0d;
     text-align: left;
     font-family: SparkTextNew;
@@ -362,6 +363,7 @@
 }
 .no-more {
   color: #686a6c;
+  font-size: 16px;
 }
 .conponenst-gater {
   padding-bottom: 20px;
@@ -482,6 +484,24 @@
     }
   }
 }
+@media screen and (max-width: 1660px) {
+  .owner-view {
+    .owner-inner {
+      .inner-data {
+        .conponenst-gater {
+          .list-item {
+            .new-nft-card{
+              width: 17.5%;
+            }
+            .nft-box {
+              height: 200px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 1440px) {
   .owner-view {
     .owner-inner {
@@ -497,6 +517,9 @@
       .inner-data {
         .conponenst-gater {
           .list-item {
+            .new-nft-card{
+              width: 18%;
+            }
             .nft-box {
               height: 200px;
             }

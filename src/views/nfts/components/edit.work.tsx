@@ -1,10 +1,9 @@
-import { CheckOutlined } from "@ant-design/icons";
 import { Button, Modal, Spin, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { CompetitionList, SubmitCompetition } from '../../../request/api'
-import { PlianContractAddress721Main } from "../../../utils/source";
 import { PNft } from "../../../App";
 import { LOCAL } from "../../contest";
+import { FilterAddress } from "../../../utils";
 
 interface Props {
     visible: boolean,
@@ -61,8 +60,8 @@ const EditWorkModal = (props: Props): ReactElement => {
             });
             const params = {
                 competition_id: comID,
-                chain_id: "8007736",
-                contract_address: PlianContractAddress721Main,
+                chain_id: state.chain,
+                contract_address: FilterAddress(state.chain as string).contract_721,
                 token_id: props.work_id,
                 sender: state.address
             };

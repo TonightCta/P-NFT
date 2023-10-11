@@ -18,7 +18,8 @@ export interface State {
     owner_address?:string,
     info_id?:string,
     collection_id?:string,
-    contest_id?:string
+    contest_id?:string,
+    chain?:string
 }
 
 export interface IResponse {
@@ -30,6 +31,7 @@ export interface IResponse {
 }
 
 export enum Type {
+    SET_CHAIN = 'set_chain',
     SET_ADDRESS = 'set_address',
     SET_SCREEN_INDEX = 'set_screen_index',
     SET_CARD = 'set_card',
@@ -75,5 +77,10 @@ export interface NFTItem {
     fid:number,
     seller_avatar_url:string,
     pay_currency_name:string,
-    image_minio_url:string
+    image_minio_url:string,
+    for_sale:boolean,
+    for_unsale:boolean,
+    for_competetion:boolean,
+    chain_id:string,
+    collection_name:string
 }

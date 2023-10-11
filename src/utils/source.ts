@@ -449,6 +449,69 @@ export const Model: Model[] = [
     }
 ]
 
+export interface Config {
+    chain_id:string,
+    contract_721:string,
+    contract_721_test:string,
+    contract_market:string,
+    contract_market_test:string,
+    contract_erc20:string,
+    chain_name:string,
+    chain_logo:string
+};
+
+export const NetworkConfig :Config[]= [
+    {
+        chain_id:'8007736',
+        chain_name:'Plian',
+        chain_logo:require('../assets/images/plian.logo.png'),
+        contract_721:'0xa2822ac2662fe0cbf470d5721e24f8508ec43d33',
+        contract_721_test:'0x6B2793D4024bC3A9505133c0649e194488be1a47',
+        contract_market:'0x286d1ae7c43c5ea3c7bbee601d9c1af875f5c50e',
+        contract_market_test:'0xEDC36347d13f7838edCC3f760908c0Cf06C3aCF8',
+        contract_erc20:'0xFcb06A1a2E8834Fe9E0b49F533E14AB6384f74AC'
+    },
+    {
+        chain_id:'1',
+        chain_name:'Ethereum',
+        chain_logo:require('../assets/images/eth.logo.png'),
+        contract_721:'0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
+        contract_721_test:'0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
+        contract_market:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+        contract_market_test:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+        contract_erc20:'0x6302744962a0578e814c675b40909e64d9966b0d'
+    },
+    // {
+    //     chain_id:'167005',
+    //     chain_name:'Takio',
+    //     contract_721:'0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
+    //     contract_721_test:'0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
+    //     contract_market:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+    //     contract_market_test:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+    //     contract_erc20:'0x6302744962a0578e814c675b40909e64d9966b0d'
+    // },
+    {
+        chain_id:'314',
+        chain_name:'Filecoin',
+        chain_logo:require('../assets/images/fil.logo.png'),
+        contract_721:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+        contract_721_test:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+        contract_market:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+        contract_market_test:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+        contract_erc20:'0x6302744962a0578e814c675b40909e64d9966b0d'
+    },
+    {
+        chain_id:'10',
+        chain_name:'Optimism',
+        chain_logo:require('../assets/images/op.logo.png'),
+        contract_721:'0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
+        contract_721_test:'0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
+        contract_market:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+        contract_market_test:'0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+        contract_erc20:'0x6302744962a0578e814c675b40909e64d9966b0d'
+    }
+] 
+
 export const PlianContractAddress721Main: string = "0xa2822ac2662fe0cbf470d5721e24f8508ec43d33";
 export const PlianContractAddressMarketMain: string = "0x286d1ae7c43c5ea3c7bbee601d9c1af875f5c50e";
 export const PlianContractAddress721Test: string = "0x6B2793D4024bC3A9505133c0649e194488be1a47";

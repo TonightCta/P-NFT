@@ -3,6 +3,7 @@ import { web3 } from "../utils/types";
 
 export const defaultState: State = {
     web3: web3,//Global web3 object
+    chain: sessionStorage.getItem('chain') || '8007736',
     address: sessionStorage.getItem('address') || null,//Current connection address
     screen_index: Number(sessionStorage.getItem('screen_index')) || 0,
     card: JSON.parse(sessionStorage.getItem('card') || '{}'),
@@ -56,6 +57,9 @@ export const initState = (state: State, action: IAction) => {
         case Type.SET_CONTEST_ID:
             sessionStorage.setItem('contest_id', payload.contest_id as string);
             return { ...state, contest_id: payload.contest_id }
+        case Type.SET_CHAIN:
+            sessionStorage.setItem('chain', payload.chain as string);
+            return { ...state, chain: payload.chain }
         default:
             return state;
     }

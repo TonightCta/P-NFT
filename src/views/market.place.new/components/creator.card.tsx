@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import { calsAddress } from "../../../utils";
 import { flag } from "../../../utils/source";
+import { useNavigate } from "react-router-dom";
 
 interface Data {
     img_urls: { minio_url: string }[],
@@ -20,6 +21,7 @@ const CreatorCard = (): ReactElement => {
     const [swiperRef, setSwiperRef] = useState<any>(null);
     const [wait, setWait] = useState<boolean>(false);
     const [data, setData] = useState<[]>([]);
+    const navigate = useNavigate();
     const getDataList = async () => {
         setWait(true)
         const result = await MintRankService({
@@ -77,12 +79,14 @@ const CreatorCard = (): ReactElement => {
                         data.map((item: Data, index: number) => {
                             return (
                                 <SwiperSlide key={index}>
-                                    <div className="creator-inner">
+                                    <div className="creator-inner" onClick={() => {
+                                        navigate(`/owner?address=${item.minter}`)
+                                    }}>
                                         <div className="img-box">
                                             <div className="img-outside">
                                                 <img src={item.img_urls[0]?.minio_url} alt="" />
                                                 <div className="loading-box-public">
-                                                    <Spin/>
+                                                    <Spin />
                                                 </div>
                                             </div>
                                             <div className="img-list">

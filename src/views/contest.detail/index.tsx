@@ -126,13 +126,14 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                                 </div>
                             }
                             <Button type="primary" onClick={() => {
-                                dispatch({
-                                    type: Type.SET_OWNER_ADDRESS,
-                                    payload: {
-                                        owner_address: state.address as string
-                                    }
-                                });
-                                navigate('/owner')
+                                // dispatch({
+                                //     type: Type.SET_OWNER_ADDRESS,
+                                //     payload: {
+                                //         owner_address: state.address as string
+                                //     }
+                                // });
+                                // navigate('/owner')
+                                navigate(`/owner?address=${state.address}`)
                             }}>Submit your work</Button>
                         </div>
                     </div>

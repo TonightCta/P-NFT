@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { Type, ethereum } from "./types";
+import { Type, ethereum, web3 } from "./types";
 import { useContext, useEffect } from "react";
 import { PNft } from "../App";
 import { ProfileService, QueryFile } from "../request/api";
@@ -33,7 +33,12 @@ export const useMetamask = () => {
                 }
             });
             ethereum.on('chainChanged', (res: any) => {
-                // console.log(res)
+                dispatch({
+                    type: Type.SET_CHAIN,
+                    payload: {
+                        chain: String(web3.utils.hexToNumber(res))
+                    }
+                });
             });
         }, 200)
     }, []);

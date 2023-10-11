@@ -34,7 +34,7 @@ const CollectionCard = (): ReactElement => {
     const getDataList = async () => {
         setWait(true)
         const result = await CollectionList({
-            page_size: 2
+            page_size: 4
         });
         const { data } = result;
         setWait(false);

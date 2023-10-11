@@ -10,7 +10,7 @@ const TabList = (): ReactElement => {
     const [data, setData] = useState<any[]>([]);
     const logsListFN = async () => {
         const result = await NFTLogsService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             contract_address: state.card.contract_address,
             token_id: state.card.token_id,
             page_size: 200,

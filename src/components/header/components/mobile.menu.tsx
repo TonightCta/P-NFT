@@ -84,7 +84,7 @@ const MobileMenu = (props: Props): ReactElement => {
                     {state.address && <div className="account-msg" onClick={() => {
                         setVisible(false);
                         props.close(false);
-                        navigate('/owner')
+                        navigate(`/owner?address=${state.address}`)
                     }}>
                         <div className="left-msg">
                             <p>{state.account.user_name ? state.account.user_name : 'unknow'}</p>

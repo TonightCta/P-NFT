@@ -1,17 +1,18 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { Pagination } from 'antd';
 import { NFTLogsService } from '../../../request/api';
-import { PNft } from "../../../App";
 import { web3 } from "../../../utils/types";
 import { calsAddress } from "../../../utils";
 import IconFont from "../../../utils/icon";
 import { flag } from "../../../utils/source";
+import { PNft } from "../../../App";
 
 const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string,price:string,pay_currency_name:string}): ReactElement => {
     const [data, setData] = useState<any[]>([]);
+    const { state } = useContext(PNft);
     const logsListFN = async () => {
         const result = await NFTLogsService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             contract_address: props.address,
             token_id: props.tokenID,
             page_size: 200,

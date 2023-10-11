@@ -6,13 +6,15 @@ import { useMediaRecorder } from "../../../hooks/record";
 import Recording from "../../voice.nft/components/recording";
 import { Input } from "..";
 import axios from "axios";
-import { NFTAddress, useContract } from "../../../utils/contract";
-import { Type, ethereum } from "../../../utils/types";
+import { LAND, MODE, NFTAddress, useContract } from "../../../utils/contract";
+import { ethereum } from "../../../utils/types";
 import { NFTMintService, UploadFileService } from "../../../request/api";
 import { PNft } from "../../../App";
 import { useMetamask } from "../../../utils/metamask";
 import { useSwitchChain } from "../../../hooks/chain";
 import { useNavigate } from "react-router-dom";
+import * as Address from '../../../utils/source'
+import { FilterAddress } from "../../../utils";
 
 const BasicBox = (props: { info: Input }): ReactElement => {
     const { audioFile, mediaUrl, startRecord, stopRecord } = useMediaRecorder();
@@ -68,6 +70,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         return result.data;
     };
     const submitMint = async () => {
+        await switchC(+props.info.chain)
         const balance = await getBalance();
         const numberBalance: number = +balance / 1e18;
         if (numberBalance <= 0) {
@@ -78,7 +81,6 @@ const BasicBox = (props: { info: Input }): ReactElement => {
             await connectMetamask();
             return
         }
-        await switchC(Number(process.env.REACT_APP_CHAIN))
         if (!props.info.name) {
             message.error('Please enter the name');
             return
@@ -113,7 +115,8 @@ const BasicBox = (props: { info: Input }): ReactElement => {
             return
         };
         const formData = new FormData();
-        formData.append('chain_id', process.env.REACT_APP_CHAIN as string);
+        formData.append('chain_id', props.info.chain);
+        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');
         formData.append('sender', ethereum.selectedAddress);
@@ -135,13 +138,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         }
         message.success('Mint Successfully!');
         setWait(false);
-        dispatch({
-            type: Type.SET_OWNER_ADDRESS,
-            payload: {
-                owner_address: state.address as string
-            }
-        })
-        navigate('/owner')
+        navigate(`/owner?address=${state.address}`)
     }
     return (
         <div className="basic-box">

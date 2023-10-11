@@ -58,14 +58,14 @@ const MobileMenuDraw = (props: Props): ReactElement => {
                                     return (
                                         <li key={`${index} - token`} onClick={() => {
                                             if (item.url === '/owner') {
-                                                dispatch({
-                                                    type: Type.SET_OWNER_ADDRESS,
-                                                    payload: {
-                                                        owner_address: state.address as string
-                                                    }
-                                                });
-                                            };
-                                            navigate(item.url);
+                                                // dispatch({
+                                                //     type: Type.SET_OWNER_ADDRESS,
+                                                //     payload: {
+                                                //         owner_address: state.address as string
+                                                //     }
+                                                // });
+                                            navigate(`/owner?address=${state.address}`)
+                                        };
                                             onClose();
                                         }}>
                                             <p>{item.name}</p>

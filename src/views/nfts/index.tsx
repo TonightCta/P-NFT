@@ -1,14 +1,11 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
-import CardItem from "../market/components/item.card";
 import { Pagination, Spin } from 'antd'
-import { NFTOwnerService } from '../../request/api'
-import { NFTItem, Type } from "../../utils/types";
-import { useContract } from "../../utils/contract";
-import axios from "axios";
+import { NFTOwnerService, WalletNFT } from '../../request/api'
+import { NFTItem } from "../../utils/types";
 import OwnerCard from "./components/owner.card";
 import { SettingOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import MaskCard from "../../components/mask";
 import { PNft } from "../../App";
 import { VERSION } from "../../utils/source";
@@ -19,21 +16,21 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const [activeTop, setActiveTop] = useState<number>(0);
     const navigate = useNavigate();
     const [list, setList] = useState<NFTItem[]>([]);
+    const [searchParams, setSearchParams] = useSearchParams();
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
     const [itemList, setItemList] = useState<NFTItem[]>([])
-    const { queryOwner } = useContract();
     const { state } = useContext(PNft);
     const [otherBg, setOtherBG] = useState<string>('1');
     const [loadingBg, setLoadingBg] = useState<boolean>(true);
-    const { dispatch } = useContext(PNft);
     //On Sle
     const saleListFN = async () => {
         setLoading(true);
-        const result = await NFTOwnerService({
-            chain_id: process.env.REACT_APP_CHAIN,
-            address: state.owner_address,
+        const result = await WalletNFT({
+            chain_id: state.chain,
+            is_onsale: true,
+            address: searchParams.get('address'),
             page_size: 12,
             page_num: page
         });
@@ -42,12 +39,12 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         if (status !== 200) {
             return
         };
-        setTotal(data.data.total)
-        if (!data.data.item) {
+        setTotal(data.total)
+        if (!data.item) {
             setList([]);
             return
         };
-        const filter = data.data.item.map((item: any) => {
+        const filter = data.item.map((item: any) => {
             return item = {
                 ...item,
                 load: true,
@@ -57,32 +54,51 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         setList(filter);
     };
     const loadMoreData = () => {
-        saleListFN()
+        activeTop === 0 ? saleListFN() : itemQuery();
     };
     const itemQuery = async () => {
         setLoading(true);
-        const result: any = await queryOwner();
-        setTotal(result.length);
-        const now: NFTItem[] = [];
-        result.forEach(async (e: any) => {
-            const detail = await axios.get(e.tokenURI);
-            const params = {
-                ...e,
-                file_image_ipfs: detail.data.image,
-                file_voice_ipfs: detail.data.external_url,
-                token_id: +e.id,
-                file_name: detail.data.name,
-                load: true,
-                play: false
-            };
-            now.push(params);
-            setItemList([...now])
+        const result: any = await WalletNFT({
+            chain_id: state.chain,
+            address: searchParams.get('address'),
+            is_onsale: false,
+            page_size: 12,
+            page_num: page
         });
+        setLoading(false);
+        const { data } = result;
+        setTotal(data.total)
+        if (!data.item) {
+            setList([]);
+            return
+        };
+        const filter = data.item.map((item: any) => {
+            return item = {
+                ...item,
+                load: true,
+                off: true,
+            }
+        });
+        setItemList(filter)
+        // const now: NFTItem[] = [];
+        // result.forEach(async (e: any) => {
+        //     const detail = await axios.get(e.tokenURI);
+        //     const params = {
+        //         ...e,
+        //         file_image_ipfs: detail.data.image,
+        //         file_voice_ipfs: detail.data.external_url,
+        //         token_id: +e.id,
+        //         file_name: detail.data.name,
+        //         load: true,
+        //         play: false
+        //     };
+        //     now.push(params);
+        // });
         setLoading(false);
     }
     useEffect(() => {
         loadMoreData();
-    }, [state.owner_address, page]);
+    }, [searchParams.get('address'), page, state.chain]);
     const selectTop = (_type: number) => {
         // switch (_type) {
         //     case 0:
@@ -103,19 +119,9 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         _type === 0 ? saleListFN() : itemQuery();
     };
     const calsBG = () => {
-        const bol = state.owner_address === state.address;
+        const bol = searchParams.get('address') === state.address;
         return bol ? state.account.bgimage_url : otherBg;
     }
-    useEffect(() => {
-        return () => {
-            dispatch({
-                type: Type.SET_OWNER_ADDRESS,
-                payload: {
-                    owner_address: ''
-                }
-            });
-        }
-    }, [])
     return (
         <div className="owner-view">
             {VERSION === 'old' && <MaskCard />}
@@ -133,7 +139,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         setOtherBG(_url);
                     }} />
                     <div className="inner-data">
-                        {state.owner_address === state.address && VERSION === 'old' && <div className="set-btn" onClick={() => {
+                        {searchParams.get('address') === state.address && VERSION === 'old' && <div className="set-btn" onClick={() => {
                             navigate('/profile')
                         }}>
                             <SettingOutlined />
@@ -143,7 +149,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             <div className="tabs">
                                 <ul>
                                     {
-                                        (state.owner_address === state.address ? ['On sale', 'Items'] : ['On sale']).map((item: string, index: number): ReactElement => {
+                                        (searchParams.get('address') === state.address ? ['On sale', 'Items'] : ['On sale']).map((item: string, index: number): ReactElement => {
                                             return (
                                                 <li key={index} className={`${activeTop === index ? 'active-top' : ''}`} onClick={() => {
                                                     selectTop(index)
@@ -164,7 +170,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                 </div>}
                                 {
                                     (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
-                                    // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
+                                        // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
                                         return (
                                             <NewNFTCard type={activeTop === 0 ? 1 : 2} key={index} item={item} uploadSell={() => {
                                                 setList([]);
@@ -182,12 +188,9 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             </div>
                         </div>
                         {
-                            activeTop === 1 && !loading && <p className="no-more">No more</p>
-                        }
-                        {
                             activeTop === 0 && total === 0 && !loading && <p className="no-more">No more</p>
                         }
-                        {activeTop === 0 && total > 0 && <div className="page-oper">
+                        {total > 0 && <div className="page-oper">
                             <Pagination defaultCurrent={1} pageSize={12} total={total} onChange={(page) => {
                                 window.scrollTo({
                                     top: 220,

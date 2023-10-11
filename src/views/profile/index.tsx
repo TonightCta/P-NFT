@@ -179,7 +179,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
     //Bind Twitter
     const bindTwitterFN = async () => {
         const result = await AuthTwitterService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             user_address: state.address
         });
         const { data } = result;

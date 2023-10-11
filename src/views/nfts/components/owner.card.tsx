@@ -8,7 +8,7 @@ import IconFont from "../../../utils/icon";
 import { ProfileService } from "../../../request/api";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
 import { VERSION, flag } from '../../../utils/source';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 interface Props {
     updateBG: (val: string) => void
 }
@@ -19,19 +19,27 @@ const OwnerCard = (props: Props): ReactElement => {
     const navigate = useNavigate();
     const [play, setPlay] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
+    const [searchParams, setSearchParams] = useSearchParams();
     const [profile, setProfile] = useState<any>({
         avatar_url: '1'
     });
     const otherProfile = async () => {
+        // console.log(searchParams.get('address'))
         const account = await ProfileService({
-            user_address: state.owner_address
+            user_address: searchParams.get('address')
         });
         setProfile(account.data);
         props.updateBG(account.data.bgimage_url);
     };
     useEffect(() => {
-        state.owner_address === state.address ? setProfile(state.account) : otherProfile();
-    }, [state.owner_address]);
+        if (!searchParams.get('address')) {
+            navigate('/')
+        }
+    }, [])
+    useEffect(() => {
+        const address: string = searchParams.get('address') ? searchParams.get('address') as string : ''
+        address === state.address ? setProfile(state.account) : otherProfile();
+    }, [searchParams.get('address')]);
     return (
         <Affix offsetTop={flag ? 60 : 200}>
             <div className="owner-card">

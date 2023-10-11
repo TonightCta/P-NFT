@@ -3,15 +3,13 @@ import './index.scss'
 import { useNavigate } from "react-router-dom";
 import { Pagination, Spin } from "antd";
 import CardItem from "../market/components/item.card";
-import { MintRankService, NFTMarketService } from "../../request/api";
-import { NFTItem, Type } from "../../utils/types";
+import { NFTMarketService } from "../../request/api";
+import { NFTItem } from "../../utils/types";
 import MaskCard from "../../components/mask";
 import { PNft } from "../../App";
-import { NFTAddress, useContract } from "../../utils/contract";
-import { useSwitchChain } from "../../hooks/chain";
+import { useContract } from "../../utils/contract";
 import SwiperUser from "./components/swiper.user";
 import IconFont from "../../utils/icon";
-
 export interface Cate {
     img: string,
     img_1: string,
@@ -53,6 +51,7 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
     const [page, setPage] = useState<number>(1);
     const swiperRef: any = useRef(null)
     const [total, setTotal] = useState<number>(1);
+    const { state } = useContext(PNft);
     // const [activeCate, setActiveCate] = useState<number>(0);
     const [officalTotal, setOfficalTotal] = useState<number>(0);
     const { officalTotalSupply } = useContract();
@@ -63,7 +62,7 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
     const marketListFN = async () => {
         setLoading(true);
         const result = await NFTMarketService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             page_size: 15,
             page_num: page
         });

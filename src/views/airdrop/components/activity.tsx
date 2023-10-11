@@ -1,9 +1,9 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { ActivityRankService } from '../../../request/api'
-import { calsAddress } from "../../../utils";
+import { FilterAddress, NetworkAddress, calsAddress } from "../../../utils";
 import { Spin } from "antd";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
-import { PlianContractAddress721Main, PlianContractAddress721Test } from "../../../utils/source";
+import { PNft } from "../../../App";
 
 const ActivityCard = (): ReactElement => {
     // const [avatarList, setAvatarList] = useState<string[]>([]);
@@ -11,10 +11,11 @@ const ActivityCard = (): ReactElement => {
     const [total, setTotal] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(true);
     const [show,setShow] = useState<string>('');
+    const { state } = useContext(PNft);
     const getRankList = async () => {
         const result = await ActivityRankService({
-            chain_id: process.env.REACT_APP_CHAIN,
-            contract_address: process.env.REACT_APP_CURRENTMODE === 'production' ? PlianContractAddress721Main : PlianContractAddress721Test,
+            chain_id: state.chain,
+            contract_address: process.env.REACT_APP_CURRENTMODE === 'production' ? FilterAddress('8007736').contract_721 : FilterAddress('8007736').contract_721_test,
             page_size: 10,
             page_num: 1
         });

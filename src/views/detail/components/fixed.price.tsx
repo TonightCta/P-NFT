@@ -6,6 +6,7 @@ import { PNft } from "../../../App";
 import { NFTMakerService } from "../../../request/api";
 import { PlianContractAddressMarketMain, PlianContractAddressMarketTest, PlianContractERC20Test, SystemAddress, TaikoContractAddressMarketMain, TaikoContractAddressMarketTest } from "../../../utils/source";
 import { useSwitchChain } from "../../../hooks/chain";
+import { FilterAddress } from "../../../utils";
 
 interface Props {
     visible: boolean,
@@ -13,7 +14,8 @@ interface Props {
     sell?: boolean,
     id: number,
     image: string,
-    upRefresh: () => void
+    upRefresh: () => void,
+    chain:string
 }
 
 interface Wait {
@@ -74,12 +76,12 @@ const TokenList: Token[] =
 
 const FixedModal = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
+    const { state } = useContext(PNft)
     const [token, setToken] = useState<Token>({
         symbol:LAND === 'taiko' ? 'ETH' : MODE === 'production' ? 'PI' : 'MAPI',
         icon:LAND === 'taiko' ? 'https://static.optimism.io/data/ENS/logo.png' : require('../../../assets/images/pi_logo.png'),
-        address:LAND === 'taiko' ? SystemAddress : MODE === 'production' ? SystemAddress : PlianContractERC20Test,
+        address:LAND === 'taiko' ? SystemAddress : MODE === 'production' ? SystemAddress : FilterAddress(state.chain as string).contract_erc20,
     });
-    const { state } = useContext(PNft)
     const { putApprove, putList, queryApprove } = useContract();
     const [price, setPrice] = useState<number | string>('0');
     const { switchC } = useSwitchChain();
@@ -125,7 +127,7 @@ const FixedModal = (props: Props): ReactElement => {
         setVisible(props.visible)
     }, [props.visible]);
     const putApproveFN = async () => {
-        await switchC(Number(process.env.REACT_APP_CHAIN))
+        await switchC(+props.chain)
         setWait({
             ...wait,
             approve_dis: true,
@@ -154,7 +156,7 @@ const FixedModal = (props: Props): ReactElement => {
             message.error('Please enter the price');
             return
         };
-        await switchC(Number(process.env.REACT_APP_CHAIN))
+        await switchC(+(state.chain as string))
         setWait({
             ...wait,
             list_dis: true,
@@ -172,7 +174,7 @@ const FixedModal = (props: Props): ReactElement => {
             return
         }
         const maker = await NFTMakerService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             sender: state.address,
             tx_hash: hash['transactionHash']
         });

@@ -62,7 +62,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
         setVisible(props.visible);
     }, [props.visible]);
     const putApproveFN = async () => {
-        await switchC(Number(process.env.REACT_APP_CHAIN))
+        await switchC(+(state.chain as string))
         setWait({
             ...wait,
             approve_dis: true,
@@ -87,7 +87,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
         setApproved(true);
     };
     const putListFN = async () => {
-        await switchC(Number(process.env.REACT_APP_CHAIN))
+        await switchC(+(state.chain as string))
         setWait({
             ...wait,
             list_dis: true,
@@ -115,7 +115,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             return
         };
         const upService = await NFTBuyService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             sender: state.address,
             tx_hash: hash['transactionHash']
         });

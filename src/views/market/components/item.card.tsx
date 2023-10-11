@@ -29,13 +29,13 @@ const CardItem = (props: Props): ReactElement => {
         setItem(props.item)
     },[props.item])
     const confirm = async () => {
-        await switchC(Number(process.env.REACT_APP_CHAIN))
+        await switchC(+(state.chain as string))
         const hash: any = await takeOff(+item.order_id);
         if (!hash || hash.message) {
             return
         };
         const maker = await MFTOffService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             sender: state.address,
             tx_hash: hash['transactionHash']
         });
@@ -125,11 +125,11 @@ const CardItem = (props: Props): ReactElement => {
                     </div>}
                 </div>
             </div>
-            <FixedModal upRefresh={() => {
+            {/* <FixedModal upRefresh={() => {
                 props.upload && props.upload();
             }} sell visible={fixedVisible} image={item.file_image_ipfs} id={item.token_id} closeModal={(val: boolean) => {
                 setFixedVisible(val);
-            }} />
+            }} /> */}
         </div>
     )
 };

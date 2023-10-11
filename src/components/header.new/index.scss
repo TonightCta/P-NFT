@@ -89,6 +89,21 @@
         }
       }
     }
+    .select-chain {
+      margin-right: 24px;
+      width: 94px;
+      .connected-box {
+        img {
+          height: 16px;
+          width: auto;
+          margin-right: 12px;
+          border-radius: 0;
+        }
+        span{
+          font-size: 24px;
+        }
+      }
+    }
   }
 }
 .connect-menu {
@@ -102,11 +117,26 @@
       cursor: pointer;
       transition: 0.3s all;
       border-radius: 8px;
+      display: flex;
+      align-items: center;
+      img{
+        width: auto;
+        height: 16px;
+        margin-right: 12px;
+      }
+    }
+    li:first-child{
+      img{
+        width: 18px;
+      }
     }
     li:hover {
       background-color: #ddd;
     }
   }
+}
+.connect-menu-chain{
+  width: 150px;
 }
 @media screen and (max-width: 1280px) {
   .header-wapper-new {
@@ -127,6 +157,9 @@
     }
     .right-menu {
       ul {
+        display: none;
+      }
+      .select-chain {
         display: none;
       }
       .connect-box {

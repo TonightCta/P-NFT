@@ -5,11 +5,12 @@ import { Button, Popover } from "antd";
 import IconFont from "../../utils/icon";
 import { useMetamask } from "../../utils/metamask";
 import { PNft } from "../../App";
-import { calsAddress } from "../../utils";
+import { FilterAddress, calsAddress } from "../../utils";
 import { Type } from "../../utils/types";
-import { flag } from "../../utils/source";
+import { Config, NetworkConfig, flag } from "../../utils/source";
 import { MenuOutlined } from "@ant-design/icons";
 import MobileMenuDraw from "./components/mobile.menu";
+import { useSwitchChain } from "../../hooks/chain";
 
 export interface Menu {
     name: string,
@@ -45,7 +46,9 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
     const { state, dispatch } = useContext(PNft);
     const [open, setOpen] = useState(false);
     const location = useLocation();
+    const { switchC } = useSwitchChain();
     const [mobileMenu, setMobileMenu] = useState<boolean>(false);
+    const [chainPop, setChainPop] = useState<boolean>(false);
     const hide = () => {
         setOpen(false);
     };
@@ -82,13 +85,14 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
         <div className="connect-menu" onClick={hide}>
             <ul>
                 <li onClick={() => {
-                    dispatch({
-                        type: Type.SET_OWNER_ADDRESS,
-                        payload: {
-                            owner_address: state.address as string
-                        }
-                    })
-                    navigate('/owner')
+                    // dispatch({
+                    //     type: Type.SET_OWNER_ADDRESS,
+                    //     payload: {
+                    //         owner_address: state.address as string
+                    //     }
+                    // })
+                    // navigate('/owner');
+                    navigate(`/owner?address=${state.address}`)
                 }}>My NFTs</li>
                 <li onClick={() => {
                     navigate('/profile')
@@ -102,6 +106,26 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     });
                     navigate('/')
                 }}>Disconnect</li>
+            </ul>
+        </div>
+    )
+    const chainContent = (
+        <div className="connect-menu connect-menu-chain" onClick={() => {
+            setChainPop(false)
+        }}>
+            <ul>
+                {
+                    NetworkConfig.map((item: Config, index: number) => {
+                        return (
+                            <li key={index} onClick={() => {
+                                switchC(+item.chain_id)
+                            }}>
+                                <img src={item.chain_logo} alt="" />
+                                {item.chain_name}
+                            </li>
+                        )
+                    })
+                }
             </ul>
         </div>
     )
@@ -123,6 +147,16 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                         })
                     }
                 </ul>
+                <Popover open={chainPop} onOpenChange={(e: boolean) => {
+                    setChainPop(e)
+                }} content={chainContent} title={null} trigger="click">
+                    <div className="connect-box select-chain">
+                        <div className="connected-box">
+                            <img src={FilterAddress(state.chain as string).chain_logo} alt="" />
+                            <IconFont type="icon-xiangxia" />
+                        </div>
+                    </div>
+                </Popover>
                 <div className="connect-box">
                     {!state.address
                         ? <Button type="default" onClick={() => {

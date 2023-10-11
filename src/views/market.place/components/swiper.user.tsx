@@ -1,10 +1,10 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { Cate } from "..";
-import { calsAddress } from "../../../utils";
-import { Type } from "../../../utils/types";
+import { FilterAddress, calsAddress } from "../../../utils";
+import * as Address from '../../../utils/source'
 import { PNft } from "../../../App";
 import { useSwitchChain } from "../../../hooks/chain";
-import { NFTAddress } from "../../../utils/contract";
+import { LAND, MODE } from "../../../utils/contract";
 import { MintRankService } from "../../../request/api";
 import { useNavigate } from "react-router-dom";
 import { Spin } from "antd";
@@ -168,7 +168,7 @@ interface Props{
 }
 
 const SwiperUser = (props:Props): ReactElement => {
-    const { dispatch } = useContext(PNft);
+    const { state } = useContext(PNft);
     const [rankMsg, setRankMsg] = useState<Rank[]>([
         {
             total_mint: 0,
@@ -237,9 +237,10 @@ const SwiperUser = (props:Props): ReactElement => {
     const { switchC } = useSwitchChain();
     const navigate = useNavigate();
     const getMintRank = async () => {
-        await switchC(Number(process.env.REACT_APP_CHAIN))
+        await switchC(+(state.chain as string));
+        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         const result = await MintRankService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             contract_address: NFTAddress,
             page_size: 10,
             page_num: 1
@@ -271,13 +272,14 @@ const SwiperUser = (props:Props): ReactElement => {
                             if (!rankMsg[index]) {
                                 return
                             }
-                            dispatch({
-                                type: Type.SET_OWNER_ADDRESS,
-                                payload: {
-                                    owner_address: rankMsg[index].minter
-                                }
-                            });
-                            navigate('/owner')
+                            // dispatch({
+                            //     type: Type.SET_OWNER_ADDRESS,
+                            //     payload: {
+                            //         owner_address: rankMsg[index].minter
+                            //     }
+                            // });
+                            // navigate('/owner')
+                            navigate(`/owner?address=${rankMsg[index].minter}`)
                         }}>
                             {rankMsg[index] && rankMsg[index].loading && <div className="loading-box">
                                 <Spin size="large" />

@@ -70,13 +70,13 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
     const content = (
         <div className="pop-menu">
             <p onClick={() => {
-                dispatch({
-                    type: Type.SET_OWNER_ADDRESS,
-                    payload: {
-                        owner_address: state.address as string
-                    }
-                })
-                navigate('/owner')
+                // dispatch({
+                //     type: Type.SET_OWNER_ADDRESS,
+                //     payload: {
+                //         owner_address: state.address as string
+                //     }
+                // })
+                navigate(`/owner?address=${state.address}`)
             }}>My NFTs</p>
             <p onClick={() => {
                 navigate('/profile')

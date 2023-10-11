@@ -1,13 +1,11 @@
 import { Button, Spin } from "antd";
-import { ReactElement, useContext, useState } from "react";
-import { NFTItem, Type, web3 } from "../../../utils/types";
-import { PNft } from "../../../App";
+import { ReactElement, useState } from "react";
+import { NFTItem, web3 } from "../../../utils/types";
 import { useNavigate } from "react-router-dom";
 import IconFont from "../../../utils/icon";
 
 
 const InnerCard = (props: { item: any }): ReactElement => {
-    const { dispatch } = useContext(PNft);
     const navigate = useNavigate();
     const [player, setPlayer] = useState<any>();
     const [item, setItem] = useState<NFTItem>({
@@ -16,13 +14,13 @@ const InnerCard = (props: { item: any }): ReactElement => {
     });
     return (
         <div className={`inner-card ${!props.item.price ? 'un-sale' : ''}`} onClick={() => {
-            dispatch({
-                type: Type.SET_INFO_ID,
-                payload: {
-                    info_id: String(props.item.fid)
-                }
-            });
-            navigate('/detail')
+            // dispatch({
+            //     type: Type.SET_INFO_ID,
+            //     payload: {
+            //         info_id: String(props.item.fid)
+            //     }
+            // });
+            navigate(`/detail?fid=${props.item.fid}`)
         }}>
             <div className="nft-box">
                 <div className="loading-box-public">

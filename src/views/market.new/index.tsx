@@ -4,9 +4,8 @@ import ListCard from "./components/list.card";
 import IconFont from "../../utils/icon";
 import { PNft } from "../../App";
 import { CollectionInfo } from "../../request/api";
-import { PlianContractAddress721Main } from "../../utils/source";
 import { Spin } from "antd";
-import { DateConvert } from "../../utils";
+import { DateConvert, FilterAddress } from "../../utils";
 
 interface Account {
     icon: string,
@@ -41,7 +40,7 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
         const result = await CollectionInfo({
             collection_id: +(state.collection_id as string),
             chain_id: '1',
-            contract_address: PlianContractAddress721Main
+            contract_address: FilterAddress(state.chain as string).contract_721
         });
         setWait(false);
         const { data } = result;

@@ -217,7 +217,7 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             await connectMetamask();
             return
         }
-        await switchC(Number(process.env.REACT_APP_CHAIN))
+        await switchC(+(state.chain as string))
         if (!form.name) {
             setError({
                 ...error,
@@ -288,7 +288,7 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             return
         }
         const formData = new FormData();
-        formData.append('chain_id', process.env.REACT_APP_CHAIN as string);
+        formData.append('chain_id', state.chain as string);
         formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');
         formData.append('sender', ethereum.selectedAddress);

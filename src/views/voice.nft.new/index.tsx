@@ -2,20 +2,24 @@ import { ReactElement, ReactNode, useEffect, useState } from "react";
 import './index.scss'
 import FooterNew from "../screen.new/components/footer.new";
 import IconFont from "../../utils/icon";
-import { Button, Select, message } from "antd";
+import { Button, Popover, Select, message } from "antd";
 // import InputBox from "./components/input.box";
 import DesignBox from "./components/design.box";
 import { CategoryList, LabelList } from "../../request/api";
+import { CloseOutlined, DownOutlined } from "@ant-design/icons";
+import { Config, NetworkConfig } from "../../utils/source";
 
 interface Op {
     value: string | number,
-    label: string
+    label: string,
+    bg?: string
 }
 
 export interface Input {
     name: string,
     desc: string,
     category: number,
+    chain: string,
     labels: number[]
 }
 
@@ -24,10 +28,13 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     const [show, setShow] = useState<boolean>(false);
     const [cateList, setCateList] = useState<Op[]>([]);
     const [labelsList, setLabelsList] = useState<Op[]>([]);
+    const [labelsID, setLabelsID] = useState<number[]>([]);
+    const [labelsText, setLabelsText] = useState<string[]>([]);
     const [input, setInput] = useState<Input>({
         name: '',
         desc: '',
         category: 1,
+        chain: '8007736',
         labels: []
     })
     const getCategory = async () => {
@@ -43,6 +50,12 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
         });
         setCateList(data.data.item);
     };
+    const selectChain = (e: unknown) => {
+        setInput({
+            ...input,
+            chain: String(e)
+        })
+    }
     const getLabels = async () => {
         const result = await LabelList({
             page_size: 100
@@ -51,7 +64,8 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
         data.data.item = data.data.item.map((e: { label_id: number, label_name: string }) => {
             return {
                 value: String(e.label_id),
-                label: e.label_name
+                label: e.label_name,
+                // bg:require(`../../assets/labels/${e.label_name}.png`) ? require(`../../assets/labels/${e.label_name}.png`) : require(`../../assets/labels/Animals.png`)
             }
         });
         setLabelsList(data.data.item);
@@ -71,7 +85,33 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     useEffect(() => {
         getCategory();
         getLabels();
-    }, [])
+    }, []);
+    const selectPop = (
+        <div className="select-pop-content">
+            <ul>
+                {
+                    labelsList.map((item: Op, index: number) => {
+                        return (
+                            <li key={index} className={`${labelsID.indexOf(+item.value) > -1 ? 'selected-label' : ''}`} onClick={() => {
+                                const arr = labelsID;
+                                const arrTe = labelsText;
+                                arr.indexOf(+item.value) > -1 ? arr.splice(arr.indexOf(+item.value), 1) : arr.push(+item.value);
+                                arrTe.indexOf(item.label) > -1 ? arrTe.splice(arrTe.indexOf(item.label), 1) : arrTe.push(item.label);
+                                setLabelsID([...arr])
+                                setLabelsText([...arrTe]);
+                                setInput({
+                                    ...input,
+                                    labels: arr
+                                })
+                            }}>
+                                <p>{item.label}</p>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+        </div>
+    )
     const inputBox = (
         <div className="input-box">
             <div className="public-inp-box">
@@ -111,27 +151,65 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             </div>
             <div className="public-inp-box">
                 <p><sup>*</sup>Labels</p>
-                <Select
+                <Popover content={selectPop} trigger={['click']} placement="bottom">
+                    <div className="select-custom-box">
+                        <div className="view-labels">
+                            <ul>
+                                {
+                                    labelsText.map((item: string, index: number) => {
+                                        return (
+                                            <li key={index} onClick={() => {
+                                                const arr = labelsID;
+                                                const arrTe = labelsText;
+                                                arrTe.splice(arrTe.indexOf(item), 1)
+                                                arr.splice(arrTe.indexOf(item), 1)
+                                                setLabelsID([...arr])
+                                                setLabelsText([...arrTe]);
+                                                setInput({
+                                                    ...input,
+                                                    labels: arr
+                                                })
+                                            }}>
+                                                <p>{item}</p>
+                                                <p className="clear-label">
+                                                    <CloseOutlined />
+                                                </p>
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </div>
+                        {labelsText.length < 1 && <p className="label-placeholder">Select Label</p>}
+                        <DownOutlined />
+                    </div>
+                </Popover>
+                {/* <Select
                     mode="multiple"
                     onChange={selectLabel}
                     placeholder="Select label"
                     options={labelsList}
-                />
+                /> */}
             </div>
             <div className="public-inp-box">
                 <p><sup>*</sup>Chain</p>
                 <Select
-                    defaultValue="plian"
-                    options={[
-                        { value: 'plian', label: 'Plian' },
-                    ]}
+                    defaultValue="8007736"
+                    onChange={selectChain}
+                    options={NetworkConfig.map((item: Config) => {
+                        return {
+                            value: item.chain_id,
+                            label: item.chain_name,
+                            disabled: item.chain_id !== '8007736' && item.chain_id !== '314' && item.chain_id !== '10'
+                        }
+                    })}
                 />
             </div>
             <div className="next-btn" onClick={() => {
                 setActive(1);
             }}>
-                <IconFont type="icon-jiantou"/>
-                <IconFont type="icon-jiantou"/>
+                <IconFont type="icon-jiantou" />
+                <IconFont type="icon-jiantou" />
             </div>
 
         </div>

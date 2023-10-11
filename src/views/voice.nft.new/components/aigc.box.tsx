@@ -7,11 +7,13 @@ import axios from "axios";
 import { Model } from "../../../utils/source";
 import { NFTMintService, QueryFile } from "../../../request/api";
 import { useMetamask } from "../../../utils/metamask";
-import { NFTAddress, useContract } from "../../../utils/contract";
+import { LAND, MODE, useContract } from "../../../utils/contract";
 import { useSwitchChain } from "../../../hooks/chain";
+import * as Address from '../../../utils/source'
 import { PNft } from "../../../App";
-import { Type, ethereum } from "../../../utils/types";
+import { ethereum } from "../../../utils/types";
 import { useNavigate } from "react-router-dom";
+import { FilterAddress } from "../../../utils";
 
 interface Coll {
     title: string,
@@ -87,7 +89,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
     const [modelType, setModelType] = useState<string>('1');
     const { connectMetamask } = useMetamask();
     const { mint, getBalance } = useContract();
-    const { state,dispatch } = useContext(PNft);
+    const { state } = useContext(PNft);
     const { switchC } = useSwitchChain();
     const navigate = useNavigate();
     const [aiImageView, setAiImageView] = useState<{ url: string, minio_key: string, ipfs: string }>({
@@ -165,17 +167,17 @@ const AigcBox = (props: { info: Input }): ReactElement => {
         return result.data.data;
     };
     const submitMint = async () => {
+        if (!state.address) {
+            await connectMetamask();
+            return
+        }
+        await switchC(+(props.info.chain))
         const balance = await getBalance();
         const numberBalance: number = +balance / 1e18;
         if (numberBalance <= 0) {
             message.warning('Your available balance is insufficient.');
             return
         }
-        if (!state.address) {
-            await connectMetamask();
-            return
-        }
-        await switchC(Number(process.env.REACT_APP_CHAIN))
         if (!props.info.name) {
             message.error('Please enter the name');
             return
@@ -206,7 +208,8 @@ const AigcBox = (props: { info: Input }): ReactElement => {
             return
         };
         const formData = new FormData();
-        formData.append('chain_id', process.env.REACT_APP_CHAIN as string);
+        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.address as string).contract_721_test;
+        formData.append('chain_id', props.info.chain);
         formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');
         formData.append('sender', ethereum.selectedAddress);
@@ -228,13 +231,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
         }
         message.success('Mint Successfully!');
         setWait(false);
-        dispatch({
-            type: Type.SET_OWNER_ADDRESS,
-            payload: {
-                owner_address: state.address as string
-            }
-        })
-        navigate('/owner')
+        navigate(`/owner?address=${state.address}`)
     }
     return (
         <div className="aigc-box">

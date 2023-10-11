@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
 import CardItem from "./components/item.card";
 import { NFTMarketService } from '../../request/api'
@@ -7,6 +7,7 @@ import { NFTItem } from "../../utils/types";
 import IconFont from "../../utils/icon";
 import MaskCard from "../../components/mask";
 import { Pagination, Spin } from "antd";
+import { PNft } from "../../App";
 
 interface Community {
     icon: ReactNode,
@@ -70,9 +71,10 @@ const MarketIndex = (): ReactElement<ReactNode> => {
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(1);
+    const { state } = useContext(PNft);
     const marketListFN = async () => {
         const result = await NFTMarketService({
-            chain_id: process.env.REACT_APP_CHAIN,
+            chain_id: state.chain,
             page_size: 15,
             page_num: page
         });
