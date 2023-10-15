@@ -4,7 +4,7 @@ import ListCard from "./components/list.card";
 import IconFont from "../../utils/icon";
 import { PNft } from "../../App";
 import { CollectionInfo } from "../../request/api";
-import { Spin } from "antd";
+import { Button, Spin } from "antd";
 import { DateConvert, FilterAddress } from "../../utils";
 
 interface Account {
@@ -25,8 +25,9 @@ export interface Info {
     twitter_link: string,
     website_link: string,
     category_id: number,
-    creat_time:number,
-    category_name:string
+    creat_time: number,
+    category_name: string,
+    collection_id: string
 }
 
 const MarketViewNew = (): ReactElement<ReactNode> => {
@@ -108,14 +109,31 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                                 </ul>
                             </div>
                             <p className="collection-owner">By Pizzap</p>
-                            <div className="collection-total">
-                                <p>Total items<span>{info?.total_supply}</span></p>
-                                {info?.creat_time && <p>Created<span>{DateConvert(info?.creat_time)}</span></p>}
-                                <p>Creator earnings<span>{info?.creator_earnings}%</span></p>
-                                <p>Chain<span>{info?.collection_name === 'PAI SPACE' ? 'Plian' : 'Ethereum'}</span></p>
-                                <p>Category<span>{info?.category_name}</span></p>
+                            <div className="i-msg">
+                                {/* collection_id */}
+                                <div className="old-i">
+                                    <div className="collection-total">
+                                        <p>Total items<span>{info?.total_supply}</span></p>
+                                        {info?.creat_time && <p>Created<span>{DateConvert(info?.creat_time)}</span></p>}
+                                        <p>Creator earnings<span>{info?.creator_earnings}%</span></p>
+                                        <p>Chain<span>{info?.collection_name === 'PAI SPACE' ? 'Plian' : 'Ethereum'}</span></p>
+                                        <p>Category<span>{info?.category_name}</span></p>
+                                    </div>
+                                    <p className="unknow-text">{info?.collection_description}</p>
+                                </div>
+                                {
+                                    +(info?.collection_id as string) === 999 && <div className="mint-bbc">
+                                        <p>
+                                            <input type="number" placeholder="Number" />
+                                            <span className="total">999/1000</span>
+                                        </p>
+                                        <p>
+                                            <Button>Mint</Button>
+                                        </p>
+                                    </div>
+                                }
                             </div>
-                            <p className="unknow-text">{info?.collection_description}</p>
+
                             <ListCard />
                         </div>
                     </div>}

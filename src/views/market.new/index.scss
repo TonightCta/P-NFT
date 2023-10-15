@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 800px;
+    min-height: 500px;
   }
   .bg-box {
     width: 100%;
@@ -29,8 +29,10 @@
     padding: 0 60px;
     text-align: left;
     transform: translateY(-140px);
-    .no-data {
+    .m-w{
       flex: 1;
+    }
+    .no-data {
       text-align: center;
       font-size: 16px;
       color: rgba(0, 0, 0, 0.8);
@@ -90,6 +92,43 @@
       font-size: 24px;
       margin-top: 16px;
       color: #050505;
+    }
+    .i-msg {
+      display: flex;
+      .old-i {
+        flex: 1;
+      }
+      .mint-bbc {
+        width: 264px;
+        margin-left: 120px;
+        p {
+          display: flex;
+          align-items: center;
+          input {
+            width: 120px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid #f23176;
+            font-size: 14px;
+            padding-left: 8px;
+          }
+          .total {
+            font-size: 24px;
+            color: #202025;
+            font-family: SparkTextNew;
+            margin-left: 12px;
+          }
+          button {
+            margin-top: 20px;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(270deg, #6a40fb 0%, #f23176 100%);
+            border: 0;
+            border-radius: 8px;
+            color: white;
+          }
+        }
+      }
     }
     .collection-total {
       margin-top: 12px;
@@ -475,7 +514,7 @@
     overflow: hidden;
   }
 }
-@media screen and (max-width:1660px){
+@media screen and (max-width: 1660px) {
   .market-view-new {
     .content-box {
       .list-card {
@@ -654,9 +693,9 @@
           .filter-box-data {
             display: none;
           }
-          .m-w{
+          .m-w {
             width: 100%;
-            .no-data{
+            .no-data {
               padding-top: 5rem;
               margin-bottom: 5rem;
             }

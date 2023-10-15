@@ -30,6 +30,7 @@ const ListCard = (): ReactElement => {
     const [data, setData] = useState<any[]>([]);
     const [listWait, setListWait] = useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
+    const [size, setSize] = useState<number>(10)
     const getLabelList = async () => {
         const result = await LabelList({ page_size: 500 });
         const { data } = result;
@@ -88,7 +89,7 @@ const ListCard = (): ReactElement => {
             category_id: categoryID,
             label_ids: labelsID,
             sort: sortID.sort,
-            page_size: show.filter ? 10 : 12,
+            page_size: size,
             page_num: page,
             sort_by: sortID.sory_by,
             is_listed: status === 0 ? false : true
@@ -120,11 +121,14 @@ const ListCard = (): ReactElement => {
         }
         setTotal(data.data.total)
         setData(data.data.item);
-    }
+    };
+    useEffect(() => {
+        setSize(show.filter ? 10 : 12);
+    }, [show.filter])
     useEffect(() => {
         setSearch('');
         getCollectionNFTs();
-    }, [labelsID, categoryID, sortID, page, status, show.filter]);
+    }, [labelsID, categoryID, sortID, page, status, show.filter,size]);
     useEffect(() => {
         if (!search) {
             getCollectionNFTs();
@@ -278,7 +282,9 @@ const ListCard = (): ReactElement => {
                 }
             </div>
             {<div className={`page-box ${!show.filter ? 'normal-center' : ''}`}>
-                <Pagination defaultCurrent={1} total={total} onChange={(e) => {
+                <Pagination defaultCurrent={1} onShowSizeChange={(e, size) => {
+                    setSize(size);
+                }} total={total} onChange={(e) => {
                     setPage(e)
                 }} />
             </div>}

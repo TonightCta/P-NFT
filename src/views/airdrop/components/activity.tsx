@@ -10,7 +10,7 @@ const ActivityCard = (): ReactElement => {
     const [rankList, setRankList] = useState<any[]>([]);
     const [total, setTotal] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(true);
-    const [show,setShow] = useState<string>('');
+    const [show, setShow] = useState<string>('');
     const { state } = useContext(PNft);
     const getRankList = async () => {
         const result = await ActivityRankService({
@@ -45,7 +45,7 @@ const ActivityCard = (): ReactElement => {
                             <p className="rule-options">
                                 Users who create NFTs through AIGC will have the opportunity to earn high profits.
                                 <br />
-                                The top 3 creators with highest trading volume (created before 30/09/23) will win in turn: 100K $PI, 50K $PI, 30K $PI (* All the 180K $PI will be released on 02/10/23)
+                                The top 3 creators with highest trading volume (created before 08/10/23) will win in turn: 50K $PI, 25K $PI, 15K $PI (* All the 90K $PI will be released on 08/11/23)
                             </p>
                         </li>
                     </ul>
@@ -57,7 +57,7 @@ const ActivityCard = (): ReactElement => {
                                 <li>
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[1].img_ipfs_url ? <img src={rankList[1].img_ipfs_url} alt="" /> : <DefaultAvatar address={rankList[1].contract_address} diameter={110} />}
+                                            {rankList[1]?.img_ipfs_url ? <img src={rankList[1].img_ipfs_url} alt="" /> : <DefaultAvatar address={rankList[1]?.contract_address} diameter={110} />}
                                         </div>
                                         <p>2</p>
                                     </div>
@@ -68,7 +68,7 @@ const ActivityCard = (): ReactElement => {
                                     <img className="rank-1-icon" src={require('../../../assets/images/drop_rank_1.png')} alt="" />
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[0].img_ipfs_url ? <img src={rankList[0].img_ipfs_url} alt="" /> : <DefaultAvatar address={rankList[0].contract_address} diameter={150} />}
+                                            {rankList[0]?.img_ipfs_url ? <img src={rankList[0].img_ipfs_url} alt="" /> : <DefaultAvatar address={rankList[0]?.contract_address} diameter={150} />}
                                         </div>
                                         <p>1</p>
                                     </div>
@@ -78,7 +78,7 @@ const ActivityCard = (): ReactElement => {
                                 <li>
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[2].img_ipfs_url ? <img src={rankList[2].img_ipfs_url} alt="" /> : <DefaultAvatar address={rankList[2].contract_address} diameter={110} />}
+                                            {rankList[2]?.img_ipfs_url ? <img src={rankList[2].img_ipfs_url} alt="" /> : <DefaultAvatar address={rankList[2]?.contract_address} diameter={110} />}
                                         </div>
                                         <p>3</p>
                                     </div>
