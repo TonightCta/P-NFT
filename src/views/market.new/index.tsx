@@ -4,8 +4,10 @@ import ListCard from "./components/list.card";
 import IconFont from "../../utils/icon";
 import { PNft } from "../../App";
 import { CollectionInfo } from "../../request/api";
-import { Button, Spin } from "antd";
-import { DateConvert, FilterAddress } from "../../utils";
+import { Button, Spin, message } from "antd";
+import { DateConvert, FilterAddress, randomString } from "../../utils";
+import { useSwitchChain } from "../../hooks/chain";
+import { useContract } from "../../utils/contract";
 
 interface Account {
     icon: string,
@@ -36,6 +38,11 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
     const [sideList, setSideList] = useState<Account[]>([]);
     const [wait, setWait] = useState<boolean>(false);
     const [bgLoad, setBgLoad] = useState<boolean>(true);
+    const [mintTotal, setMintTotal] = useState<number>(0);
+    const { switchC } = useSwitchChain();
+    const { BBCPoolTotal, transHash, BBCBuy } = useContract();
+    const [mintNum, setMintNum] = useState<number | string>('');
+    const [mint, setMint] = useState<boolean>(false);
     const getInfo = async () => {
         setWait(true);
         const result = await CollectionInfo({
@@ -46,6 +53,12 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
         setWait(false);
         const { data } = result;
         setInfo(data);
+        if (+(info?.collection_id as string) === 2) {
+            await switchC(1);
+            const total = await BBCPoolTotal();
+            console.log(total)
+            setMintTotal(total)
+        };
         setSideList([
             {
                 icon: 'icon-globe-simple-bold',
@@ -69,6 +82,23 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
             }
         ])
     };
+    const mintBBC = async () => {
+        if (!mintNum || mintNum === 0) {
+            message.error('Please enter the number');
+            return
+        }
+        setMint(true);
+        const nonce = randomString();
+        const hash = await transHash(String(mintNum), nonce);
+        const result: any = await BBCBuy(hash, String(mintNum), nonce);
+        setMint(false);
+        if (!result || result.message) {
+            message.error(result.message)
+            return
+        };
+        message.success('Mint Successful!');
+        setMintNum('');
+    }
     useEffect(() => {
         getInfo();
     }, [])
@@ -122,18 +152,27 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                                     <p className="unknow-text">{info?.collection_description}</p>
                                 </div>
                                 {
-                                    +(info?.collection_id as string) === 999 && <div className="mint-bbc">
+                                    +(info?.collection_id as string) === 2 && <div className="mint-bbc">
+                                        <div>
+                                            <input type="number" maxLength={5} value={mintNum} onChange={(e) => {
+                                                if (+e.target.value > 5) {
+                                                    setMintNum(5);
+                                                    return
+                                                }
+                                                if (+e.target.value < 0) {
+                                                    setMintNum(0);
+                                                    return
+                                                }
+                                                setMintNum(e.target.value)
+                                            }} placeholder="1-5" />
+                                            <div className="total">{mintTotal === 0 ? <Spin size="small" /> : mintTotal}/10000</div>
+                                        </div>
                                         <p>
-                                            <input type="number" placeholder="Number" />
-                                            <span className="total">999/1000</span>
-                                        </p>
-                                        <p>
-                                            <Button>Mint</Button>
+                                            <Button onClick={mintBBC} loading={mint} disabled={mint}>Mint</Button>
                                         </p>
                                     </div>
                                 }
                             </div>
-
                             <ListCard />
                         </div>
                     </div>}

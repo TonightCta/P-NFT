@@ -76,12 +76,6 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             category: +value
         })
     }
-    const selectLabel = (value: string[]) => {
-        setInput({
-            ...input,
-            labels: value.map(Number)
-        })
-    };
     useEffect(() => {
         getCategory();
         getLabels();
@@ -196,14 +190,28 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                 <Select
                     defaultValue="8007736"
                     onChange={selectChain}
-                    options={NetworkConfig.map((item: Config) => {
-                        return {
-                            value: item.chain_id,
-                            label: item.chain_name,
-                            disabled: item.chain_id !== '8007736' && item.chain_id !== '314' && item.chain_id !== '10'
-                        }
-                    })}
-                />
+                >
+                    {
+                        NetworkConfig.map((item: Config) => {
+                            return {
+                                value: item.chain_id,
+                                label: item.chain_name,
+                                logo: item.chain_logo,
+                                disabled: item.chain_id !== '8007736' && item.chain_id !== '314' && item.chain_id !== '10'
+                            }
+                        }).map((item: { value: string, label: string, logo: string, disabled: boolean }, index: number) => {
+                            return (
+                                <Select.Option key={index} value={item.value} disabled={item.disabled}>
+                                    <div className="select-custom-option">
+                                        <img src={item.logo} alt="" />
+                                        <p>{item.label}</p>
+                                    </div>
+                                </Select.Option>
+                            )
+                        })
+                    }
+
+                </Select>
             </div>
             <div className="next-btn" onClick={() => {
                 setActive(1);

@@ -237,7 +237,7 @@
       margin-right: 8px;
     }
   }
-  .c-mobile{
+  .c-mobile {
     display: none;
   }
   ul {
@@ -250,6 +250,16 @@
         width: 230px;
         border-radius: 16px;
         margin-bottom: 16px;
+        overflow: hidden;
+        img {
+          transition: 0.3s all;
+          width: 100%;
+        }
+      }
+      .nft-box:hover {
+        img {
+          transform: scale(1.1);
+        }
       }
       .creator-card {
         position: relative;
@@ -740,13 +750,13 @@
             border-radius: 0.8rem;
           }
         }
-        .ani-1{
+        .ani-1 {
           animation-duration: 12s;
         }
-        .ani-2{
+        .ani-2 {
           animation-duration: 10s;
         }
-        .ani-3{
+        .ani-3 {
           animation-duration: 14s;
         }
       }

@@ -463,7 +463,7 @@ export interface Config {
 export const NetworkConfig :Config[]= [
     {
         chain_id:'8007736',
-        chain_name:'Plian',
+        chain_name:'Plian Subchain 1',
         chain_logo:require('../assets/images/plian.logo.png'),
         contract_721:'0xa2822ac2662fe0cbf470d5721e24f8508ec43d33',
         contract_721_test:'0x6B2793D4024bC3A9505133c0649e194488be1a47',
@@ -519,6 +519,7 @@ export const PlianContractAddressMarketTest: string = "0xEDC36347d13f7838edCC3f7
 export const PlianContractERC20Test: string = "0xFcb06A1a2E8834Fe9E0b49F533E14AB6384f74AC";
 export const PlianContractSBTTest: string = "0x27e67a318f41d7475f409f4a390084b6aa16ac50";
 export const SystemAddress: string = "0x0000000000000000000000000000000000000000"
+export const PNFTAddress = '0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08';
 
 export const TaikoContractAddress721Main: string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";
 export const TaikoContractAddress721Test: string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";

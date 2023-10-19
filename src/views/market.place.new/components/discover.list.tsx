@@ -19,7 +19,7 @@ const DiscoverList = (): ReactElement => {
             category_id: 0,
             label_ids: [],
             sort: 0,
-            page_size: 20,
+            page_size: 24,
             page_num: 1,
             sort_by: 1,
             is_listed: true

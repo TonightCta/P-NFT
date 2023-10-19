@@ -29,7 +29,7 @@
     padding: 0 60px;
     text-align: left;
     transform: translateY(-140px);
-    .m-w{
+    .m-w {
       flex: 1;
     }
     .no-data {
@@ -101,7 +101,7 @@
       .mint-bbc {
         width: 264px;
         margin-left: 120px;
-        p {
+        div {
           display: flex;
           align-items: center;
           input {
@@ -112,12 +112,21 @@
             font-size: 14px;
             padding-left: 8px;
           }
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: button !important;
+          }
           .total {
             font-size: 24px;
             color: #202025;
             font-family: SparkTextNew;
             margin-left: 12px;
+            .ant-spin {
+              margin-right: 8px;
+            }
           }
+        }
+        p {
           button {
             margin-top: 20px;
             width: 100%;
@@ -240,7 +249,7 @@
           flex-wrap: wrap;
           .inner-card {
             width: calc(20% - 28px);
-            max-height: 354px;
+            max-height: 374px;
             margin-right: 32px;
             border-radius: 16px;
             overflow: hidden;
@@ -299,7 +308,13 @@
               img {
                 width: 100%;
                 position: relative;
+                transition: 0.3s all;
                 z-index: 20;
+              }
+            }
+            .nft-box:hover {
+              img {
+                transform: scale(1.1);
               }
             }
             .msg-box {
@@ -310,6 +325,15 @@
                 color: #0d0d0d;
                 font-family: SparkTitleNew;
                 font-weight: bold;
+                line-height: 20px;
+              }
+              .nft-name {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-break: break-all;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
               }
               .last-price {
                 font-weight: 500;

@@ -33,17 +33,20 @@
     .owner-card {
       min-width: 288px;
       width: 288px;
-      background-color: #f0f0f0;
-      transform: translateY(-80px);
+      transform: translateY(-200px);
       border-radius: 24px;
       margin-right: 48px;
+      background-color: white;
       height: 650px;
       .account-msg {
+        display: flex;
+        flex-direction: column;
         .avatar-box {
           height: 288px;
           width: 100%;
           border-radius: 24px;
           border: 4px solid white;
+          background-color: #f0f0f0;
           overflow: hidden;
           position: relative;
           img {
@@ -60,117 +63,184 @@
             justify-content: center;
           }
         }
-        .set-box-mobile {
-          display: none;
-        }
-        .name-address {
-          .name {
-            font-size: 24px;
-            margin-top: 42px;
-            color: #202025;
-            font-weight: 500;
-            font-family: SparkTextNew;
+        .new-card-msg {
+          border-right: 1px solid #eee;
+          padding-right: 24px;
+          flex: 1;
+          overflow: auto;
+          .address-msg {
+            height: 550px;
+            overflow: auto;
+            padding-bottom: 40px;
           }
-          .copy-address {
-            margin-top: 8px;
-            font-size: 14px;
-            color: #202025;
-            span {
-              color: #df0885;
-              cursor: pointer;
-              margin-left: 4px;
+          .name-address {
+            text-align: left;
+            .name {
+              font-size: 24px;
+              margin-top: 28px;
+              color: #202025;
+              font-weight: 500;
+              font-family: SparkTextNew;
+            }
+            .copy-address {
+              margin-top: 8px;
+              font-size: 16px;
+              color: #202025;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              span:last-child {
+                font-weight: 600;
+              }
             }
           }
-        }
-        .audio-box {
-          width: calc(100% - 32px);
-          margin-left: 16px;
-          height: 34px;
-          display: flex;
-          justify-content: space-between;
-          background-color: #f23176;
-          border-radius: 20px;
-          align-items: center;
-          padding: 4px;
-          margin-top: 48px;
-          .play-btn {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+          .sel-tabs {
+            display: flex;
+            margin-top: 32px;
+            margin-bottom: 42px;
+            p {
+              font-size: 16px;
+              color: #686a6c;
+              width: 88px;
+              height: 40px;
+              line-height: 40px;
+              border-radius: 14px;
+              cursor: pointer;
+              transition: 0.3s all;
+            }
+            .select-tab {
+              background-color: #f0f0f0;
+              color: #050505;
+            }
+          }
+          .public-title {
+            width: 100%;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
             cursor: pointer;
+            p {
+              font-size: 18px;
+              color: #050505;
+              span {
+                font-size: 14px;
+                transform: rotate(180deg);
+                transition: 0.3s all;
+              }
+            }
+            .hide-arrow {
+              span {
+                transform: rotate(0);
+              }
+            }
+          }
+          .search-inp {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #e6e6e6;
+            border-radius: 16px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
             span {
               font-size: 18px;
+              color: rgba(80, 80, 80, 0.7);
             }
-            audio {
-              display: none;
+            input {
+              flex: 1;
+              margin-left: 14px;
+              font-size: 16px;
             }
-            background: linear-gradient(180deg, #fa3370 0%, #fa89cb 100%);
           }
-          .audio-progress {
-            width: 140px;
-            height: 30px;
-            img {
+          .col-box {
+            padding-bottom: 32px;
+            border-bottom: 1px solid #e8e8e8;
+            margin-bottom: 24px;
+            transition: 0.3s all;
+            p {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              margin-top: 12px;
+              font-size: 12px;
+              color: #050505;
+            }
+          }
+          .price-box {
+            padding-bottom: 32px;
+            border-bottom: 1px solid #e8e8e8;
+            margin-bottom: 32px;
+            .ant-select {
+              font-size: 16px;
               width: 100%;
-              height: 100%;
+              .ant-select-selector {
+                border-radius: 16px;
+                height: 48px;
+                padding: 0 12px;
+                line-height: 48px;
+                .ant-select-selection-search {
+                  input {
+                    height: 100%;
+                    padding-top: 12px;
+                    line-height: 46px;
+                  }
+                }
+                .ant-select-selection-item {
+                  line-height: 46px;
+                  font-family: SparkTextNew;
+                  font-size: 16px;
+                  text-align: left;
+                }
+              }
+            }
+            .limit-box {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              font-size: 14px;
+              color: #050505;
+              margin-top: 14px;
+              input {
+                width: 118px;
+                height: 40px;
+                border: 1px solid #e6e6e6;
+                border-radius: 16px;
+                text-align: center;
+              }
+            }
+            .apply-b {
+              margin-top: 16px;
+              button {
+                width: 100%;
+                height: 40px;
+                background-color: #f5319d;
+                color: white;
+                border-radius: 16px;
+              }
             }
           }
-          .audio-end {
-            margin-right: 4px;
-            font-size: 15px;
-            color: rgba(244, 245, 246, 0.5);
-          }
-        }
-        .dis-audio {
-          filter: grayscale(1);
-          cursor: not-allowed;
-        }
-        .outside-url {
-          margin-top: 48px;
-          padding-bottom: 48px;
-          border-bottom: 1px solid #353945;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          .with-hand {
-            cursor: pointer;
-          }
-          span {
-            font-size: 20px;
-            color: #777e90;
-            margin-right: 8px;
-          }
-        }
-        .set-box {
-          margin-top: 44px;
-          button {
-            border-radius: 32px;
-            width: 110px;
-            height: 36px;
-            background-color: rgba(0, 0, 0, 0);
-            border: 2px solid rgba(104, 106, 108, 0.4);
-            span {
-              color: #686a6c;
+          .cur-box {
+            .ant-checkbox-group {
+              margin-top: 26px;
             }
           }
+          .hide-box {
+            height: 0;
+            overflow: hidden;
+            padding: 0;
+          }
         }
-        .ourside-account {
-          margin-top: 48px;
-          display: flex;
-          justify-content: center;
-          .outside-url-mobile {
-            display: none;
-          }
-          span {
-            color: #777e90;
-            font-size: 20px;
-            cursor: pointer;
-            margin-right: 20px;
-          }
-          span:last-child {
-            margin-right: 0;
+      }
+    }
+    @media screen and (max-width: 1440px) {
+      .owner-card {
+        transform: translateY(-150px);
+        .account-msg {
+          .new-card-msg {
+            .address-msg {
+              height: 600px;
+            }
           }
         }
       }
@@ -178,6 +248,7 @@
     .inner-data {
       flex: 1;
       position: relative;
+      padding-top: 32px;
       .set-btn {
         position: absolute;
         width: 112px;
@@ -272,6 +343,9 @@
   margin-right: 32px;
   margin-bottom: 50px;
   box-shadow: 0px 6px 24px 1px rgba(110, 110, 110, 0.18);
+  position: relative;
+  cursor: pointer;
+  transition: .3s all;
   .nft-box {
     height: 244px;
     width: 100%;
@@ -330,10 +404,46 @@
     }
     img {
       width: 100%;
+      transition: .3s all;
+    }
+  }
+  .oper-box {
+    position: absolute;
+    width: 100%;
+    height: 42px;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(115deg, #e10a86 0%, #6a64e4 100%);
+    transform: translateY(42px);
+    transition: 0.3s all;
+    display: flex;
+    .left-text {
+      flex: 1;
+      p {
+        line-height: 42px;
+        font-size: 14px;
+        color: white;
+        font-family: SparkSemiBold;
+      }
+    }
+    .more-options {
+      width: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-left: 1px solid rgba(255, 255, 255, 0.4);
+      span {
+        transform: rotate(90deg);
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+    .flex-w {
+      flex: 1;
     }
   }
   .coll-name {
-    margin-top: 42px;
+    margin-top: 24px;
     font-size: 20px;
     line-height: 24px;
     color: #0d0d0d;
@@ -356,6 +466,17 @@
       font-size: 18px;
       font-weight: bold;
     }
+  }
+}
+.new-nft-card:hover {
+  transform: translateY(-5px);
+  .nft-box{
+    img{
+      transform: scale(1.1);
+    }
+  }
+  .oper-box {
+    transform: translateY(0);
   }
 }
 .new-nft-card:nth-child(5n) {
@@ -490,7 +611,7 @@
       .inner-data {
         .conponenst-gater {
           .list-item {
-            .new-nft-card{
+            .new-nft-card {
               width: 17.5%;
             }
             .nft-box {
@@ -517,7 +638,7 @@
       .inner-data {
         .conponenst-gater {
           .list-item {
-            .new-nft-card{
+            .new-nft-card {
               width: 18%;
             }
             .nft-box {
@@ -894,6 +1015,40 @@
               padding: 0;
               font-size: 1.2rem;
             }
+          }
+        }
+      }
+    }
+  }
+}
+.ant-popover-placement-topLeft {
+  .ant-popover-content {
+    .ant-popover-inner {
+      padding: 0;
+      .more-options {
+        ul {
+          li {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: 0.3s all;
+            border-radius: 14px;
+            p {
+              font-family: SparkSemiBold;
+              font-size: 14px;
+              color: #202025;
+            }
+            img {
+              margin-right: 8px;
+            }
+            span {
+              color: #202025;
+              margin-right: 12px;
+            }
+          }
+          li:hover {
+            background-color: #f0f0f0;
           }
         }
       }

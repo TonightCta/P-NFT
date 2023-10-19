@@ -115,7 +115,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             {info?.is_onsale && state.address !== info.seller && <div className="price-msg">
                                 <p className="msg-title">Current price</p>
                                 <div className="price-text">
-                                    <img src={info?.pay_currency_name === 'PI' ? require('../../assets/images/pi_logo.png') : require('../../assets/new/eth_logo.png')} alt="" />
+                                    <img src={info?.pay_currency_name === 'ETH' ? require('../../assets/new/eth_logo.png') : require('../../assets/images/pi_logo.png')} alt="" />
                                     {info?.price && <p>{web3.utils.fromWei(info?.price as string, 'ether')}</p>}
                                     <p>{info.pay_currency_name}</p>
                                 </div>
@@ -147,7 +147,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                     </li>
                                     <li>
                                         <p>Blockchain</p>
-                                        <p>Plian Mainnet Subchain 1</p>
+                                        {info.chain_id && <p>{FilterAddress(info.chain_id).chain_name}</p>}
                                     </li>
                                 </ul>
                             </div>

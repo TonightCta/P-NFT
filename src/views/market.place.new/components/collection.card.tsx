@@ -89,7 +89,7 @@ const CollectionCard = (): ReactElement => {
                 <div className="mask"></div>
                 <div className="mask left"></div>
                 <Swiper
-                    slidesPerView={flag ? 1 : 2}
+                    slidesPerView={flag ? 1 : 4}
                     spaceBetween={48}
                     loop
                     onSwiper={(swiper) => {
@@ -114,7 +114,7 @@ const CollectionCard = (): ReactElement => {
                                             <img src={item.collection_name === 'PAI SPACE' ? require('../../../assets/new/plian_logo.png') : require('../../../assets/new/eht_white_logo.png')} alt="" />
                                         </div>
                                         <div className="poster-img">
-                                            <img className="poster-img" src={item.poster_minio_url} alt="" />
+                                            <img className="" src={item.poster_minio_url} alt="" />
                                             <div className="loading-box-public">
                                                 <Spin size="large" />
                                             </div>

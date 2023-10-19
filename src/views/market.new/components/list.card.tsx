@@ -60,9 +60,9 @@ const ListCard = (): ReactElement => {
         text: 'Recently Minted'
     });
     const [show, setShow] = useState<Show>({
-        status: true,
-        labels: true,
-        category: true,
+        status: false,
+        labels: false,
+        category: false,
         filter: true
     })
     const onChangeRadio = (e: RadioChangeEvent) => {
@@ -157,6 +157,15 @@ const ListCard = (): ReactElement => {
                 }}>Price High to Low</li>
                 <li onClick={() => {
                     setSortID({
+                        sort: 2,
+                        sory_by: 1,
+                        text: 'Recently Listed'
+                    })
+                }}>
+                    Recently Listed
+                </li>
+                <li onClick={() => {
+                    setSortID({
                         sort: 0,
                         sory_by: 1,
                         text: 'Recently Minted'
@@ -171,7 +180,16 @@ const ListCard = (): ReactElement => {
                         text: 'Oldest'
                     })
                 }}>
-                    Oldest
+                    Oldest Minted
+                </li>
+                <li onClick={() => {
+                    setSortID({
+                        sort: 2,
+                        sory_by: 0,
+                        text: 'Oldest Listed'
+                    })
+                }}>
+                    Oldest Listed
                 </li>
             </ul>
         </div>

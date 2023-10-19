@@ -11,7 +11,8 @@ interface Item {
     order_id: string,
     pay_currency_name: string,
     token_id: number,
-    image_minio_url: string
+    image_minio_url: string,
+    pay_currency_contract: string
 }
 
 interface Props {
@@ -30,7 +31,7 @@ interface Wait {
 const BuyNFTsModal = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const { state } = useContext(PNft)
-    const { queryERC20Approve, approveToken, buy, getBalance } = useContract();
+    const { queryERC20Approve, approveToken, buy, getBalance, balanceErc20 } = useContract();
     const { switchC } = useSwitchChain();
     const [wait, setWait] = useState<Wait>({
         approve: false,
@@ -48,7 +49,8 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             approve_dis: bol ? true : false,
             list_dis: bol ? false : true
         });
-        if (props.item.pay_currency_name === 'ETH' || props.item.pay_currency_name === 'PI') {
+        const contract: string = props.item.pay_currency_contract;
+        if (contract.slice(contract.length - 8, contract.length) === '00000000') {
             setWait({
                 ...wait,
                 approve_dis: true,
@@ -68,7 +70,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             approve_dis: true,
             approve: true
         })
-        const hash: any = await approveToken();
+        const hash: any = await approveToken(props.item.pay_currency_contract);
         if (!hash || hash.message) {
             setWait({
                 ...wait,
@@ -93,8 +95,9 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             list_dis: true,
             list: true
         });
-        const balance = await getBalance();
-        const numberBalance: number = +balance / 1e18;
+        const contract: string = props.item.pay_currency_contract;
+        const balance = contract.slice(contract.length - 8, contract.length) === '00000000' ? await getBalance() : await balanceErc20(contract);
+        const numberBalance: number = contract.slice(contract.length - 8, contract.length) === '00000000' ? +balance / 1e18 : +balance;
         const numberPrice: number = +props.item.price / 1e18;
         if (numberBalance < numberPrice) {
             message.warning('Your available balance is insufficient.');
@@ -114,7 +117,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             });
             return
         };
-        const upService = await NFTBuyService({
+        await NFTBuyService({
             chain_id: state.chain,
             sender: state.address,
             tx_hash: hash['transactionHash']

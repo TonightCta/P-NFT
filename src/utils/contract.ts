@@ -1,9 +1,11 @@
-import { ethereum, web3 } from "./types"
+import { ethereum, web3, web3P } from "./types"
 import ABI721 from './abi/721.json'
 import ABIMarket from './abi/market.json'
 import ABIERC20 from './abi/erc20.json'
 import NormalABIERC20 from './abi/normal_erc20.json'
 import ABISBT from './abi/sbt.json'
+import BBCABI from './abi/bbc.json'
+import HASHABI from './abi/hash.json'
 import { message } from "antd"
 import { useContext, useEffect, useState } from 'react';
 import * as Address from "./source"
@@ -31,6 +33,7 @@ export const useContract = () => {
     const [ERC20Contract, setERC20Contract] = useState<any>();
     const [MARKETContract, setMARKETContract] = useState<any>();
     const [SBTContract, setSBTContract] = useState<any>();
+    const [BBCContract, setBBCContract] = useState<any>();
     const { switchC } = useSwitchChain();
     const { state } = useContext(PNft);
     const owner: string = ethereum ? ethereum.selectedAddress : '';
@@ -42,12 +45,16 @@ export const useContract = () => {
     const cals = async () => {
         const pi = ethereum ? await web3.eth.getGasPrice() : '0';
         setGasPrice(pi);
+        console.log(pi)
     };
     const init = async () => {
         await cals();
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? FilterAddress(state.chain as string).contract_market : FilterAddress(state.chain as string).contract_market_test;
         setNFTContract(new web3.eth.Contract(ABI721 as any, NFTAddress, {
+            gasPrice: gasPrice
+        }));
+        setBBCContract(new web3.eth.Contract(BBCABI as any, '0x8e25e5c37983f915adcf212c00b2fe12d998699c', {
             gasPrice: gasPrice
         }));
         setERC20Contract(new web3.eth.Contract(ABIERC20 as any, FilterAddress(state.chain as string).contract_erc20, {
@@ -113,10 +120,13 @@ export const useContract = () => {
         return results
     };
     //ERC20授权
-    const approveToken = async () => {
+    const approveToken = async (_token_address: string) => {
+        const contract = new web3.eth.Contract(ABIERC20 as any, _token_address, {
+            gasPrice: gasPrice
+        });
         return new Promise((resolve, reject) => {
-            ERC20Contract.methods.approve(
-                calsMarks(FilterAddress(state.chain as string).contract_erc20),
+            contract.methods.approve(
+                calsMarks(FilterAddress(state.chain as string).contract_market),
                 "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
             ).send(send).on('receipt', (res: any) => {
                 resolve(res)
@@ -286,11 +296,33 @@ export const useContract = () => {
         const result = await web3.eth.getBalance(owner);
         return result;
     }
-    const balanceErc20 = async (_token_address: string) => {
-        const contract = new web3.eth.Contract(NormalABIERC20 as any, _token_address, {
-            gasPrice: gasPrice
-        });
-        const balance = await contract.methods.balanceOf(owner).call()
+    const balanceErc20 = async (_token_address: string): Promise<string> => {
+        const contract = new web3.eth.Contract(NormalABIERC20 as any, _token_address);
+        const balance = await contract.methods.balanceOf(owner).call();
+        return balance;
+    }
+    const transHash = async (_amount: string, _nonce: string): Promise<string> => {
+        const contract = new web3P.eth.Contract(HASHABI as any, '0x60D8b4198E78ee47a27d12B0D188C56578824875');
+        const hash: string = await contract.methods.hashTransaction(state.address, +_amount, _nonce).call();
+        return hash
+    }
+    const BBCPoolTotal = async (): Promise<number> => {
+        const total = await BBCContract.methods.totalSupply().call();
+        return +total
+    };
+    const BBCBuy = async (_hash: string, _amount: string, _nonce: string) => {
+        return new Promise((resolve, reject) => {
+            BBCContract.methods.buy(_hash, _nonce, +_amount).send({
+                value: web3.utils.toWei(String(+_amount * 0.05)),
+                from: owner,
+                gas: Gas
+            }).on('receipt', (res: string) => {
+                resolve(res)
+            }).on('error', ((err: any) => {
+                message.error(err.message)
+                resolve(err)
+            }))
+        })
     }
     return {
         mint,
@@ -306,6 +338,9 @@ export const useContract = () => {
         queryERC20Approve,
         approveToken,
         getBalance,
-        balanceErc20
+        balanceErc20,
+        BBCPoolTotal,
+        transHash,
+        BBCBuy
     }
 }

@@ -4,7 +4,7 @@ import { ReactElement, useContext, useEffect, useState } from "react";
 import { LAND, useContract, MODE } from "../../../utils/contract";
 import { PNft } from "../../../App";
 import { NFTMakerService } from "../../../request/api";
-import { PlianContractAddressMarketMain, PlianContractAddressMarketTest, PlianContractERC20Test, SystemAddress, TaikoContractAddressMarketMain, TaikoContractAddressMarketTest } from "../../../utils/source";
+import { PNFTAddress, PlianContractAddressMarketMain, PlianContractAddressMarketTest, PlianContractERC20Test, SystemAddress, TaikoContractAddressMarketMain, TaikoContractAddressMarketTest } from "../../../utils/source";
 import { useSwitchChain } from "../../../hooks/chain";
 import { FilterAddress } from "../../../utils";
 
@@ -63,7 +63,12 @@ const TokenList: Token[] =
                     symbol: 'PI',
                     icon: require('../../../assets/images/pi_logo.png'),
                     address: SystemAddress
-                }
+                },
+                {
+                    symbol: 'PNFT',
+                    icon: require('../../../assets/images/pi_logo.png'),
+                    address: PNFTAddress
+                },
             ]
             : [
                 {

@@ -11,62 +11,62 @@ interface Card {
     minter_name: string,
     minter: string
 }
-const MobileCardLisr : Card[] = [
+const MobileCardLisr: Card[] = [
     {
-        file_minio_url:require('../../../assets/mobile/poster_t_1.jpeg'),
-        file_name:'Imaginary City',
-        minter_minio_url:'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
-        minter_name:'Matthew',
-        minter:''
+        file_minio_url: require('../../../assets/mobile/poster_t_1.jpeg'),
+        file_name: 'Imaginary City',
+        minter_minio_url: 'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
+        minter_name: 'Matthew',
+        minter: ''
     },
     {
-        file_minio_url:require('../../../assets/mobile/poster_t_2.jpeg'),
-        file_name:'Imaginary City',
-        minter_minio_url:'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
-        minter_name:'Matthew',
-        minter:''
+        file_minio_url: require('../../../assets/mobile/poster_t_2.jpeg'),
+        file_name: 'Imaginary City',
+        minter_minio_url: 'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
+        minter_name: 'Matthew',
+        minter: ''
     },
     {
-        file_minio_url:require('../../../assets/mobile/poster_t_3.jpeg'),
-        file_name:'Basketball Girl',
-        minter_minio_url:'',
-        minter_name:'Carl',
-        minter:''
+        file_minio_url: require('../../../assets/mobile/poster_t_3.jpeg'),
+        file_name: 'Basketball Girl',
+        minter_minio_url: '',
+        minter_name: 'Carl',
+        minter: ''
     },
     {
-        file_minio_url:require('../../../assets/mobile/poster_t_4.jpeg'),
-        file_name:'Basketball Girl',
-        minter_minio_url:'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
-        minter_name:'Carl',
-        minter:''
+        file_minio_url: require('../../../assets/mobile/poster_t_4.jpeg'),
+        file_name: 'Basketball Girl',
+        minter_minio_url: 'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
+        minter_name: 'Carl',
+        minter: ''
     },
     {
-        file_minio_url:require('../../../assets/mobile/poster_t_5.jpeg'),
-        file_name:'Imaginary City',
-        minter_minio_url:'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
-        minter_name:'Matthew',
-        minter:''
+        file_minio_url: require('../../../assets/mobile/poster_t_5.jpeg'),
+        file_name: 'Imaginary City',
+        minter_minio_url: 'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
+        minter_name: 'Matthew',
+        minter: ''
     },
     {
-        file_minio_url:require('../../../assets/mobile/poster_t_6.jpeg'),
-        file_name:'Scenery in Dreams',
-        minter_minio_url:'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
-        minter_name:'Jordan',
-        minter:''
+        file_minio_url: require('../../../assets/mobile/poster_t_6.jpeg'),
+        file_name: 'Scenery in Dreams',
+        minter_minio_url: 'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
+        minter_name: 'Jordan',
+        minter: ''
     },
     {
-        file_minio_url:require('../../../assets/mobile/poster_t_7.jpeg'),
-        file_name:'Colorful Summer Day',
-        minter_minio_url:'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
-        minter_name:'Brown',
-        minter:''
+        file_minio_url: require('../../../assets/mobile/poster_t_7.jpeg'),
+        file_name: 'Colorful Summer Day',
+        minter_minio_url: 'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
+        minter_name: 'Brown',
+        minter: ''
     },
     {
-        file_minio_url:require('../../../assets/mobile/poster_t_8.jpeg'),
-        file_name:'Noble Girl',
-        minter_minio_url:'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
-        minter_name:'Delia',
-        minter:''
+        file_minio_url: require('../../../assets/mobile/poster_t_8.jpeg'),
+        file_name: 'Noble Girl',
+        minter_minio_url: 'https://minio.pizzap.io/pizzap/avatar1695221625?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=admin%2F20231007%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231007T070213Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=a867360bb321a788fd3386d5406be7e71b2df9d8346d90bff4ab3cb123a0d169',
+        minter_name: 'Delia',
+        minter: ''
     },
 ]
 
@@ -90,7 +90,9 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                 <div className="loading-box-public">
                     <Spin />
                 </div>
-                <img src={props.item.file_minio_url} alt="" className="nft-box" />
+                <div className="nft-box">
+                    <img src={props.item.file_minio_url} alt="" />
+                </div>
                 <p>{props.item.file_name}</p>
                 <div className="account-box">
                     <img src={props.item.minter_minio_url} alt="" />

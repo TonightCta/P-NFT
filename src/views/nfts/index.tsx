@@ -135,17 +135,13 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                     </div>}
                 </div>
                 <div className="owner-inner">
-                    <OwnerCard updateBG={(_url: string) => {
+                    <OwnerCard updateList={(val:number) => {
+                        selectTop(val)
+                    }} updateBG={(_url: string) => {
                         setOtherBG(_url);
                     }} />
                     <div className="inner-data">
-                        {searchParams.get('address') === state.address && VERSION === 'old' && <div className="set-btn" onClick={() => {
-                            navigate('/profile')
-                        }}>
-                            <SettingOutlined />
-                            <p>Setting</p>
-                        </div>}
-                        <div className="filter-box">
+                        {/* <div className="filter-box">
                             <div className="tabs">
                                 <ul>
                                     {
@@ -162,7 +158,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             <div className="search-box">
                                 <input type="text" placeholder="Search" />
                             </div>
-                        </div>
+                        </div> */}
                         <div className={`conponenst-gater ${loading ? 'gater-6n' : ''}`} id="ownerView">
                             <div className="list-item" >
                                 {loading && <div className="load-data-box">
@@ -190,7 +186,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         {
                             activeTop === 0 && total === 0 && !loading && <p className="no-more">No more</p>
                         }
-                        {total > 0 && <div className="page-oper">
+                        {total > 0 && !loading && <div className="page-oper">
                             <Pagination defaultCurrent={1} pageSize={12} total={total} onChange={(page) => {
                                 window.scrollTo({
                                     top: 220,

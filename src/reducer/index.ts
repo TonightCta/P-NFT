@@ -13,7 +13,8 @@ export const defaultState: State = {
     owner_address: sessionStorage.getItem('owner_address') || '',
     info_id: sessionStorage.getItem('info_id') || '',
     collection_id: sessionStorage.getItem('collection_id') || '',
-    contest_id: sessionStorage.getItem('contest_id') || ''
+    contest_id: sessionStorage.getItem('contest_id') || '',
+    erc20_address: sessionStorage.getItem('erc20_address') || ''
 };
 
 export const defaultContext: Context = {
@@ -60,6 +61,9 @@ export const initState = (state: State, action: IAction) => {
         case Type.SET_CHAIN:
             sessionStorage.setItem('chain', payload.chain as string);
             return { ...state, chain: payload.chain }
+        case Type.SET_ERC20_ADDRESS:
+            sessionStorage.setItem('erc20_address',payload.erc20_address as string);
+            return { ...state,erc20_address:payload.erc20_address }
         default:
             return state;
     }
