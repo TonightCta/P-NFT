@@ -279,7 +279,7 @@ const SwiperUser = (props:Props): ReactElement => {
                             //     }
                             // });
                             // navigate('/owner')
-                            navigate(`/owner?address=${rankMsg[index].minter}`)
+                            navigate(`/user/${rankMsg[index].minter}`)
                         }}>
                             {rankMsg[index] && rankMsg[index].loading && <div className="loading-box">
                                 <Spin size="large" />

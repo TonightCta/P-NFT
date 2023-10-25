@@ -13,7 +13,7 @@ interface Props {
 const TokenMenu: Menu[] = [
     {
         name: 'My NFTs',
-        url: '/owner',
+        url: '/user/:address',
     },
     {
         name: 'Setting',
@@ -57,14 +57,14 @@ const MobileMenuDraw = (props: Props): ReactElement => {
                                 TokenMenu.map((item: Menu, index: number) => {
                                     return (
                                         <li key={`${index} - token`} onClick={() => {
-                                            if (item.url === '/owner') {
+                                            if (item.url === '/user/:address') {
                                                 // dispatch({
                                                 //     type: Type.SET_OWNER_ADDRESS,
                                                 //     payload: {
                                                 //         owner_address: state.address as string
                                                 //     }
                                                 // });
-                                            navigate(`/owner?address=${state.address}`)
+                                            navigate(`/user/${state.address}`)
                                         };
                                             onClose();
                                         }}>

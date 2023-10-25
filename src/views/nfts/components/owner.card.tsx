@@ -7,7 +7,7 @@ import { calsAddress } from '../../../utils/index';
 import IconFont from "../../../utils/icon";
 import { ProfileService } from "../../../request/api";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 interface Props {
     updateBG: (val: string) => void,
     updateList: (val: number) => void
@@ -18,7 +18,7 @@ const OwnerCard = (props: Props): ReactElement => {
     const { state } = useContext(PNft)
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(true);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const searchParams = useParams();
     const [player, setPlayer] = useState<any>();
     const [playS, setPlay] = useState<boolean>(false);
     const [tab, setTab] = useState<number>(0);
@@ -35,22 +35,21 @@ const OwnerCard = (props: Props): ReactElement => {
         avatar_url: '1'
     });
     const otherProfile = async () => {
-        // console.log(searchParams.get('address'))
         const account = await ProfileService({
-            user_address: searchParams.get('address')
+            user_address: searchParams.address
         });
         setProfile(account.data);
         props.updateBG(account.data.bgimage_url);
     };
     useEffect(() => {
-        if (!searchParams.get('address')) {
+        if (!searchParams.address) {
             navigate('/')
         }
     }, [])
     useEffect(() => {
-        const address: string = searchParams.get('address') ? searchParams.get('address') as string : ''
+        const address: string = searchParams.address ? searchParams.address as string : ''
         address === state.address ? setProfile(state.account) : otherProfile();
-    }, [searchParams.get('address')]);
+    }, [searchParams.address]);
     return (
         <div className="owner-card">
             <div className="account-msg">
@@ -167,7 +166,7 @@ const OwnerCard = (props: Props): ReactElement => {
                                 message.success('Copy Successful')
                             }} />
                         </p>
-                        <div className="play-audio">
+                        <div className={`play-audio ${!profile.audio_url ? 'dis-box' : ''}`}>
                             <div className="play-btn" onClick={(e) => {
                                 if (!profile.audio_url) {
                                     message.warning('Not set');

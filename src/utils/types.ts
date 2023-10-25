@@ -86,5 +86,6 @@ export interface NFTItem {
     for_competetion: boolean,
     chain_id: string,
     collection_name: string,
-    token_name:string
+    token_name:string,
+    contract_address:string,
 }

@@ -217,6 +217,9 @@
             border-radius: 16px;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             .vote-num {
               position: absolute;
               z-index: 3;
@@ -263,6 +266,9 @@
             color: black;
             font-family: SparkTitleNew;
             text-align: left;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
           }
           .owner-msg {
             display: flex;

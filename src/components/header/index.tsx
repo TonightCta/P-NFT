@@ -20,21 +20,21 @@ const Menu: Menu[] = MODE === 'taiko'
     ? [
         {
             name: 'Create',
-            url: '/voice-nft'
+            url: '/create'
         },
         {
             name: 'Collections',
-            url: '/marketplace'
+            url: '/collections'
         },
     ]
     : [
         {
             name: 'Create',
-            url: '/voice-nft'
+            url: '/create'
         },
         {
             name: 'Collections',
-            url: '/marketplace'
+            url: '/collections'
         },
         {
             name: 'Airdrops',
@@ -54,10 +54,10 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
     useEffect(() => {
         setLine((location.pathname !== '/') ? 'need-line' : '');
         switch (location.pathname) {
-            case '/voice-nft':
+            case '/create':
                 setMenuActive(0);
                 break;
-            case '/marketplace':
+            case '/collections':
                 setMenuActive(1);
                 break;
             case '/airdrop':
@@ -76,7 +76,7 @@ const HeaderWapper = (): ReactElement<ReactNode> => {
                 //         owner_address: state.address as string
                 //     }
                 // })
-                navigate(`/owner?address=${state.address}`)
+                navigate(`/user/${state.address}`)
             }}>My NFTs</p>
             <p onClick={() => {
                 navigate('/profile')

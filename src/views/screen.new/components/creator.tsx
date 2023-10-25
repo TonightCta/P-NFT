@@ -1,6 +1,5 @@
-import { Button, Spin } from "antd";
+import { Spin } from "antd";
 import { ReactElement, ReactNode, useEffect, useState } from "react";
-// import IconFont from "../../../utils/icon";
 import { Screen2List } from '../../../request/api'
 import { useNavigate } from "react-router-dom";
 
@@ -113,7 +112,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                         MobileCardLisr.slice(0, 4).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
-                                    navigate(`/owner?address=${item.minter}`)
+                                    navigate(`/user/${item.minter}`)
                                 }}>
                                     <CreatorCard item={item} />
                                 </li>
@@ -126,7 +125,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                         MobileCardLisr.slice(4, 8).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
-                                    navigate(`/owner?address=${item.minter}`)
+                                    navigate(`/user/${item.minter}`)
                                 }}>
                                     <CreatorCard item={item} />
                                 </li>
@@ -139,7 +138,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                         data.slice(0, 4).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
-                                    navigate(`/owner?address=${item.minter}`)
+                                    navigate(`/user/${item.minter}`)
                                 }}>
                                     <CreatorCard item={item} />
                                 </li>
@@ -152,7 +151,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                         data.slice(4, 8).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
-                                    navigate(`/owner?address=${item.minter}`)
+                                    navigate(`/user/${item.minter}`)
                                 }}>
                                     <CreatorCard item={item} />
                                 </li>
@@ -165,7 +164,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                         data.slice(8, 12).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
-                                    navigate(`/owner?address=${item.minter}`)
+                                    navigate(`/user/${item.minter}`)
                                 }}>
                                     <CreatorCard item={item} />
                                 </li>
@@ -178,7 +177,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                         data.slice(12, 16).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
-                                    navigate(`/owner?address=${item.minter}`)
+                                    navigate(`/user/${item.minter}`)
                                 }}>
                                     <CreatorCard item={item} />
                                 </li>
@@ -191,7 +190,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                         data.slice(16, 20).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
-                                    navigate(`/owner?address=${item.minter}`)
+                                    navigate(`/user/${item.minter}`)
                                 }}>
                                     <CreatorCard item={item} />
                                 </li>
@@ -204,7 +203,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                         data.slice(20, 25).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
-                                    navigate(`/owner?address=${item.minter}`)
+                                    navigate(`/user/${item.minter}`)
                                 }}>
                                     <CreatorCard item={item} />
                                 </li>

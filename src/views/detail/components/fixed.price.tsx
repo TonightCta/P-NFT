@@ -66,7 +66,7 @@ const TokenList: Token[] =
                 },
                 {
                     symbol: 'PNFT',
-                    icon: require('../../../assets/images/pi_logo.png'),
+                    icon: require('../../../assets/images/pnft.png'),
                     address: PNFTAddress
                 },
             ]

@@ -2,8 +2,6 @@ import { ReactElement, ReactNode, useCallback, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import IconFont from "../../../utils/icon";
-// import { Navigation } from 'swiper/modules';
-// import Sketch from "../tool/sketch";
 
 const VoiceNFTWapper = (): ReactElement<ReactNode> => {
     // const [canvasEle, setCanvasEle]: Array<any> = useState(null);

@@ -17,11 +17,11 @@ interface Props {
 const RouteList: Menu[] = [
     {
         name: 'Create',
-        url: '/voice-nft'
+        url: '/create'
     },
     {
         name: 'Collections',
-        url: '/marketplace'
+        url: '/collections'
     },
     {
         name: 'Airdrops',
@@ -29,7 +29,7 @@ const RouteList: Menu[] = [
     },
     {
         name: 'My NFTs',
-        url: '/owner'
+        url: '/user/:address'
     },
     {
         name: 'Settings',
@@ -84,7 +84,7 @@ const MobileMenu = (props: Props): ReactElement => {
                     {state.address && <div className="account-msg" onClick={() => {
                         setVisible(false);
                         props.close(false);
-                        navigate(`/owner?address=${state.address}`)
+                        navigate(`/user/${state.address}`)
                     }}>
                         <div className="left-msg">
                             <p>{state.account.user_name ? state.account.user_name : 'unknow'}</p>

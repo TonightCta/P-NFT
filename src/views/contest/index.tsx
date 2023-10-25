@@ -5,7 +5,6 @@ import { CompetitionList } from "../../request/api";
 import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PNft } from "../../App";
-import { Type } from "../../utils/types";
 
 interface Data {
     competition_id: number,
@@ -43,7 +42,7 @@ const ContestView = (): ReactElement<ReactNode> => {
     return (
         <div className="contest-view">
             <div className="page-inner">
-                <p className="view-title">AIGC Competition</p>
+                <p className="view-title">AIGC Campaigns</p>
                 {
                     wait
                         ? <div className="loading-box">
@@ -55,13 +54,13 @@ const ContestView = (): ReactElement<ReactNode> => {
                                     data.map((item: Data, index: number) => {
                                         return (
                                             <li key={index} onClick={() => {
-                                                dispatch({
-                                                    type: Type.SET_CONTEST_ID,
-                                                    payload: {
-                                                        contest_id: String(item.competition_id)
-                                                    }
-                                                })
-                                                navigate('/contest-detail')
+                                                // dispatch({
+                                                //     type: Type.SET_CONTEST_ID,
+                                                //     payload: {
+                                                //         contest_id: String(item.competition_id)
+                                                //     }
+                                                // })
+                                                navigate(`/campaign/${item.competition_id}`)
                                             }}>
                                                 <div className="poster-box">
                                                     <div className="loading-box-public">

@@ -3,7 +3,6 @@ import './index.scss'
 import CardItem from "./components/item.card";
 import { NFTMarketService } from '../../request/api'
 import { NFTItem } from "../../utils/types";
-// import { NFTs } from "../../utils/source";
 import IconFont from "../../utils/icon";
 import MaskCard from "../../components/mask";
 import { Pagination, Spin } from "antd";

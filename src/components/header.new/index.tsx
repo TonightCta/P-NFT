@@ -20,19 +20,19 @@ export interface Menu {
 export const MenuList: Menu[] = [
     {
         name: 'Create',
-        url: '/voice-nft',
+        url: '/create',
     },
     {
         name: 'Collections',
-        url: '/marketplace',
+        url: '/collections',
     },
     {
         name: 'Gallery',
         url: '/gallery',
     },
     {
-        name: 'Bounties',
-        url: '/contest',
+        name: 'Campaigns',
+        url: '/campaigns',
     },
     {
         name: 'Airdrops',
@@ -61,16 +61,16 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
     };
     useEffect(() => {
         switch (location.pathname) {
-            case '/voice-nft':
+            case '/create':
                 setActive(0);
                 break;
-            case '/marketplace':
+            case '/collections':
                 setActive(1);
                 break;
             case '/gallery':
                 setActive(2);
                 break;
-            case '/contest':
+            case '/campaigns':
                 setActive(3);
                 break;
             case '/airdrop':
@@ -92,7 +92,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     //     }
                     // })
                     // navigate('/owner');
-                    navigate(`/owner?address=${state.address}`)
+                    navigate(`/user/${state.address}`)
                 }}>My NFTs</li>
                 <li onClick={() => {
                     navigate('/profile')
@@ -144,7 +144,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                                     navigate(item.url)
                                 }}>
                                     {item.name}
-                                    {item.name === 'Bounties' && <img src={require('../../assets/images/fire.gif')} alt="" />}
+                                    {item.name === 'Campaigns' && <img src={require('../../assets/images/fire.gif')} alt="" />}
                                     {item.name === 'Create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i"/>}
                                 </li>
                             )

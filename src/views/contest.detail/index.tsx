@@ -2,13 +2,13 @@ import { ReactElement, ReactNode, useContext, useEffect, useState } from "react"
 import './index.scss'
 import { PNft } from "../../App";
 import IconFont from "../../utils/icon";
-import { Button, Pagination, Popover, Spin } from "antd";
+import { Button, Pagination, Spin } from "antd";
 import FooterNew from "../screen.new/components/footer.new";
 import ContestCard from "./components/card";
 import { CompetitionInfo, CompetitionNFTList } from '../../request/api'
 import { DateConvert } from "../../utils/index";
 import { useNavigate } from "react-router-dom";
-import { Type } from "../../utils/types";
+import { useParams } from "react-router-dom";
 
 interface Info {
     bg_image_minio: string,
@@ -32,9 +32,10 @@ export interface Data {
 }
 
 const ContestDetailView = (): ReactElement<ReactNode> => {
-    const { state, dispatch } = useContext(PNft);
+    const { state } = useContext(PNft);
     const [active, setAction] = useState<number>(0);
     const [info, setInfo] = useState<Info>();
+    const searchParams = useParams();
     const [wait, setWait] = useState<boolean>(false);
     const navigate = useNavigate();
     const [page, setPage] = useState<{ num: number, total: number }>({
@@ -43,7 +44,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
     });
     const getInfo = async () => {
         const result = await CompetitionInfo({
-            competition_id: +(state.contest_id as string)
+            competition_id: +(searchParams.id as string)
         });
         const { data } = result;
         setInfo(data);
@@ -52,7 +53,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
     const getDataList = async () => {
         setWait(true);
         const result = await CompetitionNFTList({
-            competition_id: +(state.contest_id as string),
+            competition_id: +(searchParams.id as string),
             page_size: 12,
             page_num: page.num
         });
@@ -133,7 +134,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                                 //     }
                                 // });
                                 // navigate('/owner')
-                                navigate(`/owner?address=${state.address}`)
+                                navigate(`/user/${state.address}`)
                             }}>Submit your work</Button>
                         </div>
                     </div>

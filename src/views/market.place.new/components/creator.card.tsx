@@ -80,7 +80,7 @@ const CreatorCard = (): ReactElement => {
                             return (
                                 <SwiperSlide key={index}>
                                     <div className="creator-inner" onClick={() => {
-                                        navigate(`/owner?address=${item.minter}`)
+                                        navigate(`/user/${item.minter}`)
                                     }}>
                                         <div className="img-box">
                                             <div className="img-outside">

@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import IconFont from '../../../utils/icon';
-import { Button, Checkbox, Pagination, Popover, Radio, Select, Space, Spin } from "antd";
+import { Checkbox, Pagination, Popover, Radio, Select, Space, Spin } from "antd";
 import InnerCard from "./inner.card";
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import type { RadioChangeEvent } from 'antd';
@@ -157,7 +157,7 @@ const ListCard = (props: { chainID: string }): ReactElement => {
     useEffect(() => {
         setSearch('');
         getCollectionNFTs();
-    }, [labelsID, categoryID, sortID, page, status, show.filter, size, search]);
+    }, [labelsID, categoryID, sortID, page, status, show.filter, size, search,selectCurrency.address,num.min,num.max]);
     const handleChange = (value: string) => {
         setToken(value);
         if (value === '999') {
@@ -331,9 +331,9 @@ const ListCard = (props: { chainID: string }): ReactElement => {
                                 })
                             }} />
                         </div>
-                        <p className={`apply-btn ${(status === 0 || !num.min || !num.max) && 'dis-btn'}`}>
+                        {/* <p className={`apply-btn ${(status === 0 || !num.min || !num.max) && 'dis-btn'}`}>
                             <Button type="primary" disabled={status === 0 || !num.min || !num.max} onClick={getCollectionNFTs}>Apply</Button>
-                        </p>
+                        </p> */}
                     </div>
                     <div className="filter-title" onClick={() => {
                         setShow({
@@ -379,7 +379,7 @@ const ListCard = (props: { chainID: string }): ReactElement => {
                             }} />
                         </div>}
                         {(selectCurrency.address || num.max || num.min) && <div className="currency-text public-text">
-                            {(num.min || num.max) && <p className="small-text">&nbsp;{num.min}&nbsp;~&nbsp;{num.max}</p>}
+                            {(num.min || num.max) && <p className="small-text">&nbsp;{num.min ? num.min : 0}&nbsp;~&nbsp;{num.max ? num.max : 0}</p>}
                             <p>{selectCurrency.label}</p>
                             <CloseOutlined onClick={() => {
                                 setSelectCurrency({

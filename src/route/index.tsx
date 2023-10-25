@@ -30,25 +30,25 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route index element={<React.Suspense fallback={<Loading />}>
                     {VERSION === 'new' ? <View.ScreenViewNew /> : <View.ScreenView />}
                 </React.Suspense>}></Route>
-                <Route path="/voice-nft" element={<React.Suspense fallback={<Loading />}>
+                <Route path="/create" element={<React.Suspense fallback={<Loading />}>
                     {VERSION === 'new' ? <View.VoiceNFTNewView /> : <View.VoiceNFTView />}
                 </React.Suspense>}></Route>
                 <Route path="/gallery" element={<React.Suspense fallback={<Loading />}>
                     <View.GalleryView />
                 </React.Suspense>}></Route>
-                <Route path="/contest" element={<React.Suspense fallback={<Loading />}>
+                <Route path="/campaigns" element={<React.Suspense fallback={<Loading />}>
                     <View.ContestView />
                 </React.Suspense>}></Route>
-                <Route path="/contest-detail" element={<React.Suspense fallback={<Loading />}>
+                <Route path="/campaign/:id" element={<React.Suspense fallback={<Loading />}>
                     <View.ContestDetailView />
                 </React.Suspense>}></Route>
                 <Route path="/airdrop" element={<React.Suspense fallback={<Loading />}>
                     <View.AirdropView />
                 </React.Suspense>}></Route>
-                <Route path="/marketplace" element={<React.Suspense fallback={<Loading />}>
+                <Route path="/collections" element={<React.Suspense fallback={<Loading />}>
                     {VERSION === 'new' ? <View.MarketPlaceViewNew /> : <View.MarketPlaceView />}
                 </React.Suspense>}></Route>
-                <Route path="/market" element={<React.Suspense fallback={<Loading />}>
+                <Route path="/asset/:address" element={<React.Suspense fallback={<Loading />}>
                     {VERSION === 'new' ? <View.MarketViewNew /> : <View.MarketView />}
                 </React.Suspense>}></Route>
                 <Route path="/collection" element={<React.Suspense fallback={<Loading />}>
@@ -57,10 +57,10 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route path="/profile" element={<React.Suspense fallback={<Loading />}>
                     <View.ProfileView />
                 </React.Suspense>}></Route>
-                <Route path="/owner" element={<React.Suspense fallback={<Loading />}>
+                <Route path="/user/:address" element={<React.Suspense fallback={<Loading />}>
                     <View.OwnerNFTSView />
                 </React.Suspense>}></Route>
-                <Route path="/detail" element={<React.Suspense fallback={<Loading />}>
+                <Route path="/asset/:chain/:address/:tokenid" element={<React.Suspense fallback={<Loading />}>
                     {VERSION === 'new' ? <View.DetailNewView /> : <View.DetailView />}
                 </React.Suspense>}></Route>
                 <Route path="/tool" element={<React.Suspense fallback={<Loading />}>

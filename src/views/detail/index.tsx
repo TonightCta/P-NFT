@@ -5,7 +5,7 @@ import { Button, Spin, message } from "antd";
 import VerifyModal from "./components/verify.address";
 import { LAND } from "../../utils/contract";
 import { PNft } from "../../App";
-import { Type, web3 } from "../../utils/types";
+import { web3 } from "../../utils/types";
 import { calsAddress } from "../../utils";
 import IconFont from "../../utils/icon";
 import { CaretRightOutlined } from "@ant-design/icons";
@@ -103,7 +103,7 @@ const DetailView = (): ReactElement<ReactNode> => {
                             //         owner_address: item.seller
                             //     }
                             // });
-                            navigate(`/owner?address=${item.minter}`)
+                            navigate(`/user/${item.minter}`)
                             // navigate('/owner')
                         }}>
                             <img src={ownerItem.avatar_url} alt="" />

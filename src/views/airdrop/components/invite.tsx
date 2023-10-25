@@ -4,7 +4,6 @@ import { ActivityJoinService, ActivityInfoService, CheckJoinService } from "../.
 import { PNft } from "../../../App";
 import { GetUrlKey } from "../../../utils";
 import copy from 'copy-to-clipboard'
-import { useContract } from "../../../utils/contract";
 import { useMetamask } from "../../../utils/metamask";
 import { useSwitchChain } from "../../../hooks/chain";
 

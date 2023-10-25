@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react";
-import { CloudUploadOutlined, EditOutlined } from '@ant-design/icons'
-import { ProfileService, EditAvatarService, EditProfileService, QueryFile, AuthTwitterService, UploadAudioService, UploadBackGroundService } from "../../request/api";
+import { CloudUploadOutlined } from '@ant-design/icons'
+import * as API from '../../request/api'
 import './index.scss'
 import { PNft } from "../../App";
 import IconFont from "../../utils/icon";
@@ -10,7 +10,6 @@ import axios from "axios";
 import MaskCard from "../../components/mask";
 import { useMediaRecorder } from "../../hooks/record";
 import Recording from "../voice.nft/components/recording";
-// import ConnectModal from "./components/modal";
 import DefaultAvatar from "../../components/default_avatar/default.avatar";
 import MaskElement from "../voice.nft/components/mask.element";
 import { VERSION } from "../../utils/source";
@@ -55,11 +54,11 @@ const ProfileView = (): ReactElement<ReactNode> => {
     const fileBgRef: any = useRef('');
     const [upAvatar, setUpAvatar] = useState<boolean>(false);
     const upDateAccount = async () => {
-        const account = await ProfileService({
+        const account = await API.ProfileService({
             user_address: state.address
         });
         const setAvatar = async () => {
-            const result = await QueryFile({
+            const result = await API.QueryFile({
                 name: account.data.avatar_minio
             });
             dispatch({
@@ -143,7 +142,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
             link: profile.links,
             email: profile.email_address
         };
-        const result: any = await EditProfileService(params);
+        const result: any = await API.EditProfileService(params);
         setWait(false)
         const { status } = result;
         if (status !== 200) {
@@ -166,7 +165,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
         }
         formdata.append('user_address', state.address as string);
         formdata.append('avatar', file);
-        const result: any = await EditAvatarService(formdata);
+        const result: any = await API.EditAvatarService(formdata);
         setUpAvatar(false);
         const { status } = result;
         if (status !== 200) {
@@ -178,7 +177,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
     };
     //Bind Twitter
     const bindTwitterFN = async () => {
-        const result = await AuthTwitterService({
+        const result = await API.AuthTwitterService({
             chain_id: state.chain,
             user_address: state.address
         });
@@ -222,7 +221,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
         const formdata = new FormData();
         formdata.append('user_address', state.address as string);
         formdata.append('audio', audioFile as File);
-        const result = await UploadAudioService(formdata);
+        const result = await API.UploadAudioService(formdata);
         setSave(false);
         const { status } = result;
         if (status !== 200) {
@@ -244,7 +243,7 @@ const ProfileView = (): ReactElement<ReactNode> => {
         }
         formdata.append('user_address', state.address as string);
         formdata.append('bgimg', file);
-        const result = await UploadBackGroundService(formdata);
+        const result = await API.UploadBackGroundService(formdata);
         setCustom(false);
         const { status } = result;
         if (status !== 200) {

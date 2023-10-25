@@ -1,7 +1,7 @@
 import { ReactElement, useState } from "react";
 import './index.scss'
 import { NFTItem, web3 } from "../../utils/types";
-import { calsAddress } from "../../utils";
+import { FilterAddressToName } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { Spin } from "antd";
 import IconFont from "../../utils/icon";
@@ -25,7 +25,7 @@ const NftCard = (props: Props): ReactElement => {
             //         info_id: String(props.info.fid)
             //     }
             // });
-            navigate(`/detail?fid=${props.info.fid}`)
+            navigate(`/asset/${FilterAddressToName(item.chain_id).chain_name}/${item.contract_address}/${item.token_id}`)
         }}>
             <div className="nft-msg">
                 <img src={props.info.file_image_minio_url ? props.info.file_image_minio_url : props.info.image_minio_url} alt="" />
@@ -64,7 +64,7 @@ const NftCard = (props: Props): ReactElement => {
             <div className="minter-msg">
                 <div className="minter-avatar">
                     <img src={props.info.seller_avatar_url} alt="" />
-                    <p>{calsAddress(props.info.seller)}</p>
+                    {/* <p>{calsAddress(props.info.seller)}</p> */}
                 </div>
                 <p className="price-text">{web3.utils.fromWei(props.info.price as string, 'ether')}&nbsp;{props.info.pay_currency_name}</p>
             </div>

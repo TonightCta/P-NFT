@@ -6,7 +6,7 @@ import { useMediaRecorder } from "../../../hooks/record";
 import Recording from "../../voice.nft/components/recording";
 import { Input } from "..";
 import axios from "axios";
-import { LAND, MODE, NFTAddress, useContract } from "../../../utils/contract";
+import { LAND, MODE, useContract } from "../../../utils/contract";
 import { ethereum } from "../../../utils/types";
 import { NFTMintService, UploadFileService } from "../../../request/api";
 import { PNft } from "../../../App";
@@ -138,7 +138,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         }
         message.success('Mint Successfully!');
         setWait(false);
-        navigate(`/owner?address=${state.address}`)
+        navigate(`/user/${state.address}`)
     }
     return (
         <div className="basic-box">

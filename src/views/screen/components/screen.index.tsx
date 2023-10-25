@@ -1,6 +1,5 @@
 import { ReactElement, ReactNode, useEffect } from "react";
 import { InitCanvas } from '../tool/canvas'
-// import FooterWapper from "../../../components/footer";
 import { useNavigate } from "react-router-dom";
 import { LAND } from "../../../utils/contract";
 
@@ -15,7 +14,7 @@ const ScreenIndex = (): ReactElement<ReactNode> => {
             <p className="screen-remark">AI Empowers Your Creative Inspiration</p>
             <p>
                 <button onClick={() => {
-                    navigate('/voice-nft')
+                    navigate('/create')
                 }}>ENTER</button>
             </p>
             <div className="waves"></div>

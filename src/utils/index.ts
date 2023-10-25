@@ -1,6 +1,6 @@
 import ABI1155 from './abi/1155.json';
 import ABI721 from './abi/721.json'
-import { Config, NetworkConfig } from './source';
+import { Config, ConfigName, NetworkConfig, NetworkConfigName } from './source';
 
 interface Address {
     address_1155: string,
@@ -130,6 +130,12 @@ export const DateConvert = (_time: number): string => {
 
 export const FilterAddress = (chain_id: string) => {
     return NetworkConfig.filter((item: Config) => { return item.chain_id === chain_id })[0]
+}
+export const FilterAddressToName = (chain_id: string) => {
+    return NetworkConfigName.filter((item: ConfigName) => { return item.chain_id === chain_id })[0]
+}
+export const FilterAddressToChain = (chain_name: string) => {
+    return NetworkConfigName.filter((item: ConfigName) => { return item.chain_name === chain_name })[0]
 }
 
 export const randomString = (e?: number): string => {

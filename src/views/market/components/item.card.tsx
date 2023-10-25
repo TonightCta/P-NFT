@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { NFTItem, Type, web3 } from "../../../utils/types";
 import { Button, Popconfirm, Spin, message } from "antd";
 import { PNft } from "../../../App";
-import FixedModal from "../../detail/components/fixed.price";
 import { MFTOffService } from "../../../request/api";
 import { useContract } from "../../../utils/contract";
 import { CaretRightOutlined, RotateRightOutlined } from "@ant-design/icons";

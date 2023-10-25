@@ -3,6 +3,7 @@ import { ReactElement, useState } from "react";
 import { NFTItem, web3 } from "../../../utils/types";
 import { useNavigate } from "react-router-dom";
 import IconFont from "../../../utils/icon";
+import { FilterAddressToName } from "../../../utils";
 
 
 const InnerCard = (props: { item: any }): ReactElement => {
@@ -20,7 +21,7 @@ const InnerCard = (props: { item: any }): ReactElement => {
             //         info_id: String(props.item.fid)
             //     }
             // });
-            navigate(`/detail?fid=${props.item.fid}`)
+            navigate(`/asset/${FilterAddressToName(item.chain_id).chain_name}/${item.contract_address}/${item.token_id}`)
         }}>
             <div className="nft-box">
                 <div className="loading-box-public">

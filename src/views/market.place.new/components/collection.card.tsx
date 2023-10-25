@@ -1,4 +1,4 @@
-import { Button, Popover, Spin } from "antd";
+import { Button, Spin } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import IconFont from "../../../utils/icon";
 import { CollectionList } from '../../../request/api';
@@ -12,6 +12,7 @@ import { flag } from "../../../utils/source";
 interface Data {
     logo_minio_url: string,
     collection_name: string,
+    contract_address:string,
     poster_minio_url: string,
     collection_id: number,
     total_supply: number,
@@ -109,7 +110,7 @@ const CollectionCard = (): ReactElement => {
                                                 collection_id: String(item.collection_id)
                                             }
                                         });
-                                        navigate('/market')
+                                        navigate(`/asset/${item.contract_address}`)
                                     }}>
                                         <div className={`colleciton-logo ${item.chain_id === '8007736' ? '' : 'other-l'}`}>
                                             <img src={item.chain_id === '8007736' && require('../../../assets/new/plian_logo.png') || item.chain_id === '1' && require('../../../assets/new/eht_white_logo.png') || item.chain_id === '314' && require('../../../assets/new/fil_white_logo.png') || item.chain_id === '10' && require('../../../assets/new/op_white_logo.png')} alt="" />

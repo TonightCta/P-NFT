@@ -1,4 +1,4 @@
-import { Button, Spin } from "antd";
+import { Spin } from "antd";
 import { ReactElement, useEffect, useState } from "react";
 import IconFont from '../../../utils/icon';
 import { Screen1List } from '../../../request/api'

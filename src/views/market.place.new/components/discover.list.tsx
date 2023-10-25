@@ -43,7 +43,7 @@ const DiscoverList = (): ReactElement => {
                                 collection_id: "1"
                             }
                         });
-                        navigate('/market')
+                        navigate('/asset/0xa2822ac2662fe0cbf470d5721e24f8508ec43d33')
                     }}>
                         View More
                         <IconFont type="icon-arrow-up-right" />

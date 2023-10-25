@@ -1,11 +1,10 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
 import { Pagination, Spin } from 'antd'
-import { NFTOwnerService, WalletNFT } from '../../request/api'
+import { WalletNFT } from '../../request/api'
 import { NFTItem } from "../../utils/types";
 import OwnerCard from "./components/owner.card";
-import { SettingOutlined } from "@ant-design/icons";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MaskCard from "../../components/mask";
 import { PNft } from "../../App";
 import { VERSION } from "../../utils/source";
@@ -14,9 +13,8 @@ import NewNFTCard from "./components/new.card";
 
 const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const [activeTop, setActiveTop] = useState<number>(0);
-    const navigate = useNavigate();
     const [list, setList] = useState<NFTItem[]>([]);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const searchParams = useParams();
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
@@ -26,11 +24,12 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const [loadingBg, setLoadingBg] = useState<boolean>(true);
     //On Sle
     const saleListFN = async () => {
+        console.log(searchParams.address)
         setLoading(true);
         const result = await WalletNFT({
             chain_id: state.chain,
             is_onsale: true,
-            address: searchParams.get('address'),
+            address: searchParams.address,
             page_size: 12,
             page_num: page
         });
@@ -60,7 +59,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         setLoading(true);
         const result: any = await WalletNFT({
             chain_id: state.chain,
-            address: searchParams.get('address'),
+            address: searchParams.address,
             is_onsale: false,
             page_size: 12,
             page_num: page
@@ -98,7 +97,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     }
     useEffect(() => {
         loadMoreData();
-    }, [searchParams.get('address'), page, state.chain]);
+    }, [searchParams.address, page, state.chain]);
     const selectTop = (_type: number) => {
         // switch (_type) {
         //     case 0:
@@ -119,7 +118,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         _type === 0 ? saleListFN() : itemQuery();
     };
     const calsBG = () => {
-        const bol = searchParams.get('address') === state.address;
+        const bol = searchParams.address === state.address;
         return bol ? state.account.bgimage_url : otherBg;
     }
     return (
@@ -145,7 +144,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             <div className="tabs">
                                 <ul>
                                     {
-                                        (searchParams.get('address') === state.address ? ['On sale', 'Items'] : ['On sale']).map((item: string, index: number): ReactElement => {
+                                        (searchParams.address === state.address ? ['On sale', 'Items'] : ['On sale']).map((item: string, index: number): ReactElement => {
                                             return (
                                                 <li key={index} className={`${activeTop === index ? 'active-top' : ''}`} onClick={() => {
                                                     selectTop(index)

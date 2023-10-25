@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import Content3 from "./content.3";
-import { GalleryList, GalleryNFTList, GalleryPeriodList } from "../../../request/api";
+import { GalleryList, GalleryNFTList } from "../../../request/api";
 import { Data } from "./top.screen";
 import IconFont from "../../../utils/icon";
 

@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { ActivityRankService } from '../../../request/api'
-import { FilterAddress, NetworkAddress, calsAddress } from "../../../utils";
+import { FilterAddress, calsAddress } from "../../../utils";
 import { Spin } from "antd";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
 import { PNft } from "../../../App";

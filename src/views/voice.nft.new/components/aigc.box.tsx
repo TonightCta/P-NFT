@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useRef, useState } from "react";
+import { ReactElement, useContext, useState } from "react";
 import IconFont from "../../../utils/icon";
 import { Button, Select, Slider, message, Image } from "antd";
 import type { SliderMarks } from 'antd/es/slider';
@@ -231,7 +231,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
         }
         message.success('Mint Successfully!');
         setWait(false);
-        navigate(`/owner?address=${state.address}`)
+        navigate(`/user/${state.address}`)
     }
     return (
         <div className="aigc-box">

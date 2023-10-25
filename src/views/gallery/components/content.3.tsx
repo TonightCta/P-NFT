@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import { GalleryList, GalleryNFTList, GalleryPeriodList, GroupList } from "../../../request/api";
+import { GalleryList, GalleryNFTList, GroupList } from "../../../request/api";
 import { Data } from "./top.screen";
 import SeriesList from "./series.list";
 

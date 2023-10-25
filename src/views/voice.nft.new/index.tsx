@@ -2,11 +2,10 @@ import { ReactElement, ReactNode, useEffect, useState } from "react";
 import './index.scss'
 import FooterNew from "../screen.new/components/footer.new";
 import IconFont from "../../utils/icon";
-import { Button, Popover, Select, message } from "antd";
-// import InputBox from "./components/input.box";
+import { Button, Select, message } from "antd";
 import DesignBox from "./components/design.box";
 import { CategoryList, LabelList } from "../../request/api";
-import { CloseOutlined, DownOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { Config, NetworkConfig } from "../../utils/source";
 
 interface Op {

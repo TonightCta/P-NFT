@@ -1,11 +1,5 @@
 import { ReactElement, ReactNode, useContext, useEffect } from "react";
-// import { Button } from "antd";
 import './index.scss'
-// import { useMetamask } from "../../utils/metamask";
-// import { PNft } from "../../App";
-// import { useHiro } from "../../utils/hiro";
-// import { useXVerse } from "../../utils/xverse";
-// import FixedTabIndex from "./components/fixed.tab";
 import ScreenIndex from "./components/screen.index";
 import BuildIN from "./components/build.in";
 import VisionMap from "./components/vision.map";
@@ -15,7 +9,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper'
 import 'swiper/css';
 import "swiper/css/pagination";
-
 import { flag } from "../../utils/source";
 import { PNft } from "../../App";
 import { Type } from "../../utils/types";

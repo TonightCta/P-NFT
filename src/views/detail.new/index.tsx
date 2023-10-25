@@ -9,9 +9,9 @@ import FooterNew from "../screen.new/components/footer.new";
 import { NFTInfo, CollectionInfo } from '../../request/api'
 import { web3 } from "../../utils/types";
 import BuyNFTsModal from "../detail/components/buy.nft";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSwitchChain } from "../../hooks/chain";
-import { FilterAddress } from "../../utils";
+import { FilterAddress, FilterAddressToChain } from "../../utils";
 
 interface Info {
     image_minio_url: string,
@@ -42,7 +42,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
     const [imgLoad, setImgLoad] = useState<boolean>(true);
     const { switchC } = useSwitchChain();
     const [collInfo, setCollInfo] = useState<CollInfo>()
-    const [searchParams, setSearchParams] = useSearchParams();
+    const searchParams = useParams();
     const navigate = useNavigate();
     const [info, setInfo] = useState<Info | any>({
         price: '0'
@@ -51,7 +51,9 @@ const DetailNewView = (): ReactElement<ReactNode> => {
     const getInfo = async () => {
         setLoading(true);
         const result = await NFTInfo({
-            fid: +(searchParams.get('fid') as string),
+            chain_id: FilterAddressToChain(searchParams.chain as string).chain_id,
+            contract_address: searchParams.address,
+            token_id: +(searchParams.tokenid as string)
         });
         setLoading(false);
         const { data } = result;
@@ -97,25 +99,25 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             </div>
                             <p className="nft-name">{info?.file_name}&nbsp;#{info?.token_id}</p>
                             <div className="owner-msg" onClick={() => {
-                                navigate(`/owner?address=${info.seller}`)
+                                navigate(`/user/${info.seller}`)
                             }}>
                                 <img src={info?.seller_avatar_url ? info?.seller_avatar_url : info?.minter_avatar_url} alt="" />
                                 <p>Owner<span>{info?.seller_name ? info?.seller_name : info?.minter_name}</span></p>
                             </div>
                             <div className="labels-msg">
                                 <p>
-                                    <IconFont type="icon-biaoqian" />
-                                    {info?.labels?.join('/')}
-                                </p>
-                                <p>
                                     <IconFont type="icon-fenlei" />
                                     {info?.cateory_name}
+                                </p>
+                                <p>
+                                    <IconFont type="icon-biaoqian" />
+                                    {info?.labels?.join('/')}
                                 </p>
                             </div>
                             {info?.is_onsale && state.address !== info.seller && <div className="price-msg">
                                 <p className="msg-title">Current price</p>
                                 <div className="price-text">
-                                    <img src={info?.pay_currency_name === 'ETH' ? require('../../assets/new/eth_logo.png') : require('../../assets/images/pi_logo.png')} alt="" />
+                                    <img src={info?.pay_currency_name === 'ETH' && require('../../assets/new/eth_logo.png') || info?.pay_currency_name === 'PI' && require('../../assets/images/pi_logo.png') || require('../../assets/images/pnft.png')} alt="" />
                                     {info?.price && <p>{web3.utils.fromWei(info?.price as string, 'ether')}</p>}
                                     <p>{info.pay_currency_name}</p>
                                 </div>

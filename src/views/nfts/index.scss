@@ -279,6 +279,10 @@
                 height: 32px;
               }
             }
+            .dis-box {
+              filter: grayscale(1);
+              cursor: no-drop;
+            }
             .otside-url {
               margin-left: 26px;
               display: flex;

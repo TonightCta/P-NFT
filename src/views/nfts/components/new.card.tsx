@@ -1,15 +1,16 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { NFTItem, web3 } from "../../../utils/types";
-import { Button, Popconfirm, Popover, Tooltip, message } from "antd";
+import { Popconfirm, Popover, Tooltip, message } from "antd";
 import IconFont from "../../../utils/icon";
-import { FlagOutlined, MoreOutlined, ToTopOutlined } from "@ant-design/icons";
+import { MoreOutlined } from "@ant-design/icons";
 import { useSwitchChain } from "../../../hooks/chain";
 import { useContract } from "../../../utils/contract";
 import { MFTOffService } from "../../../request/api";
 import { PNft } from "../../../App";
 import FixedModal from "../../detail/components/fixed.price";
 import EditWorkModal from "./edit.work";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { FilterAddressToName } from "../../../utils";
 
 interface Props {
     uploadSell: () => void,
@@ -24,7 +25,7 @@ const NewNFTCard = (props: Props): ReactElement => {
         ...props.item,
         play: false
     });
-    const [searchParams, setSearchParams] = useSearchParams();
+    const searchParams = useParams();
     const { state } = useContext(PNft);
     const [open, setOpen] = useState(false);
     const { takeOff } = useContract();
@@ -135,10 +136,10 @@ const NewNFTCard = (props: Props): ReactElement => {
             <div className="oper-box">
                 {props.type === 1 && <div className="left-text">
                     {
-                        searchParams.get('address') !== state.address
+                        searchParams.address !== state.address
                             ?
                             <p onClick={() => {
-                                navigate(`/detail?fid=${props.item.fid}`)
+                                navigate(`/asset/${FilterAddressToName(props.item.chain_id).chain_name}/${props.item.contract_address}/${props.item.token_id}`)
                             }}>Buy Now</p>
                             :
                             <Popconfirm
@@ -163,7 +164,7 @@ const NewNFTCard = (props: Props): ReactElement => {
                         }}>Sell</p>
                     </div>
                 }
-                {state.address === searchParams.get('address') && <div className={`more-options`}>
+                {state.address === searchParams.address && <div className={`more-options`}>
                     <Tooltip title="More options">
                         <Popover onOpenChange={handleOpenChange} open={open} placement={`topLeft`} title={null} content={content} trigger="click">
                             <MoreOutlined />

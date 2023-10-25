@@ -1,7 +1,7 @@
 import './App.scss';
 import RouteConfig from './route';
-import { useReducer, createContext, useEffect } from 'react'
-import { HashRouter, useLocation } from 'react-router-dom';
+import { useReducer, createContext } from 'react'
+import { HashRouter } from 'react-router-dom';
 import { Context } from './utils/types';
 import { defaultContext, defaultState, defaultStateInit, initState } from './reducer';
 import { VERSION } from './utils/source';
