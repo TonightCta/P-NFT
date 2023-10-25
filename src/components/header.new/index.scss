@@ -32,6 +32,28 @@
         cursor: pointer;
         transition: 0.2s all;
         font-family: SparkSemiBold;
+        position: relative;
+        img{
+          width: 20px;
+          height: 20px;
+          position: absolute;
+          top: -2px;
+          right: -20px;
+        }
+        .ai-i{
+          height: 12px;
+          right: -22px;
+        }
+        span{
+          font-size: 12px;
+          padding: 2px 4px;
+          position: absolute;
+          background-color: #df0885;
+          color: white;
+          border-radius: 4px;
+          top: -6px;
+          right: -24px;
+        }
       }
       .active-menu {
         color: #df0885;

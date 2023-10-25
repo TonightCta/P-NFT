@@ -23,6 +23,35 @@ interface DataType {
     owners_amount: number;
 }
 
+interface Chain {
+    chain_name: string,
+    chain_logo: string,
+    chain_id: string
+}
+
+const FilterChain: Chain[] = [
+    {
+        chain_name: 'Ethereum',
+        chain_logo: require('../../assets/new/eth_logo.png'),
+        chain_id: '1'
+    },
+    {
+        chain_name: 'Plian Subchain 1',
+        chain_logo: require('../../assets/new/plian_logo_black.png'),
+        chain_id: '8007736'
+    },
+    {
+        chain_name: 'Filecoin',
+        chain_logo: require('../../assets/new/fil_black_logo.png'),
+        chain_id: '314'
+    },
+    {
+        chain_name: 'Optimism',
+        chain_logo: require('../../assets/new/op_black_logo.png'),
+        chain_id: '10'
+    },
+]
+
 const columns: ColumnsType<DataType> = [
     {
         title: '#',
@@ -70,7 +99,7 @@ const columns: ColumnsType<DataType> = [
     {
         title: '% Unique owners',
         dataIndex: 'owners_amount',
-        align:'right',
+        align: 'right',
         key: 'owners_amount',
         render: (_, { owners_amount, total_supply }) => <div className="flex-d">
             <p>{(owners_amount / total_supply).toFixed(2)}%</p>
@@ -101,7 +130,7 @@ const columnsMobile: ColumnsType<DataType> = [
     {
         title: '% Unique owners',
         dataIndex: 'owners_amount',
-        align:'right',
+        align: 'right',
         key: 'owners_amount',
         render: (_, { owners_amount, total_supply }) => <div className="flex-d">
             <p>{(owners_amount / total_supply).toFixed(2)}%</p>
@@ -116,24 +145,23 @@ const MarketViewAll = (): ReactElement<ReactNode> => {
     const [openSort, setOpenSort] = useState(false);
     const [categoryList, setCategoryList] = useState<Category[]>([]);
     const [wait, setWait] = useState<boolean>(false);
+    const [active, setActive] = useState<number>(99);
+    const [chainID, setChainID] = useState<string>('');
     const [selectCate, setSelectCate] = useState<Category>({
         category_name: 'All categories',
         category_id: 0
     })
     const getCategoryList = async () => {
-        setWait(true)
         const result = await CategoryList({ page_size: 100 });
         const { data } = result;
         data.data.item.unshift({
             category_name: 'All categories',
             category_id: 0
         })
-        setWait(false)
         setCategoryList(data.data.item);
     };
     useEffect(() => {
         getCategoryList();
-        getDataList();
     }, [])
     const hideCate = () => {
         setOpenCate(false);
@@ -150,10 +178,18 @@ const MarketViewAll = (): ReactElement<ReactNode> => {
     };
     const [data, setData] = useState<DataType[]>([]);
     const getDataList = async () => {
+        setWait(true)
         const result = await CollectionList({
-            page_size: 100
+            page_size: 100,
+            chain_id: chainID,
+            category_id: selectCate.category_id
         });
         const { data } = result;
+        setWait(false)
+        if (!data.data.item) {
+            setData([]);
+            return
+        }
         data.data.item = data.data.item.map((item: DataType, index: number) => {
             return {
                 ...item,
@@ -162,6 +198,9 @@ const MarketViewAll = (): ReactElement<ReactNode> => {
         });
         setData(data.data.item)
     };
+    useEffect(() => {
+        getDataList();
+    }, [chainID, selectCate])
     const contentCategory = (
         <div className="filter-popover">
             <ul onClick={hideCate}>
@@ -206,17 +245,24 @@ const MarketViewAll = (): ReactElement<ReactNode> => {
                     </Popover>
                     <div className="select-chain">
                         <ul>
-                            <li>All chains</li>
-                            <li>
-                                <Tooltip title="Ethereum">
-                                    <img src={require('../../assets/new/eth_logo.png')} alt="" />
-                                </Tooltip>
-                            </li>
-                            <li>
-                                <Tooltip title="Plian">
-                                    <img src={require('../../assets/new/plian_logo_black.png')} alt="" />
-                                </Tooltip>
-                            </li>
+                            <li className={`${active === 99 ? 'active-chain' : ''}`} onClick={() => {
+                                setChainID('');
+                                setActive(99);
+                            }}>All chains</li>
+                            {
+                                FilterChain.map((item: Chain, index: number) => {
+                                    return (
+                                        <li key={index} className={`${active === index ? 'active-chain' : ''}`} onClick={() => {
+                                            setChainID(item.chain_id);
+                                            setActive(index)
+                                        }}>
+                                            <Tooltip title={item.chain_name}>
+                                                <img src={item.chain_logo} alt="" />
+                                            </Tooltip>
+                                        </li>
+                                    )
+                                })
+                            }
                         </ul>
                     </div>
                 </div>

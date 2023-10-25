@@ -12,6 +12,7 @@ import { Config, NetworkConfig } from "../../utils/source";
 interface Op {
     value: string | number,
     label: string,
+    label_icon: string,
     bg?: string
 }
 
@@ -61,10 +62,11 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             page_size: 100
         })
         const { data } = result;
-        data.data.item = data.data.item.map((e: { label_id: number, label_name: string }) => {
+        data.data.item = data.data.item.map((e: { label_id: number, label_name: string, label_icon: string }) => {
             return {
                 value: String(e.label_id),
                 label: e.label_name,
+                label_icon: e.label_icon
                 // bg:require(`../../assets/labels/${e.label_name}.png`) ? require(`../../assets/labels/${e.label_name}.png`) : require(`../../assets/labels/Animals.png`)
             }
         });
@@ -145,45 +147,62 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             </div>
             <div className="public-inp-box">
                 <p><sup>*</sup>Labels</p>
-                <Popover content={selectPop} trigger={['click']} placement="bottom">
-                    <div className="select-custom-box">
-                        <div className="view-labels">
-                            <ul>
-                                {
-                                    labelsText.map((item: string, index: number) => {
-                                        return (
-                                            <li key={index} onClick={() => {
-                                                const arr = labelsID;
-                                                const arrTe = labelsText;
-                                                arrTe.splice(arrTe.indexOf(item), 1)
-                                                arr.splice(arrTe.indexOf(item), 1)
-                                                setLabelsID([...arr])
-                                                setLabelsText([...arrTe]);
-                                                setInput({
-                                                    ...input,
-                                                    labels: arr
-                                                })
-                                            }}>
-                                                <p>{item}</p>
-                                                <p className="clear-label">
-                                                    <CloseOutlined />
-                                                </p>
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </ul>
-                        </div>
-                        {labelsText.length < 1 && <p className="label-placeholder">Select Label</p>}
-                        <DownOutlined />
+                <div className="select-custom-box">
+                    <div className="view-labels">
+                        <ul>
+                            {
+                                labelsText.map((item: string, index: number) => {
+                                    return (
+                                        <li key={index} onClick={() => {
+                                            const arr = labelsID;
+                                            const arrTe = labelsText;
+                                            arrTe.splice(arrTe.indexOf(item), 1)
+                                            arr.splice(arrTe.indexOf(item), 1)
+                                            setLabelsID([...arr])
+                                            setLabelsText([...arrTe]);
+                                            setInput({
+                                                ...input,
+                                                labels: arr
+                                            })
+                                        }}>
+                                            <p>{item}</p>
+                                            <p className="clear-label">
+                                                <CloseOutlined />
+                                            </p>
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
                     </div>
-                </Popover>
-                {/* <Select
-                    mode="multiple"
-                    onChange={selectLabel}
-                    placeholder="Select label"
-                    options={labelsList}
-                /> */}
+                    {labelsText.length < 1 && <p className="label-placeholder">Select Label</p>}
+                    {/* <DownOutlined /> */}
+                </div>
+            </div>
+            <div className="select-pop-content">
+                <ul>
+                    {
+                        labelsList.map((item: Op, index: number) => {
+                            return (
+                                <li key={index} className={`${labelsID.indexOf(+item.value) > -1 ? 'selected-label' : ''}`} onClick={() => {
+                                    const arr = labelsID;
+                                    const arrTe = labelsText;
+                                    arr.indexOf(+item.value) > -1 ? arr.splice(arr.indexOf(+item.value), 1) : arr.push(+item.value);
+                                    arrTe.indexOf(item.label) > -1 ? arrTe.splice(arrTe.indexOf(item.label), 1) : arrTe.push(item.label);
+                                    setLabelsID([...arr])
+                                    setLabelsText([...arrTe]);
+                                    setInput({
+                                        ...input,
+                                        labels: arr
+                                    })
+                                }}>
+                                    <p>{item.label}</p>
+                                    <img src={item.label_icon} alt="" />
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
             </div>
             <div className="public-inp-box">
                 <p><sup>*</sup>Chain</p>

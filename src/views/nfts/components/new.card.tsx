@@ -127,6 +127,7 @@ const NewNFTCard = (props: Props): ReactElement => {
                 </div>}
             </div>
             <p className="coll-name">{props.item.collection_name}</p>
+            <p className="nft-name">{props.item.token_name}</p>
             <div className="nft-msg">
                 <p>{props.item.file_name}&nbsp;#{props.item.token_id}</p>
                 {props.type === 1 && <p className="nft-price">{web3.utils.fromWei(props.item.price as string, 'ether')}&nbsp;{props.item.pay_currency_name}</p>}

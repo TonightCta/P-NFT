@@ -143,7 +143,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                         <ul>
                             {
                                 // 'Award-winning works', 'Introduction'
-                                ['Entries'].map((item: string, index: React.Key) => {
+                                ['Art Works'].map((item: string, index: React.Key) => {
                                     return (
                                         <li key={index} className={`${+index === active ? 'active-f' : ''}`} onClick={() => { setAction(+index) }}>{item}</li>
                                     )

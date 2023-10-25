@@ -67,7 +67,7 @@ const CreatorCard = (): ReactElement => {
                     <IconFont type="icon-xiangxia" />
                 </div>
                 <Swiper
-                    slidesPerView={flag ? 1 : window.innerWidth <= 1440 ? 3 : 4}
+                    slidesPerView={flag ? 'auto' : window.innerWidth <= 1440 ? 3 : 4}
                     spaceBetween={30}
                     loop={flag ? true : false}
                     onSwiper={(swiper) => {

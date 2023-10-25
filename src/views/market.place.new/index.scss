@@ -180,7 +180,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    display: none;
     span {
       font-size: 48px;
       display: inline-block;
@@ -484,6 +483,11 @@
       .card-list {
         margin-top: 1.6rem;
         min-height: 30rem;
+        .swiper{
+          .swiper-slide{
+            width: auto;
+          }
+        }
         .card-inner {
           .colleciton-logo {
             width: 3.2rem;

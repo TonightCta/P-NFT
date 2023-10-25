@@ -25,9 +25,7 @@ interface Info {
 
 const EditWorkModal = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
-    const [active, setActive] = useState<number>(99);
     const [list, setList] = useState<Info[]>([]);
-    const [comID, setComID] = useState<number>(0);
     const [wait, setWait] = useState<boolean>(false);
     const { state } = useContext(PNft);
     const getList = async () => {
@@ -59,7 +57,7 @@ const EditWorkModal = (props: Props): ReactElement => {
                 wait: true
             });
             const params = {
-                competition_id: comID,
+                competition_id: _com_id,
                 chain_id: state.chain,
                 contract_address: FilterAddress(state.chain as string).contract_721,
                 token_id: props.work_id,
@@ -99,7 +97,7 @@ const EditWorkModal = (props: Props): ReactElement => {
                                 </div>
                                 <p>{Math.floor((item.end_time - (new Date().getTime() / 1000)) / 86400)}&nbsp;days left</p>
                             </div>
-                            <p className="hot-num">🔥&nbsp;{item.total_submit_items}</p>
+                            <p className="hot-num">🔥&nbsp;{item.total_submit_items}{}</p>
                         </div>
                         <Button loading={item.wait} disabled={item.wait} type="primary" onClick={() => {
                             submitNFT(item.competition_id)
@@ -121,7 +119,7 @@ const EditWorkModal = (props: Props): ReactElement => {
                             {
                                 list.map((item: Info, index: number) => {
                                     return (
-                                        <li key={index} className={`${active === index ? 'selected-contest' : ''}`}>
+                                        <li key={index}>
                                             <Card item={item} work_id={props.work_id} />
                                         </li>
                                     )

@@ -469,7 +469,7 @@ export const NetworkConfig :Config[]= [
         contract_721_test:'0x6B2793D4024bC3A9505133c0649e194488be1a47',
         contract_market:'0x286d1ae7c43c5ea3c7bbee601d9c1af875f5c50e',
         contract_market_test:'0xEDC36347d13f7838edCC3f760908c0Cf06C3aCF8',
-        contract_erc20:'0xFcb06A1a2E8834Fe9E0b49F533E14AB6384f74AC'
+        contract_erc20:'0xFcb06A1a2E8834Fe9E0b49F533E14AB6384f74AC',
     },
     {
         chain_id:'1',

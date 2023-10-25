@@ -94,4 +94,6 @@ export const GroupUsersList = (p: o) => post('/gallery/userlist', p);
 export const SubmitCompetition = (p: o) => post('/compitems/submit', p);
 //Wallet NFT
 export const WalletNFT = (p: o) => post('/user/nft/wallet', p);
+//Currency List
+export const CurrencyList = (p: o) => post('/currency/list', p);
 

@@ -141,7 +141,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         setOtherBG(_url);
                     }} />
                     <div className="inner-data">
-                        {/* <div className="filter-box">
+                        <div className="filter-box">
                             <div className="tabs">
                                 <ul>
                                     {
@@ -155,10 +155,10 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                     }
                                 </ul>
                             </div>
-                            <div className="search-box">
+                            {/* <div className="search-box">
                                 <input type="text" placeholder="Search" />
-                            </div>
-                        </div> */}
+                            </div> */}
+                        </div>
                         <div className={`conponenst-gater ${loading ? 'gater-6n' : ''}`} id="ownerView">
                             <div className="list-item" >
                                 {loading && <div className="load-data-box">

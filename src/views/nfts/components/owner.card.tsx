@@ -1,13 +1,12 @@
 import { ReactElement, useContext, useEffect, useRef, useState } from "react";
-import { CaretRightOutlined, CopyOutlined, DownOutlined, SearchOutlined, SettingOutlined } from "@ant-design/icons";
+import { DownOutlined, SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import copy from 'copy-to-clipboard'
-import { Affix, Button, Checkbox, Select, Spin, message } from "antd";
+import { Button, Checkbox, Select, Spin, message } from "antd";
 import { PNft } from "../../../App";
 import { calsAddress } from '../../../utils/index';
 import IconFont from "../../../utils/icon";
 import { ProfileService } from "../../../request/api";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
-import { VERSION, flag } from '../../../utils/source';
 import { useNavigate, useSearchParams } from "react-router-dom";
 interface Props {
     updateBG: (val: string) => void,
@@ -20,6 +19,8 @@ const OwnerCard = (props: Props): ReactElement => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(true);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [player, setPlayer] = useState<any>();
+    const [playS, setPlay] = useState<boolean>(false);
     const [tab, setTab] = useState<number>(0);
     const [show, setShow] = useState<{
         collection: boolean,
@@ -155,6 +156,85 @@ const OwnerCard = (props: Props): ReactElement => {
                             <Checkbox.Group options={plainOptions} defaultValue={['Apple']} />
                         </div>
                     </div>
+                </div>
+                <div className="new-card-msg-2">
+                    <div className="address-msg">
+                        <p className="user-name">{profile.user_name}</p>
+                        <p className="user-address-2">
+                            {calsAddress(profile.user_address ? profile.user_address : '')}
+                            <IconFont type="icon-fuzhi_copy" onClick={() => {
+                                copy(profile.user_address)
+                                message.success('Copy Successful')
+                            }} />
+                        </p>
+                        <div className="play-audio">
+                            <div className="play-btn" onClick={(e) => {
+                                if (!profile.audio_url) {
+                                    message.warning('Not set');
+                                    return
+                                };
+                                e.stopPropagation();
+                                if (playS) {
+                                    player.pause();
+                                    setPlay(false);
+                                    setPlayer(null);
+                                    return
+                                }
+                                const play = document.createElement('audio');
+                                setPlayer(play)
+                                play.src = profile.audio_url;
+                                play.loop = false;
+                                play.play();
+                            }}>
+                                <p><IconFont type="icon-bofang_play-one" /></p>
+                            </div>
+                            <img src={require('../../../assets/new/new_wave_2.png')} alt="" />
+                        </div>
+                        <div className="set-box-2" onClick={() => {
+                            navigate('/profile')
+                        }}>
+                            <SettingOutlined />
+                        </div>
+                        <div className="otside-url">
+                            <IconFont type="icon-twitter-logo-bold" onClick={() => {
+                                if (!profile.auth_twitter) {
+                                    message.warning('Not set');
+                                    return
+                                }
+                                window.open(profile.auth_twitter)
+                            }} />
+                            <IconFont type="icon-discord-logo-bold" onClick={() => {
+                                if (!profile.auth_discord) {
+                                    message.warning('Not set');
+                                    return
+                                }
+                                window.open(profile.auth_discord)
+                            }} />
+                            <IconFont className="icon-link" type="icon-globe-simple-bold" onClick={() => {
+                                if (!profile.link) {
+                                    message.warning('Not set');
+                                    return
+                                }
+                                window.open(profile.link)
+                            }} />
+                            <p>{profile.link}</p>
+                        </div>
+                    </div>
+                    <div className="set-box" onClick={() => {
+                        navigate('/profile')
+                    }}>
+                        <SettingOutlined />
+                    </div>
+                </div>
+                <div className="address-msg-2">
+                    <p>
+                        {calsAddress(profile.user_address ? profile.user_address : '')}
+                        <IconFont type="icon-fuzhi_copy" onClick={() => {
+                            copy(profile.user_address)
+                            message.success('Copy Successful')
+                        }} />
+                    </p>
+                    {/* <p>Joined July 2022</p> */}
                 </div>
             </div>
         </div>

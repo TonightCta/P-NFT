@@ -85,5 +85,6 @@ export interface NFTItem {
     for_unsale: boolean,
     for_competetion: boolean,
     chain_id: string,
-    collection_name: string
+    collection_name: string,
+    token_name:string
 }

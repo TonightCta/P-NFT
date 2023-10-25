@@ -26,24 +26,18 @@
     }
   }
   .owner-inner {
-    display: inline-flex;
     width: 100%;
     margin-top: -100px;
     padding: 0 60px;
     .owner-card {
-      min-width: 288px;
-      width: 288px;
+      width: 100%;
       transform: translateY(-200px);
-      border-radius: 24px;
-      margin-right: 48px;
-      background-color: white;
-      height: 650px;
       .account-msg {
         display: flex;
         flex-direction: column;
         .avatar-box {
           height: 288px;
-          width: 100%;
+          width: 288px;
           border-radius: 24px;
           border: 4px solid white;
           background-color: #f0f0f0;
@@ -68,8 +62,8 @@
           padding-right: 24px;
           flex: 1;
           overflow: auto;
+          display: none;
           .address-msg {
-            height: 550px;
             overflow: auto;
             padding-bottom: 40px;
           }
@@ -231,24 +225,122 @@
             padding: 0;
           }
         }
-      }
-    }
-    @media screen and (max-width: 1440px) {
-      .owner-card {
-        transform: translateY(-150px);
-        .account-msg {
-          .new-card-msg {
-            .address-msg {
-              height: 600px;
+        .new-card-msg-2 {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 28px;
+          .address-msg {
+            display: flex;
+            align-items: center;
+            .user-name {
+              font-size: 32px;
+              color: #202025;
+              font-family: SparkTextNew;
+            }
+            .user-address-2 {
+              display: none;
+            }
+            .set-box-2 {
+              display: none;
+            }
+            .play-audio {
+              width: 186px;
+              height: 34px;
+              border-radius: 32px;
+              border: 1px solid #f23176;
+              margin-left: 26px;
+              display: flex;
+              align-items: center;
+              border-left: 0;
+              .play-btn {
+                width: 34px;
+                height: 34px;
+                border: 1px solid #f23176;
+                border-radius: 50%;
+                padding: 4px;
+                cursor: pointer;
+                p {
+                  width: 100%;
+                  border-radius: 50%;
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  background: linear-gradient(180deg, #fa3370 0%, #fa89cb 100%);
+                  span {
+                    font-size: 16px;
+                  }
+                }
+              }
+              img {
+                margin-left: 8px;
+                height: 32px;
+              }
+            }
+            .otside-url {
+              margin-left: 26px;
+              display: flex;
+              align-items: center;
+              span {
+                color: #686a6c;
+                font-size: 24px;
+                margin-right: 24px;
+                cursor: pointer;
+              }
+              .icon-link {
+                margin-left: 12px;
+                margin-right: 6px;
+                font-family: SparkTextNew;
+              }
+              p {
+                font-size: 14px;
+                color: #202025;
+              }
+            }
+          }
+          .set-box {
+            width: 60px;
+            height: 40px;
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            span {
+              font-size: 18px;
+              color: #686a6c;
+            }
+          }
+        }
+        .address-msg-2 {
+          display: flex;
+          justify-content: flex-start;
+          margin-top: 24px;
+          font-size: 16px;
+          color: #202025;
+          p {
+            margin-right: 24px;
+            span {
+              cursor: pointer;
+              margin-left: 8px;
+              color: #f23176;
             }
           }
         }
       }
     }
+    @media screen and (max-width: 1440px) {
+      .owner-card {
+        transform: translateY(-150px);
+      }
+    }
     .inner-data {
-      flex: 1;
       position: relative;
       padding-top: 32px;
+      transform: translateY(-160px);
       .set-btn {
         position: absolute;
         width: 112px;
@@ -296,13 +388,12 @@
     width: 100%;
     margin: 0 auto;
     justify-content: space-between;
-    margin-top: 64px;
     align-items: center;
     margin-bottom: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #e8e8e8;
     .tabs {
-      background-color: #f0f0f0;
-      border-radius: 22px;
-      padding: 4px;
+      border-radius: 12px;
       ul {
         display: flex;
         li {
@@ -311,13 +402,13 @@
           width: 100px;
           height: 40px;
           cursor: pointer;
-          border-radius: 100px;
+          border-radius: 12px;
           transition: 0.3s all;
           font-weight: 500;
           line-height: 40px;
         }
         .active-top {
-          background-color: white;
+          background-color: #f0f0f0;
           color: #141416;
         }
       }
@@ -337,7 +428,7 @@
   }
 }
 .new-nft-card {
-  width: 18.1%;
+  width: 15.1%;
   border-radius: 16px;
   overflow: hidden;
   margin-right: 32px;
@@ -345,7 +436,7 @@
   box-shadow: 0px 6px 24px 1px rgba(110, 110, 110, 0.18);
   position: relative;
   cursor: pointer;
-  transition: .3s all;
+  transition: 0.3s all;
   .nft-box {
     height: 244px;
     width: 100%;
@@ -404,7 +495,7 @@
     }
     img {
       width: 100%;
-      transition: .3s all;
+      transition: 0.3s all;
     }
   }
   .oper-box {
@@ -452,6 +543,16 @@
     font-weight: 600;
     padding-left: 18px;
   }
+  .nft-name {
+    color: #050505;
+    font-size: 14px;
+    font-family: SparkTextNew;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-left: 18px;
+    margin: 8px auto;
+  }
   .nft-msg {
     display: flex;
     justify-content: space-between;
@@ -470,8 +571,8 @@
 }
 .new-nft-card:hover {
   transform: translateY(-5px);
-  .nft-box{
-    img{
+  .nft-box {
+    img {
       transform: scale(1.1);
     }
   }
@@ -479,7 +580,7 @@
     transform: translateY(0);
   }
 }
-.new-nft-card:nth-child(5n) {
+.new-nft-card:nth-child(6n) {
   margin-right: 0;
 }
 .no-more {
@@ -605,41 +706,38 @@
     }
   }
 }
-@media screen and (max-width: 1660px) {
-  .owner-view {
-    .owner-inner {
-      .inner-data {
-        .conponenst-gater {
-          .list-item {
-            .new-nft-card {
-              width: 17.5%;
-            }
-            .nft-box {
-              height: 200px;
-            }
-          }
-        }
-      }
-    }
-  }
-}
+// @media screen and (max-width: 1660px) {
+//   .owner-view {
+//     .owner-inner {
+//       .inner-data {
+//         .conponenst-gater {
+//           .list-item {
+//             .new-nft-card {
+//               width: 17.5%;
+//             }
+//             .nft-box {
+//               height: 200px;
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
 @media screen and (max-width: 1440px) {
   .owner-view {
     .owner-inner {
-      .owner-card {
-        width: 200px;
-        min-width: 200px;
-        .account-msg {
-          .avatar-box {
-            height: 200px;
-          }
-        }
-      }
       .inner-data {
         .conponenst-gater {
           .list-item {
             .new-nft-card {
               width: 18%;
+            }
+            .new-nft-card:nth-child(5n) {
+              margin-right: 0;
+            }
+            .new-nft-card:nth-child(6n) {
+              margin-right: 32px;
             }
             .nft-box {
               height: 200px;
@@ -800,11 +898,10 @@
       width: 100%;
       margin-top: 0;
       padding: 0;
-      flex-direction: column;
       .owner-card {
         margin-right: 0;
         width: 100%;
-        padding: 0 2.4rem;
+        padding: 0 2rem;
         transform: translateY(0);
         height: auto;
         border-radius: 0.8rem;
@@ -812,18 +909,80 @@
         border-top-right-radius: 0;
         .account-msg {
           display: flex;
-          flex-wrap: wrap;
-          align-items: center;
+          flex-direction: row;
+          .address-msg-2 {
+            display: none;
+          }
+          .new-card-msg-2 {
+            margin-top: 3rem;
+            width: auto;
+            .set-box {
+              display: none;
+            }
+            .address-msg {
+              flex-direction: column;
+              align-items: flex-start;
+              .user-address-2 {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                font-size: 1.4rem;
+                color: #686a6c;
+                margin-top: 0.8rem;
+                span {
+                  color: #df0885;
+                  margin-left: 0.8rem;
+                }
+              }
+              .set-box-2 {
+                padding: 0.4rem 1.2rem;
+                margin-top: 1rem;
+                border-radius: 0.6rem;
+                background-color: #f0f0f0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                span {
+                  color: #686a6c;
+                  font-size: 1.4rem;
+                }
+              }
+              .user-name {
+                font-size: 2rem;
+              }
+              .play-audio {
+                height: 2.4rem;
+                width: 13rem;
+                margin-left: 0;
+                margin-top: 1.4rem;
+                .play-btn {
+                  height: 2.4rem;
+                  width: 2.4rem;
+                }
+                img {
+                  height: 2.2rem;
+                }
+              }
+              .otside-url {
+                margin-top: 1.2rem;
+                margin-left: 0;
+                span {
+                  font-size: 2rem;
+                  margin-right: 1.6rem;
+                }
+              }
+            }
+          }
           .avatar-box {
-            height: 14.4rem;
-            width: 14.4rem;
+            height: 18.4rem;
+            width: 18.4rem;
             transform: translateY(-2rem);
+            border-radius: 0.8rem;
           }
           .address-msg {
             transform: translateY(-2rem);
             text-align: left;
             margin-left: 1.2rem;
-            padding-top: 2rem;
             .name-address {
               .name {
                 margin-top: 0;
@@ -858,9 +1017,6 @@
                 border-radius: 1.6rem;
               }
             }
-          }
-          .set-box {
-            display: none;
           }
           .ourside-account {
             margin-top: 0;

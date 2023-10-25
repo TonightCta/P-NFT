@@ -16,11 +16,11 @@ interface Props {
 
 const RouteList: Menu[] = [
     {
-        name: 'AI creation',
+        name: 'Create',
         url: '/voice-nft'
     },
     {
-        name: 'Marketplace',
+        name: 'Collections',
         url: '/marketplace'
     },
     {

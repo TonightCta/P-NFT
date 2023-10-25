@@ -19,11 +19,11 @@ export interface Menu {
 
 export const MenuList: Menu[] = [
     {
-        name: 'AI creation',
+        name: 'Create',
         url: '/voice-nft',
     },
     {
-        name: 'Marketplace',
+        name: 'Collections',
         url: '/marketplace',
     },
     {
@@ -31,7 +31,7 @@ export const MenuList: Menu[] = [
         url: '/gallery',
     },
     {
-        name: 'Contest',
+        name: 'Bounties',
         url: '/contest',
     },
     {
@@ -142,7 +142,11 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                                 <li className={`${index === active ? 'active-menu' : ''}`} key={index} onClick={() => {
                                     setActive(index);
                                     navigate(item.url)
-                                }}>{item.name}</li>
+                                }}>
+                                    {item.name}
+                                    {item.name === 'Bounties' && <img src={require('../../assets/images/fire.gif')} alt="" />}
+                                    {item.name === 'Create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i"/>}
+                                </li>
                             )
                         })
                     }

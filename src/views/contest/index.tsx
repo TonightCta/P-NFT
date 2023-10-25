@@ -43,7 +43,7 @@ const ContestView = (): ReactElement<ReactNode> => {
     return (
         <div className="contest-view">
             <div className="page-inner">
-                <p className="view-title">AI Contest</p>
+                <p className="view-title">AIGC Competition</p>
                 {
                     wait
                         ? <div className="loading-box">

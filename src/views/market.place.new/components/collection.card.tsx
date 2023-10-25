@@ -15,7 +15,8 @@ interface Data {
     poster_minio_url: string,
     collection_id: number,
     total_supply: number,
-    creator_name: string
+    creator_name: string,
+    chain_id:string
 }
 
 const CollectionCard = (): ReactElement => {
@@ -89,7 +90,7 @@ const CollectionCard = (): ReactElement => {
                 <div className="mask"></div>
                 <div className="mask left"></div>
                 <Swiper
-                    slidesPerView={flag ? 1 : 4}
+                    slidesPerView={flag ? 'auto' : 4}
                     spaceBetween={48}
                     loop
                     onSwiper={(swiper) => {
@@ -110,8 +111,8 @@ const CollectionCard = (): ReactElement => {
                                         });
                                         navigate('/market')
                                     }}>
-                                        <div className={`colleciton-logo ${item.collection_name === 'PAI SPACE' ? '' : 'other-l'}`}>
-                                            <img src={item.collection_name === 'PAI SPACE' ? require('../../../assets/new/plian_logo.png') : require('../../../assets/new/eht_white_logo.png')} alt="" />
+                                        <div className={`colleciton-logo ${item.chain_id === '8007736' ? '' : 'other-l'}`}>
+                                            <img src={item.chain_id === '8007736' && require('../../../assets/new/plian_logo.png') || item.chain_id === '1' && require('../../../assets/new/eht_white_logo.png') || item.chain_id === '314' && require('../../../assets/new/fil_white_logo.png') || item.chain_id === '10' && require('../../../assets/new/op_white_logo.png')} alt="" />
                                         </div>
                                         <div className="poster-img">
                                             <img className="" src={item.poster_minio_url} alt="" />

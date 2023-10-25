@@ -19,21 +19,21 @@ const MODE: string = process.env.REACT_APP_LAND as string;
 const Menu: Menu[] = MODE === 'taiko'
     ? [
         {
-            name: 'AI creation',
+            name: 'Create',
             url: '/voice-nft'
         },
         {
-            name: 'Marketplace',
+            name: 'Collections',
             url: '/marketplace'
         },
     ]
     : [
         {
-            name: 'AI creation',
+            name: 'Create',
             url: '/voice-nft'
         },
         {
-            name: 'Marketplace',
+            name: 'Collections',
             url: '/marketplace'
         },
         {

@@ -227,10 +227,38 @@
           }
         }
       }
+      .right-data {
+        flex: 1;
+        .filter-text {
+          margin-bottom: 24px;
+          .public-text {
+            padding: 8px 14px;
+            background-color: #eee;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 16px;
+            span {
+              margin-left: 8px;
+              font-size: 14px;
+              color: #050505;
+              cursor: pointer;
+            }
+            p {
+              font-size: 16px;
+              color: #050505;
+              font-family: SparkTextNew;
+            }
+            .small-text {
+              font-size: 15px;
+              margin-right: 8px;
+            }
+          }
+        }
+      }
       .data-box {
         display: flex;
         margin-top: 28px;
-
         @media screen and (max-width: 1700px) {
           .filter-box-data {
             width: 200px;
@@ -526,6 +554,56 @@
       }
     }
   }
+  .filter-currency {
+    padding-bottom: 24px !important;
+    .ant-select {
+      width: 95%;
+      height: 40px;
+      .ant-select-selector {
+        height: 40px;
+        .ant-select-selection-placeholder {
+          line-height: 38px;
+        }
+        .ant-select-selection-item {
+          font-size: 16px;
+          font-family: SparkTextNew;
+          line-height: 40px;
+        }
+      }
+    }
+    .num-filter {
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      padding-right: 5%;
+      align-items: center;
+      input {
+        width: 40%;
+        height: 38px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 16px;
+      }
+      p {
+        color: #050505;
+      }
+    }
+    .apply-btn {
+      margin-top: 16px;
+      padding-right: 5%;
+      button {
+        width: 100%;
+        border-radius: 8px;
+        height: 40px;
+      }
+    }
+    .dis-btn {
+      button {
+        opacity: 0.6;
+      }
+    }
+  }
   .filter-open-box {
     border-bottom: 1px solid #e8e8e8;
     margin-bottom: 34px;
@@ -534,7 +612,7 @@
   }
   .hide-box {
     height: 0;
-    padding-bottom: 0;
+    padding-bottom: 0 !important;
     overflow: hidden;
   }
 }

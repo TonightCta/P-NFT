@@ -99,6 +99,9 @@
 @media screen and (max-width: 1700px) {
   .nft-card {
     width: calc(17% - 26px);
+    .nft-msg{
+      height: 194px;
+    }
   }
   // .nft-card:nth-child(5n) {
   //   margin-right: 0;

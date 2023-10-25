@@ -29,7 +29,8 @@ export interface Info {
     category_id: number,
     creat_time: number,
     category_name: string,
-    collection_id: string
+    collection_id: string,
+    chain_id:string
 }
 
 const MarketViewNew = (): ReactElement<ReactNode> => {
@@ -146,7 +147,7 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                                         <p>Total items<span>{info?.total_supply}</span></p>
                                         {info?.creat_time && <p>Created<span>{DateConvert(info?.creat_time)}</span></p>}
                                         <p>Creator earnings<span>{info?.creator_earnings}%</span></p>
-                                        <p>Chain<span>{info?.collection_name === 'PAI SPACE' ? 'Plian' : 'Ethereum'}</span></p>
+                                        {info?.chain_id && <p>Chain<span>{FilterAddress(info.chain_id).chain_name}</span></p>}
                                         <p>Category<span>{info?.category_name}</span></p>
                                     </div>
                                     <p className="unknow-text">{info?.collection_description}</p>
@@ -173,7 +174,7 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                                     </div>
                                 }
                             </div>
-                            <ListCard />
+                            {info?.chain_id && <ListCard chainID={info.chain_id}/>}
                         </div>
                     </div>}
         </div>
