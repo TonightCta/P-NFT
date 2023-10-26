@@ -19,6 +19,7 @@ const GalleryView = React.lazy(() => import('./gallery/index'));
 const ContestView = React.lazy(() => import('./contest/index'));
 const ContestDetailView = React.lazy(() => import('./contest.detail/index'))
 const VoiceNFTNewView = React.lazy(() => import('./voice.nft.new/index'))
+const PageNotFound = React.lazy(() => import('./not.found/index'));
 
 export {
     IndexView,
@@ -39,5 +40,6 @@ export {
     GalleryView,
     ContestView,
     ContestDetailView,
-    VoiceNFTNewView
+    VoiceNFTNewView,
+    PageNotFound
 }

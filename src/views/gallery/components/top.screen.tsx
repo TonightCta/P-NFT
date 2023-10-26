@@ -55,7 +55,7 @@ const TopScreen = (): ReactElement => {
                                     <div className="first-nft-msg">
                                         <p className="nft-title">
                                             <img src={require('../../../assets/new/gallery_icon_1.gif')} alt="" />
-                                            Trending Work
+                                            Popular Works
                                         </p>
                                         <div className="creator-msg">
                                             <p className="creator-name">

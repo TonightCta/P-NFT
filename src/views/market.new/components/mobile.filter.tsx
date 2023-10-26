@@ -1,39 +1,76 @@
-import { Checkbox, Drawer, Radio, Space } from "antd";
+import { Checkbox, Drawer, Radio, Select, Space } from "antd";
 import { ReactElement, useEffect, useState } from "react";
 import IconFont from "../../../utils/icon";
-import { CategoryList, LabelList } from "../../../request/api";
+import { CategoryList, CurrencyList, LabelList } from "../../../request/api";
 import type { RadioChangeEvent } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { Currency } from "./list.card";
 
 interface Props {
     visible: boolean,
+    chainID:string,
     closeDrawer: (val: boolean) => void,
-    setStatus:(val:number) => void,
-    setCategoryID:(val:number) => void,
-    setLabelsID:(val:number[]) => void
+    setStatus: (val: number) => void,
+    setCategoryID: (val: number) => void,
+    setLabelsID: (val: number[]) => void,
+    setCurrency:(val:Currency) => void,
+    setNum:(val:{min:string | number,max:string | number}) => void
 }
 
 interface Show {
     status: boolean,
     labels: boolean,
     category: boolean,
+    currency: boolean,
 }
 
 const MobileFilter = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const [labelsList, setLabelsList] = useState<{ label_id: number, label_name: string }[]>([]);
-    const [status, setStatus] = useState<number>(0);
+    const [status, setStatus] = useState<number>(1);
     const [plainOptions, setPlainOptions] = useState<string[]>([]);
     const [categoryList, setCategoryList] = useState<{ category_id: number, category_name: string }[]>([]);
     const onClose = () => {
         setVisible(false);
         props.closeDrawer(false);
     };
+    const [currencyList, setCurrencyList] = useState<Currency[]>([]);
+    const [token, setToken] = useState<string>('999');
+    const [selectCurrency, setSelectCurrency] = useState<Currency>({
+        label: '',
+        value: 999,
+        address: ''
+    });
+    const [num, setNum] = useState<{ min: string | number, max: string | number }>({
+        min: '',
+        max: ''
+    })
     const [show, setShow] = useState<Show>({
         status: true,
         labels: true,
         category: true,
+        currency: true
     });
+    const getCurrencyList = async () => {
+        const result = await CurrencyList({
+            chain_id: props.chainID,
+            page_size: 200
+        });
+        const { data } = result;
+        data.data.item = data.data.item.map((item: { currency_name: string, contract_address: string, currency_id: number }) => {
+            return {
+                label: item.currency_name,
+                value: item.currency_id,
+                address: item.contract_address
+            }
+        });
+        data.data.item.unshift({
+            label: 'All',
+            value: '999',
+            address: ''
+        })
+        setCurrencyList(data.data.item);
+    }
     const getLabelList = async () => {
         const result = await LabelList({ page_size: 500 });
         const { data } = result;
@@ -56,6 +93,21 @@ const MobileFilter = (props: Props): ReactElement => {
         props.setCategoryID(e.target.value);
         onClose();
     };
+    const handleChange = (value: string) => {
+        setToken(value);
+        if (value === '999') {
+            setSelectCurrency({
+                label: '',
+                value: 999,
+                address: ''
+            });
+            return
+        }
+        const as = currencyList.filter((item: Currency) => { return +value === item.value });
+        setSelectCurrency(as[0]);
+        props.setCurrency(as[0])
+        onClose();
+    };
     const onChange = (checkedValues: CheckboxValueType[]) => {
         const selectIDs: number[] = [];
         labelsList.forEach((item: { label_id: number, label_name: string }) => {
@@ -73,6 +125,7 @@ const MobileFilter = (props: Props): ReactElement => {
         const get = () => {
             getLabelList();
             getCategoryList();
+            getCurrencyList();
         }
         props.visible && get();
     }, [props.visible])
@@ -101,6 +154,49 @@ const MobileFilter = (props: Props): ReactElement => {
                             onClose();
                         }}><p className="point"></p>Listed</li>
                     </ul>
+                </div>
+                <div className="filter-title" onClick={() => {
+                    setShow({
+                        ...show,
+                        currency: !show.currency
+                    })
+                }}>
+                    <p>Currency</p>
+                    <IconFont type="icon-xiangxia" className={`${!show.currency ? 'hide-arrow' : ''}`} />
+                </div>
+                <div className={`filter-currency filter-open-box ${!show.currency ? 'hide-box' : ''}`}>
+                    <Select
+                        onChange={handleChange}
+                        placeholder="Select Token"
+                        options={currencyList}
+                        value={token}
+                    />
+                    <div className="num-filter">
+                        <input type="number" placeholder="Min" value={num.min} onChange={(e) => {
+                            setNum({
+                                ...num,
+                                min: e.target.value
+                            });
+                            props.setNum({
+                                ...num,
+                                min: e.target.value
+                            })
+                        }} />
+                        <p>-</p>
+                        <input type="number" placeholder="Max" value={num.max} onChange={(e) => {
+                            setNum({
+                                ...num,
+                                max: e.target.value
+                            })
+                            props.setNum({
+                                ...num,
+                                max: e.target.value
+                            })
+                        }} />
+                    </div>
+                    {/* <p className={`apply-btn ${(status === 0 || !num.min || !num.max) && 'dis-btn'}`}>
+                            <Button type="primary" disabled={status === 0 || !num.min || !num.max} onClick={getCollectionNFTs}>Apply</Button>
+                        </p> */}
                 </div>
                 <div className="filter-title" onClick={() => {
                     setShow({

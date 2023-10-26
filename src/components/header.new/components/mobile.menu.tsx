@@ -46,6 +46,8 @@ const MobileMenuDraw = (props: Props): ReactElement => {
                                         onClose();
                                     }}>
                                         <p>{item.name}</p>
+                                        {item.name === 'Campaigns' && <img src={require('../../../assets/images/fire.gif')} alt="" />}
+                                        {item.name === 'Create' && <img src={require('../../../assets/images/ai.gif')} alt="" className="ai-i" />}
                                     </li>
                                 )
                             })
@@ -64,8 +66,9 @@ const MobileMenuDraw = (props: Props): ReactElement => {
                                                 //         owner_address: state.address as string
                                                 //     }
                                                 // });
-                                            navigate(`/user/${state.address}`)
-                                        };
+                                                navigate(`/user/${state.address}`)
+                                            };
+                                            navigate(item.url)
                                             onClose();
                                         }}>
                                             <p>{item.name}</p>

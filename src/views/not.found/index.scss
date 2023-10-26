@@ -1,0 +1,24 @@
+.not-found {
+  padding-top: 248px;
+  text-align: center;
+  img {
+    width: 380px;
+    height: 222px;
+  }
+  p {
+    margin-top: 22px;
+    color: #202025;
+    font-size: 28px;
+    font-family: SparkSemiBold;
+    button {
+      margin-top: 36px;
+      width: 192px;
+      height: 60px;
+      background-color: white;
+      color: #f23176;
+      border: 2px solid #f23176;
+      border-radius: 14px;
+      font-size: 16px;
+    }
+  }
+}

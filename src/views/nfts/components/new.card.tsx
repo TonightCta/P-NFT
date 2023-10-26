@@ -67,7 +67,10 @@ const NewNFTCard = (props: Props): ReactElement => {
             <ul onClick={() => {
                 setOpen(false)
             }}>
-                <li onClick={() => {
+                <li className={`${props.item.for_competetion ? '' : 'dis-btn'}`} onClick={() => {
+                    if (!props.item.for_competetion) {
+                        return
+                    }
                     setWorkID(props.item.token_id);
                     setWorkBox(true);
                 }}>

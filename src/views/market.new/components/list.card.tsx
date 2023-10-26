@@ -18,7 +18,7 @@ interface Show {
     filter: boolean
 }
 
-interface Currency {
+export interface Currency {
     label: string,
     value: number,
     address: string
@@ -157,7 +157,7 @@ const ListCard = (props: { chainID: string }): ReactElement => {
     useEffect(() => {
         setSearch('');
         getCollectionNFTs();
-    }, [labelsID, categoryID, sortID, page, status, show.filter, size, search,selectCurrency.address,num.min,num.max]);
+    }, [labelsID, categoryID, sortID, page, status, show.filter, size, search, selectCurrency.address, num.min, num.max]);
     const handleChange = (value: string) => {
         setToken(value);
         if (value === '999') {
@@ -379,7 +379,7 @@ const ListCard = (props: { chainID: string }): ReactElement => {
                             }} />
                         </div>}
                         {(selectCurrency.address || num.max || num.min) && <div className="currency-text public-text">
-                            {(num.min || num.max) && <p className="small-text">&nbsp;{num.min ? num.min : 0}&nbsp;~&nbsp;{num.max ? num.max : 0}</p>}
+                            {(num.min || num.max) && <p className="small-text">&nbsp;{num.min ? num.min : 0}&nbsp;~&nbsp;{num.max ? num.max : 'Unlimited'}</p>}
                             <p>{selectCurrency.label}</p>
                             <CloseOutlined onClick={() => {
                                 setSelectCurrency({
@@ -443,7 +443,7 @@ const ListCard = (props: { chainID: string }): ReactElement => {
                     setPage(e)
                 }} />
             </div>}
-            <MobileFilter visible={mobileDrawer} closeDrawer={(val: boolean) => {
+            <MobileFilter chainID={props.chainID} visible={mobileDrawer} closeDrawer={(val: boolean) => {
                 setMobileDrawer(val)
             }} setStatus={(val: number) => {
                 setStatus(val)
@@ -451,6 +451,10 @@ const ListCard = (props: { chainID: string }): ReactElement => {
                 setCategoryID(val);
             }} setLabelsID={(val: number[]) => {
                 setLabelsID(val);
+            }} setCurrency={(val: Currency) => {
+                setSelectCurrency(val);
+            }} setNum={(val: { min: string | number, max: number | string }) => {
+                setNum(val);
             }} />
         </div>
     )

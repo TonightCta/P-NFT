@@ -159,7 +159,7 @@ const FreeMintCard = (): ReactElement => {
                                 </Button>
                                 : <Button type="primary" onClick={() => {
                                     signInFN()
-                                }} loading={wait} disabled={point === 7 || wait}>{point === 7 ? 'Sign-in complete' : 'Sign-in'}</Button>
+                                }} loading={wait} disabled={point === 7 || wait}>{point === 7 ? 'Sign-in completed' : 'Sign-in'}</Button>
                         }
                     </div>
                 </div>

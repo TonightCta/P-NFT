@@ -1210,6 +1210,15 @@
           li:hover {
             background-color: #f0f0f0;
           }
+          .dis-btn:hover {
+            background-color: white;
+          }
+          .dis-btn {
+            cursor: no-drop;
+            p {
+              color: #686a6c;
+            }
+          }
         }
       }
     }

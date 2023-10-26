@@ -33,18 +33,18 @@
         transition: 0.2s all;
         font-family: SparkSemiBold;
         position: relative;
-        img{
+        img {
           width: 20px;
           height: 20px;
           position: absolute;
           top: -2px;
           right: -20px;
         }
-        .ai-i{
+        .ai-i {
           height: 12px;
           right: -22px;
         }
-        span{
+        span {
           font-size: 12px;
           padding: 2px 4px;
           position: absolute;
@@ -121,7 +121,7 @@
           margin-right: 12px;
           border-radius: 0;
         }
-        span{
+        span {
           font-size: 24px;
         }
       }
@@ -141,14 +141,14 @@
       border-radius: 8px;
       display: flex;
       align-items: center;
-      img{
+      img {
         width: auto;
         height: 18px;
         margin-right: 12px;
       }
     }
-    li:first-child{
-      img{
+    li:first-child {
+      img {
         width: 18px;
       }
     }
@@ -157,7 +157,7 @@
     }
   }
 }
-.connect-menu-chain{
+.connect-menu-chain {
   width: 180px;
 }
 @media screen and (max-width: 1280px) {
@@ -228,6 +228,19 @@
       width: 100%;
       li {
         margin-bottom: 32px;
+        position: relative;
+        img {
+          position: absolute;
+          width: 2rem;
+          height: 2rem;
+          top: -0.4rem;
+          left: 8.5rem;
+        }
+        .ai-i {
+          height: 1.1rem;
+          left: 5rem;
+          top: -0.2rem;
+        }
         p {
           color: #202025;
           text-align: left;

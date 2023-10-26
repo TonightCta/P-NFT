@@ -66,6 +66,9 @@ const RouteConfig = (): ReactElement<ReactNode> => {
                 <Route path="/tool" element={<React.Suspense fallback={<Loading />}>
                     <View.ToolView />
                 </React.Suspense>}></Route>
+                <Route path="*" element={<React.Suspense fallback={<Loading />}>
+                    <View.PageNotFound />
+                </React.Suspense>}></Route>
             </Route>
         </Routes>
     )

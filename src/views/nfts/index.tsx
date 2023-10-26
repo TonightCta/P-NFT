@@ -24,7 +24,6 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const [loadingBg, setLoadingBg] = useState<boolean>(true);
     //On Sle
     const saleListFN = async () => {
-        console.log(searchParams.address)
         setLoading(true);
         const result = await WalletNFT({
             chain_id: state.chain,
@@ -144,7 +143,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             <div className="tabs">
                                 <ul>
                                     {
-                                        (searchParams.address === state.address ? ['On sale', 'Items'] : ['On sale']).map((item: string, index: number): ReactElement => {
+                                        (searchParams.address === state.address ? ['On Sale', 'Wallet'] : ['On sale']).map((item: string, index: number): ReactElement => {
                                             return (
                                                 <li key={index} className={`${activeTop === index ? 'active-top' : ''}`} onClick={() => {
                                                     selectTop(index)
