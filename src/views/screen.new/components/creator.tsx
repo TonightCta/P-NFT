@@ -1,7 +1,9 @@
 import { Spin } from "antd";
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import { Screen2List } from '../../../request/api'
 import { useNavigate } from "react-router-dom";
+import { PNft } from "../../../App";
+import { Type } from "../../../utils/types";
 
 interface Card {
     file_minio_url: string,
@@ -71,11 +73,22 @@ const MobileCardLisr: Card[] = [
 
 const CreatorWapper = (): ReactElement<ReactNode> => {
     const [data, setData] = useState<Card[]>([]);
+    const { state, dispatch } = useContext(PNft);
     const getDataList = async () => {
+        if (state.screen_two) {
+            setData(JSON.parse(state.screen_two));
+            return
+        }
         const result = await Screen2List({
             page_size: 24,
         });
         const { data } = result;
+        dispatch({
+            type: Type.SET_SCREEN_TWO,
+            payload: {
+                screen_two: data.data.item
+            }
+        });
         //TODO voice_ipfs
         setData(data.data.item);
     };

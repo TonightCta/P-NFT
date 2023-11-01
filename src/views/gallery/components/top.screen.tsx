@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { GalleryList, GalleryNFTList } from '../../../request/api';
 import { Spin } from "antd";
 import IconFont from "../../../utils/icon";
@@ -7,6 +7,8 @@ import { Pagination, Autoplay } from 'swiper'
 import "swiper/css";
 import 'swiper/css/pagination';
 import { flag } from "../../../utils/source";
+import { PNft } from "../../../App";
+import { Type } from "../../../utils/types";
 
 export interface Data {
     minter_minio_url: string,
@@ -18,10 +20,15 @@ export interface Data {
 
 const TopScreen = (): ReactElement => {
     const [data, setData] = useState<Data[]>([]);
+    const { state, dispatch } = useContext(PNft);
     const [active, setActive] = useState<number>(0);
     const [swiperRef, setSwiperRef] = useState<any>();
     const [ani, setAni] = useState<string>('');
     const getInfo = async () => {
+        if (state.gallery_one) {
+            setData(JSON.parse(state.gallery_one));
+            return
+        }
         const result = await GalleryList({
             page_size: 100
         });
@@ -29,6 +36,12 @@ const TopScreen = (): ReactElement => {
         const lastShow = await GalleryNFTList({
             class_id: data.data.item[0].class_id
         });
+        dispatch({
+            type: Type.SET_GALLERY_ONE,
+            payload: {
+                gallery_one: lastShow.data.data.item
+            }
+        })
         setData(lastShow.data.data.item);
     };
     useEffect(() => {

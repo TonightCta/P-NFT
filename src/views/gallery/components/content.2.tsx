@@ -1,20 +1,33 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import Content3 from "./content.3";
 import { GalleryList, GalleryNFTList } from "../../../request/api";
 import { Data } from "./top.screen";
 import IconFont from "../../../utils/icon";
+import { PNft } from "../../../App";
+import { Type } from "../../../utils/types";
 
 const ShowContent = (): ReactElement => {
     const [data, setData] = useState<Data[]>([]);
+    const { state, dispatch } = useContext(PNft);
     const getInfo = async () => {
+        if (state.gallery_two) {
+            setData(JSON.parse(state.gallery_two));
+            return
+        }
         const result = await GalleryList({
             page_size: 100
         });
         const { data } = result;
         const lastShow = await GalleryNFTList({
             class_id: data.data.item[1].class_id,
-            page_size:3
+            page_size: 3
         });
+        dispatch({
+            type: Type.SET_GALLERY_TWO,
+            payload: {
+                gallery_two: lastShow.data.data.item
+            }
+        })
         setData(lastShow.data.data.item);
     };
     useEffect(() => {

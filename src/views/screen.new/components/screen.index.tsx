@@ -1,14 +1,16 @@
 import { Spin } from "antd";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import IconFont from '../../../utils/icon';
 import { Screen1List } from '../../../request/api'
+import { PNft } from "../../../App";
+import { Type } from "../../../utils/types";
 
 interface Data {
     file_minio_url: string,
     hposter_id: number
 }
 
-const PosterMobile : string[] = [
+const PosterMobile: string[] = [
     require('../../../assets/mobile/poster_o_1.jpeg'),
     require('../../../assets/mobile/poster_o_2.jpeg'),
     require('../../../assets/mobile/poster_o_3.jpeg'),
@@ -28,11 +30,22 @@ const PosterMobile : string[] = [
 
 const ScreenIndexNew = (): ReactElement => {
     const [data, setData] = useState<Data[]>([]);
+    const { state, dispatch } = useContext(PNft);
     const getDataList = async () => {
+        if (state.screen_one) {
+            setData(JSON.parse(state.screen_one));
+            return
+        }
         const result = await Screen1List({
             page_size: 30
         });
         const { data } = result;
+        dispatch({
+            type: Type.SET_SCREEN_ONE,
+            payload: {
+                screen_one: data.data.item
+            }
+        });
         setData(data.data.item);
     };
     useEffect(() => {
@@ -101,7 +114,7 @@ const ScreenIndexNew = (): ReactElement => {
                 <div className="mobile-list">
                     <ul className="ani-1">
                         {
-                            PosterMobile.slice(0,5).map((item: string, index: number) => {
+                            PosterMobile.slice(0, 5).map((item: string, index: number) => {
                                 return (
                                     <li key={index}>
                                         <img src={item} alt="" />

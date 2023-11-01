@@ -4,6 +4,7 @@ import { CompetitionList, SubmitCompetition } from '../../../request/api'
 import { PNft } from "../../../App";
 import { LOCAL } from "../../contest";
 import { FilterAddress } from "../../../utils";
+import { DownOutlined } from "@ant-design/icons";
 
 interface Props {
     visible: boolean,
@@ -20,7 +21,8 @@ interface Info {
     end_time: number,
     total_submit_items: number,
     description: string,
-    wait: boolean
+    wait: boolean,
+    more: boolean
 }
 
 const EditWorkModal = (props: Props): ReactElement => {
@@ -54,7 +56,8 @@ const EditWorkModal = (props: Props): ReactElement => {
         const submitNFT = async (_com_id: number) => {
             setItem({
                 ...item,
-                wait: true
+                wait: true,
+                more: false
             });
             const params = {
                 competition_id: _com_id,
@@ -85,9 +88,20 @@ const EditWorkModal = (props: Props): ReactElement => {
                     <img src={item.poster_minio} alt="" />
                 </div>
                 <div className="right-oper">
-                    <div>
+                    <div className={`msg-top-box ${item.more ? 'show-desc' : ''}`}>
                         <p className="com-title text-overflow">{item.name}</p>
-                        <p className="com-remark">{item.description}</p>
+                        <div className="com-remark" dangerouslySetInnerHTML={{ __html: item.description }}></div>
+                        <div className="show-more">
+                            <div className="btn-i" onClick={() => {
+                                setItem({
+                                    ...item,
+                                    more: !item.more
+                                })
+                            }}>
+                                <p>{item.more ? 'Hide' : 'Show'}</p>
+                                <DownOutlined />
+                            </div>
+                        </div>
                     </div>
                     <div className="com-msg">
                         <div className="left-i">
@@ -97,7 +111,7 @@ const EditWorkModal = (props: Props): ReactElement => {
                                 </div>
                                 <p>{Math.floor((item.end_time - (new Date().getTime() / 1000)) / 86400)}&nbsp;days left</p>
                             </div>
-                            <p className="hot-num">🔥&nbsp;{item.total_submit_items}{}</p>
+                            <p className="hot-num">🔥&nbsp;{item.total_submit_items}{ }</p>
                         </div>
                         <Button loading={item.wait} disabled={item.wait} type="primary" onClick={() => {
                             submitNFT(item.competition_id)

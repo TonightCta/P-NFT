@@ -1,7 +1,9 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { GalleryList, GalleryNFTList, GroupList } from "../../../request/api";
 import { Data } from "./top.screen";
 import SeriesList from "./series.list";
+import { PNft } from "../../../App";
+import { Type } from "../../../utils/types";
 
 interface Group {
     group_id: number;
@@ -11,16 +13,27 @@ interface Group {
 
 const Content3 = (): ReactElement => {
     const [data, setData] = useState<Data[]>([]);
+    const { state, dispatch } = useContext(PNft);
     const [groupList, setGroupList] = useState<Group[]>([]);
     const getInfo = async () => {
+        if (state.gallery_three) {
+            setData(JSON.parse(state.gallery_three));
+            return
+        }
         const result = await GalleryList({
             page_size: 100
         });
         const { data } = result;
         const lastShow = await GalleryNFTList({
             class_id: data.data.item[2].class_id,
-            page_size:7
+            page_size: 7
         });
+        dispatch({
+            type: Type.SET_GALLERY_THREE,
+            payload: {
+                gallery_three: lastShow.data.data.item
+            }
+        })
         setData(lastShow.data.data.item);
     };
     const getGroupList = async () => {

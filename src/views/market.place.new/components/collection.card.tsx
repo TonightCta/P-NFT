@@ -12,12 +12,12 @@ import { flag } from "../../../utils/source";
 interface Data {
     logo_minio_url: string,
     collection_name: string,
-    contract_address:string,
+    contract_address: string,
     poster_minio_url: string,
     collection_id: number,
     total_supply: number,
     creator_name: string,
-    chain_id:string
+    chain_id: string
 }
 
 const CollectionCard = (): ReactElement => {
@@ -25,7 +25,7 @@ const CollectionCard = (): ReactElement => {
     const [wait, setWait] = useState<boolean>(false);
     const [data, setData] = useState<Data[]>([]);
     const navigate = useNavigate();
-    const { dispatch } = useContext(PNft);
+    const { state, dispatch } = useContext(PNft);
     const hide = () => {
         setOpen(false);
     };
@@ -34,12 +34,22 @@ const CollectionCard = (): ReactElement => {
         setOpen(newOpen);
     };
     const getDataList = async () => {
+        if (state.coll_one) {
+            setData(JSON.parse(state.coll_one));
+            return
+        }
         setWait(true)
         const result = await CollectionList({
             page_size: 4
         });
         const { data } = result;
         setWait(false);
+        dispatch({
+            type: Type.SET_COLL_ONE,
+            payload: {
+                coll_one: data.data.item
+            }
+        })
         setData(data.data.item);
     };
     useEffect(() => {

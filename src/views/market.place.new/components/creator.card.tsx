@@ -1,5 +1,5 @@
 import { Button, Spin } from "antd";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import IconFont from "../../../utils/icon";
 import { MintRankService } from '../../../request/api'
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,6 +7,8 @@ import 'swiper/css';
 import { calsAddress } from "../../../utils";
 import { flag } from "../../../utils/source";
 import { useNavigate } from "react-router-dom";
+import { PNft } from "../../../App";
+import { Type } from "../../../utils/types";
 
 interface Data {
     img_urls: { minio_url: string }[],
@@ -21,8 +23,13 @@ const CreatorCard = (): ReactElement => {
     const [swiperRef, setSwiperRef] = useState<any>(null);
     const [wait, setWait] = useState<boolean>(false);
     const [data, setData] = useState<[]>([]);
+    const { state, dispatch } = useContext(PNft);
     const navigate = useNavigate();
     const getDataList = async () => {
+        if (state.coll_two) {
+            setData(JSON.parse(state.coll_two));
+            return
+        }
         setWait(true)
         const result = await MintRankService({
             chain_id: '8007736',
@@ -32,6 +39,12 @@ const CreatorCard = (): ReactElement => {
         });
         setWait(false)
         const { data } = result;
+        dispatch({
+            type: Type.SET_COLL_TWO,
+            payload: {
+                coll_two: data.data.item
+            }
+        });
         setData(data.data.item);
     };
     useEffect(() => {

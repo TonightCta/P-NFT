@@ -6,7 +6,7 @@ const win: any = window;
 export const { ethereum } = win;
 
 export const web3 = new Web3(ethereum || currentProvider);
-export const web3P =new Web3(new Web3.providers.HttpProvider('https://mainnet.plian.io/child_0'));
+export const web3P = new Web3(new Web3.providers.HttpProvider('https://mainnet.plian.io/child_0'));
 
 export interface State {
     web3?: any,
@@ -21,7 +21,16 @@ export interface State {
     collection_id?: string,
     contest_id?: string,
     chain?: string,
-    erc20_address?:string,
+    erc20_address?: string,
+    screen_one?: string,
+    screen_two?: string,
+    coll_one?: string,
+    coll_two?: string,
+    coll_three?: string,
+    gallery_one?: string,
+    gallery_two?: string,
+    gallery_three?: string,
+    campage_list?: string
 }
 
 export interface IResponse {
@@ -44,7 +53,16 @@ export enum Type {
     SET_INFO_ID = 'set_info_id',
     SET_COLLECTION_ID = 'set_collection_id',
     SET_CONTEST_ID = 'set_contest_id',
-    SET_ERC20_ADDRESS = 'erc20_address'
+    SET_ERC20_ADDRESS = 'erc20_address',
+    SET_SCREEN_ONE = 'set_screen_one',
+    SET_SCREEN_TWO = 'set_screen_two',
+    SET_COLL_ONE = 'set_coll_one',
+    SET_COLL_TWO = 'set_coll_two',
+    SET_COLL_THREE = 'set_coll_three',
+    SET_GALLERY_ONE = 'set_gallery_one',
+    SET_GALLERY_TWO = 'set_gallery_two',
+    SET_GALLERY_THREE = 'set_gallery_three',
+    SET_CAMPAGE_LIST = 'set_campage_list'
 };
 
 export interface IAction {
@@ -86,6 +104,7 @@ export interface NFTItem {
     for_competetion: boolean,
     chain_id: string,
     collection_name: string,
-    token_name:string,
-    contract_address:string,
+    token_name: string,
+    contract_address: string,
+    voice_minio_url:string
 }

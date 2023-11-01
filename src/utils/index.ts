@@ -43,7 +43,7 @@ export const SupportNetwork: Network[] = [
             decimals: 18
         },
         rpcUrls: ['https://mainnet.plian.io/child_0'],
-        blockExplorerUrls: ['https://piscan.plian.org/index.html']
+        blockExplorerUrls: ['https://piscan.plian.org/?chain=1']
     },
     {
         chain_id: 314,

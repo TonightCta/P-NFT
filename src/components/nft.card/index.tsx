@@ -32,7 +32,7 @@ const NftCard = (props: Props): ReactElement => {
                 <div className="loading-box-public">
                     <Spin />
                 </div>
-                {props.info.file_voice_minio_url && <div className="play-btn" onClick={(e) => {
+                {item.voice_minio_url && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
                     if (item.play) {
                         player.pause();
@@ -45,7 +45,7 @@ const NftCard = (props: Props): ReactElement => {
                     }
                     const play = document.createElement('audio');
                     setPlayer(play)
-                    play.src = item.file_voice_ipfs;
+                    play.src = item.voice_minio_url;
                     play.loop = false;
                     play.play();
                     setItem({

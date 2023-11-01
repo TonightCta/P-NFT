@@ -5,6 +5,7 @@ import { CompetitionList } from "../../request/api";
 import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PNft } from "../../App";
+import { Type } from "../../utils/types";
 
 interface Data {
     competition_id: number,
@@ -16,24 +17,34 @@ interface Data {
     poster_minio: string
 }
 
-export const LOCAL : string = process.env.REACT_APP_LOCAL as string;
+export const LOCAL: string = process.env.REACT_APP_LOCAL as string;
 
 const ContestView = (): ReactElement<ReactNode> => {
     const [data, setData] = useState<Data[]>([]);
     const [wait, setWait] = useState<boolean>(false);
-    const { dispatch } = useContext(PNft);
+    const { state, dispatch } = useContext(PNft);
     const navigate = useNavigate();
     const getDataList = async () => {
+        if (state.campage_list) {
+            setData(JSON.parse(state.campage_list));
+            return
+        }
         setWait(true)
         const result = await CompetitionList({
             page_size: 100
         });
         setWait(false)
         const { data } = result;
-        if(!data.data.item || LOCAL === 'online'){
+        if (!data.data.item || LOCAL === 'online') {
             setData([]);
             return
-        }
+        };
+        dispatch({
+            type: Type.SET_CAMPAGE_LIST,
+            payload: {
+                campage_list: data.data.item
+            }
+        })
         setData(data.data.item);
     };
     useEffect(() => {
@@ -64,7 +75,7 @@ const ContestView = (): ReactElement<ReactNode> => {
                                             }}>
                                                 <div className="poster-box">
                                                     <div className="loading-box-public">
-                                                        <Spin size="large"/>
+                                                        <Spin size="large" />
                                                     </div>
                                                     <img className="poster-pic" src={item.poster_minio} alt="" />
                                                 </div>

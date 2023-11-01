@@ -66,7 +66,8 @@ const MobileMenuDraw = (props: Props): ReactElement => {
                                                 //         owner_address: state.address as string
                                                 //     }
                                                 // });
-                                                navigate(`/user/${state.address}`)
+                                                navigate(`/user/${state.address}`);
+                                                return
                                             };
                                             navigate(item.url)
                                             onClose();

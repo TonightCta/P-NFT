@@ -68,6 +68,10 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
             return
         };
         setData(data.data.item);
+        setPage({
+            ...page,
+            total: data.data.total
+        });
     }
     useEffect(() => {
         getInfo();
@@ -102,9 +106,8 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                             <p>🔥<span>{info?.total_submit_items}</span></p>
                             <p>😊<span>{info?.total_view}</span></p>
                         </div>
-                        <p className="remark-text">
-                            {info?.description}
-                        </p>
+                        {info?.description && <div className="remark-text" dangerouslySetInnerHTML={{__html:info.description}}>
+                        </div>}
                         {info?.start_time && <div className="date-msg">
                             {<p className="time-text">
                                 <IconFont type="icon-timer" />
@@ -176,7 +179,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                                     })
                                 }
                             </div>}
-                    {!wait && data.length > 0 && <Pagination defaultCurrent={1} total={page.total} onChange={(e) => {
+                    {data.length > 0 && <Pagination defaultCurrent={1} pageSize={12} total={page.total} onChange={(e) => {
                         setPage({
                             ...page,
                             num: e

@@ -1,6 +1,6 @@
 import './App.scss';
 import RouteConfig from './route';
-import { useReducer, createContext } from 'react'
+import { useReducer, createContext, useEffect } from 'react'
 import { HashRouter } from 'react-router-dom';
 import { Context } from './utils/types';
 import { defaultContext, defaultState, defaultStateInit, initState } from './reducer';
@@ -10,6 +10,16 @@ export const PNft = createContext<Context>(defaultContext);
 
 function App() {
   const [state, dispatch] = useReducer(initState, defaultState, defaultStateInit);
+  useEffect(() => {
+    const obj: any = window.sessionStorage;
+    let size: number = 0;
+    for (let item in obj) {
+      if (obj.hasOwnProperty(item)) {
+        size += obj.getItem(item).length;
+      }
+    }
+    console.log('Currently used storage:' + (size / 1024).toFixed(2) + 'KB');
+  }, [])
   return (
     <HashRouter>
       <PNft.Provider value={{ state, dispatch }}>

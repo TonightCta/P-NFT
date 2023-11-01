@@ -14,7 +14,16 @@ export const defaultState: State = {
     info_id: sessionStorage.getItem('info_id') || '',
     collection_id: sessionStorage.getItem('collection_id') || '',
     contest_id: sessionStorage.getItem('contest_id') || '',
-    erc20_address: sessionStorage.getItem('erc20_address') || ''
+    erc20_address: sessionStorage.getItem('erc20_address') || '',
+    screen_one: sessionStorage.getItem('screen_one') || '',
+    screen_two: sessionStorage.getItem('screen_two') || '',
+    coll_one: sessionStorage.getItem('coll_one') || '',
+    coll_two: sessionStorage.getItem('coll_two') || '',
+    coll_three: sessionStorage.getItem('coll_three') || '',
+    gallery_one: sessionStorage.getItem('gallery_one') || '',
+    gallery_two: sessionStorage.getItem('gallery_two') || '',
+    gallery_three: sessionStorage.getItem('gallery_three') || '',
+    campage_list: sessionStorage.getItem('campage_list') || ''
 };
 
 export const defaultContext: Context = {
@@ -62,8 +71,35 @@ export const initState = (state: State, action: IAction) => {
             sessionStorage.setItem('chain', payload.chain as string);
             return { ...state, chain: payload.chain }
         case Type.SET_ERC20_ADDRESS:
-            sessionStorage.setItem('erc20_address',payload.erc20_address as string);
-            return { ...state,erc20_address:payload.erc20_address }
+            sessionStorage.setItem('erc20_address', payload.erc20_address as string);
+            return { ...state, erc20_address: payload.erc20_address }
+        case Type.SET_SCREEN_ONE:
+            sessionStorage.setItem('screen_one', JSON.stringify(payload.screen_one));
+            return { ...state, screen_one: JSON.stringify(payload.screen_one) }
+        case Type.SET_SCREEN_TWO:
+            sessionStorage.setItem('screen_two', JSON.stringify(payload.screen_two));
+            return { ...state, screen_two: JSON.stringify(payload.screen_two) }
+        case Type.SET_COLL_ONE:
+            sessionStorage.setItem('coll_one', JSON.stringify(payload.coll_one));
+            return { ...state, coll_one: JSON.stringify(payload.coll_one) }
+        case Type.SET_COLL_TWO:
+            sessionStorage.setItem('coll_two', JSON.stringify(payload.coll_two));
+            return { ...state, coll_two: JSON.stringify(payload.coll_two) }
+        case Type.SET_COLL_THREE:
+            sessionStorage.setItem('coll_three', JSON.stringify(payload.coll_three));
+            return { ...state, coll_three: JSON.stringify(payload.coll_three) }
+        case Type.SET_GALLERY_ONE:
+            sessionStorage.setItem('gallery_one', JSON.stringify(payload.gallery_one));
+            return { ...state, gallery_one: JSON.stringify(payload.gallery_one) }
+        case Type.SET_GALLERY_TWO:
+            sessionStorage.setItem('gallery_two', JSON.stringify(payload.gallery_two));
+            return { ...state, gallery_two: JSON.stringify(payload.gallery_two) }
+        case Type.SET_GALLERY_THREE:
+            sessionStorage.setItem('gallery_three', JSON.stringify(payload.gallery_three));
+            return { ...state, gallery_three: JSON.stringify(payload.gallery_three) }
+        case Type.SET_CAMPAGE_LIST:
+            sessionStorage.setItem('campage_list', JSON.stringify(payload.campage_list));
+            return { ...state, campage_list: JSON.stringify(payload.campage_list) }
         default:
             return state;
     }

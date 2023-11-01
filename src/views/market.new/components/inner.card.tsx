@@ -14,7 +14,7 @@ const InnerCard = (props: { item: any }): ReactElement => {
         play: false
     });
     return (
-        <div className={`inner-card ${!props.item.price ? 'un-sale' : ''}`} onClick={() => {
+        <div className={`inner-card ${!item.price ? 'un-sale' : ''}`} onClick={() => {
             // dispatch({
             //     type: Type.SET_INFO_ID,
             //     payload: {
@@ -27,11 +27,11 @@ const InnerCard = (props: { item: any }): ReactElement => {
                 <div className="loading-box-public">
                     <Spin />
                 </div>
-                <img src={props.item.image_minio_url} alt="" />
+                <img src={item.image_minio_url} alt="" />
                 <div className="nft-tag">
                     <img src={require('../../../assets/new/plian_logo.png')} alt="" />
                 </div>
-                {props.item.voice_minio_url && <div className="play-btn" onClick={(e) => {
+                {item.voice_minio_url && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
                     if (item.play) {
                         player.pause();
@@ -44,7 +44,7 @@ const InnerCard = (props: { item: any }): ReactElement => {
                     }
                     const play = document.createElement('audio');
                     setPlayer(play)
-                    play.src = item.file_voice_ipfs;
+                    play.src = item.voice_minio_url;
                     play.loop = false;
                     play.play();
                     setItem({

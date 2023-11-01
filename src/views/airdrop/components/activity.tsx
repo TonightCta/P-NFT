@@ -120,7 +120,7 @@ const ActivityCard = (): ReactElement => {
                                                 <p>{item.sell_price_pi}&nbsp;$PI</p>
                                             </div>
                                             <p className="sell-hash" onClick={() => {
-                                                window.open(`https://v2-piscan.plian.org/tx/${item.sell_hash}`)
+                                                window.open(`https://piscan.plian.org/tx/${item.sell_hash}?chain=1`)
                                             }}>{calsAddress(item.sell_hash)}</p>
                                         </li>
                                     )

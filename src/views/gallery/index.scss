@@ -607,6 +607,30 @@
           }
         }
       }
+      @media screen and (min-width: 768px) and (max-width: 1280px) {
+        .swiper-pagination {
+          top: 720px !important;
+        }
+        .nft-inner-1 {
+          flex-direction: row !important;
+          .first-nft-msg {
+            margin-right: 20rem;
+            padding-top: 5rem;
+            padding-left: 5rem;
+            .creator-msg {
+              display: block !important;
+            }
+          }
+          .first-nft-pic {
+            min-width: 0 !important;
+            height: auto !important;
+            max-height: 50rem !important;
+          }
+          .mobile-creator-msg {
+            display: none !important;
+          }
+        }
+      }
     }
     .show-content {
       margin-top: 6rem;
@@ -738,6 +762,7 @@
               }
             }
           }
+
           .w-width {
             margin-top: 6rem;
             width: 100%;
@@ -759,6 +784,58 @@
             margin-bottom: 6rem;
             .nft-box {
               height: 15.8rem;
+            }
+          }
+          @media screen and (min-width: 758px) and (max-width: 1280px) {
+            .right-down {
+              justify-content: space-around;
+              .public-card {
+                width: auto !important;
+              }
+              .public-card:first-child {
+                .nft-box {
+                  width: 40rem;
+                  height: 50rem;
+                }
+              }
+              .public-card:last-child {
+                margin-top: 12rem;
+                .nft-box {
+                  width: 40.8rem;
+                  height: 50.2rem;
+                }
+              }
+            }
+            .w-width,
+            .r-w-width {
+              .nft-box {
+                height: 40rem;
+              }
+            }
+            .left-down {
+              justify-content: space-around;
+              .public-card {
+                width: auto !important;
+              }
+              .public-card:first-child {
+                margin-top: 12rem;
+                .nft-box {
+                  width: 30.8rem;
+                  height: 46.6rem;
+                }
+              }
+              .public-card:last-child {
+                .nft-box {
+                  width: 32.8rem;
+                  height: 45.8rem;
+                }
+              }
+            }
+            .last-card {
+              width: 30.8rem;
+              .nft-box {
+                height: 30.8rem;
+              }
             }
           }
         }

@@ -5,7 +5,7 @@
     height: 360px;
   }
   .detail-inner {
-    padding: 0 280px;
+    padding: 0 12.5%;
     margin-top: -282px;
     position: relative;
     z-index: 100;
@@ -39,7 +39,8 @@
           z-index: 10;
         }
         img {
-          width: 100%;
+          width: auto;
+          height: 100%;
           position: relative;
           z-index: 20;
         }
@@ -314,13 +315,6 @@
         text-align: center;
         margin-top: 100px;
       }
-    }
-  }
-}
-@media screen and (max-width: 1440px) {
-  .contest-detail-view {
-    .detail-inner {
-      padding: 0 140px;
     }
   }
 }

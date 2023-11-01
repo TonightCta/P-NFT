@@ -63,7 +63,7 @@ const DetailView = (): ReactElement<ReactNode> => {
                         <div className="audio-box">
                             <div className="play-btn" onClick={(e) => {
                                 e.stopPropagation();
-                                if (!item.file_voice_ipfs) {
+                                if (!item.voice_minio_url) {
                                     message.error('Failed')
                                     return
                                 };
@@ -78,7 +78,7 @@ const DetailView = (): ReactElement<ReactNode> => {
                                 }
                                 const play = document.createElement('audio');
                                 setPlayer(play)
-                                play.src = item.file_voice_ipfs;
+                                play.src = item.voice_minio_url;
                                 play.loop = false;
                                 play.play();
                                 setItem({

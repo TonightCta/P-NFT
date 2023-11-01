@@ -24,7 +24,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
     const { connectMetamask } = useMetamask();
     const { mint, getBalance } = useContract();
     const [record, setRecord] = useState<boolean>(false);
-    const { state,dispatch } = useContext(PNft);
+    const { state } = useContext(PNft);
     const { switchC } = useSwitchChain();
     const navigate = useNavigate();
     const [review, setReview] = useState<{ source: string | File, view: string }>({

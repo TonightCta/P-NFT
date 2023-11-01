@@ -3,7 +3,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ConfigProvider } from 'antd';
-
+import {
+  Provider,
+} from 'react-keep-alive';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -14,7 +16,9 @@ root.render(
       colorPrimary: '#E10185',
     },
   }}>
-    <App />
+    <Provider>
+      <App />
+    </Provider>
   </ConfigProvider>
   // </React.StrictMode>
 );

@@ -37,12 +37,14 @@ interface CollInfo {
 }
 
 const DetailNewView = (): ReactElement<ReactNode> => {
-    const { state, dispatch } = useContext(PNft);
+    const { state } = useContext(PNft);
     const [loading, setLoading] = useState<boolean>(false);
     const [imgLoad, setImgLoad] = useState<boolean>(true);
     const { switchC } = useSwitchChain();
     const [collInfo, setCollInfo] = useState<CollInfo>()
     const searchParams = useParams();
+    const [player, setPlayer] = useState<any>();
+    const [playF, setPlay] = useState<boolean>(false);
     const navigate = useNavigate();
     const [info, setInfo] = useState<Info | any>({
         price: '0'
@@ -88,6 +90,27 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 <Spin size="large" />
                             </div>}
                             <img onLoad={() => { setImgLoad(false) }} src={info?.image_minio_url} alt="" />
+                            {info.voice_minio_url && <div className="play-btn" onClick={(e) => {
+                                e.stopPropagation();
+                                if (playF) {
+                                    player.pause();
+                                    setPlay(false);
+                                    setPlayer(null);
+                                    return
+                                }
+                                const play = document.createElement('audio');
+                                setPlayer(play)
+                                play.src = info.voice_minio_url;
+                                play.loop = false;
+                                play.play();
+                                setPlay(true);
+                            }}>
+                                {
+                                    playF
+                                        ? <IconFont type="icon-tingzhi" />
+                                        : <IconFont type="icon-play-fill" />
+                                }
+                            </div>}
                         </div>
                         <div className="right-msg">
                             <div className="coll-msg">
@@ -140,7 +163,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                     <li>
                                         <p>Contract</p>
                                         <p style={{ cursor: 'pointer' }} onClick={() => {
-                                            window.open(`https://v2-piscan.plian.org/address/${info?.contract_address}`)
+                                            window.open(`https://piscan.plian.org/address/${info?.contract_address}?chain=1`)
                                         }}>{info?.contract_address}</p>
                                     </li>
                                     <li>

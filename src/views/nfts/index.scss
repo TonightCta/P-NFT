@@ -779,7 +779,7 @@
         overflow: hidden;
         background-color: #eee;
         img {
-          width: 100%;
+          height: 100%;
         }
       }
       .right-oper {
@@ -788,6 +788,52 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        .msg-top-box {
+          position: relative;
+          .show-more {
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(rgba(255, 255, 255, 0.5), white);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            transition: .3s all;
+            .btn-i{
+              border-radius: 4px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 12px;
+              padding-bottom: 8px;
+              cursor: pointer;
+              p{
+                color: #ff33aaae;
+              }
+              span{
+                color: #ff33aaae;
+                transition: .3s all;
+              }
+            }
+          }
+        }
+        .show-desc{
+          margin-bottom: 12px;
+          .com-remark{
+            height: auto;
+          }
+          .show-more{
+            background: rgba(0, 0, 0, 0);
+            bottom: -28px;
+            .btn-i{
+              span{
+                transform: rotate(180deg);
+              }
+            }
+          }
+        }
       }
       .com-title {
         font-size: 18px;
@@ -800,6 +846,9 @@
       .com-remark {
         font-size: 14px;
         color: #686a6c;
+        height: 90px;
+        overflow: hidden;
+        transition: .3s all;
       }
       .com-msg {
         margin-top: 12px;
@@ -814,8 +863,8 @@
           align-items: center;
         }
         button {
-          width: 188px;
-          height: 48px;
+          width: 168px;
+          height: 38px;
           border-radius: 12px;
           border: 0;
           font-size: 16px;

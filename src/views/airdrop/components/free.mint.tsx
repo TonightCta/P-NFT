@@ -140,7 +140,7 @@ const FreeMintCard = (): ReactElement => {
                                     message.info('Transaction in progress')
                                     return
                                 }
-                                window.open(`https://v2-piscan.plian.org/tx/${checkInfo[`d${pointReward}_reward_tx_hash`]}`)
+                                window.open(`https://piscan.plian.org/tx/${checkInfo[`d${pointReward}_reward_tx_hash`]}?chain=1`)
                             }}>
                                 <span className="pc-view-out">View on explorer</span>
                                 <IconFont type="icon-globe-simple-bold" />

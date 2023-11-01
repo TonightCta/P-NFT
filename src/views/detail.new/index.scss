@@ -36,6 +36,25 @@
         overflow: hidden;
         border-radius: 16px;
         position: relative;
+        .play-btn {
+          width: 80px;
+          height: 80px;
+          position: absolute;
+          background-color: rgba(0, 0, 0, 0.3);
+          backdrop-filter: blur(10px);
+          border-top-left-radius: 16px;
+          bottom: 0;
+          right: 0;
+          z-index: 21;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          span {
+            font-size: 40px;
+            color: white;
+          }
+        }
         img {
           width: 100%;
           border-radius: 16px;
