@@ -6,7 +6,7 @@ import { Menu } from "..";
 import { calsAddress } from "../../../utils";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { Type } from "../../../utils/types";
-import { useMetamask } from "../../../utils/metamask";
+import { useMetamask } from "../../../utils/connect/metamask";
 import DefaultAvatar from "../../default_avatar/default.avatar";
 
 interface Props {

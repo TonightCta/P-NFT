@@ -19,12 +19,10 @@
       .left-bg {
         width: 620px;
         height: 348px;
-        border-radius: 16px;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #eee;
         margin-right: 40px;
         position: relative;
         .loading-box {
@@ -39,8 +37,9 @@
           z-index: 10;
         }
         img {
-          width: auto;
-          height: 100%;
+          width: 100%;
+          border-radius: 16px;
+          height: auto;
           position: relative;
           z-index: 20;
         }
@@ -48,12 +47,30 @@
       .right-msg {
         flex: 1;
         .msg-title {
-          text-align: left;
-          font-family: SparkSemiBold;
-          font-size: 28px;
-          font-weight: bold;
-          color: black;
-          line-height: 36px;
+          display: flex;
+          p {
+            text-align: left;
+            font-family: SparkSemiBold;
+            font-size: 28px;
+            font-weight: bold;
+            color: black;
+            line-height: 36px;
+            flex: 1;
+          }
+          .contest-status {
+            padding: 0 8px;
+            height: 24px;
+            margin-top: 6px;
+            line-height: 24px;
+            background-color: #75c979;
+            border-radius: 2px;
+            font-size: 12px;
+            font-family: SparkSemiBold;
+          }
+          .end-s {
+            background-color: #efefef;
+            color: #333;
+          }
         }
         .active-msg {
           margin-top: 8px;
@@ -65,6 +82,13 @@
             span {
               margin-left: 4px;
             }
+          }
+          .date-text {
+            padding: 4px 10px;
+            background-color: #fcf4f9;
+            color: #f54898;
+            font-size: 14px;
+            border-radius: 4px;
           }
         }
         .remark-text {
@@ -127,10 +151,9 @@
         }
         .submit-work {
           margin-top: 24px;
-          text-align: right;
-          .mobild-end-msg {
-            display: none;
-          }
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
           button {
             border: 0;
             border-radius: 12px;
@@ -138,6 +161,9 @@
             width: 178px;
             height: 46px;
             background: linear-gradient(90deg, #f5319d 0%, #6665e6 100%);
+          }
+          .dis-b {
+            opacity: 0.8;
           }
         }
       }
@@ -318,6 +344,17 @@
     }
   }
 }
+@media screen and (max-width: 1440px) {
+  .contest-detail-view {
+    .detail-inner {
+      .info-card {
+        .left-bg {
+          width: 500px;
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 1280px) {
   .contest-detail-view {
     padding-top: 6rem;
@@ -358,16 +395,16 @@
             }
           }
           .submit-work {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: flex-start;
             .mobild-end-msg {
               display: flex;
             }
             button {
-              width: 12.8rem;
               height: 3.2rem;
               font-size: 1.2rem;
+              margin-top:2rem;
+              width: 100%;
             }
           }
         }

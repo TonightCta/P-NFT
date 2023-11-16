@@ -162,7 +162,11 @@ const NewNFTCard = (props: Props): ReactElement => {
                             if (!props.item.for_sale) {
                                 message.info('Coming soon');
                                 return
-                            }
+                            };
+                            setItem({
+                                ...item,
+                                is_start: true
+                            });
                             setFixedVisible(true)
                         }}>Sell</p>
                     </div>
@@ -175,7 +179,7 @@ const NewNFTCard = (props: Props): ReactElement => {
                     </Tooltip>
                 </div>}
             </div>
-            <FixedModal chain={props.item.chain_id} upRefresh={() => {
+            <FixedModal is_start={item.is_start} chain={props.item.chain_id} upRefresh={() => {
                 props.upload && props.upload();
             }} sell visible={fixedVisible} image={item.image_minio_url} id={item.token_id} closeModal={(val: boolean) => {
                 setFixedVisible(val);

@@ -395,7 +395,7 @@
     }
     li:last-child {
       margin-bottom: 0;
-      img{
+      img {
         width: 18px;
         height: 18px;
       }
@@ -570,16 +570,16 @@
         height: 15.8rem;
       }
     }
-    .label{
+    .label {
       font-size: 1.4rem;
     }
-    .inp-and-coin{
-      input{
+    .inp-and-coin {
+      input {
         height: 3.2rem;
       }
     }
-    .submit-btn{
-      button{
+    .submit-btn {
+      button {
         width: 12rem;
       }
     }
@@ -614,4 +614,7 @@
       }
     }
   }
+}
+w3m-modal {
+  z-index: 5000;
 }

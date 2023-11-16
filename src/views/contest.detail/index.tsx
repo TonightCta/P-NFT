@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import './index.scss'
 import { PNft } from "../../App";
 import IconFont from "../../utils/icon";
@@ -6,9 +6,10 @@ import { Button, Pagination, Spin } from "antd";
 import FooterNew from "../screen.new/components/footer.new";
 import ContestCard from "./components/card";
 import { CompetitionInfo, CompetitionNFTList } from '../../request/api'
-import { DateConvert } from "../../utils/index";
+import { DateConvert, computedCountdonw } from "../../utils/index";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import Countdown from "antd/es/statistic/Countdown";
 
 interface Info {
     bg_image_minio: string,
@@ -38,6 +39,17 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
     const searchParams = useParams();
     const [wait, setWait] = useState<boolean>(false);
     const navigate = useNavigate();
+    const [count, setCount] = useState<{ d: string, h: string, m: string, s: string }>({
+        d: '00',
+        h: '00',
+        m: '00',
+        s: '00'
+    });
+    const timer = useRef<NodeJS.Timer>();
+    const getNow = (): number => {
+        const time = new Date().getTime() / 1000;
+        return time
+    }
     const [page, setPage] = useState<{ num: number, total: number }>({
         num: 1,
         total: 10
@@ -48,6 +60,18 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
         });
         const { data } = result;
         setInfo(data);
+        if ((data!.end_time - getNow() + 286400) < 1) {
+            return
+        };
+        timer.current = setInterval(() => {
+            const { D, H, M, S } = computedCountdonw((data!.start_time > getNow() ? data!.start_time : data!.end_time) - getNow());
+            setCount({
+                d: D.toString(),
+                h: H.toString(),
+                m: M.toString(),
+                s: S.toString()
+            })
+        }, 1000)
     };
     const [data, setData] = useState<Data[]>([]);
     const getDataList = async () => {
@@ -72,7 +96,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
             ...page,
             total: data.data.total
         });
-    }
+    };
     useEffect(() => {
         getInfo();
     }, []);
@@ -101,35 +125,41 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                         </div>
                     </div>
                     <div className="right-msg">
-                        <p className="msg-title">{info?.name}</p>
+                        <div className="msg-title">
+                            <p>{info?.name}</p>
+                            <div className={`contest-status ${info?.end_time as number - getNow() < 1 ? 'end-s' : ''}`}>
+                                {
+                                    info?.end_time as number - getNow() < 1
+                                        ? 'Ended'
+                                        : info?.start_time as number > getNow() ? 'Not Started' : 'In Progress'
+                                }
+                            </div>
+                        </div>
                         <div className="active-msg">
                             <p>🔥<span>{info?.total_submit_items}</span></p>
                             <p>😊<span>{info?.total_view}</span></p>
-                        </div>
-                        {info?.description && <div className="remark-text" dangerouslySetInnerHTML={{__html:info.description}}>
-                        </div>}
-                        {info?.start_time && <div className="date-msg">
-                            {<p className="time-text">
-                                <IconFont type="icon-timer" />
+                            <p className="date-text">
                                 {DateConvert(info?.start_time as number)} ~ {DateConvert(info?.end_time as number)}
-                            </p>}
-                            <div className={`end-msg ${(info!.end_time - (new Date().getTime() / 1000)) < 1 ? 'end-point' : ''}`}>
+                            </p>
+                        </div>
+                        {info?.description && <div className="remark-text" dangerouslySetInnerHTML={{ __html: info.description }}>
+                        </div>}
+                        {/* {info?.start_time && <div className="date-msg">
+                            <div className={`end-msg ${(info!.end_time - getNow() + 286400) < 1 ? 'end-point' : ''}`}>
                                 <div className="point">
                                     <div className="point-inner"></div>
                                 </div>
-                                <p>{`${(info!.end_time - (new Date().getTime() / 1000)) < 1 ? 'Ended' : `${Math.floor((info!.end_time - (new Date().getTime() / 1000)) / 86400)} days left`}`}</p>
+                                <p>{`${(info!.end_time - getNow() + 286400) < 1 ? 'Ended' : `${count.d} days ${count.h} : ${count.m} : ${count.s} left`}`}</p>
                             </div>
-                        </div>}
+                        </div>} */}
                         <div className="submit-work">
-                            {
-                                info?.start_time && <div className={`end-msg mobild-end-msg ${(info!.end_time - (new Date().getTime() / 1000)) < 1 ? 'end-point' : ''}`}>
-                                    <div className="point">
-                                        <div className="point-inner"></div>
-                                    </div>
-                                    <p>{`${(info!.end_time - (new Date().getTime() / 1000)) < 1 ? 'Ended' : `${Math.floor((info!.end_time - (new Date().getTime() / 1000)) / 86400)} days left`}`}</p>
+                            <div className={`end-msg mobild-end-msg ${(info?.end_time as number - getNow()) < 1 ? 'end-point' : ''}`}>
+                                <div className="point">
+                                    <div className="point-inner"></div>
                                 </div>
-                            }
-                            <Button type="primary" onClick={() => {
+                                <p>{`${info?.start_time as number > getNow() ? 'Start' : 'End'} in ${count.d} days ${count.h} : ${count.m} : ${count.s}`}</p>
+                            </div>
+                            <Button type="primary" disabled={info?.start_time as number > getNow() || info?.end_time as number < getNow()} className={`${info?.start_time as number > getNow() || info?.end_time as number < getNow() ? 'dis-b' : ''}`} onClick={() => {
                                 // dispatch({
                                 //     type: Type.SET_OWNER_ADDRESS,
                                 //     payload: {
@@ -149,7 +179,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                                 // 'Award-winning works', 'Introduction'
                                 ['Art Works'].map((item: string, index: React.Key) => {
                                     return (
-                                        <li key={index} className={`${+index === active ? 'active-f' : ''}`} onClick={() => { setAction(+index) }}>{item}</li>
+                                        <li key={index} className={`${Number(index) === active ? 'active-f' : ''}`} onClick={() => { setAction(Number(index)) }}>{item}</li>
                                     )
                                 })
                             }

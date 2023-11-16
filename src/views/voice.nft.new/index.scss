@@ -576,10 +576,14 @@
                   .prompts-box {
                     .review {
                       padding: 16px 22px;
-                      p {
+                      textarea {
                         font-size: 15px;
                         color: #202025;
-                        line-height: 18px;
+                        width: 100%;
+                        height: 100%;
+                        border: 0;
+                        outline: none;
+                        resize: none;
                       }
                     }
                   }

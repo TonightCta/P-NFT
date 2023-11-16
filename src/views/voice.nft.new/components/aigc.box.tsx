@@ -6,7 +6,7 @@ import { Input } from "..";
 import axios from "axios";
 import { Model } from "../../../utils/source";
 import { NFTMintService, QueryFile } from "../../../request/api";
-import { useMetamask } from "../../../utils/metamask";
+import { useMetamask } from "../../../utils/connect/metamask";
 import { LAND, MODE, useContract } from "../../../utils/contract";
 import { useSwitchChain } from "../../../hooks/chain";
 import * as Address from '../../../utils/source'
@@ -87,6 +87,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
     const [wait, setWait] = useState<boolean>(false);
     const [rate, setRate] = useState<number>(100);
     const [modelType, setModelType] = useState<string>('1');
+    const [prompts, setPrompts] = useState<string>('');
     const { connectMetamask } = useMetamask();
     const { mint, getBalance } = useContract();
     const { state } = useContext(PNft);
@@ -113,7 +114,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
         };
         setImageWait(true);
         const result: any = await axios.post(`${process.env.REACT_APP_BASEURL_AI}/text2img`, {
-            prompts: wordListS.join(',')
+            prompts: `${wordListS.join(',')}${prompts}`
         });
         setImageWait(false);
         const { data } = result;
@@ -162,7 +163,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
             return
         }
         formData.append('file', _file);
-        formData.append('name', _file_name); 
+        formData.append('name', _file_name);
         const result = await axios.post(`${process.env.REACT_APP_BASEURL_IPFS}/upload-file`, formData);
         return result.data.data;
     };
@@ -268,7 +269,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
                                                         <li key={`${i}-${new Date().getTime()}`} className={`${(wordListS.indexOf(e) > -1) ? 'select-word' : ''}`} onClick={() => {
                                                             const arr = wordListS;
                                                             arr.indexOf(e) > -1 ? arr.splice(arr.indexOf(e), 1) : arr.push(e);
-                                                            setWordList([...arr])
+                                                            setWordList([...arr]);
                                                         }}>
                                                             <p>{e}</p>
                                                         </li>
@@ -288,7 +289,10 @@ const AigcBox = (props: { info: Input }): ReactElement => {
                                 Prompts
                             </p>
                             <div className="review">
-                                <p>{wordListS.join(',')}</p>
+                                {/* <p>{wordListS.join(',')}</p> */}
+                                <textarea placeholder="Type in the inscriber or customize the input, split by," value={`${wordListS.join(',')}${prompts}`} onChange={(e) => {
+                                    setPrompts(e.target.value.substring(wordListS.join(',').length))
+                                }} />
                             </div>
                         </div>
                         <div className="preview-box">
@@ -303,7 +307,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
                             </div>
                         </div>
                         <p className="generate-btn">
-                            <Button loading={imageWait} className={`${wordListS.length < 1 || imageWait ? 'dis-btn' : ''}`} disabled={wordListS.length < 1 || imageWait} type="primary" onClick={uploadFileImageAi}>Generate image</Button>
+                            <Button loading={imageWait} className={`${((wordListS.length + prompts.length) < 1 || imageWait) ? 'dis-btn' : ''}`} disabled={(wordListS.length + prompts.length) < 1 || imageWait} type="primary" onClick={uploadFileImageAi}>Generate image</Button>
                         </p>
                     </div>
                 </div>

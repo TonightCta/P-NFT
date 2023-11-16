@@ -148,3 +148,19 @@ export const randomString = (e?: number): string => {
     }
     return n
 }
+// 倒计时
+export const computedCountdonw = (data: number) => {
+    const remain = data;
+    // 根据传过来的data时间戳,转化成YYYY/MM/DD HH:mm的时间格式
+    const d = remain < 0 ? 0 : (remain / 60 / 60 / 24).toFixed(0);
+    const h = remain < 0 ? 0 : (remain / 60 / 60 % 24).toFixed(0);
+    const m = remain < 0 ? 0 : (remain / 60 % 60).toFixed(0);
+    const s = remain < 0 ? 0 : (remain % 60).toFixed(0);
+    const D = +d < 10 ? '0' + d + ' ' : d + ' '
+    const H = +h < 10 ? '0' + h : h
+    const M = +m < 10 ? '0' + m : m;
+    const S = +s < 10 ? '0' + s : s
+    return {
+        D, H, M, S
+    }
+}

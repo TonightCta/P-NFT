@@ -4,7 +4,7 @@ import { ActivityJoinService, ActivityInfoService, CheckJoinService } from "../.
 import { PNft } from "../../../App";
 import { GetUrlKey } from "../../../utils";
 import copy from 'copy-to-clipboard'
-import { useMetamask } from "../../../utils/metamask";
+import { useMetamask } from "../../../utils/connect/metamask";
 import { useSwitchChain } from "../../../hooks/chain";
 
 interface Mint {

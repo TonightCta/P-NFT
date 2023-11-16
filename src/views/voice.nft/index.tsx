@@ -7,7 +7,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { useSwitchChain } from "../../hooks/chain";
 import { NFTMintService, UploadFileService, QueryFile } from "../../request/api";
 import { PNft } from "../../App";
-import { useMetamask } from "../../utils/metamask";
+import { useMetamask } from "../../utils/connect/metamask";
 import { NFTAddress, useContract } from "../../utils/contract";
 import { ethereum } from "../../utils/types";
 import axios from "axios";

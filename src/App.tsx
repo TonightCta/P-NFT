@@ -5,10 +5,11 @@ import { HashRouter } from 'react-router-dom';
 import { Context } from './utils/types';
 import { defaultContext, defaultState, defaultStateInit, initState } from './reducer';
 import { VERSION } from './utils/source';
+import './utils/connect/walletconnect'
 
 export const PNft = createContext<Context>(defaultContext);
 
-function App() {
+export const App = () => {
   const [state, dispatch] = useReducer(initState, defaultState, defaultStateInit);
   useEffect(() => {
     const obj: any = window.sessionStorage;
@@ -31,4 +32,4 @@ function App() {
   );
 }
 
-export default App;
+// export default App;

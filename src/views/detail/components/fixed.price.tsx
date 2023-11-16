@@ -15,7 +15,8 @@ interface Props {
     id: number,
     image: string,
     upRefresh: () => void,
-    chain:string
+    chain: string,
+    is_start: boolean
 }
 
 interface Wait {
@@ -83,14 +84,16 @@ const FixedModal = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const { state } = useContext(PNft)
     const [token, setToken] = useState<Token>({
-        symbol:LAND === 'taiko' ? 'ETH' : MODE === 'production' ? 'PI' : 'MAPI',
-        icon:LAND === 'taiko' ? 'https://static.optimism.io/data/ENS/logo.png' : require('../../../assets/images/pi_logo.png'),
-        address:LAND === 'taiko' ? SystemAddress : MODE === 'production' ? SystemAddress : FilterAddress(state.chain as string).contract_erc20,
+        symbol: LAND === 'taiko' ? 'ETH' : MODE === 'production' ? 'PI' : 'MAPI',
+        icon: LAND === 'taiko' ? 'https://static.optimism.io/data/ENS/logo.png' : require('../../../assets/images/pi_logo.png'),
+        address: LAND === 'taiko' ? SystemAddress : MODE === 'production' ? SystemAddress : FilterAddress(state.chain as string).contract_erc20,
     });
     const { putApprove, putList, queryApprove } = useContract();
     const [price, setPrice] = useState<number | string>('0');
     const { switchC } = useSwitchChain();
-    const [tokenBox,setTokenBox] = useState<boolean>(false);
+    const [tokenBox, setTokenBox] = useState<boolean>(false);
+    // const { data } = useGetNFTApprove(props.id);
+    // const { write, approveData, approveStatus } = useSetNFTApprove(props.id)
     const [wait, setWait] = useState<Wait>({
         approve: false,
         list: false,
@@ -118,21 +121,32 @@ const FixedModal = (props: Props): ReactElement => {
         </div>
     );
     const queryApproveFN = async () => {
+        // const approve = useGetNFTApprove(props.id);
+        // console.log(approve)
         const approve = await queryApprove(props.id);
-        const bol = OwnerAddress.indexOf(approve) > -1;
+        console.log(OwnerAddress)
+        const bol = OwnerAddress.indexOf(approve.toLowerCase()) > -1;
+        console.log(bol);
         setApproved(bol);
         setWait({
             ...wait,
             approve_dis: bol ? true : false,
-            list_dis: bol ? false : true
+            list_dis: bol ? false : true,
+            // approve_dis: false,
+            // list_dis: true
         })
     }
     useEffect(() => {
         props.visible && queryApproveFN();
         setVisible(props.visible)
     }, [props.visible]);
+    // useEffect(() => {
+    //     console.log(approveSta)
+    // },[approveStatus])
     const putApproveFN = async () => {
-        await switchC(+props.chain)
+        await switchC(+props.chain);
+        // write?.();
+        // return
         setWait({
             ...wait,
             approve_dis: true,
@@ -217,7 +231,7 @@ const FixedModal = (props: Props): ReactElement => {
                     <input type="number" placeholder="0.0" value={price} onChange={(e) => {
                         setPrice(e.target.value)
                     }} onWheel={(e: any) => e.target?.blur()} />
-                    <Popover open={tokenBox} onOpenChange={(e:boolean) => {
+                    <Popover open={tokenBox} onOpenChange={(e: boolean) => {
                         setTokenBox(e);
                     }} content={content} title={null} placement="bottom" trigger={['click']}>
                         <div className="coin-select">

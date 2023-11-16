@@ -1,7 +1,7 @@
 import { Button, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { PNft } from "../../../App";
-import { useMetamask } from "../../../utils/metamask";
+import { useMetamask } from "../../../utils/connect/metamask";
 import IconFont from "../../../utils/icon";
 import { SignInfoService, SignUpService } from '../../../request/api'
 import Countdown from "antd/es/statistic/Countdown";

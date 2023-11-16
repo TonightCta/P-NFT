@@ -14,7 +14,7 @@ import MaskCard from "../../components/mask";
 import { useNavigate } from "react-router-dom";
 import { flag } from "../../utils/source";
 import BuyNFTsModal from "./components/buy.nft";
-import { useMetamask } from "../../utils/metamask";
+import { useMetamask } from "../../utils/connect/metamask";
 
 const DetailView = (): ReactElement<ReactNode> => {
     const { state } = useContext(PNft);

@@ -106,8 +106,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 setPlay(true);
                             }}>
                                 {
-                                    playF
-                                        ? <IconFont type="icon-tingzhi" />
+                                    playF                                         ? <IconFont type="icon-tingzhi" />
                                         : <IconFont type="icon-play-fill" />
                                 }
                             </div>}

@@ -1,7 +1,9 @@
 import { Context, IAction, State, Type } from "../utils/types";
 import { web3 } from "../utils/types";
 
+
 export const defaultState: State = {
+    ethereum: window?.ethereum,
     web3: web3,//Global web3 object
     chain: sessionStorage.getItem('chain') || '8007736',
     address: sessionStorage.getItem('address') || null,//Current connection address
@@ -23,7 +25,9 @@ export const defaultState: State = {
     gallery_one: sessionStorage.getItem('gallery_one') || '',
     gallery_two: sessionStorage.getItem('gallery_two') || '',
     gallery_three: sessionStorage.getItem('gallery_three') || '',
-    campage_list: sessionStorage.getItem('campage_list') || ''
+    campage_list: sessionStorage.getItem('campage_list') || '',
+    connect_modal: false,
+    is_connect: 0 || +sessionStorage.getItem('is_connect')!
 };
 
 export const defaultContext: Context = {
@@ -38,6 +42,10 @@ export const defaultStateInit = (defaultState: State) => {
 export const initState = (state: State, action: IAction) => {
     const { type, payload } = action;
     switch (type) {
+        case Type.SET_ETHEREUM:
+            return { ...state, ethereum: payload.ethereum };
+        case Type.SET_WEB3:
+            return { ...state, web3: payload.web3 };
         case Type.SET_ADDRESS:
             sessionStorage.setItem('address', payload.address as string);
             return { ...state, address: payload.address }
@@ -100,6 +108,11 @@ export const initState = (state: State, action: IAction) => {
         case Type.SET_CAMPAGE_LIST:
             sessionStorage.setItem('campage_list', JSON.stringify(payload.campage_list));
             return { ...state, campage_list: JSON.stringify(payload.campage_list) }
+        case Type.SET_CONNECT_MODAL:
+            return { ...state, connect_modal: payload.connect_modal }
+        case Type.SET_IS_CONNECT:
+            sessionStorage.setItem('is_connect', String(payload.is_connect));
+            return { ...state, is_connect: payload.is_connect }
         default:
             return state;
     }

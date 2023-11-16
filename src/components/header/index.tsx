@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
-import { useMetamask } from "../../utils/metamask";
+import { useMetamask } from "../../utils/connect/metamask";
 import { PNft } from "../../App";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Popover } from "antd";

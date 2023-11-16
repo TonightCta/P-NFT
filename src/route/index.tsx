@@ -4,11 +4,16 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import * as View from '../views/view'
 import { Spin } from "antd";
 import { VERSION } from "../utils/source";
+import { useListen } from "../utils/connect/metamask";
 
 
 
 const RouteConfig = (): ReactElement<ReactNode> => {
+    const { listen } = useListen();
     const location = useLocation();
+    useEffect(() => {
+        listen();
+    }, [])
     useEffect(() => {
         window.scrollTo({
             top: 0,

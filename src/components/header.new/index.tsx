@@ -3,7 +3,6 @@ import './index.scss'
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Popover } from "antd";
 import IconFont from "../../utils/icon";
-import { useMetamask } from "../../utils/metamask";
 import { PNft } from "../../App";
 import { FilterAddress, calsAddress } from "../../utils";
 import { Type } from "../../utils/types";
@@ -11,6 +10,9 @@ import { Config, NetworkConfig, flag } from "../../utils/source";
 import { MenuOutlined } from "@ant-design/icons";
 import MobileMenuDraw from "./components/mobile.menu";
 import { useSwitchChain } from "../../hooks/chain";
+import ConnectModal from "./components/connect.modal";
+import { ProfileService } from "../../request/api";
+import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
 
 export interface Menu {
     name: string,
@@ -42,13 +44,15 @@ export const MenuList: Menu[] = [
 
 const HeaderWapperNew = (): ReactElement<ReactNode> => {
     const navigate = useNavigate();
-    const { connectMetamask } = useMetamask();
+    // const { connectMetamask } = useMetamask();
     const { state, dispatch } = useContext(PNft);
-    const [open, setOpen] = useState(false);
+    const [openPop, setOpen] = useState(false);
     const location = useLocation();
     const { switchC } = useSwitchChain();
     const [mobileMenu, setMobileMenu] = useState<boolean>(false);
     const [chainPop, setChainPop] = useState<boolean>(false);
+    const [visible, setVisible] = useState<boolean>(false);
+    const { address, chainId } = useWeb3ModalAccount();
     const hide = () => {
         setOpen(false);
     };
@@ -59,6 +63,48 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
         }
         setOpen(newOpen);
     };
+    const userInfo = async (address: string) => {
+        const account = await ProfileService({
+            user_address: address
+        });
+        dispatch({
+            type: Type.SET_ADDRESS,
+            payload: {
+                address: address
+            }
+        });
+        dispatch({
+            type: Type.SET_ACCOUNT,
+            payload: {
+                account: account.data
+            }
+        });
+    }
+    useEffect(() => {
+        if (!address) {
+            dispatch({
+                type: Type.SET_ADDRESS,
+                payload: {
+                    address: null
+                }
+            })
+            dispatch({
+                type: Type.SET_IS_CONNECT,
+                payload: {
+                    is_connect: 0
+                }
+            })
+            navigate('/');
+            return
+        };
+        dispatch({
+            type: Type.SET_IS_CONNECT,
+            payload: {
+                is_connect: 1
+            }
+        })
+        userInfo(address)
+    }, [address]);
     useEffect(() => {
         switch (location.pathname) {
             case '/create':
@@ -79,8 +125,18 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
             default:
                 setActive(99)
         }
-    }, [location.pathname])
+    }, [location.pathname]);
+    useEffect(() => {
+        if (!chainId) return
+        dispatch({
+            type: Type.SET_CHAIN,
+            payload: {
+                chain: String(chainId)
+            }
+        });
+    }, [chainId])
     const [active, setActive] = useState<number>(99);
+    const { open } = useWeb3Modal();
     const content = (
         <div className="connect-menu" onClick={hide}>
             <ul>
@@ -98,13 +154,16 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     navigate('/profile')
                 }}>Setting</li>
                 <li onClick={() => {
-                    dispatch({
-                        type: Type.SET_ADDRESS,
-                        payload: {
-                            address: ''
-                        }
-                    });
-                    navigate('/')
+                    const disconnect = () => {
+                        dispatch({
+                            type: Type.SET_ADDRESS,
+                            payload: {
+                                address: null
+                            }
+                        })
+                        navigate('/');
+                    }
+                    state.is_connect === 1 ? open({ view: 'Account' }) : disconnect();
                 }}>Disconnect</li>
             </ul>
         </div>
@@ -145,7 +204,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                                 }}>
                                     {item.name}
                                     {item.name === 'Campaigns' && <img src={require('../../assets/images/fire.gif')} alt="" />}
-                                    {item.name === 'Create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i"/>}
+                                    {item.name === 'Create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i" />}
                                 </li>
                             )
                         })
@@ -156,21 +215,22 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                 }} content={chainContent} title={null} trigger="click">
                     <div className="connect-box select-chain">
                         <div className="connected-box">
-                            <img src={FilterAddress(state.chain as string).chain_logo} alt="" />
+                            <img src={FilterAddress(state.chain as string)?.chain_logo} alt="" />
                             <IconFont type="icon-xiangxia" />
                         </div>
                     </div>
                 </Popover>
-                <div className="connect-box">
+                <div className={`connect-box ${state.address ? 'connected-box' : ''}`}>
                     {!state.address
                         ? <Button type="default" onClick={() => {
-                            connectMetamask();
+                            // connectMetamask();
+                            setVisible(true);
                         }}>
                             <IconFont type="icon-wallet" />
                             Connect Wallet
                         </Button>
-                        : <Popover open={open} onOpenChange={handleOpenChange} content={content} title={null} trigger="click">
-                            <div className="connected-box">
+                        : <Popover open={openPop} onOpenChange={handleOpenChange} content={content} title={null} trigger="click">
+                            <div className="connected-box-i">
                                 <img src={state.account.avatar_url} alt="" />
                                 <p>{calsAddress(state.address)}</p>
                                 <div className="arrow-box">
@@ -188,6 +248,9 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                         setMobileMenu(val);
                     }} />
                 </div>
+                <ConnectModal visible={visible} close={(val: boolean) => {
+                    setVisible(val);
+                }} />
             </div>
         </div>
     )

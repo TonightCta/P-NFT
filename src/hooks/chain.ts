@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { PNft } from "../App";
 import { Network, SupportNetwork } from "../utils";
-import { Type, ethereum } from "../utils/types";
+import { Type, web3 } from "../utils/types";
 import { message } from "antd";
 
 // Switch public chain
@@ -12,9 +12,9 @@ export const useSwitchChain = () => {
             return item.chain_id === chain_id
         });
         try {
-            const result = await ethereum.request({
+            const result = await state.ethereum.request({
                 method: "wallet_switchEthereumChain",
-                params: [{ chainId: state.web3.utils.toHex(chain_id) }],
+                params: [{ chainId: web3.utils.toHex(chain_id) }],
             });
             dispatch({
                 type: Type.SET_CHAIN,
@@ -27,7 +27,7 @@ export const useSwitchChain = () => {
             const add = async () => {
                 const params = [
                     {
-                        chainId: state.web3.utils.toHex(chain_id), // A 0x-prefixed hexadecimal string
+                        chainId: web3.utils.toHex(chain_id), // A 0x-prefixed hexadecimal string
                         chainName: withChainID[0].chain_name,
                         nativeCurrency: {
                             name: withChainID[0].nativeCurrency.name,
@@ -39,13 +39,13 @@ export const useSwitchChain = () => {
                     }
                 ];
                 try {
-                    await ethereum.request({
+                    await state.ethereum.request({
                         method: "wallet_addEthereumChain",
                         params: params,
                     });
-                    await ethereum.request({
+                    await state.ethereum.request({
                         method: "wallet_switchEthereumChain",
-                        params: [{ chainId: state.web3.utils.toHex(chain_id) }],
+                        params: [{ chainId: web3.utils.toHex(chain_id) }],
                     });
                     dispatch({
                         type: Type.SET_CHAIN,

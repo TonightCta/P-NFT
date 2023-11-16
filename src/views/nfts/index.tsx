@@ -47,6 +47,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 ...item,
                 load: true,
                 off: true,
+                is_start:false
             }
         });
         setList(filter);
@@ -75,6 +76,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 ...item,
                 load: true,
                 off: true,
+                is_start:false
             }
         });
         setItemList(filter)

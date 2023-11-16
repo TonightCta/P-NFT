@@ -6,6 +6,7 @@ import { Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PNft } from "../../App";
 import { Type } from "../../utils/types";
+import { computedCountdonw } from "../../utils";
 
 interface Data {
     competition_id: number,
@@ -47,6 +48,10 @@ const ContestView = (): ReactElement<ReactNode> => {
         })
         setData(data.data.item);
     };
+    const getNow = (): number => {
+        const time = new Date().getTime() / 1000;
+        return time
+    }
     useEffect(() => {
         getDataList();
     }, [])
@@ -82,11 +87,11 @@ const ContestView = (): ReactElement<ReactNode> => {
                                                 <div className="msg-box">
                                                     <p className="text-overflow">{item.name}</p>
                                                     <div className="contest-msg">
-                                                        <div className={`left-end ${(item.end_time - (new Date().getTime() / 1000)) < 1 ? 'end-point' : ''}`}>
+                                                        <div className={`left-end ${(item.end_time - getNow()) < 1 ? 'end-point' : ''}`}>
                                                             <div className={`point`}>
                                                                 <div className="point-inner"></div>
                                                             </div>
-                                                            <p>{`${(item.end_time - (new Date().getTime() / 1000)) < 1 ? 'Ended' : `${Math.floor((item.end_time - (new Date().getTime() / 1000)) / 86400)} days left`}`}</p>
+                                                            <p>{`${(item.end_time - getNow()) < 1 ? 'Ended' : `${computedCountdonw((item.start_time > getNow() ? item.start_time : item.end_time) - getNow()).D} days ${computedCountdonw((item.start_time > getNow() ? item.start_time : item.end_time) - getNow()).H} : ${computedCountdonw((item.start_time > getNow() ? item.start_time : item.end_time) - getNow()).M} ${(item.start_time > getNow() ? 'start' : 'left')}`}`}</p>
                                                         </div>
                                                         <div className="right-hot">
                                                             <p>🔥<span>{item.total_submit_items}</span></p>

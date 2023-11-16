@@ -8,7 +8,9 @@ export const { ethereum } = win;
 export const web3 = new Web3(ethereum || currentProvider);
 export const web3P = new Web3(new Web3.providers.HttpProvider('https://mainnet.plian.io/child_0'));
 
+
 export interface State {
+    ethereum?:any,
     web3?: any,
     address?: string | null,
     screen_index?: number,
@@ -30,7 +32,9 @@ export interface State {
     gallery_one?: string,
     gallery_two?: string,
     gallery_three?: string,
-    campage_list?: string
+    campage_list?: string,
+    connect_modal?:boolean,
+    is_connect?:number
 }
 
 export interface IResponse {
@@ -42,6 +46,8 @@ export interface IResponse {
 }
 
 export enum Type {
+    SET_ETHEREUM = 'set_ethereum',
+    SET_WEB3 = 'set_web3',
     SET_CHAIN = 'set_chain',
     SET_ADDRESS = 'set_address',
     SET_SCREEN_INDEX = 'set_screen_index',
@@ -62,7 +68,9 @@ export enum Type {
     SET_GALLERY_ONE = 'set_gallery_one',
     SET_GALLERY_TWO = 'set_gallery_two',
     SET_GALLERY_THREE = 'set_gallery_three',
-    SET_CAMPAGE_LIST = 'set_campage_list'
+    SET_CAMPAGE_LIST = 'set_campage_list',
+    SET_CONNECT_MODAL = 'set_connect_modal',
+    SET_IS_CONNECT = 'set_is_connect'
 };
 
 export interface IAction {
@@ -106,5 +114,6 @@ export interface NFTItem {
     collection_name: string,
     token_name: string,
     contract_address: string,
-    voice_minio_url:string
+    voice_minio_url: string,
+    is_start:boolean
 }

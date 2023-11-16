@@ -10,7 +10,7 @@ import { LAND, MODE, useContract } from "../../../utils/contract";
 import { ethereum } from "../../../utils/types";
 import { NFTMintService, UploadFileService } from "../../../request/api";
 import { PNft } from "../../../App";
-import { useMetamask } from "../../../utils/metamask";
+import { useMetamask } from "../../../utils/connect/metamask";
 import { useSwitchChain } from "../../../hooks/chain";
 import { useNavigate } from "react-router-dom";
 import * as Address from '../../../utils/source'
