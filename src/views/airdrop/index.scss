@@ -601,6 +601,41 @@
           transition: 1.3s all;
           background-image: url("../../assets/images/drop_card_3.png");
         }
+        ul {
+          border: 0;
+        }
+        .end-count {
+          width: 100%;
+          height: 68px;
+          background-color: #f4f4f4;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          .point-box {
+            width: 24px;
+            height: 24px;
+            background-color: rgba(117, 201, 121, 0.35);
+            border-radius: 50%;
+            padding: 5px;
+            margin-right: 16px;
+            .point-inner {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              background-color: #75c979;
+            }
+          }
+          p {
+            color: #a0a0a0;
+            font-family: SparkTextNew;
+            font-size: 20px;
+          }
+          p:last-child {
+            font-family: SparkSemiBold;
+            color: #ff33aa;
+          }
+        }
       }
       .activity-remark {
         border-radius: 20px;

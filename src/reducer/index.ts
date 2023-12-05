@@ -27,7 +27,7 @@ export const defaultState: State = {
     gallery_three: sessionStorage.getItem('gallery_three') || '',
     campage_list: sessionStorage.getItem('campage_list') || '',
     connect_modal: false,
-    is_connect: 0 || +sessionStorage.getItem('is_connect')!
+    is_connect: Number(sessionStorage.getItem('is_connect') as string) || 0 
 };
 
 export const defaultContext: Context = {

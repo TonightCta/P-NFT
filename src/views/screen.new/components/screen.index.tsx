@@ -114,10 +114,10 @@ const ScreenIndexNew = (): ReactElement => {
                 <div className="mobile-list">
                     <ul className="ani-1">
                         {
-                            PosterMobile.slice(0, 5).map((item: string, index: number) => {
+                            data.slice(0, 5).map((item: Data, index: number) => {
                                 return (
                                     <li key={index}>
-                                        <img src={item} alt="" />
+                                        <img src={item.file_minio_url} alt="" />
                                         <div className="loading-box-public">
                                             <Spin />
                                         </div>
@@ -128,10 +128,10 @@ const ScreenIndexNew = (): ReactElement => {
                     </ul>
                     <ul className="ani-2">
                         {
-                            PosterMobile.slice(5, 10).map((item: string, index: number) => {
+                            data.slice(5, 10).map((item: Data, index: number) => {
                                 return (
                                     <li key={index}>
-                                        <img src={item} alt="" />
+                                        <img src={item.file_minio_url} alt="" />
                                         <div className="loading-box-public">
                                             <Spin />
                                         </div>
@@ -142,10 +142,10 @@ const ScreenIndexNew = (): ReactElement => {
                     </ul>
                     <ul className="ani-3">
                         {
-                            PosterMobile.slice(10, 15).map((item: string, index: number) => {
+                            data.slice(10, 15).map((item: Data, index: number) => {
                                 return (
                                     <li key={index}>
-                                        <img src={item} alt="" />
+                                        <img src={item.file_minio_url} alt="" />
                                         <div className="loading-box-public">
                                             <Spin />
                                         </div>

@@ -800,8 +800,8 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            transition: .3s all;
-            .btn-i{
+            transition: 0.3s all;
+            .btn-i {
               border-radius: 4px;
               display: flex;
               align-items: center;
@@ -809,26 +809,26 @@
               font-size: 12px;
               padding-bottom: 8px;
               cursor: pointer;
-              p{
+              p {
                 color: #ff33aaae;
               }
-              span{
+              span {
                 color: #ff33aaae;
-                transition: .3s all;
+                transition: 0.3s all;
               }
             }
           }
         }
-        .show-desc{
+        .show-desc {
           margin-bottom: 12px;
-          .com-remark{
+          .com-remark {
             height: auto;
           }
-          .show-more{
+          .show-more {
             background: rgba(0, 0, 0, 0);
             bottom: -28px;
-            .btn-i{
-              span{
+            .btn-i {
+              span {
                 transform: rotate(180deg);
               }
             }
@@ -848,7 +848,7 @@
         color: #686a6c;
         height: 90px;
         overflow: hidden;
-        transition: .3s all;
+        transition: 0.3s all;
       }
       .com-msg {
         margin-top: 12px;
@@ -1171,6 +1171,9 @@
                   margin-top: 0.8rem;
                 }
               }
+            }
+            .new-nft-card:nth-child(5n) {
+              margin-right: 2rem;
             }
             .new-nft-card:nth-child(2n) {
               margin-right: 0;

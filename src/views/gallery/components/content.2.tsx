@@ -5,6 +5,7 @@ import { Data } from "./top.screen";
 import IconFont from "../../../utils/icon";
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
+import { Image } from 'antd'
 
 const ShowContent = (): ReactElement => {
     const [data, setData] = useState<Data[]>([]);
@@ -46,7 +47,7 @@ const ShowContent = (): ReactElement => {
                             return (
                                 <li key={index}>
                                     <div className="nft-box">
-                                        <img src={item.file_minio_url} alt="" />
+                                        <Image src={item.file_minio_url} alt="" />
                                     </div>
                                     <p className="nft-name">{item.file_name}</p>
                                     <div className="minter-msg">

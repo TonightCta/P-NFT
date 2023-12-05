@@ -122,7 +122,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
             <div className="list-box">
                 <ul className="c-mobile">
                     {
-                        MobileCardLisr.slice(0, 4).map((item: Card, index: number) => {
+                        data.slice(0, 4).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
                                     navigate(`/user/${item.minter}`)
@@ -135,7 +135,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                 </ul>
                 <ul className="c-mobile">
                     {
-                        MobileCardLisr.slice(4, 8).map((item: Card, index: number) => {
+                        data.slice(4, 8).map((item: Card, index: number) => {
                             return (
                                 <li key={index} onClick={() => {
                                     navigate(`/user/${item.minter}`)

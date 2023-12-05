@@ -81,7 +81,8 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
         });
     }
     useEffect(() => {
-        if (!address) {
+        if (!address && state.is_connect === 1) {
+            console.log(address)
             dispatch({
                 type: Type.SET_ADDRESS,
                 payload: {
@@ -93,17 +94,17 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                 payload: {
                     is_connect: 0
                 }
-            })
-            navigate('/');
-            return
+            });
         };
-        dispatch({
-            type: Type.SET_IS_CONNECT,
-            payload: {
-                is_connect: 1
-            }
-        })
-        userInfo(address)
+        if (address && state.is_connect === 1) {
+            dispatch({
+                type: Type.SET_IS_CONNECT,
+                payload: {
+                    is_connect: 1
+                }
+            })
+            userInfo(address as string)
+        }
     }, [address]);
     useEffect(() => {
         switch (location.pathname) {
@@ -211,6 +212,9 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     }
                 </ul>
                 <Popover open={chainPop} onOpenChange={(e: boolean) => {
+                    if (flag) {
+                        return
+                    }
                     setChainPop(e)
                 }} content={chainContent} title={null} trigger="click">
                     <div className="connect-box select-chain">

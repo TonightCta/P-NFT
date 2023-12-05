@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { GalleryList, GalleryNFTList } from '../../../request/api';
-import { Spin } from "antd";
+import { Spin,Image } from "antd";
 import IconFont from "../../../utils/icon";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from 'swiper'
@@ -80,14 +80,14 @@ const TopScreen = (): ReactElement => {
                                         </div>
                                     </div>
                                     <div className="first-nft-pic">
-                                        <img src={item.file_minio_url} alt="" />
+                                        <Image src={item.file_minio_url} />
                                         <div className="loading-box">
                                             <Spin size="large" />
                                         </div>
                                     </div>
                                     <div className="mobile-creator-msg creator-msg">
                                         <p className="creator-name">
-                                            <img src={item.minter_minio_url} alt="" />
+                                            <Image src={item.minter_minio_url}/>
                                             {item.minter_name}
                                         </p>
                                         <p className="creator-title">{item.file_name}</p>

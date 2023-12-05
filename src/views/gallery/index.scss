@@ -106,13 +106,12 @@
         max-width: 620px;
         height: 620px;
         max-height: 620px;
-        border-radius: 16px;
         overflow: hidden;
-        background-color: #eee;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
+        border-radius: 16px;
         .loading-box {
           position: absolute;
           top: 0;
@@ -126,6 +125,7 @@
         }
         img {
           width: 100%;
+          border-radius: 16px;
           position: relative;
           z-index: 20;
         }
@@ -193,8 +193,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #eee;
             img {
+              border-radius: 16px;
               width: 100%;
             }
           }
@@ -336,10 +336,10 @@
           justify-content: center;
           border-radius: 16px;
           overflow: hidden;
-          background-color: #eee;
           width: 100%;
           img {
             width: 100%;
+            border-radius: 16px;
           }
         }
         .nft-name {

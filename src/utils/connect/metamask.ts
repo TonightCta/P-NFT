@@ -69,12 +69,6 @@ export const useMetamask = () => {
                     connect_modal: false
                 }
             });
-            dispatch({
-                type: Type.SET_CHAIN,
-                payload: {
-                    chain: web3.utils.hexToNumberString(ethereum?.chainId)
-                }
-            })
             account.data.avatar_minio && setAvatar();
         } catch (err: any) {
             message.error(err.message);

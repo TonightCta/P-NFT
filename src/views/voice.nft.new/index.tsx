@@ -279,6 +279,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                                 }
                             </div>}
                 </div>
+                {/* <Button type="primary">Test Sign</Button> */}
             </div>
             <FooterNew />
         </div>

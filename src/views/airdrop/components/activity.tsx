@@ -1,6 +1,6 @@
-import { ReactElement, useContext, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { ActivityRankService } from '../../../request/api'
-import { FilterAddress, calsAddress } from "../../../utils";
+import { FilterAddress, calsAddress, computedCountdonw } from "../../../utils";
 import { Spin } from "antd";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
 import { PNft } from "../../../App";
@@ -11,7 +11,14 @@ const ActivityCard = (): ReactElement => {
     const [total, setTotal] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(true);
     const [show, setShow] = useState<string>('');
+    const timer = useRef<NodeJS.Timer>();
     const { state } = useContext(PNft);
+    const [count, setCount] = useState<{ d: string, h: string, m: string, s: string }>({
+        d: '00',
+        h: '00',
+        m: '00',
+        s: '00'
+    });
     const getRankList = async () => {
         const result = await ActivityRankService({
             chain_id: state.chain,
@@ -28,7 +35,16 @@ const ActivityCard = (): ReactElement => {
         getRankList();
         setTimeout(() => {
             setShow('view-2')
-        })
+        });
+        timer.current = setInterval(() => {
+            const { D, H, M, S } = computedCountdonw((new Date('2023-12-23').getTime() - new Date().getTime()) / 1000);
+            setCount({
+                d: D.toString(),
+                h: H.toString(),
+                m: M.toString(),
+                s: S.toString()
+            })
+        }, 1000)
     }, [])
     return (
         <div className={show}>
@@ -45,10 +61,17 @@ const ActivityCard = (): ReactElement => {
                             <p className="rule-options">
                                 Users who create NFTs through AIGC will have the opportunity to earn high profits.
                                 <br />
-                                The top 3 creators with highest trading volume (created before 08/10/23) will win in turn: 50K $PI, 25K $PI, 15K $PI (* All the 90K $PI will be released on 08/11/23)
+                                The top 3 creators with highest trading volume (created before 22/11/23) will win in turn: 50K $PI, 25K $PI, 15K $PI (* All the 90K $PI will be released on 23/12/23)
                             </p>
                         </li>
                     </ul>
+                    <div className="end-count">
+                        <div className="point-box">
+                            <div className="point-inner"></div>
+                        </div>
+                        <p>End in:&nbsp;</p>
+                        <p>{count.d} days {count.h} : {count.m} : {count.s}</p>
+                    </div>
                 </div>
                 <div className="rank-list">
                     <div className="rank-3-list">
@@ -61,8 +84,8 @@ const ActivityCard = (): ReactElement => {
                                         </div>
                                         <p>2</p>
                                     </div>
-                                    <p className="address-text">{calsAddress(rankList[1].minter)}</p>
-                                    <p className="price-text">{rankList[1].sell_price_pi}&nbsp;$PI</p>
+                                    <p className="address-text">{rankList.length > 1 ? calsAddress(rankList[1].minter) : ''}</p>
+                                    <p className="price-text">{rankList.length > 1 ? `${rankList[1]?.sell_price_pi} $PI` : 'Waiting for a vacant position'}</p>
                                 </li>
                                 <li>
                                     <img className="rank-1-icon" src={require('../../../assets/images/drop_rank_1.png')} alt="" />
@@ -72,8 +95,8 @@ const ActivityCard = (): ReactElement => {
                                         </div>
                                         <p>1</p>
                                     </div>
-                                    <p className="address-text">{calsAddress(rankList[0].minter)}</p>
-                                    <p className="price-text">{rankList[0].sell_price_pi}&nbsp;$PI</p>
+                                    <p className="address-text">{rankList.length > 0 ? calsAddress(rankList[0].minter) : ''}</p>
+                                    <p className="price-text">{rankList.length > 0 ? `${rankList[0]?.sell_price_pi} $PI` : 'Waiting for a vacant position'}</p>
                                 </li>
                                 <li>
                                     <div className="nfts-box">
@@ -82,8 +105,8 @@ const ActivityCard = (): ReactElement => {
                                         </div>
                                         <p>3</p>
                                     </div>
-                                    <p className="address-text">{calsAddress(rankList[2].minter)}</p>
-                                    <p className="price-text">{rankList[2].sell_price_pi}&nbsp;$PI</p>
+                                    <p className="address-text">{rankList.length > 2 ? calsAddress(rankList[2].minter) : ''}</p>
+                                    <p className="price-text">{rankList.length > 2 ? `${rankList[2]?.sell_price_pi} $PI` : 'Waiting for a vacant position'}</p>
                                 </li>
                             </ul>
                             : <div style={{ marginTop: '40px' }}>

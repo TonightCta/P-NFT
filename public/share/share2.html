@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzap AIGC Campaign</title>
+</head>
+
+<body>
+
+    <!-- Video Player -->
+    <video controls width="640" height="360" id="video-form">
+        <source src="https://pizzap.io/video/pizzap.aigc.s1.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Twitter Share Button with Video Upload -->
+    <button onclick="tweetWithVideo()">Share on Twitter</button>
+    <script src="./oauth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@3.3.0/crypto-js.js"></script>
+    <script>
+        async function tweetWithVideo() {
+            const consumerKey = 'xiJgQd4fMriqOOYtlXm7M8lM2';
+            const consumerSecret = 'abkKi8r0bJUYPAHY89tqX4fLuSJlIPFNXcScjr4EWhf777mbwp';
+            const accessToken = '1145522780353380353-eZ21k6asFBF8vA7exmqUuIs9WVbD6c';
+            const accessTokenSecret = 'ACE26BgIQWckzLMOc3SWvQ60SvPzP0l0IJqSOBpt08H4F';
+
+            // Step 1: Get OAuth 1.0a Authorization Header
+            const oauth = OAuth({
+                consumer: { key: consumerKey, secret: consumerSecret },
+                signature_method: 'HMAC-SHA1',
+                hash_function: (base_string, key) => CryptoJS.HmacSHA1(base_string, key).toString(CryptoJS.enc.Base64),
+            });
+            const requestData = {
+                url: 'https://upload.twitter.com/1.1/media/upload.json',
+                method: 'POST',
+            };
+            const mediaUploadData = {
+                media: {
+                    file: '../video/pizzap.aigc.s1.mp4',
+                },
+            };
+            const authorization = oauth.toHeader(oauth.authorize(requestData));
+            console.log(authorization)
+            console.log(document.getElementById('video-form'))
+            // Step 2: Upload Video
+            const videoResponse = await fetch('https://upload.twitter.com/1.1/media/upload.json', {
+                method: 'POST',
+                headers: {
+                    Authorization: authorization.Authorization,
+                },
+                body: mediaUploadData,
+            });
+
+            const videoData = await videoResponse.json();
+            const mediaId = videoData.media_id_string;
+            console.log(mediaId)
+            // Step 3: Compose and Publish Tweet with Video
+            const tweetText = 'Check out this awesome video!';
+            const statusUpdateResponse = await fetch('https://api.twitter.com/1.1/statuses/update.json', {
+                method: 'POST',
+                headers: {
+                    Authorization: authorization.Authorization,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    status: tweetText,
+                    media_ids: mediaId,
+                }),
+            });
+
+            const tweetResult = await statusUpdateResponse.json();
+            console.log('Tweet published:', tweetResult);
+        }
+    </script>
+
+</body>
+
+</html>

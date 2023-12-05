@@ -96,6 +96,15 @@
 .nft-card:hover {
   transform: translateY(-10px);
 }
+@media screen and (max-width:1280px){
+  .nft-card{
+    .minter-msg{
+      .minter-avatar{
+        justify-content: flex-start;
+      }
+    }
+  }
+}
 @media screen and (max-width: 1700px) {
   .nft-card {
     width: calc(17% - 26px);

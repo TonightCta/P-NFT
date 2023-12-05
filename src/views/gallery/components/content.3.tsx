@@ -4,6 +4,7 @@ import { Data } from "./top.screen";
 import SeriesList from "./series.list";
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
+import { Image } from 'antd'
 
 interface Group {
     group_id: number;
@@ -58,7 +59,7 @@ const Content3 = (): ReactElement => {
                 <div className="right-down">
                     <div className="public-card">
                         <div className="nft-box">
-                            <img src={data[0]?.file_minio_url} alt="" />
+                            <Image src={data[0]?.file_minio_url} alt="" />
                         </div>
                         <p className="nft-name">{data[0]?.file_name}</p>
                         <div className="minter-msg">
@@ -69,7 +70,7 @@ const Content3 = (): ReactElement => {
                     </div>
                     <div className="public-card">
                         <div className="nft-box">
-                            <img src={data[1]?.file_minio_url} alt="" />
+                            <Image src={data[1]?.file_minio_url} alt="" />
                         </div>
                         <p className="nft-name">{data[1]?.file_name}</p>
                         <div className="minter-msg">
@@ -81,7 +82,7 @@ const Content3 = (): ReactElement => {
                 </div>
                 <div className="public-card w-width">
                     <div className="nft-box">
-                        <img src={data[2]?.file_minio_url} alt="" />
+                        <Image src={data[2]?.file_minio_url} alt="" />
                     </div>
                     <p className="nft-name">{data[2]?.file_name}</p>
                     <div className="minter-msg">
@@ -93,7 +94,7 @@ const Content3 = (): ReactElement => {
                 <div className="left-down">
                     <div className="public-card">
                         <div className="nft-box">
-                            <img src={data[3]?.file_minio_url} alt="" />
+                            <Image src={data[3]?.file_minio_url} alt="" />
                         </div>
                         <p className="nft-name">{data[3]?.file_name}</p>
                         <div className="minter-msg">
@@ -104,7 +105,7 @@ const Content3 = (): ReactElement => {
                     </div>
                     <div className="public-card">
                         <div className="nft-box">
-                            <img src={data[4]?.file_minio_url} alt="" />
+                            <Image src={data[4]?.file_minio_url} alt="" />
                         </div>
                         <p className="nft-name">{data[4]?.file_name}</p>
                         <div className="minter-msg">
@@ -116,7 +117,7 @@ const Content3 = (): ReactElement => {
                 </div>
                 <div className="public-card r-w-width">
                     <div className="nft-box">
-                        <img src={data[5]?.file_minio_url} alt="" />
+                        <Image src={data[5]?.file_minio_url} alt="" />
                     </div>
                     <p className="nft-name">{data[5]?.file_name}</p>
                     <div className="minter-msg">
@@ -127,7 +128,7 @@ const Content3 = (): ReactElement => {
                 </div>
                 <div className="public-card last-card">
                     <div className="nft-box">
-                        <img src={data[6]?.file_minio_url} alt="" />
+                        <Image src={data[6]?.file_minio_url} alt="" />
                     </div>
                     <p className="nft-name">{data[6]?.file_name}</p>
                     <div className="minter-msg">

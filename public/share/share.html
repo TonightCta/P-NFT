@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <meta property="og:title" content="Your Video Title">
+    <meta property="og:description" content="Description of your video">
+    <meta property="og:image" content="https://www.liuxing.io/blog/html-meta-tags/meta-tags.webp">
+    <meta property="og:video" content="https://pizzap.io/video/pizzap.aigc.s1.mp4">
+    <meta property="og:video:secure_url" content="https://pizzap.io/video/pizzap.aigc.s1.mp4">
+    <meta property="og:video:type" content="video/mp4">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@UIEg9fWlcPrvcMN">
+    <meta name="twitter:title" content="Your Video Title">
+    <meta name="twitter:description" content="Description of your video">
+    <meta name="twitter:image" content="https://www.liuxing.io/blog/html-meta-tags/meta-tags.webp"> -->
+</head>
+
+<body>
+    <!-- <video controls width="640" height="360">
+        <source src="https://pizzap.io/video/pizzap.aigc.s1.mp4" type="video/mp4">
+    </video> -->
+    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fpizzap.io%2Fshare%2Fshare.html&text=Alex%20Test">Share
+        Button</a>
+    <div id="twitter-embed"></div>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script>
+        // AAAAAAAAAAAAAAAAAAAAAC4qrQEAAAAACk81FXciPOfoXLBHEKhYKeYVp4c%3DIdbAyeOXG3HrdqjtLlKSAqMnRjTDtu5zDJPqeKVPjidvYpQ2Tx
+        // Replace 'YOUR_VIDEO_URL' with the actual URL of your video
+        const videoUrl = 'https://pizzap.io/video/pizzap.aigc.s1.mp4';
+        // Replace 'YOUR_TWITTER_API_BEARER_TOKEN' with your actual Twitter API Bearer Token
+        const bearerToken = 'AAAAAAAAAAAAAAAAAAAAAC4qrQEAAAAACk81FXciPOfoXLBHEKhYKeYVp4c%3DIdbAyeOXG3HrdqjtLlKSAqMnRjTDtu5zDJPqeKVPjidvYpQ2Tx';
+        // Fetch oEmbed data from Twitter API
+        fetch(`https://api.twitter.com/2/tweets/create.json?text=${encodeURIComponent(videoUrl)}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Extract the HTML embed code from the response
+                const html = data.html;
+                console.log(html)
+                // Display the embedded tweet on the page
+                document.getElementById('twitter-embed').innerHTML = html;
+            })
+            .catch(error => console.error('Error:', error));
+
+    </script>
+</body>
+
+</html>

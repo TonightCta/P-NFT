@@ -157,7 +157,11 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                                 <div className="point">
                                     <div className="point-inner"></div>
                                 </div>
-                                <p>{`${info?.start_time as number > getNow() ? 'Start' : 'End'} in ${count.d} days ${count.h} : ${count.m} : ${count.s}`}</p>
+                                {
+                                    info?.end_time as number - getNow() < 1
+                                    ? <p>Ended</p>
+                                    : <p>{`${info?.start_time as number > getNow() ? 'Start' : 'End'} in ${count.d} days ${count.h} : ${count.m} : ${count.s}`}</p>
+                                }
                             </div>
                             <Button type="primary" disabled={info?.start_time as number > getNow() || info?.end_time as number < getNow()} className={`${info?.start_time as number > getNow() || info?.end_time as number < getNow() ? 'dis-b' : ''}`} onClick={() => {
                                 // dispatch({
