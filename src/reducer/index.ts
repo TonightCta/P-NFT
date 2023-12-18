@@ -1,11 +1,11 @@
-import { Context, IAction, State, Type } from "../utils/types";
+import { Context, IAction, State, Type, ethereum } from "../utils/types";
 import { web3 } from "../utils/types";
 
 
 export const defaultState: State = {
     ethereum: window?.ethereum,
     web3: web3,//Global web3 object
-    chain: sessionStorage.getItem('chain') || '8007736',
+    chain: sessionStorage.getItem('chain') ||'8007736',
     address: sessionStorage.getItem('address') || null,//Current connection address
     screen_index: Number(sessionStorage.getItem('screen_index')) || 0,
     card: JSON.parse(sessionStorage.getItem('card') || '{}'),

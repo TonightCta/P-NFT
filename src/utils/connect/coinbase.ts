@@ -22,7 +22,7 @@ export const useCoinbase = () => {
         DEFAULT_ETH_JSONRPC_URL,
         DEFAULT_CHAIN_ID
     )
-    const { state, dispatch } = useContext(PNft);
+    const { dispatch } = useContext(PNft);
     const connectCoinbase = async () => {
         dispatch({
             type: Type.SET_ETHEREUM,

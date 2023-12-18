@@ -218,17 +218,38 @@
     padding-bottom: 20px;
     margin-bottom: 16px;
     .nft-box {
-      width: 268px;
-      height: 268px;
-      margin: 0 auto;
-      border-radius: 8px;
-      overflow: hidden;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #eee;
-      img {
-        width: 100%;
+      .p-1 {
+        width: 108px;
+        height: 108px;
+        border: 1px solid #eee;
+        overflow: hidden;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 100%;
+        }
+      }
+      .nft-info {
+        flex: 1;
+        margin-left: 24px;
+        display: flex;
+        justify-content: space-between;
+        .p-inf {
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column;
+          justify-content: center;
+          p:first-child {
+            font-size: 16px;
+            font-family: SparkSemiBold;
+          }
+        }
+        .inf-right {
+          align-items: flex-end;
+        }
       }
     }
     .nft-name {
@@ -246,6 +267,73 @@
     color: #666;
     font-size: 16px;
   }
+  .n-t {
+    margin-top: 24px;
+  }
+  .set-duration {
+    display: flex;
+    margin-top: 8px;
+    .date-box {
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .left-end-date {
+      width: 130px;
+      margin-right: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      p {
+        font-size: 15px;
+        font-family: SparkSemiBold;
+      }
+      span {
+        font-size: 12px;
+        transition: 0.3s all;
+      }
+    }
+    .show-pop {
+      span {
+        transform: rotate(180deg);
+      }
+    }
+    .right-start-date {
+      flex: 1;
+      border: 0;
+      .ant-picker {
+        .ant-picker-input {
+          input {
+            font-size: 15px;
+            font-family: SparkSemiBold;
+          }
+        }
+      }
+    }
+  }
+  .sale-msg {
+    margin-top: 16px;
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #eee;
+      p {
+        font-size: 16px;
+      }
+      p:last-child {
+        font-family: SparkSemiBold;
+      }
+    }
+    li:last-child {
+      border-bottom: 0;
+      p {
+        font-family: SparkSemiBold;
+      }
+    }
+  }
   .price-text {
     text-align: center;
     margin-top: 24px;
@@ -261,12 +349,12 @@
       border-radius: 8px;
       border: 1px solid #ccc;
       flex: 1;
-      margin-right: 24px;
+      margin-right: 8px;
       padding-left: 12px;
       font-size: 16px;
     }
     .coin-select {
-      width: 130px;
+      width: 110px;
       display: flex;
       align-items: center;
       border-radius: 8px;
@@ -282,6 +370,8 @@
       p {
         text-align: center;
         padding: 0 8px;
+        font-size: 15px;
+        font-family: SparkSemiBold;
       }
       span {
         color: #666;
@@ -347,6 +437,20 @@
     }
   }
 }
+.buy-inner {
+  .sell-nft {
+    .nft-box {
+      width: 160px;
+      height: 160px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 0 auto;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
 .up-mask {
   position: relative;
   z-index: 300;
@@ -382,6 +486,7 @@
       p {
         transition: 0.3s all;
         margin-right: 20px;
+        font-size: 16px;
       }
     }
     .active-token {
@@ -566,8 +671,17 @@
   .fixed-price-inner {
     .sell-nft {
       .nft-box {
-        width: 15.8rem;
-        height: 15.8rem;
+        flex-direction: column;
+        .p-1 {
+          margin: 0 auto;
+        }
+        .nft-info {
+          margin-left: 0;
+          margin-top: 1.6rem;
+          p {
+            font-size: 1.4rem !important;
+          }
+        }
       }
     }
     .label {
@@ -576,6 +690,25 @@
     .inp-and-coin {
       input {
         height: 3.2rem;
+      }
+    }
+    .set-duration {
+      .date-box {
+        height: 32px;
+      }
+      .left-end-date {
+        p {
+          font-size: 1.4rem;
+        }
+      }
+      .right-start-date {
+        .ant-picker {
+          .ant-picker-input {
+            input {
+              font-size: 1.4rem;
+            }
+          }
+        }
       }
     }
     .submit-btn {
@@ -617,4 +750,7 @@
 }
 w3m-modal {
   z-index: 5000;
+}
+.ant-picker-dropdown {
+  z-index: 4050 !important;
 }

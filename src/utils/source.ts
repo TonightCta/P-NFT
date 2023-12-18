@@ -1,6 +1,22 @@
 export const NFTs: string[] = [
 ];
 
+export const PlianContractAddress721Main: string = "0xa2822ac2662fe0cbf470d5721e24f8508ec43d33";
+export const OPContractAddress721Main: string = "0x1e0049783f008a0085193e00003d00cd54003c71";
+export const PlianContractAddressMarketMain: string = "0x286d1ae7c43c5ea3c7bbee601d9c1af875f5c50e";
+export const PlianContractAddress721Test: string = "0x6B2793D4024bC3A9505133c0649e194488be1a47";
+export const PlianContractAddressMarketTest: string = "0xEDC36347d13f7838edCC3f760908c0Cf06C3aCF8";
+export const PlianContractERC20Test: string = "0xFcb06A1a2E8834Fe9E0b49F533E14AB6384f74AC";
+export const PlianContractSBTTest: string = "0x27e67a318f41d7475f409f4a390084b6aa16ac50";
+export const SystemAddress: string = "0x0000000000000000000000000000000000000000"
+export const PNFTAddress = '0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08';
+
+export const TaikoContractAddress721Main: string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";
+export const TaikoContractAddress721Test: string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";
+export const TaikoContractAddressMarketTest: string = "0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb";
+export const TaikoContractAddressMarketMain: string = "0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb";
+export const TaikoContractAddressERC20Test: string = "0x6302744962a0578e814c675b40909e64d9966b0d";
+export const VERSION: string = process.env.REACT_APP_VERSION as string;
 interface Model {
     value: string,
     label: string
@@ -423,10 +439,17 @@ export interface Config {
     chain_name: string,
     chain_logo: string
 };
-export interface ConfigName{
+export interface ConfigName {
     chain_id: string,
     chain_name: string,
-    chain_logo: string
+    chain_logo: string,
+    fee: string,
+    gas: string,
+    token: {
+        symbol: string,
+        icon: string,
+        address: string
+    }[]
 }
 
 export const NetworkConfig: Config[] = [
@@ -475,8 +498,18 @@ export const NetworkConfig: Config[] = [
         chain_logo: require('../assets/images/op.logo.png'),
         contract_721: '0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
         contract_721_test: '0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
-        contract_market: '0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
-        contract_market_test: '0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb',
+        contract_market: '0x1E0049783F008A0085193E00003D00cd54003c71',
+        contract_market_test: '0x1E0049783F008A0085193E00003D00cd54003c71',
+        contract_erc20: '0x6302744962a0578e814c675b40909e64d9966b0d'
+    },
+    {
+        chain_id: '210425',
+        chain_name: 'PlatON',
+        chain_logo: require('../assets/images/plat.logo.png'),
+        contract_721: '0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
+        contract_721_test: '0x169625caf5d3f14e8d9F680Db6923343b80d1B1E',
+        contract_market: '0x5B3Cb2Cdd18D5622987193cabbCf4526a56370fC',
+        contract_market_test: '0x5B3Cb2Cdd18D5622987193cabbCf4526a56370fC',
         contract_erc20: '0x6302744962a0578e814c675b40909e64d9966b0d'
     }
 ]
@@ -485,11 +518,34 @@ export const NetworkConfigName: ConfigName[] = [
         chain_id: '8007736',
         chain_name: 'plians1',
         chain_logo: require('../assets/images/plian.logo.png'),
+        fee: '0.4',
+        token: [
+            {
+                symbol: 'PI',
+                icon: require('../assets/images/pi_logo.png'),
+                address: SystemAddress
+            },
+            {
+                symbol: 'PNFT',
+                icon: require('../assets/images/pnft.png'),
+                address: PNFTAddress
+            },
+        ],
+        gas: '7000000',
     },
     {
         chain_id: '1',
         chain_name: 'ethereum',
         chain_logo: require('../assets/images/eth.logo.png'),
+        fee: '0.0001',
+        token: [
+            {
+                symbol: 'ETH',
+                icon: "https://static.optimism.io/data/ETH/logo.svg",
+                address: SystemAddress
+            },
+        ],
+        gas: '15000000',
     },
     // {
     //     chain_id:'167005',
@@ -504,29 +560,86 @@ export const NetworkConfigName: ConfigName[] = [
         chain_id: '314',
         chain_name: 'filecoin',
         chain_logo: require('../assets/images/fil.logo.png'),
+        fee: '0.01',
+        token: [
+            {
+                symbol: 'ETH',
+                icon: "https://static.optimism.io/data/ETH/logo.svg",
+                address: SystemAddress
+            },
+        ],
+        gas: '20000000',
     },
     {
         chain_id: '10',
         chain_name: 'optimism',
         chain_logo: require('../assets/images/op.logo.png'),
-    }
+        fee: '0.0001',
+        token: [
+            {
+                symbol: 'ETH',
+                icon: "https://static.optimism.io/data/ETH/logo.svg",
+                address: SystemAddress
+            }
+        ],
+        gas: '15000000'
+    },
+    {
+        chain_id: '210425',
+        chain_name: 'platon',
+        chain_logo: require('../assets/images/plat.logo.png'),
+        fee: '1',
+        token: [
+            {
+                symbol: 'LAT',
+                icon: require('../assets/images/plat.logo.png'),
+                address: SystemAddress
+            }
+        ],
+        gas: '420000'
+    },
 ]
 
-export const PlianContractAddress721Main: string = "0xa2822ac2662fe0cbf470d5721e24f8508ec43d33";
-export const PlianContractAddressMarketMain: string = "0x286d1ae7c43c5ea3c7bbee601d9c1af875f5c50e";
-export const PlianContractAddress721Test: string = "0x6B2793D4024bC3A9505133c0649e194488be1a47";
-export const PlianContractAddressMarketTest: string = "0xEDC36347d13f7838edCC3f760908c0Cf06C3aCF8";
-export const PlianContractERC20Test: string = "0xFcb06A1a2E8834Fe9E0b49F533E14AB6384f74AC";
-export const PlianContractSBTTest: string = "0x27e67a318f41d7475f409f4a390084b6aa16ac50";
-export const SystemAddress: string = "0x0000000000000000000000000000000000000000"
-export const PNFTAddress = '0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08';
-
-export const TaikoContractAddress721Main: string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";
-export const TaikoContractAddress721Test: string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";
-export const TaikoContractAddressMarketTest: string = "0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb";
-export const TaikoContractAddressMarketMain: string = "0xfeF733d1b4AeDf93A8AB195F4E20F9Da97dfd4Eb";
-export const TaikoContractAddressERC20Test: string = "0x6302744962a0578e814c675b40909e64d9966b0d";
-export const VERSION: string = process.env.REACT_APP_VERSION as string;
+export const TokenInfo: { symbol: string, logo: string }[] = [
+    {
+        symbol: 'ETH',
+        logo: require('../assets/new/eth_logo.png')
+    },
+    {
+        symbol: 'PI',
+        logo: require('../assets/images/pi_logo.png')
+    },
+    {
+        symbol: 'LAT',
+        logo: require('../assets/images/plat.logo.png')
+    },
+    {
+        symbol: 'PNFT',
+        logo: require('../assets/images/pnft.png')
+    }
+]
+export const ChainInfo: { name: string, logo: string }[] = [
+    {
+        name:'8007736',
+        logo:require('../assets/new/plian_logo.png')
+    },
+    {
+        name:'1',
+        logo:require('../assets/new/eht_white_logo.png')
+    },
+    {
+        name:'314',
+        logo:require('../assets/new/fil_white_logo.png')
+    },
+    {
+        name:'10',
+        logo:require('../assets/new/op_white_logo.png')
+    },
+    {
+        name:'210425',
+        logo:require('../assets/images/plat_white.png')
+    }
+]
 
 
 export const CompanyList: Company[] = [

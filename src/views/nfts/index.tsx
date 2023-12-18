@@ -61,7 +61,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
             chain_id: state.chain,
             address: searchParams.address,
             is_onsale: false,
-            page_size: 12,
+            page_size: 18,
             page_num: page
         });
         setLoading(false);

@@ -11,7 +11,7 @@ import { web3 } from "../../utils/types";
 import BuyNFTsModal from "../detail/components/buy.nft";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSwitchChain } from "../../hooks/chain";
-import { FilterAddress, FilterAddressToChain } from "../../utils";
+import { FilterAddress, FilterAddressToChain, FilterTokenInfo } from "../../utils";
 
 interface Info {
     image_minio_url: string,
@@ -139,7 +139,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             {info?.is_onsale && state.address !== info.seller && <div className="price-msg">
                                 <p className="msg-title">Current price</p>
                                 <div className="price-text">
-                                    <img src={info?.pay_currency_name === 'ETH' && require('../../assets/new/eth_logo.png') || info?.pay_currency_name === 'PI' && require('../../assets/images/pi_logo.png') || require('../../assets/images/pnft.png')} alt="" />
+                                    <img src={FilterTokenInfo(info?.pay_currency_name as string).logo} alt="" />
                                     {info?.price && <p>{web3.utils.fromWei(info?.price as string, 'ether')}</p>}
                                     <p>{info.pay_currency_name}</p>
                                 </div>

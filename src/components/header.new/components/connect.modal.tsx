@@ -3,7 +3,7 @@ import { Modal } from "antd";
 import { useMetamask } from "../../../utils/connect/metamask";
 import { useCoinbase } from "../../../utils/connect/coinbase";
 // import { useLedger } from "../../../utils/connect/ledger";
-import { useWeb3Modal, useWeb3ModalSigner } from '@web3modal/ethers5/react'
+import { useWeb3Modal, useWeb3ModalProvider } from '@web3modal/ethers5/react'
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
 import Web3 from "web3";
@@ -49,7 +49,7 @@ const ConnectModal = (props: Props) => {
     const { connectCoinbase } = useCoinbase();
     const { open } = useWeb3Modal();
     // const { connectLedger } = useLedger();
-    const { walletProvider } = useWeb3ModalSigner();
+    const { walletProvider } = useWeb3ModalProvider();
     const close = () => {
         props.close(false);
         setVisible(false);
@@ -59,11 +59,11 @@ const ConnectModal = (props: Props) => {
         if (!walletProvider || !window.ethereum.selectedProvider) {
             return
         };
-        window?.ethereum.setSelectedProvider(walletProvider?.provider);
+        window?.ethereum.setSelectedProvider(walletProvider);
         dispatch({
             type: Type.SET_WEB3,
             payload: {
-                web3: new Web3(walletProvider?.provider as any)
+                web3: new Web3(walletProvider as any)
             }
         });
     }, [walletProvider])

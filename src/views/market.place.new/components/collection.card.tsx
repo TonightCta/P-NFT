@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
 import { flag } from "../../../utils/source";
+import { FilterChainInfo } from "../../../utils";
 
 interface Data {
     logo_minio_url: string,
@@ -40,7 +41,7 @@ const CollectionCard = (): ReactElement => {
         }
         setWait(true)
         const result = await CollectionList({
-            page_size: 4
+            page_size: 10
         });
         const { data } = result;
         setWait(false);
@@ -123,7 +124,7 @@ const CollectionCard = (): ReactElement => {
                                         navigate(`/asset/${item.contract_address}`)
                                     }}>
                                         <div className={`colleciton-logo ${item.chain_id === '8007736' ? '' : 'other-l'}`}>
-                                            <img src={item.chain_id === '8007736' && require('../../../assets/new/plian_logo.png') || item.chain_id === '1' && require('../../../assets/new/eht_white_logo.png') || item.chain_id === '314' && require('../../../assets/new/fil_white_logo.png') || item.chain_id === '10' && require('../../../assets/new/op_white_logo.png')} alt="" />
+                                            <img src={FilterChainInfo(item.chain_id).logo} alt="" />
                                         </div>
                                         <div className="poster-img">
                                             <img className="" src={item.poster_minio_url} alt="" />

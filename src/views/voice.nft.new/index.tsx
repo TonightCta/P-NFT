@@ -215,7 +215,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                                 value: item.chain_id,
                                 label: item.chain_name,
                                 logo: item.chain_logo,
-                                disabled: item.chain_id !== '8007736' && item.chain_id !== '314' && item.chain_id !== '10'
+                                disabled: item.chain_id !== '8007736' && item.chain_id !== '314' && item.chain_id !== '10' && item.chain_id !== '210425'
                             }
                         }).map((item: { value: string, label: string, logo: string, disabled: boolean }, index: number) => {
                             return (

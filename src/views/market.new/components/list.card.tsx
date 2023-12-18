@@ -75,6 +75,9 @@ const ListCard = (props: { chainID: string }): ReactElement => {
             page_size: 200
         });
         const { data } = result;
+        if(!data.data.item){
+            return
+        }
         data.data.item = data.data.item.map((item: { currency_name: string, contract_address: string, currency_id: number }) => {
             return {
                 label: item.currency_name,

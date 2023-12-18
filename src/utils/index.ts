@@ -1,6 +1,6 @@
 import ABI1155 from './abi/1155.json';
 import ABI721 from './abi/721.json'
-import { Config, ConfigName, NetworkConfig, NetworkConfigName } from './source';
+import { ChainInfo, Config, ConfigName, NetworkConfig, NetworkConfigName, TokenInfo } from './source';
 
 interface Address {
     address_1155: string,
@@ -79,6 +79,17 @@ export const SupportNetwork: Network[] = [
     //     blockExplorerUrls: ['https://piscan.plian.org/index.html']
     // },
     {
+        chain_id: 210425,
+        chain_name: 'PlatON Mainnet',
+        nativeCurrency: {
+            name: 'lat',
+            symbol: 'LAT',
+            decimals: 18
+        },
+        rpcUrls: ['https://openapi2.platon.network/rpc'],
+        blockExplorerUrls: ['https://scan.platon.network']
+    },
+    {
         chain_id: 167005,
         chain_name: 'Taiko Testnet',
         nativeCurrency: {
@@ -125,7 +136,7 @@ export const DateConvert = (_time: number): string => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
     const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
-    return `${day}/${month}/${year}`
+    return `${year}/${month}/${day}`
 };
 
 export const FilterAddress = (chain_id: string) => {
@@ -136,6 +147,12 @@ export const FilterAddressToName = (chain_id: string) => {
 }
 export const FilterAddressToChain = (chain_name: string) => {
     return NetworkConfigName.filter((item: ConfigName) => { return item.chain_name === chain_name })[0]
+}
+export const FilterTokenInfo = (symbol:string) => {
+    return TokenInfo.filter((item:{symbol:string,logo:string}) => { return item.symbol === symbol })[0]
+}
+export const FilterChainInfo = (name:string) => {
+    return ChainInfo.filter((item:{name:string,logo:string}) => { return item.name === name })[0]
 }
 
 export const randomString = (e?: number): string => {

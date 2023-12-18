@@ -7,7 +7,7 @@ import Recording from "../../voice.nft/components/recording";
 import { Input } from "..";
 import axios from "axios";
 import { LAND, MODE, useContract } from "../../../utils/contract";
-import { ethereum } from "../../../utils/types";
+import { ethereum, web3 } from "../../../utils/types";
 import { NFTMintService, UploadFileService } from "../../../request/api";
 import { PNft } from "../../../App";
 import { useMetamask } from "../../../utils/connect/metamask";
@@ -72,7 +72,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
     const submitMint = async () => {
         await switchC(+props.info.chain)
         const balance = await getBalance();
-        const numberBalance: number = +balance / 1e18;
+        const numberBalance: number = Number(BigInt(balance)) / 1e18;
         if (numberBalance <= 0) {
             message.warning('Your available balance is insufficient.');
             return
@@ -115,8 +115,10 @@ const BasicBox = (props: { info: Input }): ReactElement => {
             return
         };
         const formData = new FormData();
+        console.log(state.chain);
+        console.log(FilterAddress(state.chain as string).contract_721)
         formData.append('chain_id', props.info.chain);
-        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
+        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(web3.utils.hexToNumberString(ethereum.chainId)).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');
         formData.append('sender', ethereum.selectedAddress);

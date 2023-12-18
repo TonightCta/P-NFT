@@ -5,6 +5,7 @@ import { PNft } from "../../../App";
 import { useSwitchChain } from "../../../hooks/chain";
 import { TaikoContractAddressMarketTest } from "../../../utils/source";
 import { NFTBuyService } from '../../../request/api'
+import { FilterAddress, FilterAddressToChain } from "../../../utils";
 interface Item {
     price: string
     file_image_ipfs: string,
@@ -12,7 +13,11 @@ interface Item {
     pay_currency_name: string,
     token_id: number,
     image_minio_url: string,
-    pay_currency_contract: string
+    pay_currency_contract: string,
+    seaport_buy_Param: {
+        fulfiller_conduit_key: string,
+        signature: string
+    }
 }
 
 interface Props {
@@ -31,7 +36,7 @@ interface Wait {
 const BuyNFTsModal = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const { state } = useContext(PNft)
-    const { queryERC20Approve, approveToken, buy, getBalance, balanceErc20 } = useContract();
+    const { queryERC20Approve, approveToken, buy, getBalance, balanceErc20, OPBuy } = useContract();
     const { switchC } = useSwitchChain();
     const [wait, setWait] = useState<Wait>({
         approve: false,
@@ -41,7 +46,17 @@ const BuyNFTsModal = (props: Props): ReactElement => {
     });
     const [approved, setApproved] = useState<boolean>(false);
     const queryApproveFN = async () => {
-        const approve = await queryERC20Approve(state.address as string, LAND === 'taiko' ? TaikoContractAddressMarketTest : MarketAddress);
+        const contract: string = props.item.pay_currency_contract;
+        if (contract.slice(contract.length - 8, contract.length) === '00000000') {
+            setWait({
+                ...wait,
+                approve_dis: true,
+                list_dis: false
+            });
+            setApproved(true);
+            return
+        }
+        const approve = await queryERC20Approve(state.address as string, LAND === 'taiko' ? TaikoContractAddressMarketTest : FilterAddress(state.chain as string).contract_market);
         const bol = +approve / 1e18 >= +props.item.price / 1e18;
         setApproved(bol);
         setWait({
@@ -49,7 +64,6 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             approve_dis: bol ? true : false,
             list_dis: bol ? false : true
         });
-        const contract: string = props.item.pay_currency_contract;
         if (contract.slice(contract.length - 8, contract.length) === '00000000') {
             setWait({
                 ...wait,
@@ -108,7 +122,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             });
             return
         }
-        const hash: any = await buy(props.item.order_id, props.item.price, props.item.pay_currency_name);
+        const hash: any = state.chain === '10' ? await OPBuy(props.item.price, props.item.seaport_buy_Param.fulfiller_conduit_key) : await buy(props.item.order_id, props.item.price, props.item.pay_currency_name);
         if (!hash || hash.message) {
             setWait({
                 ...wait,
@@ -120,7 +134,8 @@ const BuyNFTsModal = (props: Props): ReactElement => {
         await NFTBuyService({
             chain_id: state.chain,
             sender: state.address,
-            tx_hash: hash['transactionHash']
+            tx_hash: hash['transactionHash'],
+            token_id: state.chain === '10' ? props.item.token_id : ''
         });
         setWait({
             ...wait,
@@ -137,7 +152,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             setVisible(false);
             props.closeModal(false);
         }} title="Buy NFT" footer={null}>
-            <div className="fixed-price-inner">
+            <div className="fixed-price-inner buy-inner">
                 {
                     <div className="sell-nft">
                         <div className="nft-box">
