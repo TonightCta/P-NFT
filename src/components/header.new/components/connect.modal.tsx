@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Modal } from "antd";
 import { useMetamask } from "../../../utils/connect/metamask";
 import { useCoinbase } from "../../../utils/connect/coinbase";
-// import { useLedger } from "../../../utils/connect/ledger";
+import { useLedger } from "../../../utils/connect/ledger";
 import { useWeb3Modal, useWeb3ModalProvider } from '@web3modal/ethers5/react'
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
@@ -48,7 +48,7 @@ const ConnectModal = (props: Props) => {
     const { connectMetamask } = useMetamask();
     const { connectCoinbase } = useCoinbase();
     const { open } = useWeb3Modal();
-    // const { connectLedger } = useLedger();
+    const { connectLedger } = useLedger();
     const { walletProvider } = useWeb3ModalProvider();
     const close = () => {
         props.close(false);
@@ -79,14 +79,14 @@ const ConnectModal = (props: Props) => {
             case 2:
                 connectCoinbase();
                 break;
-            case 3:
-                open();
-                break;
+            // case 3:
+            //     open();
+            //     break;
             // case 4:
             //     connectLedger();
             //     break;
-            // default:
-            //     connectMetamask();
+            default:
+                connectMetamask();
         }
     }
     return (

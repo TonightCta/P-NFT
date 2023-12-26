@@ -32,6 +32,13 @@ const op = {
     explorerUrl: 'https://optimistic.etherscan.io',
     rpcUrl: 'https://optimism.publicnode.com'
 }
+const platON = {
+    chainId: 210425,
+    name: 'PlatON',
+    currency: 'LAT',
+    explorerUrl: 'https://scan.platon.network',
+    rpcUrl: 'https://openapi2.platon.network/rpc'
+}
 
 // 3. Create modal
 const metadata = {
@@ -43,7 +50,9 @@ const metadata = {
 
 createWeb3Modal({
     ethersConfig: defaultConfig({ metadata }),
-    chains: [mainnet, plian, filecoin, op],
+    chains: [mainnet, plian, filecoin, op, platON],
     projectId,
     themeMode: 'light'
 })
+
+// export default {};

@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { ActivityRankService } from '../../../request/api'
-import { FilterAddress, calsAddress, computedCountdonw } from "../../../utils";
+import { calsAddress, computedCountdonw } from "../../../utils";
 import { Spin } from "antd";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
 import { PNft } from "../../../App";
@@ -21,8 +21,8 @@ const ActivityCard = (): ReactElement => {
     });
     const getRankList = async () => {
         const result = await ActivityRankService({
-            chain_id: state.chain,
-            contract_address: process.env.REACT_APP_CURRENTMODE === 'production' ? FilterAddress('8007736').contract_721 : FilterAddress('8007736').contract_721_test,
+            // chain_id: state.chain,
+            // contract_address: process.env.REACT_APP_CURRENTMODE === 'production' ? FilterAddress('8007736').contract_721 : FilterAddress('8007736').contract_721_test,
             page_size: 10,
             page_num: 1
         });
@@ -37,7 +37,7 @@ const ActivityCard = (): ReactElement => {
             setShow('view-2')
         });
         timer.current = setInterval(() => {
-            const { D, H, M, S } = computedCountdonw((new Date('2023-12-23').getTime() - new Date().getTime()) / 1000);
+            const { D, H, M, S } = computedCountdonw((new Date('2024-02-22 ').getTime() - new Date().getTime()) / 1000);
             setCount({
                 d: D.toString(),
                 h: H.toString(),
@@ -61,7 +61,7 @@ const ActivityCard = (): ReactElement => {
                             <p className="rule-options">
                                 Users who create NFTs through AIGC will have the opportunity to earn high profits.
                                 <br />
-                                The top 3 creators with highest trading volume (created before 22/11/23) will win in turn: 50K $PI, 25K $PI, 15K $PI (* All the 90K $PI will be released on 23/12/23)
+                                The top 3 creators with highest trading volume (created before 01/01/24) will win in turn: 50K $PI, 25K $PI, 15K $PI (* All the 90K $PI will be released on 22/02/24)
                             </p>
                         </li>
                     </ul>
@@ -80,33 +80,33 @@ const ActivityCard = (): ReactElement => {
                                 <li>
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[1]?.img_ipfs_url ? <img src={rankList[1].img_ipfs_url} alt="" /> : <DefaultAvatar address={rankList[1]?.contract_address} diameter={110} />}
+                                            {rankList[1]?.minter_avatar_url ? <img src={rankList[1].minter_avatar_url} alt="" /> : <DefaultAvatar address={rankList[1]?.contract_address} diameter={110} />}
                                         </div>
                                         <p>2</p>
                                     </div>
                                     <p className="address-text">{rankList.length > 1 ? calsAddress(rankList[1].minter) : ''}</p>
-                                    <p className="price-text">{rankList.length > 1 ? `${rankList[1]?.sell_price_pi} $PI` : 'Waiting for a vacant position'}</p>
+                                    <p className="price-text">{rankList.length > 1 ? `${rankList[1]?.sell_price} ${rankList[1]?.sell_symbol} ($${rankList[1]?.sell_price_usdt.toFixed(4)})` : 'Waiting for a vacant position'}</p>
                                 </li>
                                 <li>
                                     <img className="rank-1-icon" src={require('../../../assets/images/drop_rank_1.png')} alt="" />
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[0]?.img_ipfs_url ? <img src={rankList[0].img_ipfs_url} alt="" /> : <DefaultAvatar address={rankList[0]?.contract_address} diameter={150} />}
+                                            {rankList[0]?.minter_avatar_url ? <img src={rankList[0].minter_avatar_url} alt="" /> : <DefaultAvatar address={rankList[0]?.contract_address} diameter={150} />}
                                         </div>
                                         <p>1</p>
                                     </div>
                                     <p className="address-text">{rankList.length > 0 ? calsAddress(rankList[0].minter) : ''}</p>
-                                    <p className="price-text">{rankList.length > 0 ? `${rankList[0]?.sell_price_pi} $PI` : 'Waiting for a vacant position'}</p>
+                                    <p className="price-text">{rankList.length > 0 ? `${rankList[0]?.sell_price} ${rankList[0]?.sell_symbol} ($${rankList[0]?.sell_price_usdt.toFixed(4)})` : 'Waiting for a vacant position'}</p>
                                 </li>
                                 <li>
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[2]?.img_ipfs_url ? <img src={rankList[2].img_ipfs_url} alt="" /> : <DefaultAvatar address={rankList[2]?.contract_address} diameter={110} />}
+                                            {rankList[2]?.minter_avatar_url ? <img src={rankList[2].minter_avatar_url} alt="" /> : <DefaultAvatar address={rankList[2]?.contract_address} diameter={110} />}
                                         </div>
                                         <p>3</p>
                                     </div>
                                     <p className="address-text">{rankList.length > 2 ? calsAddress(rankList[2].minter) : ''}</p>
-                                    <p className="price-text">{rankList.length > 2 ? `${rankList[2]?.sell_price_pi} $PI` : 'Waiting for a vacant position'}</p>
+                                    <p className="price-text">{rankList.length > 2 ? `${rankList[2]?.sell_price} ${rankList[2]?.sell_symbol} ($${rankList[2]?.sell_price_usdt.toFixed(4)})` : 'Waiting for a vacant position'}</p>
                                 </li>
                             </ul>
                             : <div style={{ marginTop: '40px' }}>
@@ -134,16 +134,20 @@ const ActivityCard = (): ReactElement => {
                                             <div className="avatar-box">
                                                 <p className="rank-num">{index + 4}</p>
                                                 <div className="avatar-inner">
-                                                    {item.img_ipfs_url ? <img src={item.img_ipfs_url} alt="" /> : <DefaultAvatar address={item.contract_address} diameter={60} />}
+                                                    {item.minter_avatar_url ? <img src={item.minter_avatar_url} alt="" /> : <DefaultAvatar address={item.contract_address} diameter={60} />}
                                                 </div>
                                                 <p className="rank-name">{calsAddress(item.minter)}</p>
                                             </div>
                                             <div className="reward-msg">
                                                 {/* <p>${item.sell_price_usdt}</p> */}
-                                                <p>{item.sell_price_pi}&nbsp;$PI</p>
+                                                <p>{item.sell_price}&nbsp;{item.sell_symbol}&nbsp;(${item.sell_price_usdt.toFixed(4)})</p>
                                             </div>
                                             <p className="sell-hash" onClick={() => {
-                                                window.open(`https://piscan.plian.org/tx/${item.sell_hash}?chain=1`)
+                                                if (item.chain_id === '8007736') {
+                                                    window.open(`https://piscan.plian.org/tx/${item.sell_hash}?chain=1`)
+                                                } else {
+                                                    window.open(`https://scan.platon.network/trade-detail?txHash=${item.sell_hash}`)
+                                                }
                                             }}>{calsAddress(item.sell_hash)}</p>
                                         </li>
                                     )

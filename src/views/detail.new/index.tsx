@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import { PNft } from "../../App";
-import { Button, Spin } from "antd";
+import { Button, Image, Spin } from "antd";
 import './index.scss'
 import IconFont from "../../utils/icon";
 import MsgCard from "./components/msg.card";
@@ -89,7 +89,10 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             {imgLoad && <div className="loading-box-public">
                                 <Spin size="large" />
                             </div>}
-                            <img onLoad={() => { setImgLoad(false) }} src={info?.image_minio_url} alt="" />
+                            <Image
+                                onLoad={() => { setImgLoad(false) }}
+                                src={info?.image_minio_url}
+                            />
                             {info.voice_minio_url && <div className="play-btn" onClick={(e) => {
                                 e.stopPropagation();
                                 if (playF) {
@@ -106,7 +109,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 setPlay(true);
                             }}>
                                 {
-                                    playF                                         ? <IconFont type="icon-tingzhi" />
+                                    playF ? <IconFont type="icon-tingzhi" />
                                         : <IconFont type="icon-play-fill" />
                                 }
                             </div>}

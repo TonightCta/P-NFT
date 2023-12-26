@@ -66,7 +66,7 @@ const NftCard = (props: Props): ReactElement => {
                     <img src={props.info.seller_avatar_url} alt="" />
                     {/* <p>{calsAddress(props.info.seller)}</p> */}
                 </div>
-                <p className="price-text">{web3.utils.fromWei(props.info.price as string, 'ether')}&nbsp;{props.info.pay_currency_name}</p>
+                <p className="price-text">{web3.utils.fromWei(props.info.price as string, 'ether')}&nbsp;{props.info.pay_currency_name || props.info.paymod}</p>
             </div>
         </div>
     )

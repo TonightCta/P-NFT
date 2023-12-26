@@ -29,7 +29,7 @@ const InnerCard = (props: { item: any }): ReactElement => {
                 </div>
                 <img src={item.image_minio_url} alt="" />
                 <div className="nft-tag">
-                    <img src={require('../../../assets/new/plian_logo.png')} alt="" />
+                    <img src={FilterAddressToName(item.chain_id).chain_logo} alt="" />
                 </div>
                 {item.voice_minio_url && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();

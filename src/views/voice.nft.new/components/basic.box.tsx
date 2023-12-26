@@ -14,7 +14,8 @@ import { useMetamask } from "../../../utils/connect/metamask";
 import { useSwitchChain } from "../../../hooks/chain";
 import { useNavigate } from "react-router-dom";
 import * as Address from '../../../utils/source'
-import { FilterAddress } from "../../../utils";
+import { Base64ToFile, CompressImage, FilterAddress } from "../../../utils";
+import CropperModal from "./cropper.modal";
 
 const BasicBox = (props: { info: Input }): ReactElement => {
     const { audioFile, mediaUrl, startRecord, stopRecord } = useMediaRecorder();
@@ -27,17 +28,32 @@ const BasicBox = (props: { info: Input }): ReactElement => {
     const { state } = useContext(PNft);
     const { switchC } = useSwitchChain();
     const navigate = useNavigate();
+    const [visible, setVisible] = useState<boolean>(false);
+    const [image, setImage] = useState<string>('');
     const [review, setReview] = useState<{ source: string | File, view: string }>({
         source: '',
         view: ''
     });
     const selectPic = (e: any) => {
         const file = e.target.files[0];
-        setReview({
-            source: file,
-            view: URL.createObjectURL(file)
+        CompressImage(file, 40, (compressBase64) => {
+            const file = Base64ToFile(compressBase64);
+            setReview({
+                source: file,
+                view: URL.createObjectURL(file)
+            });
         })
+        // if (file) {
+        //     const reader = new FileReader();
+        //     reader.onload = () => {
+        //         setImage(reader.result as any);
+        //     };
+        //     reader.readAsDataURL(file);
+        // }
     };
+    useEffect(() => {
+        image && setVisible(true);
+    }, [image])
     useEffect(() => {
         setAudio(mediaUrl);
         setTimeout(() => {
@@ -115,8 +131,6 @@ const BasicBox = (props: { info: Input }): ReactElement => {
             return
         };
         const formData = new FormData();
-        console.log(state.chain);
-        console.log(FilterAddress(state.chain as string).contract_721)
         formData.append('chain_id', props.info.chain);
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(web3.utils.hexToNumberString(ethereum.chainId)).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         formData.append('contract_address', NFTAddress);
@@ -162,12 +176,16 @@ const BasicBox = (props: { info: Input }): ReactElement => {
                             <DeleteOutlined />
                         </div>
                     </div>}
-                    <input type="file" accept="image/*" onChange={selectPic} />
-                    <div className="load-btn">
-                        <img src={require('../../../assets/images/up_file.png')} alt="" />
-                    </div>
-                    <p>Drag and Drop File or browse media on your device</p>
-                    <p>File types supported: JPG, PNG, GIF, SVG, WEBM, WAV,OGG, GLB, GLTF. Max size: 100 MB</p>
+                    {
+                        !review.source && <>
+                            <input type="file" accept="image/*" onChange={selectPic} />
+                            <div className="load-btn">
+                                <img src={require('../../../assets/images/up_file.png')} alt="" />
+                            </div>
+                            <p>Drag and Drop File or browse media on your device</p>
+                            <p>File types supported: JPG, PNG, GIF, SVG, WEBM, WAV,OGG, GLB, GLTF. Max size: 100 MB</p>
+                        </>
+                    }
                 </div>
             </div>
             <div className="up-audio-box up-public">
@@ -190,6 +208,18 @@ const BasicBox = (props: { info: Input }): ReactElement => {
             <p className="submit-btn">
                 <Button type="primary" loading={wait} disabled={wait} onClick={submitMint}>Confirm and Mint</Button>
             </p>
+            <CropperModal uploadFile={(val: File) => {
+                setImage('');
+                CompressImage(val, 40, (compressBase64) => {
+                    const file = Base64ToFile(compressBase64);
+                    setReview({
+                        source: file,
+                        view: URL.createObjectURL(file)
+                    });
+                })
+            }} visible={visible} image={image} closeModal={(val: boolean) => {
+                setVisible(val);
+            }} />
         </div>
     )
 };

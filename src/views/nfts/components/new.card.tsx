@@ -10,7 +10,7 @@ import { PNft } from "../../../App";
 import FixedModal from "../../detail/components/fixed.price";
 import EditWorkModal from "./edit.work";
 import { useNavigate, useParams } from "react-router-dom";
-import { FilterAddressToName } from "../../../utils";
+import { FilterAddressToName, FilterChainInfo } from "../../../utils";
 
 interface Props {
     uploadSell: () => void,
@@ -44,13 +44,13 @@ const NewNFTCard = (props: Props): ReactElement => {
         })
     }, [props.item])
     const confirm = async () => {
-        await switchC(+(state.chain as string));
+        await switchC(+props.item.chain_id);
         const hash: any = await takeOff(+item.order_id);
         if (!hash || hash.message) {
             return
         };
         const maker = await MFTOffService({
-            chain_id: state.chain,
+            chain_id: props.item.chain_id,
             sender: state.address,
             tx_hash: hash['transactionHash']
         });
@@ -100,6 +100,9 @@ const NewNFTCard = (props: Props): ReactElement => {
     )
     return (
         <div className="new-nft-card">
+            <div className="chain-logo">
+                <img src={FilterChainInfo(props.item.chain_id).logo} alt="" />
+            </div>
             <div className={`nft-box`}>
                 <img src={props.item.image_minio_url} alt="" />
                 {item.voice_minio_url && <div className="play-btn" onClick={(e) => {
@@ -159,10 +162,10 @@ const NewNFTCard = (props: Props): ReactElement => {
                 {
                     props.type === 2 && <div className="left-text">
                         <p onClick={() => {
-                            // if (!props.item.for_sale) {
-                            //     message.info('Coming soon');
-                            //     return
-                            // };
+                            if (!props.item.for_sale) {
+                                message.info('Coming soon');
+                                return
+                            };
                             setItem({
                                 ...item,
                                 is_start: true

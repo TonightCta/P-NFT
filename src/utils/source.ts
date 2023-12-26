@@ -531,7 +531,7 @@ export const NetworkConfigName: ConfigName[] = [
                 address: PNFTAddress
             },
         ],
-        gas: '7000000',
+        gas: '4200000',
     },
     {
         chain_id: '1',
@@ -596,7 +596,7 @@ export const NetworkConfigName: ConfigName[] = [
                 address: SystemAddress
             }
         ],
-        gas: '420000'
+        gas: '4200000'
     },
 ]
 

@@ -44,7 +44,6 @@
             .then(data => {
                 // Extract the HTML embed code from the response
                 const html = data.html;
-                console.log(html)
                 // Display the embedded tweet on the page
                 document.getElementById('twitter-embed').innerHTML = html;
             })

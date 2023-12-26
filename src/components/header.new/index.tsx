@@ -12,7 +12,7 @@ import MobileMenuDraw from "./components/mobile.menu";
 import { useSwitchChain } from "../../hooks/chain";
 import ConnectModal from "./components/connect.modal";
 import { ProfileService } from "../../request/api";
-import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
+// import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
 
 export interface Menu {
     name: string,
@@ -52,7 +52,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
     const [mobileMenu, setMobileMenu] = useState<boolean>(false);
     const [chainPop, setChainPop] = useState<boolean>(false);
     const [visible, setVisible] = useState<boolean>(false);
-    const { address, chainId } = useWeb3ModalAccount();
+    // const { address, chainId } = useWeb3ModalAccount();
     const hide = () => {
         setOpen(false);
     };
@@ -80,32 +80,31 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
             }
         });
     }
-    useEffect(() => {
-        if (!address && state.is_connect === 1) {
-            console.log(address)
-            dispatch({
-                type: Type.SET_ADDRESS,
-                payload: {
-                    address: null
-                }
-            })
-            dispatch({
-                type: Type.SET_IS_CONNECT,
-                payload: {
-                    is_connect: 0
-                }
-            });
-        };
-        if (address && state.is_connect === 1) {
-            dispatch({
-                type: Type.SET_IS_CONNECT,
-                payload: {
-                    is_connect: 1
-                }
-            })
-            userInfo(address as string)
-        }
-    }, [address]);
+    // useEffect(() => {
+    //     if (!address && state.is_connect === 1) {
+    //         dispatch({
+    //             type: Type.SET_ADDRESS,
+    //             payload: {
+    //                 address: ''
+    //             }
+    //         })
+    //         dispatch({
+    //             type: Type.SET_IS_CONNECT,
+    //             payload: {
+    //                 is_connect: 0
+    //             }
+    //         });
+    //     };
+    //     if (address && state.is_connect === 1) {
+    //         dispatch({
+    //             type: Type.SET_IS_CONNECT,
+    //             payload: {
+    //                 is_connect: 1
+    //             }
+    //         })
+    //         userInfo(address as string)
+    //     }
+    // }, [address]);
     useEffect(() => {
         switch (location.pathname) {
             case '/create':
@@ -127,17 +126,17 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                 setActive(99)
         }
     }, [location.pathname]);
-    useEffect(() => {
-        if (!chainId) return
-        dispatch({
-            type: Type.SET_CHAIN,
-            payload: {
-                chain: String(chainId)
-            }
-        });
-    }, [chainId])
+    // useEffect(() => {
+    //     if (!chainId) return
+    //     dispatch({
+    //         type: Type.SET_CHAIN,
+    //         payload: {
+    //             chain: String(chainId)
+    //         }
+    //     });
+    // }, [chainId])
     const [active, setActive] = useState<number>(99);
-    const { open } = useWeb3Modal();
+    // const { open } = useWeb3Modal();
     const content = (
         <div className="connect-menu" onClick={hide}>
             <ul>
@@ -159,12 +158,13 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                         dispatch({
                             type: Type.SET_ADDRESS,
                             payload: {
-                                address: null
+                                address: ''
                             }
                         })
                         navigate('/');
                     }
-                    state.is_connect === 1 ? open({ view: 'Account' }) : disconnect();
+                    // state.is_connect === 1 ? open({ view: 'Account' }) : ;
+                    disconnect()
                 }}>Disconnect</li>
             </ul>
         </div>

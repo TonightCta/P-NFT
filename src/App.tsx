@@ -2,7 +2,7 @@ import './App.scss';
 import RouteConfig from './route';
 import { useReducer, createContext, useEffect } from 'react'
 import { HashRouter } from 'react-router-dom';
-import { Context, ethereum, web3, web3P } from './utils/types';
+import { Context } from './utils/types';
 import { defaultContext, defaultState, defaultStateInit, initState } from './reducer';
 import { VERSION } from './utils/source';
 import './utils/connect/walletconnect'
@@ -19,9 +19,6 @@ export const App = () => {
         size += obj.getItem(item).length;
       }
     };
-    if(state.ethereum){
-      console.log(ethereum)
-    }
     console.log('Currently used storage:' + (size / 1024).toFixed(2) + 'KB');
   }, [])
   return (

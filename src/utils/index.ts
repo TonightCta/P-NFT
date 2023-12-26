@@ -148,11 +148,11 @@ export const FilterAddressToName = (chain_id: string) => {
 export const FilterAddressToChain = (chain_name: string) => {
     return NetworkConfigName.filter((item: ConfigName) => { return item.chain_name === chain_name })[0]
 }
-export const FilterTokenInfo = (symbol:string) => {
-    return TokenInfo.filter((item:{symbol:string,logo:string}) => { return item.symbol === symbol })[0]
+export const FilterTokenInfo = (symbol: string) => {
+    return TokenInfo.filter((item: { symbol: string, logo: string }) => { return item.symbol === symbol })[0]
 }
-export const FilterChainInfo = (name:string) => {
-    return ChainInfo.filter((item:{name:string,logo:string}) => { return item.name === name })[0]
+export const FilterChainInfo = (name: string) => {
+    return ChainInfo.filter((item: { name: string, logo: string }) => { return item.name === name })[0]
 }
 
 export const randomString = (e?: number): string => {
@@ -181,3 +181,41 @@ export const computedCountdonw = (data: number) => {
         D, H, M, S
     }
 }
+
+//文件转换
+export const Base64ToFile = (_base: string) => {
+    const arr = _base.split(',');
+    const byteCharacters = atob(arr[1]);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512);
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+    const blob = new Blob(byteArrays, { type: 'image/jpeg' });
+    const file = new File([blob], `${new Date().getTime()}.jpg`, { type: 'image/jpeg' });
+    return file;
+}
+//图片压缩
+export const CompressImage = (file: File, quality: number, callback: (compressedBase64: string) => void): void => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        const image = new Image();
+        image.src = event.target?.result as string;
+        image.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            ctx?.drawImage(image, 0, 0, image.width, image.height);
+            const base64 = canvas.toDataURL('image/jpeg', quality / 100);
+            callback(base64);
+        }
+    };
+    reader.readAsDataURL(file);
+};

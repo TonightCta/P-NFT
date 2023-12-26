@@ -92,7 +92,6 @@ export const useContract = () => {
                     resolve(res)
                 }).on('error', ((err: any) => {
                     resolve(err)
-                    console.log(err)
                     message.error(err.message)
                 }))
         })
@@ -289,7 +288,6 @@ export const useContract = () => {
             return 'uninstall'
         }
         const approve = await NFTContract.methods.getApproved(_token_id).call();
-        console.log(approve)
         return approve
     }
     const queryERC20Approve = async (_owner: string, _market_address: string): Promise<string | number> => {
@@ -366,10 +364,10 @@ export const useContract = () => {
             ],
             StartTime: String(_start_date),
             EndTime: String(_end_date),
-            OrderType: 1,
+            OrderType: 0,
             Zone: "0x0000000000000000000000000000000000000000",
             ZoneHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-            Salt: "0x0000000000000000000000000000000000000000000000000000000000000000",
+            Salt: "24446860302761739304752683030156737591518664810215442929802418156332078926289",
             ConduitKey: "0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000",
             Counter: "0"
         };
@@ -433,6 +431,7 @@ export const useContract = () => {
                 resolve(err)
                 console.log(err);
             })
+            // web3.eth.personal.sign(JSON.stringify(data),state.address as string,'test password')
         })
     };
     const OPBuy = (_amount: string, _key: string) => {

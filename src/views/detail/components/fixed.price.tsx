@@ -69,43 +69,6 @@ const DurationList: Duration[] = [
         value: 186
     }
 ]
-const TokenList: Token[] =
-    LAND === 'taiko'
-        ? [
-            {
-                symbol: 'ETH',
-                icon: "https://static.optimism.io/data/ETH/logo.svg",
-                address: Addresses.SystemAddress
-            },
-            {
-                symbol: 'BLL',
-                icon: "https://ipfs.io/ipfs/QmezMTpT6ovJ3szb3SKDM9GVGeQ1R8DfjYyXG12ppMe2BY",
-                address: "0x6302744962a0578E814c675B40909e64D9966B0d"
-            },
-            {
-                symbol: 'HORSE',
-                icon: "https://ipfs.io/ipfs/QmU52ZxmSiGX24uDPNUGG3URyZr5aQdLpACCiD6tap4Mgc",
-                address: "0xa4505BB7AA37c2B68CfBC92105D10100220748EB"
-            },
-            {
-                symbol: 'TTKO',
-                icon: "https://ipfs.io/ipfs/Qmd7dsvTKZBYJmQ6Mhse4hWbEx8faT4AnCMfByK5j9C8yS",
-                address: "0x7b1a3117B2b9BE3a3C31e5a097c7F890199666aC"
-            }
-        ]
-        : MODE === 'production'
-            ? [
-                
-            ]
-            : [
-                {
-                    symbol: 'MAPI',
-                    icon: require('../../../assets/images/pi_logo.png'),
-                    address: Addresses.PlianContractERC20Test
-                }
-            ];
-
-
 const FixedModal = (props: Props): ReactElement => {
     const [visible, setVisible] = useState<boolean>(false);
     const { state } = useContext(PNft)
@@ -135,7 +98,7 @@ const FixedModal = (props: Props): ReactElement => {
         <div className="token-list">
             <ul>
                 {
-                    FilterAddressToName(state.chain as string).token.map((item: Token, index: number) => {
+                    FilterAddressToName(props.chain).token.map((item: Token, index: number) => {
                         return (
                             <li className={`${item.symbol === token.symbol ? 'active-token' : ''}`} key={index} onClick={() => {
                                 setToken(item);
@@ -185,9 +148,9 @@ const FixedModal = (props: Props): ReactElement => {
     useEffect(() => {
         const setOP = () => {
             setToken({
-                symbol: FilterAddressToName(state.chain as string).token[0].symbol,
-                icon: FilterAddressToName(state.chain as string).token[0].icon,
-                address: FilterAddressToName(state.chain as string).token[0].address
+                symbol: FilterAddressToName(props.chain).token[0].symbol,
+                icon: FilterAddressToName(props.chain).token[0].icon,
+                address: FilterAddressToName(props.chain).token[0].address
             })
         }
         props.visible && queryApproveFN();
@@ -229,14 +192,14 @@ const FixedModal = (props: Props): ReactElement => {
             message.error('Please enter the price');
             return
         };
-        await switchC(+(state.chain as string))
+        await switchC(+props.chain)
         setWait({
             ...wait,
             list_dis: true,
             list: true
         });
         let maker: any;
-        if (state.chain === '10') {
+        if (props.chain === '10') {
             const signture:any = await signOrder(+price, parseInt(String(new Date().getTime() / 1000)), parseInt(String(endTimeStamp)), props.id)
             if (!signture || signture.message) {
                 setWait({
@@ -248,7 +211,7 @@ const FixedModal = (props: Props): ReactElement => {
                 return
             }
             maker = await NFTMakerService({
-                chain_id: state.chain,
+                chain_id: props.chain,
                 sender: state.address,
                 start_time: parseInt(String(new Date().getTime() / 1000)),
                 end_time: parseInt(String(endTimeStamp)),
@@ -268,7 +231,7 @@ const FixedModal = (props: Props): ReactElement => {
                 return
             }
             maker = await NFTMakerService({
-                chain_id: state.chain,
+                chain_id: props.chain,
                 sender: state.address,
                 tx_hash: hash['transactionHash']
             });
@@ -368,11 +331,11 @@ const FixedModal = (props: Props): ReactElement => {
                     </li>
                     <li>
                         <p>Fee</p>
-                        <p>{state.chain === '10' ? '2.5' : '2'}%</p>
+                        <p>{props.chain === '10' ? '2.5' : '2'}%</p>
                     </li>
                     <li>
                         <p>Total potential earnings</p>
-                        <p>{+price - (state.chain === '10' ? +price * 0.025 : +price * 0.02)}&nbsp;{token.symbol}</p>
+                        <p>{+price - (props.chain === '10' ? +price * 0.025 : +price * 0.02)}&nbsp;{token.symbol}</p>
                     </li>
                 </ul>
                 <div className="submit-btn">

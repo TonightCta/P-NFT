@@ -3,9 +3,9 @@
   registry: 'https://registry.npmmirror.com',
   pkgs: [
     {
-      name: '',
-      version: '/Users/mac/Documents/code/voice-nft/@web3modal/ethers5/react',
-      type: 'directory',
+      name: '@types/react-cropperc',
+      version: 'latest',
+      type: 'tag',
       alias: undefined,
       arg: [Result]
     }
@@ -15,7 +15,7 @@
   cacheDir: '/Users/mac/.npminstall_tarball',
   env: {
     npm_config_registry: 'https://registry.npmmirror.com',
-    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=/Users/mac/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","@web3modal/ethers5/react","--save"],"original":["--fix-bug-versions","--china","--userconfig=/Users/mac/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","@web3modal/ethers5/react","--save"]}',
+    npm_config_argv: '{"remain":[],"cooked":["--fix-bug-versions","--china","--userconfig=/Users/mac/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","--save-dev","@types/react-cropperc"],"original":["--fix-bug-versions","--china","--userconfig=/Users/mac/.cnpmrc","--disturl=https://cdn.npmmirror.com/binaries/node","--registry=https://registry.npmmirror.com","--save-dev","@types/react-cropperc"]}',
     npm_config_user_agent: 'npminstall/7.8.0 npm/? node/v16.14.0 darwin arm64',
     npm_config_cache: '/Users/mac/.npminstall_tarball',
     NODE: '/Users/mac/.nvm/versions/node/v16.14.0/bin/node',

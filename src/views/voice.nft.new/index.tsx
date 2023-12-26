@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
 import FooterNew from "../screen.new/components/footer.new";
 import IconFont from "../../utils/icon";
@@ -7,6 +7,7 @@ import DesignBox from "./components/design.box";
 import { CategoryList, LabelList } from "../../request/api";
 import { CloseOutlined } from "@ant-design/icons";
 import { Config, NetworkConfig } from "../../utils/source";
+import { PNft } from "../../App";
 
 interface Op {
     value: string | number,
@@ -30,11 +31,12 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     const [labelsList, setLabelsList] = useState<Op[]>([]);
     const [labelsID, setLabelsID] = useState<number[]>([]);
     const [labelsText, setLabelsText] = useState<string[]>([]);
+    const { state } = useContext(PNft);
     const [input, setInput] = useState<Input>({
         name: '',
         desc: '',
         category: 1,
-        chain: '8007736',
+        chain: state.chain as string,
         labels: []
     })
     const getCategory = async () => {
@@ -206,7 +208,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             <div className="public-inp-box">
                 <p><sup>*</sup>Chain</p>
                 <Select
-                    defaultValue="8007736"
+                    defaultValue={state.chain as string}
                     onChange={selectChain}
                 >
                     {

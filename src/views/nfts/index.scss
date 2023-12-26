@@ -430,6 +430,67 @@
       }
     }
   }
+  .other-filter {
+    width: 180px;
+    .ss-i {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 40px;
+      cursor: pointer;
+      div{
+        display: flex;
+        align-items: center;
+      }
+      img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
+      p {
+        color: #202025;
+        font-size: 16px;
+        font-family: SparkTextNew;
+      }
+      span {
+        color: #202025;
+        font-size: 14px;
+      }
+    }
+  }
+}
+.select-chains {
+  ul {
+    li {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 16px 24px;
+      transition: 0.3s all;
+      border-radius: 8px;
+      img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+      }
+      p {
+        color: #202025;
+        font-family: SparkTextNew;
+        font-size: 14px;
+        transition: 0.2s all;
+      }
+    }
+    li:hover {
+      background-color: #f8f6f6;
+      p {
+        color: #f23176;
+      }
+    }
+  }
 }
 .new-nft-card {
   width: 15.1%;
@@ -441,6 +502,22 @@
   position: relative;
   cursor: pointer;
   transition: 0.3s all;
+  .chain-logo{
+    position: absolute;
+    background-color: black;
+    top: 16px;
+    left: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    z-index: 22;
+    img{
+      width: 20px;
+    }
+  }
   .nft-box {
     height: 244px;
     width: 100%;
@@ -771,6 +848,7 @@
       display: inline-flex;
       .poster-box {
         width: 282px;
+        min-width: 282px;
         height: 164px;
         border-radius: 16px;
         display: flex;
@@ -838,7 +916,7 @@
       .com-title {
         font-size: 18px;
         font-family: SparkTitleNew;
-        width: 100%;
+        width: 400px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

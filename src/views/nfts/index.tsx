@@ -1,6 +1,6 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
-import { Pagination, Spin } from 'antd'
+import { Pagination, Spin, Popover } from 'antd'
 import { WalletNFT } from '../../request/api'
 import { NFTItem } from "../../utils/types";
 import OwnerCard from "./components/owner.card";
@@ -9,7 +9,47 @@ import MaskCard from "../../components/mask";
 import { PNft } from "../../App";
 import { VERSION } from "../../utils/source";
 import NewNFTCard from "./components/new.card";
+import { DownOutlined } from "@ant-design/icons";
 // import FooterNew from "../screen.new/components/footer.new";
+
+interface OP {
+    label: string,
+    value: string,
+    icon: string
+}
+
+const options: OP[] = [
+    {
+        label: 'All Chains',
+        value: '999',
+        icon: '',
+    },
+    {
+        label: 'Ethereum',
+        value: '1',
+        icon: require('../../assets/images/eth.logo.png'),
+    },
+    {
+        label: 'Plian',
+        value: '8007736',
+        icon: require('../../assets/images/plian.logo.png'),
+    },
+    {
+        label: 'Optimism',
+        value: '10',
+        icon: require('../../assets/images/op.logo.png'),
+    },
+    {
+        label: 'Filecoin',
+        value: '314',
+        icon: require('../../assets/images/fil.logo.png'),
+    },
+    {
+        label: 'PlatON',
+        value: '210425',
+        icon: require('../../assets/images/plat.logo.png'),
+    },
+]
 
 const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const [activeTop, setActiveTop] = useState<number>(0);
@@ -22,11 +62,24 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const { state } = useContext(PNft);
     const [otherBg, setOtherBG] = useState<string>('1');
     const [loadingBg, setLoadingBg] = useState<boolean>(true);
+    const [open, setOpen] = useState(false);
+    const [chainInfo, setChainInfo] = useState<OP>({
+        label: 'All chains',
+        value: '999',
+        icon: ''
+    });
+    const hide = () => {
+        setOpen(false);
+    };
+
+    const handleOpenChange = (newOpen: boolean) => {
+        setOpen(newOpen);
+    };
     //On Sle
     const saleListFN = async () => {
         setLoading(true);
         const result = await WalletNFT({
-            chain_id: state.chain,
+            chain_id: chainInfo.value === '999' ? '' : chainInfo.value,
             is_onsale: true,
             address: searchParams.address,
             page_size: 12,
@@ -47,7 +100,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 ...item,
                 load: true,
                 off: true,
-                is_start:false
+                is_start: false
             }
         });
         setList(filter);
@@ -58,7 +111,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const itemQuery = async () => {
         setLoading(true);
         const result: any = await WalletNFT({
-            chain_id: state.chain,
+            chain_id: chainInfo.value === '999' ? '' : chainInfo.value,
             address: searchParams.address,
             is_onsale: false,
             page_size: 18,
@@ -66,9 +119,9 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         });
         setLoading(false);
         const { data } = result;
-        setTotal(data.total)
+        setTotal(data.total);
         if (!data.item) {
-            setList([]);
+            setItemList([])
             return
         };
         const filter = data.item.map((item: any) => {
@@ -76,7 +129,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 ...item,
                 load: true,
                 off: true,
-                is_start:false
+                is_start: false
             }
         });
         setItemList(filter)
@@ -98,7 +151,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     }
     useEffect(() => {
         loadMoreData();
-    }, [searchParams.address, page, state.chain]);
+    }, [searchParams.address, page, chainInfo.value]);
     const selectTop = (_type: number) => {
         // switch (_type) {
         //     case 0:
@@ -121,7 +174,26 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const calsBG = () => {
         const bol = searchParams.address === state.address;
         return bol ? state.account.bgimage_url : otherBg;
-    }
+    };
+    const content = (
+        <div className="select-chains">
+            <ul>
+                {
+                    options.map((item: OP, index: number) => {
+                        return (
+                            <li key={index} onClick={() => {
+                                setChainInfo(item);
+                                hide()
+                            }}>
+                                {item.icon && <img src={item.icon} alt="" />}
+                                <p>{item.label}</p>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+        </div>
+    )
     return (
         <div className="owner-view">
             {VERSION === 'old' && <MaskCard />}
@@ -135,7 +207,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                     </div>}
                 </div>
                 <div className="owner-inner">
-                    <OwnerCard updateList={(val:number) => {
+                    <OwnerCard updateList={(val: number) => {
                         selectTop(val)
                     }} updateBG={(_url: string) => {
                         setOtherBG(_url);
@@ -158,6 +230,24 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             {/* <div className="search-box">
                                 <input type="text" placeholder="Search" />
                             </div> */}
+                        </div>
+                        <div className="other-filter">
+                            <Popover
+                                placement="bottom"
+                                className="select-chain-asset"
+                                open={open}
+                                onOpenChange={handleOpenChange}
+                                trigger={['click']}
+                                title={null}
+                                content={content}>
+                                <div className="ss-i">
+                                    <div>
+                                        {chainInfo.icon && <img src={chainInfo.icon} alt="" />}
+                                        <p>{chainInfo.label}</p>
+                                    </div>
+                                    <DownOutlined />
+                                </div>
+                            </Popover>
                         </div>
                         <div className={`conponenst-gater ${loading ? 'gater-6n' : ''}`} id="ownerView">
                             <div className="list-item" >
@@ -184,9 +274,9 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             </div>
                         </div>
                         {
-                            activeTop === 0 && total === 0 && !loading && <p className="no-more">No more</p>
+                            total === 0 && !loading && <p className="no-more">No more</p>
                         }
-                        {total > 0 && !loading && <div className="page-oper">
+                        <div className="page-oper">
                             <Pagination defaultCurrent={1} pageSize={12} total={total} onChange={(page) => {
                                 window.scrollTo({
                                     top: 220,
@@ -194,7 +284,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                 })
                                 setPage(page)
                             }} />
-                        </div>}
+                        </div>
                     </div>
                 </div>
             </div>

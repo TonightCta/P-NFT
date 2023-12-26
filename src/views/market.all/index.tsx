@@ -53,7 +53,7 @@ const FilterChain: Chain[] = [
     {
         chain_name: 'PlatON',
         chain_logo: require('../../assets/images/plat_black.png'),
-        chain_id: '10'
+        chain_id: '210425'
     },
 ]
 

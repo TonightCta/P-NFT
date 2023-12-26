@@ -40,7 +40,7 @@
       color: #7877ee;
       top: 326px;
       right: 240px;
-    }
+    } 
     .with-bg {
       background: url("../../assets/new/title_bg.png");
       background-size: 100% 100%;
@@ -60,6 +60,12 @@
         font-size: 20px;
         border: 0;
       }
+    }
+  }
+  @media screen and (max-width: 2560px) and (min-width: 1920px) {
+    .left-text{
+      padding-top: 400px;
+      margin-left: 120px;
     }
   }
   .right-screen-banner {
@@ -128,6 +134,33 @@
     }
     .ani-3 {
       animation: screenTop 22s infinite linear;
+    }
+    @media screen and (max-width: 2560px) and (min-width: 1920px) {
+      @keyframes screenTop {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-123%);
+        }
+      }
+      @keyframes screenTop2 {
+        0% {
+          transform: translateY(-133%);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      .ani-1 {
+        animation: screenTop 8s infinite linear;
+      }
+      .ani-2 {
+        animation: screenTop2 10s infinite linear;
+      }
+      .ani-3 {
+        animation: screenTop 10s infinite linear;
+      }
     }
     ul {
       li {
@@ -221,6 +254,7 @@
   position: relative;
   .list-box {
     display: flex;
+    justify-content: center;
   }
   .wapper-title {
     font-size: 40px;
