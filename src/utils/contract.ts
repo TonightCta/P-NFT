@@ -7,7 +7,7 @@ import ABISBT from './abi/sbt.json'
 import BBCABI from './abi/bbc.json'
 import HASHABI from './abi/hash.json'
 import { message } from "antd"
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import * as Address from "./source"
 import { FilterAddress, FilterAddressToName, calsMarks } from "."
 import { useSwitchChain } from "../hooks/chain"
@@ -50,8 +50,9 @@ export const useContract = () => {
         const pi = state.ethereum ? await state.web3.eth.getGasPrice() : '0';
         setGasPrice(pi);
     };
-    const init = async () => {
+    const init = useCallback(async () => {
         await cals();
+
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? FilterAddress(state.chain as string).contract_market : FilterAddress(state.chain as string).contract_market_test;
         setNFTContract(new web3.eth.Contract(ABI721 as any, NFTAddress, {
@@ -69,7 +70,7 @@ export const useContract = () => {
         setSBTContract(new web3.eth.Contract(ABISBT as any, Address.PlianContractSBTTest, {
             gasPrice: gasPrice
         }));
-    };
+    }, [state.chain]);
     useEffect(() => {
         init();
     }, [state.chain, state.web3])
@@ -286,8 +287,12 @@ export const useContract = () => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
-        }
-        const approve = await NFTContract.methods.getApproved(_token_id).call();
+        };
+        const NFdress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
+        const NN = new web3.eth.Contract(ABI721 as any, NFdress, {
+            gasPrice: gasPrice
+        })
+        const approve = await NN.methods.getApproved(_token_id).call();
         return approve
     }
     const queryERC20Approve = async (_owner: string, _market_address: string): Promise<string | number> => {

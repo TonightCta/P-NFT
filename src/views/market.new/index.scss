@@ -330,6 +330,7 @@
                   width: 24px;
                   height: auto;
                   opacity: 0.9;
+                  transform: translateY(0) scale(1)!important;
                 }
               }
               img {
@@ -337,6 +338,7 @@
                 position: relative;
                 transition: 0.3s all;
                 z-index: 20;
+                transform: translateY(30px);
               }
             }
             .nft-box:hover {

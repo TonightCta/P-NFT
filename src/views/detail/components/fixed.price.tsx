@@ -23,7 +23,6 @@ interface Props {
     image: string,
     upRefresh: () => void,
     chain: string,
-    is_start: boolean,
     name: string,
     collection: string
 }
@@ -153,8 +152,10 @@ const FixedModal = (props: Props): ReactElement => {
                 address: FilterAddressToName(props.chain).token[0].address
             })
         }
-        props.visible && queryApproveFN();
-        props.visible && setOP()
+        props.visible && setTimeout(() => {
+            queryApproveFN()
+        }, 1000);
+        props.visible && setOP();
         setVisible(props.visible)
     }, [props.visible]);
     // useEffect(() => {
@@ -200,7 +201,7 @@ const FixedModal = (props: Props): ReactElement => {
         });
         let maker: any;
         if (props.chain === '10') {
-            const signture:any = await signOrder(+price, parseInt(String(new Date().getTime() / 1000)), parseInt(String(endTimeStamp)), props.id)
+            const signture: any = await signOrder(+price, parseInt(String(new Date().getTime() / 1000)), parseInt(String(endTimeStamp)), props.id)
             if (!signture || signture.message) {
                 setWait({
                     ...wait,
@@ -261,6 +262,12 @@ const FixedModal = (props: Props): ReactElement => {
         <Modal open={visible} width={560} maskClosable onCancel={() => {
             setVisible(false);
             props.closeModal(false);
+            setWait({
+                approve: false,
+                list: false,
+                approve_dis: true,
+                list_dis: true
+            })
         }} title={props.sell ? 'Sell Your NFT' : 'Change Price'} footer={null}>
             <div className="fixed-price-inner">
                 {

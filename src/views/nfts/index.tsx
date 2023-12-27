@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
-import { Pagination, Spin, Popover } from 'antd'
-import { WalletNFT } from '../../request/api'
+import { Pagination, Spin, Popover, message } from 'antd'
+import { MFTOffService, WalletNFT } from '../../request/api'
 import { NFTItem } from "../../utils/types";
 import OwnerCard from "./components/owner.card";
 import { useParams } from "react-router-dom";
@@ -10,12 +10,23 @@ import { PNft } from "../../App";
 import { VERSION } from "../../utils/source";
 import NewNFTCard from "./components/new.card";
 import { DownOutlined } from "@ant-design/icons";
+import FixedModal from "../detail/components/fixed.price";
+import { useContract } from "../../utils/contract";
+import { useSwitchChain } from "../../hooks/chain";
 // import FooterNew from "../screen.new/components/footer.new";
 
 interface OP {
     label: string,
     value: string,
     icon: string
+}
+
+interface Sale {
+    token_name: string,
+    collection_name: string,
+    chain_id: string,
+    image_minio_url: string,
+    token_id: number
 }
 
 const options: OP[] = [
@@ -58,10 +69,12 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
-    const [itemList, setItemList] = useState<NFTItem[]>([])
+    const [itemList, setItemList] = useState<NFTItem[]>([]);
+    const { takeOff } = useContract();
     const { state } = useContext(PNft);
     const [otherBg, setOtherBG] = useState<string>('1');
     const [loadingBg, setLoadingBg] = useState<boolean>(true);
+    const { switchC } = useSwitchChain();
     const [open, setOpen] = useState(false);
     const [chainInfo, setChainInfo] = useState<OP>({
         label: 'All chains',
@@ -175,6 +188,14 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         const bol = searchParams.address === state.address;
         return bol ? state.account.bgimage_url : otherBg;
     };
+    const [sale, setSale] = useState<Sale>({
+        token_name: '',
+        collection_name: '',
+        chain_id: '8007736',
+        image_minio_url: '',
+        token_id: 0
+    });
+    const [fixedVisible, setFixedVisible] = useState<boolean>(false);
     const content = (
         <div className="select-chains">
             <ul>
@@ -258,15 +279,36 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                     (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
                                         // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
                                         return (
-                                            <NewNFTCard type={activeTop === 0 ? 1 : 2} key={index} item={item} uploadSell={() => {
+                                            <NewNFTCard type={activeTop === 0 ? 1 : 2} key={index} item={item} uploadTakeoff={async () => {
+                                                await switchC(+item.chain_id);
+                                                const hash: any = await takeOff(+item.order_id);
+                                                if (!hash || hash.message) {
+                                                    return
+                                                };
+                                                const maker = await MFTOffService({
+                                                    chain_id: item.chain_id,
+                                                    sender: state.address,
+                                                    tx_hash: hash['transactionHash']
+                                                });
+                                                const { status } = maker;
+                                                if (status !== 200) {
+                                                    message.error(maker.message);
+                                                    return
+                                                };
+                                                message.success('Take off the shelves Successfully!');
                                                 setList([]);
                                                 setPage(1);
                                                 setLoading(true);
                                                 saleListFN();
-                                            }} upload={() => {
-                                                setItemList([]);
-                                                setLoading(true);
-                                                itemQuery();
+                                            }} uploadSaleInfo={() => {
+                                                setSale({
+                                                    collection_name: item.collection_name,
+                                                    token_id: item.token_id,
+                                                    token_name: item.token_name,
+                                                    chain_id: item.chain_id,
+                                                    image_minio_url: item.image_minio_url
+                                                });
+                                                setFixedVisible(true);
                                             }} />
                                         )
                                     })
@@ -276,18 +318,25 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         {
                             total === 0 && !loading && <p className="no-more">No more</p>
                         }
-                        <div className="page-oper">
-                            <Pagination defaultCurrent={1} pageSize={12} total={total} onChange={(page) => {
+                        {total > 0 && <div className="page-oper">
+                            <Pagination defaultCurrent={1} pageSize={18} total={total} onChange={(page) => {
                                 window.scrollTo({
                                     top: 220,
                                     behavior: 'smooth'
                                 })
                                 setPage(page)
                             }} />
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </div>
+            <FixedModal name={sale.token_name} collection={sale.collection_name} chain={sale.chain_id} upRefresh={() => {
+                setItemList([]);
+                setLoading(true);
+                itemQuery();
+            }} sell visible={fixedVisible} image={sale.image_minio_url} id={sale.token_id} closeModal={(val: boolean) => {
+                setFixedVisible(val);
+            }} />
             {/* <FooterNew/> */}
         </div>
     )

@@ -1,9 +1,8 @@
-import { ReactElement, useContext, useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { ActivityRankService } from '../../../request/api'
 import { calsAddress, computedCountdonw } from "../../../utils";
 import { Spin } from "antd";
 import DefaultAvatar from "../../../components/default_avatar/default.avatar";
-import { PNft } from "../../../App";
 
 const ActivityCard = (): ReactElement => {
     // const [avatarList, setAvatarList] = useState<string[]>([]);
@@ -12,7 +11,6 @@ const ActivityCard = (): ReactElement => {
     const [loading, setLoading] = useState<boolean>(true);
     const [show, setShow] = useState<string>('');
     const timer = useRef<NodeJS.Timer>();
-    const { state } = useContext(PNft);
     const [count, setCount] = useState<{ d: string, h: string, m: string, s: string }>({
         d: '00',
         h: '00',
@@ -80,7 +78,7 @@ const ActivityCard = (): ReactElement => {
                                 <li>
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[1]?.minter_avatar_url ? <img src={rankList[1].minter_avatar_url} alt="" /> : <DefaultAvatar address={rankList[1]?.contract_address} diameter={110} />}
+                                            {rankList[1]?.img_minio_url ? <img src={rankList[1].img_minio_url} alt="" /> : <DefaultAvatar address={rankList[1]?.contract_address} diameter={110} />}
                                         </div>
                                         <p>2</p>
                                     </div>
@@ -91,7 +89,7 @@ const ActivityCard = (): ReactElement => {
                                     <img className="rank-1-icon" src={require('../../../assets/images/drop_rank_1.png')} alt="" />
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[0]?.minter_avatar_url ? <img src={rankList[0].minter_avatar_url} alt="" /> : <DefaultAvatar address={rankList[0]?.contract_address} diameter={150} />}
+                                            {rankList[0]?.img_minio_url ? <img src={rankList[0].img_minio_url} alt="" /> : <DefaultAvatar address={rankList[0]?.contract_address} diameter={150} />}
                                         </div>
                                         <p>1</p>
                                     </div>
@@ -101,7 +99,7 @@ const ActivityCard = (): ReactElement => {
                                 <li>
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[2]?.minter_avatar_url ? <img src={rankList[2].minter_avatar_url} alt="" /> : <DefaultAvatar address={rankList[2]?.contract_address} diameter={110} />}
+                                            {rankList[2]?.img_minio_url ? <img src={rankList[2].img_minio_url} alt="" /> : <DefaultAvatar address={rankList[2]?.contract_address} diameter={110} />}
                                         </div>
                                         <p>3</p>
                                     </div>
@@ -134,7 +132,7 @@ const ActivityCard = (): ReactElement => {
                                             <div className="avatar-box">
                                                 <p className="rank-num">{index + 4}</p>
                                                 <div className="avatar-inner">
-                                                    {item.minter_avatar_url ? <img src={item.minter_avatar_url} alt="" /> : <DefaultAvatar address={item.contract_address} diameter={60} />}
+                                                    {item.img_minio_url ? <img src={item.img_minio_url} alt="" /> : <DefaultAvatar address={item.contract_address} diameter={60} />}
                                                 </div>
                                                 <p className="rank-name">{calsAddress(item.minter)}</p>
                                             </div>

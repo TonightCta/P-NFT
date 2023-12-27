@@ -4,17 +4,14 @@ import { Popconfirm, Popover, Tooltip, message } from "antd";
 import IconFont from "../../../utils/icon";
 import { MoreOutlined } from "@ant-design/icons";
 import { useSwitchChain } from "../../../hooks/chain";
-import { useContract } from "../../../utils/contract";
-import { MFTOffService } from "../../../request/api";
 import { PNft } from "../../../App";
-import FixedModal from "../../detail/components/fixed.price";
 import EditWorkModal from "./edit.work";
 import { useNavigate, useParams } from "react-router-dom";
 import { FilterAddressToName, FilterChainInfo } from "../../../utils";
 
 interface Props {
-    uploadSell: () => void,
-    upload: () => void,
+    uploadSaleInfo: () => void,
+    uploadTakeoff: () => void,
     item: NFTItem,
     type: number
 }
@@ -28,11 +25,9 @@ const NewNFTCard = (props: Props): ReactElement => {
     const searchParams = useParams();
     const { state } = useContext(PNft);
     const [open, setOpen] = useState(false);
-    const { takeOff } = useContract();
     const [workBox, setWorkBox] = useState<boolean>(false);
     const [workID, setWorkID] = useState<number>(0);
     const [player, setPlayer] = useState<any>();
-    const [fixedVisible, setFixedVisible] = useState<boolean>(false);
     const navigate = useNavigate();
     const handleOpenChange = (newOpen: boolean) => {
         setOpen(newOpen);
@@ -44,23 +39,7 @@ const NewNFTCard = (props: Props): ReactElement => {
         })
     }, [props.item])
     const confirm = async () => {
-        await switchC(+props.item.chain_id);
-        const hash: any = await takeOff(+item.order_id);
-        if (!hash || hash.message) {
-            return
-        };
-        const maker = await MFTOffService({
-            chain_id: props.item.chain_id,
-            sender: state.address,
-            tx_hash: hash['transactionHash']
-        });
-        const { status } = maker;
-        if (status !== 200) {
-            message.error(maker.message);
-            return
-        };
-        message.success('Take off the shelves Successfully!');
-        props.uploadSell && props.uploadSell()
+        props.uploadTakeoff();
     };
     const content = (
         <div className="more-options">
@@ -161,16 +140,16 @@ const NewNFTCard = (props: Props): ReactElement => {
                 </div>}
                 {
                     props.type === 2 && <div className="left-text">
-                        <p onClick={() => {
+                        <p onClick={async () => {
                             if (!props.item.for_sale) {
                                 message.info('Coming soon');
                                 return
                             };
-                            setItem({
-                                ...item,
-                                is_start: true
-                            });
-                            setFixedVisible(true)
+                            const rr: any = await switchC(+props.item.chain_id);
+                            if (rr?.message) {
+                                return
+                            }
+                            props.uploadSaleInfo();
                         }}>Sell</p>
                     </div>
                 }
@@ -182,11 +161,6 @@ const NewNFTCard = (props: Props): ReactElement => {
                     </Tooltip>
                 </div>}
             </div>
-            <FixedModal name={props.item.token_name} collection={props.item.collection_name} is_start={item.is_start} chain={props.item.chain_id} upRefresh={() => {
-                props.upload && props.upload();
-            }} sell visible={fixedVisible} image={item.image_minio_url} id={item.token_id} closeModal={(val: boolean) => {
-                setFixedVisible(val);
-            }} />
             <EditWorkModal visible={workBox} work_id={workID} closeModal={(val: boolean) => {
                 setWorkBox(val);
             }} />
