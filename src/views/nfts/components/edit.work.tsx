@@ -122,7 +122,7 @@ const EditWorkModal = (props: Props): ReactElement => {
         )
     }
     return (
-        <Modal destroyOnClose title="Participate in the competition" width={800} footer={null} open={visible} onCancel={close}>
+        <Modal destroyOnClose title="Participate in the campaign" width={800} footer={null} open={visible} onCancel={close}>
             <div className="competition-list">
                 {
                     wait

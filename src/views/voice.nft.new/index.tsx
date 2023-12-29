@@ -83,32 +83,32 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
         getCategory();
         getLabels();
     }, []);
-    const selectPop = (
-        <div className="select-pop-content">
-            <ul>
-                {
-                    labelsList.map((item: Op, index: number) => {
-                        return (
-                            <li key={index} className={`${labelsID.indexOf(+item.value) > -1 ? 'selected-label' : ''}`} onClick={() => {
-                                const arr = labelsID;
-                                const arrTe = labelsText;
-                                arr.indexOf(+item.value) > -1 ? arr.splice(arr.indexOf(+item.value), 1) : arr.push(+item.value);
-                                arrTe.indexOf(item.label) > -1 ? arrTe.splice(arrTe.indexOf(item.label), 1) : arrTe.push(item.label);
-                                setLabelsID([...arr])
-                                setLabelsText([...arrTe]);
-                                setInput({
-                                    ...input,
-                                    labels: arr
-                                })
-                            }}>
-                                <p>{item.label}</p>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
-        </div>
-    )
+    // const selectPop = (
+    //     <div className="select-pop-content">
+    //         <ul>
+    //             {
+    //                 labelsList.map((item: Op, index: number) => {
+    //                     return (
+    //                         <li key={index} className={`${labelsID.indexOf(+item.value) > -1 ? 'selected-label' : ''}`} onClick={() => {
+    //                             const arr = labelsID;
+    //                             const arrTe = labelsText;
+    //                             arr.indexOf(+item.value) > -1 ? arr.splice(arr.indexOf(+item.value), 1) : arr.push(+item.value);
+    //                             arrTe.indexOf(item.label) > -1 ? arrTe.splice(arrTe.indexOf(item.label), 1) : arrTe.push(item.label);
+    //                             setLabelsID([...arr])
+    //                             setLabelsText([...arrTe]);
+    //                             setInput({
+    //                                 ...input,
+    //                                 labels: arr
+    //                             })
+    //                         }}>
+    //                             <p>{item.label}</p>
+    //                         </li>
+    //                     )
+    //                 })
+    //             }
+    //         </ul>
+    //     </div>
+    // )
     const inputBox = (
         <div className="input-box">
             <div className="public-inp-box">

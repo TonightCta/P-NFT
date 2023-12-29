@@ -107,7 +107,7 @@ const columns: ColumnsType<DataType> = [
         align: 'right',
         key: 'owners_amount',
         render: (_, { owners_amount, total_supply }) => <div className="flex-d">
-            <p>{(owners_amount / total_supply).toFixed(2)}%</p>
+            <p>{(owners_amount / total_supply * 100).toFixed(2)}%</p>
             <p>{owners_amount}&nbsp;owners</p>
         </div>
     },
@@ -138,7 +138,7 @@ const columnsMobile: ColumnsType<DataType> = [
         align: 'right',
         key: 'owners_amount',
         render: (_, { owners_amount, total_supply }) => <div className="flex-d">
-            <p>{(owners_amount / total_supply).toFixed(2)}%</p>
+            <p>{(owners_amount / total_supply * 100).toFixed(2)}%</p>
             <p>{owners_amount}&nbsp;owners</p>
         </div>
     },

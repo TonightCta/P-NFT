@@ -1,11 +1,11 @@
 import { Button, Modal, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { LAND, useContract, MarketAddress } from "../../../utils/contract";
+import { LAND, useContract } from "../../../utils/contract";
 import { PNft } from "../../../App";
 import { useSwitchChain } from "../../../hooks/chain";
 import { TaikoContractAddressMarketTest } from "../../../utils/source";
 import { NFTBuyService } from '../../../request/api'
-import { FilterAddress, FilterAddressToChain } from "../../../utils";
+import { FilterAddress } from "../../../utils";
 interface Item {
     price: string
     file_image_ipfs: string,

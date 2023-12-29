@@ -1,13 +1,10 @@
-import { ReactElement, ReactNode, useContext } from "react";
+import { ReactElement, ReactNode } from "react";
 import './index.scss'
 import IconFont from "../../utils/icon";
-import { PNft } from "../../App";
-import { web3 } from "../../utils/types";
 
 const URL: string = '/video/pizzap.aigc.s1.mp4'
 
 const VideoView = (): ReactElement<ReactNode> => {
-    const { state } = useContext(PNft);
     const shareTwitter = () => {
         // const metaArr = [
         //     'twitter:url', 'https://pizzap.io/#/video',

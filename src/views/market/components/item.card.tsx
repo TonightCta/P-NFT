@@ -21,7 +21,6 @@ const CardItem = (props: Props): ReactElement => {
     const { state, dispatch } = useContext(PNft);
     const [item, setItem] = useState<NFTItem>(props.item);
     const { takeOff } = useContract();
-    const [fixedVisible, setFixedVisible] = useState<boolean>(false);
     const [player, setPlayer] = useState<any>();
     const { switchC } = useSwitchChain();
     useEffect(() => {
@@ -116,7 +115,7 @@ const CardItem = (props: Props): ReactElement => {
                                         Take Off
                                     </Button>
                                 </Popconfirm> : <Button className="up-top white-top" type="primary" onClick={() => {
-                                    setFixedVisible(true)
+                                    // setFixedVisible(true)
                                 }}>
                                     <RotateRightOutlined />
                                     Sell</Button>

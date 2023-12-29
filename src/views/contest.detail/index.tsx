@@ -1,7 +1,6 @@
 import { ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import './index.scss'
 import { PNft } from "../../App";
-import IconFont from "../../utils/icon";
 import { Button, Pagination, Spin } from "antd";
 import FooterNew from "../screen.new/components/footer.new";
 import ContestCard from "./components/card";
@@ -9,7 +8,6 @@ import { CompetitionInfo, CompetitionNFTList } from '../../request/api'
 import { DateConvert, computedCountdonw } from "../../utils/index";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import Countdown from "antd/es/statistic/Countdown";
 
 interface Info {
     bg_image_minio: string,

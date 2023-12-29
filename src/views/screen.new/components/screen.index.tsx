@@ -10,23 +10,23 @@ interface Data {
     hposter_id: number
 }
 
-const PosterMobile: string[] = [
-    require('../../../assets/mobile/poster_o_1.jpeg'),
-    require('../../../assets/mobile/poster_o_2.jpeg'),
-    require('../../../assets/mobile/poster_o_3.jpeg'),
-    require('../../../assets/mobile/poster_o_4.jpeg'),
-    require('../../../assets/mobile/poster_o_5.jpeg'),
-    require('../../../assets/mobile/poster_o_6.jpeg'),
-    require('../../../assets/mobile/poster_o_7.jpeg'),
-    require('../../../assets/mobile/poster_o_8.jpeg'),
-    require('../../../assets/mobile/poster_o_9.jpeg'),
-    require('../../../assets/mobile/poster_o_10.jpeg'),
-    require('../../../assets/mobile/poster_o_11.jpeg'),
-    require('../../../assets/mobile/poster_o_12.jpeg'),
-    require('../../../assets/mobile/poster_o_13.jpeg'),
-    require('../../../assets/mobile/poster_o_14.jpeg'),
-    require('../../../assets/mobile/poster_o_15.jpeg'),
-]
+// const PosterMobile: string[] = [
+//     require('../../../assets/mobile/poster_o_1.jpeg'),
+//     require('../../../assets/mobile/poster_o_2.jpeg'),
+//     require('../../../assets/mobile/poster_o_3.jpeg'),
+//     require('../../../assets/mobile/poster_o_4.jpeg'),
+//     require('../../../assets/mobile/poster_o_5.jpeg'),
+//     require('../../../assets/mobile/poster_o_6.jpeg'),
+//     require('../../../assets/mobile/poster_o_7.jpeg'),
+//     require('../../../assets/mobile/poster_o_8.jpeg'),
+//     require('../../../assets/mobile/poster_o_9.jpeg'),
+//     require('../../../assets/mobile/poster_o_10.jpeg'),
+//     require('../../../assets/mobile/poster_o_11.jpeg'),
+//     require('../../../assets/mobile/poster_o_12.jpeg'),
+//     require('../../../assets/mobile/poster_o_13.jpeg'),
+//     require('../../../assets/mobile/poster_o_14.jpeg'),
+//     require('../../../assets/mobile/poster_o_15.jpeg'),
+// ]
 
 const ScreenIndexNew = (): ReactElement => {
     const [data, setData] = useState<Data[]>([]);

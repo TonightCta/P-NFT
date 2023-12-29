@@ -227,7 +227,7 @@ const OwnerCard = (props: Props): ReactElement => {
                 </div>
                 <div className="address-msg-2">
                     <p>
-                        {calsAddress(profile.user_address ? profile.user_address : '')}
+                        {profile.user_address}
                         <IconFont type="icon-fuzhi_copy" onClick={() => {
                             copy(profile.user_address)
                             message.success('Copy Successful')

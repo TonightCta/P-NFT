@@ -1,13 +1,12 @@
-import { ReactElement, ReactNode, useEffect } from "react";
-import { InitCanvas } from '../tool/canvas'
+import { ReactElement, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { LAND } from "../../../utils/contract";
 
 const ScreenIndex = (): ReactElement<ReactNode> => {
     const navigate = useNavigate();
-    useEffect(() => {
-        InitCanvas()
-    }, [])
+    // useEffect(() => {
+    //     InitCanvas()
+    // }, [])
     return (
         <div className="screen-index public-screen">
             <p className="public-title">PIZZAP</p>

@@ -31,9 +31,9 @@ const CollectionCard = (): ReactElement => {
         setOpen(false);
     };
     const [swiperRef, setSwiperRef] = useState<any>(null);
-    const handleOpenChange = (newOpen: boolean) => {
-        setOpen(newOpen);
-    };
+    // const handleOpenChange = (newOpen: boolean) => {
+    //     setOpen(newOpen);
+    // };
     const getDataList = async () => {
         if (state.coll_one) {
             setData(JSON.parse(state.coll_one));

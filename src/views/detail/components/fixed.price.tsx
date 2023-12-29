@@ -249,7 +249,14 @@ const FixedModal = (props: Props): ReactElement => {
         };
         message.success('List Successful!');
         setVisible(false);
+        props.closeModal(false);
         props.upRefresh();
+        setWait({
+            approve: false,
+            list: false,
+            approve_dis: true,
+            list_dis: true
+        })
     };
     useEffect(() => {
         if (duration === 999) {

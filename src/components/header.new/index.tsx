@@ -12,7 +12,7 @@ import MobileMenuDraw from "./components/mobile.menu";
 import { useSwitchChain } from "../../hooks/chain";
 import ConnectModal from "./components/connect.modal";
 import { ProfileService } from "../../request/api";
-// import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
+// import { useWeb3Modal,useWeb3ModalAccount } from "@web3modal/ethers5/react";
 
 export interface Menu {
     name: string,
@@ -162,9 +162,9 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                             }
                         })
                         navigate('/');
-                    }
-                    // state.is_connect === 1 ? open({ view: 'Account' }) : ;
-                    disconnect()
+                    };
+                    disconnect();
+                    // state.is_connect === 1 ? open({ view: 'Account' }) : disconnect();
                 }}>Disconnect</li>
             </ul>
         </div>
