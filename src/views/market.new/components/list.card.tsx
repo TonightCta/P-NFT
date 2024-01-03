@@ -440,7 +440,7 @@ const ListCard = (props: { chainID: string }): ReactElement => {
                 </div>
             </div>
             {<div className={`page-box ${!show.filter ? 'normal-center' : ''}`}>
-                <Pagination defaultCurrent={1} onShowSizeChange={(e, size) => {
+                <Pagination hideOnSinglePage defaultCurrent={1} onShowSizeChange={(e, size) => {
                     setSize(size);
                 }} total={total} onChange={(e) => {
                     setPage(e)

@@ -48,9 +48,10 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
         const time = new Date().getTime() / 1000;
         return time
     }
-    const [page, setPage] = useState<{ num: number, total: number }>({
+    const [page, setPage] = useState<{ num: number, total: number,size:number }>({
         num: 1,
-        total: 10
+        total: 10,
+        size:12
     });
     const getInfo = async () => {
         const result = await CompetitionInfo({
@@ -76,7 +77,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
         setWait(true);
         const result = await CompetitionNFTList({
             competition_id: +(searchParams.id as string),
-            page_size: 12,
+            page_size: page.size,
             page_num: page.num
         });
         const { data } = result;
@@ -84,7 +85,8 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
         if (!data.data.item) {
             setPage({
                 num: 1,
-                total: 10
+                total: 10,
+                size:12
             });
             setData([]);
             return
@@ -100,17 +102,17 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
     }, []);
     useEffect(() => {
         getDataList();
-    }, [page.num])
-    const content = (
-        <div>
-            <ul>
-                <li>123</li>
-                <li>123</li>
-                <li>123</li>
-                <li>123</li>
-            </ul>
-        </div>
-    )
+    }, [page.num,page.size])
+    // const content = (
+    //     <div>
+    //         <ul>
+    //             <li>123</li>
+    //             <li>123</li>
+    //             <li>123</li>
+    //             <li>123</li>
+    //         </ul>
+    //     </div>
+    // )
     return (
         <div className="contest-detail-view">
             <img className="top-bg" src={require('../../assets/new/contest_bg.png')} alt="" />
@@ -211,12 +213,13 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
                                     })
                                 }
                             </div>}
-                    {data.length > 0 && <Pagination defaultCurrent={1} pageSize={12} total={page.total} onChange={(e) => {
+                    <Pagination hideOnSinglePage defaultCurrent={1} pageSize={page.size} total={page.total} onChange={(e,size) => {
                         setPage({
                             ...page,
-                            num: e
+                            num: e,
+                            size:size
                         })
-                    }} />}
+                    }} />
                     {!wait && data.length < 1 && <p className="no-data">No data</p>}
                 </div>
             </div>

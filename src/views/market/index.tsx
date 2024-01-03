@@ -197,7 +197,7 @@ const MarketIndex = (): ReactElement<ReactNode> => {
                             }
                         </div>
                         <div className="page-oper">
-                            <Pagination defaultCurrent={page} pageSize={15} total={total} onChange={(page) => {
+                            <Pagination hideOnSinglePage defaultCurrent={page} pageSize={15} total={total} onChange={(page) => {
                                 window.scrollTo({
                                     top:170,
                                     behavior:'smooth'

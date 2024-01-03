@@ -5,7 +5,7 @@ import { HashRouter } from 'react-router-dom';
 import { Context } from './utils/types';
 import { defaultContext, defaultState, defaultStateInit, initState } from './reducer';
 import { VERSION } from './utils/source';
-// import './utils/connect/walletconnect'
+import './utils/connect/walletconnect'
 
 export const PNft = createContext<Context>(defaultContext);
 

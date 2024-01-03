@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { Modal } from "antd";
 import { useMetamask } from "../../../utils/connect/metamask";
 import { useCoinbase } from "../../../utils/connect/coinbase";
-import { useLedger } from "../../../utils/connect/ledger";
-// import { useWeb3Modal, useWeb3ModalProvider } from '@web3modal/ethers5/react'
+// import { useLedger } from "../../../utils/connect/ledger";
+import { useWeb3Modal, useWeb3ModalProvider } from '@web3modal/ethers5/react'
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
 import Web3 from "web3";
@@ -30,11 +30,11 @@ const WalletList: Wallet[] = [
         name: 'Coinbase Wallet',
         logo: require('../../../assets/images/coinbase.logo.png')
     },
-    // {
-    //     id: 3,
-    //     name: 'WalletConnect',
-    //     logo: require('../../../assets/images/walletconnect.logo.png')
-    // },
+    {
+        id: 3,
+        name: 'WalletConnect',
+        logo: require('../../../assets/images/walletconnect.logo.png')
+    },
     // {
     //     id: 4,
     //     name: 'Ledger',
@@ -47,26 +47,26 @@ const ConnectModal = (props: Props) => {
     const { dispatch } = useContext(PNft);
     const { connectMetamask } = useMetamask();
     const { connectCoinbase } = useCoinbase();
-    // const { open } = useWeb3Modal();
+    const { open } = useWeb3Modal();
     // const { connectLedger } = useLedger();
-    // const { walletProvider } = useWeb3ModalProvider();
+    const { walletProvider } = useWeb3ModalProvider();
     const close = () => {
         props.close(false);
         setVisible(false);
     };
 
-    // useEffect(() => {
-    //     if (!walletProvider || !window.ethereum.selectedProvider) {
-    //         return
-    //     };
-    //     window?.ethereum.setSelectedProvider(walletProvider);
-    //     dispatch({
-    //         type: Type.SET_WEB3,
-    //         payload: {
-    //             web3: new Web3(walletProvider as any)
-    //         }
-    //     });
-    // }, [walletProvider])
+    useEffect(() => {
+        if (!walletProvider || !window.ethereum.selectedProvider) {
+            return
+        };
+        window?.ethereum.setSelectedProvider(walletProvider);
+        dispatch({
+            type: Type.SET_WEB3,
+            payload: {
+                web3: new Web3(walletProvider as any)
+            }
+        });
+    }, [walletProvider])
     useEffect(() => {
         setVisible(props.visible);
     }, [props.visible])
@@ -79,9 +79,9 @@ const ConnectModal = (props: Props) => {
             case 2:
                 connectCoinbase();
                 break;
-            // case 3:
-            //     open();
-            //     break;
+            case 3:
+                open();
+                break;
             // case 4:
             //     connectLedger();
             //     break;

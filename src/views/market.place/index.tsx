@@ -189,7 +189,7 @@ const MarketPlaceView = (): ReactElement<ReactNode> => {
                             }
                         </div>
                         <div className="page-oper">
-                            <Pagination defaultCurrent={page} pageSize={15} total={total} onChange={(page) => {
+                            <Pagination hideOnSinglePage defaultCurrent={page} pageSize={15} total={total} onChange={(page) => {
                                 window.scrollTo({
                                     top: 220,
                                     behavior: 'smooth'

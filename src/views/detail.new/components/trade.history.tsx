@@ -86,7 +86,7 @@ const TabHistory = (props:{tokenID:number,address:string,image_minio_url:string,
                 </div>
             </div>
             {data.length > 0 && <div className="page-oper">
-                <Pagination defaultCurrent={1} total={data.length} onChange={() => {
+                <Pagination hideOnSinglePage defaultCurrent={1} total={data.length} onChange={() => {
                     window.scrollTo({
                         top: 700,
                         behavior: 'smooth'

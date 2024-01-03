@@ -318,15 +318,15 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         {
                             total === 0 && !loading && <p className="no-more">No more</p>
                         }
-                        {total > 0 && <div className="page-oper">
-                            <Pagination defaultCurrent={1} pageSize={18} total={total} onChange={(page) => {
+                        <div className="page-oper">
+                            <Pagination hideOnSinglePage defaultCurrent={1} pageSize={18} total={total} onChange={(page) => {
                                 window.scrollTo({
                                     top: 220,
                                     behavior: 'smooth'
                                 })
                                 setPage(page)
                             }} />
-                        </div>}
+                        </div>
                     </div>
                 </div>
             </div>

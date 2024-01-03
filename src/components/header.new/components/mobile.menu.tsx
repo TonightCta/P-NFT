@@ -42,6 +42,10 @@ const MobileMenuDraw = (props: Props): ReactElement => {
                             MenuList.map((item: Menu, index: number) => {
                                 return (
                                     <li key={index} onClick={() => {
+                                        if(item.name === 'FAQ'){
+                                            window.open(item.url);
+                                            return
+                                        }
                                         navigate(item.url);
                                         onClose();
                                     }}>
