@@ -27,7 +27,9 @@ export interface Data {
     submitter_avatar_url: string,
     submitter_name: string,
     vote_amount: number,
-    name: string
+    name: string,
+    load:boolean,
+    error:boolean
 }
 
 const ContestDetailView = (): ReactElement<ReactNode> => {
@@ -91,7 +93,14 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
             setData([]);
             return
         };
-        setData(data.data.item);
+        const filter = data.data.item?.map((item:any) => {
+            return item = {
+                ...item,
+                load:true,
+                error:false
+            }
+        })
+        setData(filter);
         setPage({
             ...page,
             total: data.data.total

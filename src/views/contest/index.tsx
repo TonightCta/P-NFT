@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { PNft } from "../../App";
 import { Type } from "../../utils/types";
 import { computedCountdonw } from "../../utils";
+import { ErrorCard } from "../../components/error.card";
 
 interface Data {
     competition_id: number,
@@ -15,7 +16,9 @@ interface Data {
     total_submit_items: number,
     end_time: number,
     start_time: number,
-    poster_minio: string
+    poster_minio: string,
+    load: boolean,
+    error: boolean
 }
 
 export const LOCAL: string = process.env.REACT_APP_LOCAL as string;
@@ -40,13 +43,20 @@ const ContestView = (): ReactElement<ReactNode> => {
             setData([]);
             return
         };
+        const filter = data.data.item?.map((item: any) => {
+            return item = {
+                ...item,
+                load: true,
+                error: false
+            }
+        })
         dispatch({
             type: Type.SET_CAMPAGE_LIST,
             payload: {
-                campage_list: data.data.item
+                campage_list: filter
             }
         })
-        setData(data.data.item);
+        setData(filter);
     };
     const getNow = (): number => {
         const time = new Date().getTime() / 1000;
@@ -79,10 +89,23 @@ const ContestView = (): ReactElement<ReactNode> => {
                                                 navigate(`/campaign/${item.competition_id}`)
                                             }}>
                                                 <div className="poster-box">
-                                                    <div className="loading-box-public">
+                                                    {item.load && <div className="loading-box-public">
                                                         <Spin size="large" />
-                                                    </div>
-                                                    <img className="poster-pic" src={item.poster_minio} alt="" />
+                                                    </div>}
+                                                    {item.error && <ErrorCard />}
+                                                    <img className="poster-pic" onLoad={() => {
+                                                        const updataList = [...data];
+                                                        if (updataList[index]) {
+                                                            updataList[index].load = !item.load;
+                                                            setData(updataList);
+                                                        }
+                                                    }} onError={() => {
+                                                        const updataList = [...data];
+                                                        if (updataList[index]) {
+                                                            updataList[index].error = !item.error;
+                                                            setData(updataList);
+                                                        }
+                                                    }} src={item.poster_minio} alt="" />
                                                 </div>
                                                 <div className="msg-box">
                                                     <p className="text-overflow">{item.name}</p>

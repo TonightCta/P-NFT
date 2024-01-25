@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { NFTItem, web3 } from "../../../utils/types";
-import { Popconfirm, Popover, Tooltip, message } from "antd";
+import { Popconfirm, Popover, Spin, Tooltip, message } from "antd";
 import IconFont from "../../../utils/icon";
 import { MoreOutlined } from "@ant-design/icons";
 import { useSwitchChain } from "../../../hooks/chain";
@@ -8,6 +8,7 @@ import { PNft } from "../../../App";
 import EditWorkModal from "./edit.work";
 import { useNavigate, useParams } from "react-router-dom";
 import { FilterAddressToName, FilterChainInfo } from "../../../utils";
+import { ErrorCard } from "../../../components/error.card";
 
 interface Props {
     uploadSaleInfo: () => void,
@@ -20,7 +21,9 @@ const NewNFTCard = (props: Props): ReactElement => {
     const { switchC } = useSwitchChain();
     const [item, setItem] = useState<NFTItem>({
         ...props.item,
-        play: false
+        play: false,
+        load: true,
+        error: false
     });
     const searchParams = useParams();
     const { state } = useContext(PNft);
@@ -82,8 +85,22 @@ const NewNFTCard = (props: Props): ReactElement => {
             <div className="chain-logo">
                 <img src={FilterChainInfo(props.item.chain_id).logo} alt="" />
             </div>
-            <div className={`nft-box`}>
-                <img src={props.item.image_minio_url} alt="" />
+            <div className="nft-box">
+                {item.load && <div className="loading-box-public">
+                    <Spin size="large" />
+                </div>}
+                {item.error && <ErrorCard />}
+                <img src={props.item.image_minio_url} alt="" onLoad={() => {
+                    setItem({
+                        ...item,
+                        load: false
+                    })
+                }} onError={() => {
+                    setItem({
+                        ...item,
+                        error: true
+                    })
+                }} />
                 {item.voice_minio_url && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
                     if (item.play) {

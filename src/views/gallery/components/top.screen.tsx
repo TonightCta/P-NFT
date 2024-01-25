@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { GalleryList, GalleryNFTList } from '../../../request/api';
-import { Spin,Image } from "antd";
+import { Spin, Image } from "antd";
 import IconFont from "../../../utils/icon";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from 'swiper'
@@ -9,13 +9,16 @@ import 'swiper/css/pagination';
 import { flag } from "../../../utils/source";
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
+import { ErrorCard } from "../../../components/error.card";
 
 export interface Data {
     minter_minio_url: string,
     minter_name: string,
     file_description: string,
     file_name: string,
-    file_minio_url: string
+    file_minio_url: string,
+    load: boolean,
+    error: boolean
 }
 
 const TopScreen = (): ReactElement => {
@@ -36,13 +39,20 @@ const TopScreen = (): ReactElement => {
         const lastShow = await GalleryNFTList({
             class_id: data.data.item[0].class_id
         });
+        const filter = lastShow.data.data.item?.map((item: any) => {
+            return item = {
+                ...item,
+                load: true,
+                error: false
+            }
+        })
         dispatch({
             type: Type.SET_GALLERY_ONE,
             payload: {
-                gallery_one: lastShow.data.data.item
+                gallery_one: filter
             }
         })
-        setData(lastShow.data.data.item);
+        setData(filter);
     };
     useEffect(() => {
         getInfo();
@@ -80,16 +90,32 @@ const TopScreen = (): ReactElement => {
                                         </div>
                                     </div>
                                     <div className="first-nft-pic">
-                                        <Image src={item.file_minio_url} />
-                                        <div className="loading-box">
+                                        <Image src={item.file_minio_url} onLoad={() => {
+                                            const updateList = [...data];
+                                            if (updateList[index]) {
+                                                updateList[index].load = !item.load;
+                                                setData(updateList);
+                                            }
+                                        }} onError={() => {
+                                            const updateList = [...data];
+                                            if (updateList[index]) {
+                                                updateList[index].error = !item.error;
+                                                setData(updateList);
+                                            }
+                                        }} />
+                                        {item.load && <div className="loading-box">
                                             <Spin size="large" />
-                                        </div>
+                                        </div>}
+                                        {item.error && <div className="error-msg">
+                                            <ErrorCard />
+                                            <ErrorCard className="sec-e" />
+                                        </div>}
                                     </div>
                                     <div className="mobile-creator-msg creator-msg">
-                                        <p className="creator-name">
-                                            <Image src={item.minter_minio_url}/>
+                                        <div className="creator-name">
+                                            <Image src={item.minter_minio_url} />
                                             {item.minter_name}
-                                        </p>
+                                        </div>
                                         <p className="creator-title">{item.file_name}</p>
                                         <p className="creator-remark">{item.file_description}</p>
                                     </div>

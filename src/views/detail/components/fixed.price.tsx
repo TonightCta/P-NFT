@@ -201,16 +201,23 @@ const FixedModal = (props: Props): ReactElement => {
         });
         let maker: any;
         if (props.chain === '10') {
-            const signture: any = await signOrder(+price, parseInt(String(new Date().getTime() / 1000)), parseInt(String(endTimeStamp)), props.id)
-            if (!signture || signture.message) {
+            const signature: any = await signOrder(+price, parseInt(String(new Date().getTime() / 1000)), parseInt(String(endTimeStamp)), props.id);
+            if (!signature || signature.message) {
                 setWait({
                     ...wait,
                     list_dis: false,
                     list: false
                 });
-                message.error(signture.message)
+                message.error(signature.message)
                 return
+            };
+            let v = parseInt(signature.slice(-2), 16)
+            if (v < 27) {
+                v += 27
             }
+            const normalizedSignature = signature.slice(0, -2) + v.toString(16)
+            console.log(normalizedSignature);
+            console.log(signature);
             maker = await NFTMakerService({
                 chain_id: props.chain,
                 sender: state.address,
@@ -218,7 +225,7 @@ const FixedModal = (props: Props): ReactElement => {
                 end_time: parseInt(String(endTimeStamp)),
                 token_id: props.id,
                 price: price,
-                signature: signture
+                signature: normalizedSignature
             });
         } else {
             const hash: any = await putList(props.id, +price, token.address);

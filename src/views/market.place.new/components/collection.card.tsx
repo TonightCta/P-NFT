@@ -9,6 +9,7 @@ import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
 import { flag } from "../../../utils/source";
 import { FilterChainInfo } from "../../../utils";
+import { ErrorCard } from "../../../components/error.card";
 
 interface Data {
     logo_minio_url: string,
@@ -18,7 +19,9 @@ interface Data {
     collection_id: number,
     total_supply: number,
     creator_name: string,
-    chain_id: string
+    chain_id: string,
+    load: boolean,
+    error: boolean
 }
 
 const CollectionCard = (): ReactElement => {
@@ -45,13 +48,20 @@ const CollectionCard = (): ReactElement => {
         });
         const { data } = result;
         setWait(false);
+        const filter = data.data.item?.map((item: any) => {
+            return item = {
+                ...item,
+                load: true,
+                error: false
+            }
+        })
         dispatch({
             type: Type.SET_COLL_ONE,
             payload: {
-                coll_one: data.data.item
+                coll_one: filter
             }
         })
-        setData(data.data.item);
+        setData(filter);
     };
     useEffect(() => {
         getDataList()
@@ -127,10 +137,27 @@ const CollectionCard = (): ReactElement => {
                                             <img src={FilterChainInfo(item.chain_id).logo} alt="" />
                                         </div>
                                         <div className="poster-img">
-                                            <img className="" src={item.poster_minio_url} alt="" />
-                                            <div className="loading-box-public">
+                                            <img className="" src={item.poster_minio_url} alt="" onLoad={() => {
+                                                const updataList = [...data];
+                                                if (updataList[index]) {
+                                                    updataList[index].load = !item.load;
+                                                    setData(updataList);
+                                                } else {
+                                                    console.log('Invalid index')
+                                                }
+                                            }} onError={() => {
+                                                const updataList = [...data];
+                                                if (updataList[index]) {
+                                                    updataList[index].error = !item.error;
+                                                    setData(updataList);
+                                                } else {
+                                                    console.log('Invalid index')
+                                                }
+                                            }} />
+                                            {item.load && <div className="loading-box-public">
                                                 <Spin size="large" />
-                                            </div>
+                                            </div>}
+                                            {item.error && <ErrorCard />}
                                         </div>
                                         <div className="msg-box">
                                             <p className="name">{item.collection_name}</p>

@@ -291,7 +291,7 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
         formData.append('chain_id', state.chain as string);
         formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');
-        formData.append('sender', ethereum.selectedAddress);
+        formData.append('sender', state.address);
         formData.append('tx_hash', result['transactionHash']);
         formData.append('image_minio', imageType === 0 ? img_local.minio_key : aiImageView.minio_key);
         formData.append('voice_minio', cType === 0 ? voice_local?.minio_key : aiReview?.minio_key);

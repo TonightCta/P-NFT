@@ -1,16 +1,19 @@
 import { Spin } from "antd";
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
-import { Screen2List } from '../../../request/api'
+import { Screen2List, ShowScreenList } from '../../../request/api'
 import { useNavigate } from "react-router-dom";
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
+import { ErrorCard } from "../../../components/error.card";
 
 interface Card {
     file_minio_url: string,
     file_name: string,
     minter_minio_url: string,
     minter_name: string,
-    minter: string
+    minter: string,
+    load:boolean,
+    error:boolean
 }
 // const MobileCardLisr: Card[] = [
 //     {
@@ -79,36 +82,56 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
             setData(JSON.parse(state.screen_two));
             return
         }
-        const result = await Screen2List({
+        const result = await ShowScreenList({
             page_size: 24,
+            screen_no:2
         });
         const { data } = result;
+        const filter = data.data.item?.map((item:any) => {
+            return item = {
+                ...item,
+                load:true,
+                error:false
+            }
+        })
         dispatch({
             type: Type.SET_SCREEN_TWO,
             payload: {
-                screen_two: data.data.item
+                screen_two: filter
             }
         });
         //TODO voice_ipfs
-        setData(data.data.item);
+        setData(filter);
     };
     const navigate = useNavigate();
     useEffect(() => {
         getDataList();
     }, [])
     const CreatorCard = (props: { item: Card }) => {
+        const [itemInfo,setItemInfo] = useState<Card>(props.item)
         return (
             <div className="creator-card">
-                <div className="loading-box-public">
+                {itemInfo.load && <div className="loading-box-public">
                     <Spin />
-                </div>
+                </div>}
+                {itemInfo.error && <ErrorCard/>}
                 <div className="nft-box">
-                    <img src={props.item.file_minio_url} alt="" />
+                    <img src={itemInfo.file_minio_url} alt="" onLoad={() => {
+                        setItemInfo({
+                            ...itemInfo,
+                            load:!itemInfo.load
+                        })
+                    }} onError={() => {
+                        setItemInfo({
+                            ...itemInfo,
+                            error:!itemInfo.error
+                        })
+                    }}/>
                 </div>
-                <p>{props.item.file_name}</p>
+                <p>{itemInfo.file_name}</p>
                 <div className="account-box">
-                    <img src={props.item.minter_minio_url} alt="" />
-                    <p>{props.item.minter_name}</p>
+                    <img src={itemInfo.minter_minio_url} alt="" />
+                    <p>{itemInfo.minter_name}</p>
                 </div>
             </div>
         )

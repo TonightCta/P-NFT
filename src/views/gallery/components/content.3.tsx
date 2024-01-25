@@ -4,7 +4,7 @@ import { Data } from "./top.screen";
 import SeriesList from "./series.list";
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
-import { Image } from 'antd'
+import { Image, Spin } from 'antd'
 
 interface Group {
     group_id: number;
@@ -29,13 +29,20 @@ const Content3 = (): ReactElement => {
             class_id: data.data.item[2].class_id,
             page_size: 7
         });
+        const filter = lastShow.data.data.item?.map((item:any) => {
+            return item = {
+                ...item,
+                load:true,
+                error:false
+            }
+        })
         dispatch({
             type: Type.SET_GALLERY_THREE,
             payload: {
-                gallery_three: lastShow.data.data.item
+                gallery_three: filter
             }
         })
-        setData(lastShow.data.data.item);
+        setData(filter);
     };
     const getGroupList = async () => {
         const result = await GroupList({
@@ -59,7 +66,13 @@ const Content3 = (): ReactElement => {
                 <div className="right-down">
                     <div className="public-card">
                         <div className="nft-box">
-                            <Image src={data[0]?.file_minio_url} alt="" />
+                            <Image src={data[0]?.file_minio_url} alt="" onLoad={() => {
+                                // data[0].load = !data[0].load;
+                                // setData(data);
+                            }}/>
+                            {/* {data[0].load && <div className="loading-box-public">
+                                <Spin size="large"/>
+                            </div>} */}
                         </div>
                         <p className="nft-name">{data[0]?.file_name}</p>
                         <div className="minter-msg">

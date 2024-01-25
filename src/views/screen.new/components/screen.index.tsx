@@ -1,13 +1,16 @@
 import { Spin } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import IconFont from '../../../utils/icon';
-import { Screen1List } from '../../../request/api'
+import { Screen1List, ShowScreenList } from '../../../request/api'
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
+import { ErrorCard } from "../../../components/error.card";
 
 interface Data {
     file_minio_url: string,
-    hposter_id: number
+    hposter_id: number,
+    load: boolean,
+    error: boolean
 }
 
 // const PosterMobile: string[] = [
@@ -36,17 +39,25 @@ const ScreenIndexNew = (): ReactElement => {
             setData(JSON.parse(state.screen_one));
             return
         }
-        const result = await Screen1List({
-            page_size: 30
+        const result = await ShowScreenList({
+            page_size: 30,
+            screen_no: 1
         });
         const { data } = result;
+        const filter = data.data.item?.map((item: any) => {
+            return item = {
+                ...item,
+                load: true,
+                error: false
+            }
+        })
         dispatch({
             type: Type.SET_SCREEN_ONE,
             payload: {
-                screen_one: data.data.item
+                screen_one: filter
             }
         });
-        setData(data.data.item);
+        setData(filter);
     };
     useEffect(() => {
         getDataList();
@@ -73,10 +84,41 @@ const ScreenIndexNew = (): ReactElement => {
                             data.slice(0, 10).map((item: Data, index: number) => {
                                 return (
                                     <li key={index}>
-                                        <img src={item.file_minio_url} alt="" />
-                                        <div className="loading-box-public">
+                                        <img src={item.file_minio_url} alt="" onLoad={() => {
+                                            const updataList = [...data];
+                                            if (updataList[index]) {
+                                                updataList[index].load = !item.load;
+                                                setData(updataList);
+                                            } else {
+                                                console.log('Invalid index')
+                                            }
+                                        }} onError={() => {
+                                            console.log('er')
+                                            const updataList = [...data];
+                                            if (updataList[index]) {
+                                                console.log(updataList[index].error)
+                                                updataList[index].error = !item.error;
+                                                setData(updataList);
+                                            } else {
+                                                console.log('Invalid index')
+                                            }
+                                        }} />
+                                        {/* 
+                                        TODO
+                                        onError={() => {
+                                            const updataList = [...data];
+                                            if (updataList[index]) {
+                                                updataList[index].error = !item.error;
+                                                setData(updataList);
+                                            } else {
+                                                console.log('Invalid index')
+                                            }
+                                        }}
+                                         */}
+                                        {item.load && <div className="loading-box-public">
                                             <Spin />
-                                        </div>
+                                        </div>}
+                                        {item.error && <ErrorCard />}
                                     </li>
                                 )
                             })
@@ -87,10 +129,29 @@ const ScreenIndexNew = (): ReactElement => {
                             data.slice(10, 20).map((item: Data, index: number) => {
                                 return (
                                     <li key={index}>
-                                        <img src={item.file_minio_url} alt="" />
-                                        <div className="loading-box-public">
+                                        <img src={item.file_minio_url} alt="" onLoad={() => {
+                                            const updataList = [...data];
+                                            if (updataList[index]) {
+                                                updataList[index].load = !item.load;
+                                                setData(updataList);
+                                            } else {
+                                                console.log('Invalid index')
+                                            }
+                                        }} onError={() => {
+                                            console.log('er')
+                                            const updataList = [...data];
+                                            if (updataList[index]) {
+                                                console.log(updataList[index].error)
+                                                updataList[index].error = !item.error;
+                                                setData(updataList);
+                                            } else {
+                                                console.log('Invalid index')
+                                            }
+                                        }} />
+                                        {item.load && <div className="loading-box-public">
                                             <Spin />
-                                        </div>
+                                        </div>}
+                                        {item.error && <ErrorCard />}
                                     </li>
                                 )
                             })
@@ -101,10 +162,28 @@ const ScreenIndexNew = (): ReactElement => {
                             data.slice(20, 30).map((item: Data, index: number) => {
                                 return (
                                     <li key={index}>
-                                        <img src={item.file_minio_url} alt="" />
-                                        <div className="loading-box-public">
+                                        <img src={item.file_minio_url} alt="" onLoad={() => {
+                                            const updataList = [...data];
+                                            if (updataList[index]) {
+                                                updataList[index].load = !item.load;
+                                                setData(updataList);
+                                            } else {
+                                                console.log('Invalid index')
+                                            }
+                                        }} onError={() => {
+                                            const updataList = [...data];
+                                            if (updataList[index]) {
+                                                console.log(updataList[index].error)
+                                                updataList[index].error = !item.error;
+                                                setData(updataList);
+                                            } else {
+                                                console.log('Invalid index')
+                                            }
+                                        }} />
+                                        {item.load && <div className="loading-box-public">
                                             <Spin />
-                                        </div>
+                                        </div>}
+                                        {item.error && <ErrorCard />}
                                     </li>
                                 )
                             })
@@ -118,9 +197,10 @@ const ScreenIndexNew = (): ReactElement => {
                                 return (
                                     <li key={index}>
                                         <img src={item.file_minio_url} alt="" />
-                                        <div className="loading-box-public">
+                                        {item.load && <div className="loading-box-public">
                                             <Spin />
-                                        </div>
+                                        </div>}
+                                        {item.error && <ErrorCard />}
                                     </li>
                                 )
                             })
@@ -132,9 +212,10 @@ const ScreenIndexNew = (): ReactElement => {
                                 return (
                                     <li key={index}>
                                         <img src={item.file_minio_url} alt="" />
-                                        <div className="loading-box-public">
+                                        {item.load && <div className="loading-box-public">
                                             <Spin />
-                                        </div>
+                                        </div>}
+                                        {item.error && <ErrorCard />}
                                     </li>
                                 )
                             })
@@ -146,9 +227,10 @@ const ScreenIndexNew = (): ReactElement => {
                                 return (
                                     <li key={index}>
                                         <img src={item.file_minio_url} alt="" />
-                                        <div className="loading-box-public">
+                                        {item.load && <div className="loading-box-public">
                                             <Spin />
-                                        </div>
+                                        </div>}
+                                        {item.error && <ErrorCard />}
                                     </li>
                                 )
                             })

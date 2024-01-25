@@ -5,7 +5,8 @@ import { Data } from "./top.screen";
 import IconFont from "../../../utils/icon";
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
-import { Image } from 'antd'
+import { Image, Spin } from 'antd'
+import { ErrorCard } from "../../../components/error.card";
 
 const ShowContent = (): ReactElement => {
     const [data, setData] = useState<Data[]>([]);
@@ -23,13 +24,20 @@ const ShowContent = (): ReactElement => {
             class_id: data.data.item[1].class_id,
             page_size: 3
         });
+        const filter = lastShow.data.data.item?.map((item: any) => {
+            return item = {
+                ...item,
+                load: true,
+                error: false
+            }
+        })
         dispatch({
             type: Type.SET_GALLERY_TWO,
             payload: {
-                gallery_two: lastShow.data.data.item
+                gallery_two: filter
             }
         })
-        setData(lastShow.data.data.item);
+        setData(filter);
     };
     useEffect(() => {
         getInfo();
@@ -47,7 +55,23 @@ const ShowContent = (): ReactElement => {
                             return (
                                 <li key={index}>
                                     <div className="nft-box">
-                                        <Image src={item.file_minio_url} alt="" />
+                                        <Image src={item.file_minio_url} alt="" onLoad={() => {
+                                            const updateList = [...data];
+                                            if (updateList[index]) {
+                                                updateList[index].load = !item.load;
+                                                setData(updateList);
+                                            }
+                                        }} onError={() => {
+                                            const updateList = [...data];
+                                            if (updateList[index]) {
+                                                updateList[index].error = !item.error;
+                                                setData(updateList);
+                                            }
+                                        }} />
+                                        {item.load && <div className="loading-box-public">
+                                            <Spin size="large" />
+                                        </div>}
+                                        {item.error && <ErrorCard />}
                                     </div>
                                     <p className="nft-name">{item.file_name}</p>
                                     <div className="minter-msg">

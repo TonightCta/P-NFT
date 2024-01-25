@@ -5,6 +5,7 @@ import { FilterAddressToName } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { Spin } from "antd";
 import IconFont from "../../utils/icon";
+import { ErrorCard } from "../error.card";
 
 interface Props {
     info: NFTItem
@@ -13,7 +14,9 @@ interface Props {
 const NftCard = (props: Props): ReactElement => {
     const [item, setItem] = useState<NFTItem>({
         ...props.info,
-        play: false
+        play: false,
+        load: false,
+        error: false
     });
     const navigate = useNavigate();
     const [player, setPlayer] = useState<any>();
@@ -28,10 +31,21 @@ const NftCard = (props: Props): ReactElement => {
             navigate(`/asset/${FilterAddressToName(item.chain_id).chain_name}/${item.contract_address}/${item.token_id}`)
         }}>
             <div className="nft-msg">
-                <img src={props.info.file_image_minio_url ? props.info.file_image_minio_url : props.info.image_minio_url} alt="" />
-                <div className="loading-box-public">
+                <img src={props.info.file_image_minio_url ? props.info.file_image_minio_url : props.info.image_minio_url} alt="" onLoad={() => {
+                    setItem({
+                        ...item,
+                        load: false
+                    })
+                }} onError={() => {
+                    setItem({
+                        ...item,
+                        error: true
+                    })
+                }} />
+                {item.load && <div className="loading-box-public">
                     <Spin />
-                </div>
+                </div>}
+                {item.error && <ErrorCard />}
                 {item.voice_minio_url && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
                     if (item.play) {

@@ -40,19 +40,17 @@ export const useContract = () => {
     const [BBCContract, setBBCContract] = useState<any>();
     const { switchC } = useSwitchChain();
     const { state } = useContext(PNft);
-    const owner: string = state.ethereum ? state.ethereum.selectedAddress : '';
-    const send: Send = {
-        from: owner,
+    const [send, setSend] = useState<Send>({
+        from: state.address || '',
         gas: state.chain === '10' ? '' : '0x2dc6c0',
         gasLimit: state.chain === '10' ? '' : '0x2dc6c0',
-    }
+    });
     const cals = async () => {
         const pi = state.ethereum ? await state.web3.eth.getGasPrice() : '0';
         setGasPrice(pi);
     };
     const init = useCallback(async () => {
         await cals();
-
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? FilterAddress(state.chain as string).contract_market : FilterAddress(state.chain as string).contract_market_test;
         setNFTContract(new web3.eth.Contract(ABI721 as any, NFTAddress, {
@@ -74,17 +72,23 @@ export const useContract = () => {
     useEffect(() => {
         init();
     }, [state.chain, state.web3])
+    useEffect(() => {
+        setSend({
+            ...send,
+            from: state.address as string
+        })
+    }, [state.address])
     //铸币
     const mint = async (_data_ipfs: string) => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
             return
         };
-        const Fee: string = web3.utils.toWei(FilterAddressToName(web3.utils.hexToNumberString(state.ethereum.chainId)).fee, 'ether');
+        const Fee: string = web3.utils.toWei(FilterAddressToName(state.chain as string).fee, 'ether');
         const Gas: string = FilterAddressToName(state.chain as string).gas;
         return new Promise((resolve, reject) => {
-            NFTContract.methods.mint(state.ethereum.selectedAddress, _data_ipfs).send({
-                from: owner,
+            NFTContract.methods.mint(state.address, _data_ipfs).send({
+                from: send.from,
                 gas: Gas,
                 value: Fee,
                 type: '0x1'
@@ -104,11 +108,11 @@ export const useContract = () => {
             return
         }
         await switchC(+(state.chain as string));
-        const total = await NFTContract.methods.balanceOf(state.ethereum.selectedAddress).call();
+        const total = await NFTContract.methods.balanceOf(send.from).call();
         const actions = []
         let getInfo = async (index: number) => {
             try {
-                let id = await NFTContract.methods.tokenOfOwnerByIndex(owner, index).call();
+                let id = await NFTContract.methods.tokenOfOwnerByIndex(send.from, index).call();
                 let tokenURI = await NFTContract.methods.tokenURI(id).call();
                 return { id, tokenURI }
             } catch (error) {
@@ -149,7 +153,7 @@ export const useContract = () => {
         return new Promise(async (resolve, reject) => {
             if (_paymod === 'PI' || _paymod === 'ETH' || _paymod === 'LAT') {
                 MARKETContract.methods.buy(_order_id).send({
-                    from: owner,
+                    from: send.from,
                     gas: Gas,
                     value: _price,
                 }).on('receipt', (res: any) => {
@@ -160,7 +164,7 @@ export const useContract = () => {
                 }))
             } else {
                 MARKETContract.methods.buy(_order_id).send({
-                    from: owner,
+                    from: send.from,
                     gas: Gas,
                 }).on('receipt', (res: any) => {
                     resolve(res)
@@ -181,7 +185,7 @@ export const useContract = () => {
         const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? FilterAddress(state.chain as string).contract_market : FilterAddress(state.chain as string).contract_market_test;
         return new Promise(async (resolve, reject) => {
             NFTContract.methods.approve(MarketAddress, _token_id).send(LAND === 'taiko' ? {
-                from: owner,
+                from: send.from,
                 gas: Gas,
             } : send)
                 .on('receipt', (res: any) => {
@@ -207,7 +211,7 @@ export const useContract = () => {
                 calsMarks(_address),
                 state.web3.utils.toWei(String(_price), 'ether'))
                 .send({
-                    from: owner,
+                    from: send.from,
                     gas: Gas
                 }).on('receipt', (res: string) => {
                     resolve(res)
@@ -226,7 +230,7 @@ export const useContract = () => {
         const Gas: string = FilterAddressToName(state.chain as string).gas;
         return new Promise((resolve, reject) => {
             MARKETContract.methods.off(_order_id).send({
-                from: owner,
+                from: send.from,
                 gas: Gas
             })
                 .on('receipt', (res: any) => {
@@ -246,7 +250,7 @@ export const useContract = () => {
         const Gas: string = FilterAddressToName(state.chain as string).gas;
         return new Promise((resolve, reject) => {
             SBTContract.methods.mint().send({
-                from: owner,
+                from: send.from,
                 gas: Gas
             })
                 .on('receipt', (res: any) => {
@@ -266,7 +270,7 @@ export const useContract = () => {
         const SBTContractInner = new state.web3.eth.Contract(ABISBT as any, Address.PlianContractSBTTest, {
             gasPrice: gasPrice
         })
-        const total = await SBTContractInner.methods.balanceOf(owner).call();
+        const total = await SBTContractInner.methods.balanceOf(send.from).call();
         return total
     };
     //Mint总量查询
@@ -304,12 +308,12 @@ export const useContract = () => {
         return result
     };
     const getBalance = async () => {
-        const result = await state.web3.eth.getBalance(owner);
+        const result = await state.web3.eth.getBalance(send.from);
         return result;
     }
     const balanceErc20 = async (_token_address: string): Promise<string> => {
         const contract = new state.web3.eth.Contract(NormalABIERC20 as any, _token_address);
-        const balance = await contract.methods.balanceOf(owner).call();
+        const balance = await contract.methods.balanceOf(send.from).call();
         return balance;
     }
     const transHash = async (_amount: string, _nonce: string): Promise<string> => {
@@ -327,7 +331,7 @@ export const useContract = () => {
         return new Promise((resolve, reject) => {
             BBCContract.methods.buy(_hash, _nonce, +_amount).send({
                 value: state.web3.utils.toWei(String(+_amount * 0.05)),
-                from: owner,
+                from: send.from,
                 gas: Gas
             }).on('receipt', (res: string) => {
                 resolve(res)
@@ -367,14 +371,15 @@ export const useContract = () => {
                     Recipient: "0x0000a26b00c1f0df003000390027140000faa719"
                 },
             ],
-            StartTime: String(_start_date),
-            EndTime: String(_end_date),
+            StartTime: '1705890756',//!!TODO String(_start_date)
+            EndTime: '1708569137',//!!TODO String(_end_date)
             OrderType: 0,
             Zone: "0x0000000000000000000000000000000000000000",
             ZoneHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
             Salt: "24446860302761739304752683030156737591518664810215442929802418156332078926289",
             ConduitKey: "0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000",
-            Counter: "0"
+            TotalOriginalConsiderationItems:'1',
+            Counter: "0",
         };
         const domain = {
             name: "Pizzap",
@@ -398,6 +403,7 @@ export const useContract = () => {
                 { name: "ZoneHash", type: "string" },
                 { name: "Salt", type: "string" },
                 { name: "ConduitKey", type: "string" },
+                { name:'TotalOriginalConsiderationItems',type:'string' },
                 { name: "Counter", type: "string" },
             ],
             Offer: [
@@ -445,9 +451,9 @@ export const useContract = () => {
             gasPrice: gasPrice
         });
         return new Promise((resolve, reject) => {
-            OPContract.methods.fulfillAdvancedOrder(_amount, 1, 1, _key, owner).send({
+            OPContract.methods.fulfillAdvancedOrder(_amount, 1, 1, _key, send.from).send({
                 value: _amount,
-                from: owner,
+                from: send.from,
                 gas: Gas
             }).on('receipt', (res: string) => {
                 resolve(res)

@@ -123,6 +123,10 @@
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          .error-card{
+            padding-top: 80px;
+            padding-left: 60px;
+          }
           img {
             height: 100%;
             position: relative;
@@ -263,6 +267,9 @@
               width: 100%;
               position: relative;
               z-index: 20;
+            }
+            .error-card{
+              padding-left: 30px;
             }
           }
           .img-list {

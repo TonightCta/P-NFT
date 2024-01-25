@@ -115,5 +115,6 @@ export interface NFTItem {
     token_name: string,
     contract_address: string,
     voice_minio_url: string,
-    is_start:boolean
+    is_start:boolean,
+    error:boolean
 }

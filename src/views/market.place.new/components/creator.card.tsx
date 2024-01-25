@@ -9,6 +9,7 @@ import { flag } from "../../../utils/source";
 import { useNavigate } from "react-router-dom";
 import { PNft } from "../../../App";
 import { Type } from "../../../utils/types";
+import { ErrorCard } from "../../../components/error.card";
 
 interface Data {
     img_urls: { minio_url: string }[],
@@ -16,13 +17,15 @@ interface Data {
     minter_name: string,
     total_mint: number,
     minter_avatar_url: string,
-    minter: string
+    minter: string,
+    load: boolean,
+    error: boolean
 }
 
 const CreatorCard = (): ReactElement => {
     const [swiperRef, setSwiperRef] = useState<any>(null);
     const [wait, setWait] = useState<boolean>(false);
-    const [data, setData] = useState<[]>([]);
+    const [data, setData] = useState<Data[]>([]);
     const { state, dispatch } = useContext(PNft);
     const navigate = useNavigate();
     const getDataList = async () => {
@@ -39,13 +42,20 @@ const CreatorCard = (): ReactElement => {
         });
         setWait(false)
         const { data } = result;
+        const filter = data.data.item?.map((item: any) => {
+            return item = {
+                ...item,
+                load: true,
+                error: false
+            }
+        })
         dispatch({
             type: Type.SET_COLL_TWO,
             payload: {
-                coll_two: data.data.item
+                coll_two: filter
             }
         });
-        setData(data.data.item);
+        setData(filter);
     };
     useEffect(() => {
         getDataList();
@@ -97,10 +107,23 @@ const CreatorCard = (): ReactElement => {
                                     }}>
                                         <div className="img-box">
                                             <div className="img-outside">
-                                                <img src={item.img_urls[0]?.minio_url} alt="" />
-                                                <div className="loading-box-public">
+                                                <img src={item.img_urls[0]?.minio_url} alt="" onLoad={() => {
+                                                    const updateList = [...data];
+                                                    if (updateList[index]) {
+                                                        updateList[index].load = !item.load;
+                                                        setData(updateList);
+                                                    }
+                                                }} onError={() => {
+                                                    const updateList = [...data];
+                                                    if (updateList[index]) {
+                                                        updateList[index].error = !item.error;
+                                                        setData(updateList);
+                                                    }
+                                                }} />
+                                                {item.load && <div className="loading-box-public">
                                                     <Spin />
-                                                </div>
+                                                </div>}
+                                                {item.error && <ErrorCard />}
                                             </div>
                                             <div className="img-list">
                                                 {

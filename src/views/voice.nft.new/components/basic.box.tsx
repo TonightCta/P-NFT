@@ -132,10 +132,10 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         };
         const formData = new FormData();
         formData.append('chain_id', props.info.chain);
-        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(web3.utils.hexToNumberString(ethereum.chainId)).contract_721 : FilterAddress(state.chain as string).contract_721_test;
+        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');
-        formData.append('sender', ethereum.selectedAddress);
+        formData.append('sender', state.address);
         formData.append('tx_hash', result['transactionHash']);
         formData.append('image_minio', img_local.minio_key);
         formData.append('voice_minio', audioFile ? voice_local.minio_key : '');

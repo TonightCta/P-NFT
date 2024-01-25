@@ -298,6 +298,8 @@
       }
       .creator-card {
         position: relative;
+        min-height: 180px;
+        min-height: 100px;
         .loading-box-public {
           min-height: 100px;
         }
