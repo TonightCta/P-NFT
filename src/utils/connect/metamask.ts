@@ -1,11 +1,9 @@
 import { message } from "antd";
 import { Type, web3 } from "../types";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PNft } from "../../App";
-import { ProfileService, QueryFile } from "../../request/api";
-// import { MetaMaskSDK } from '@metamask/sdk';
-import Web3 from "web3";
-
+import { ProfileService } from "../../request/api";
+import { useSDK } from '@metamask/sdk-react';
 // const MMSDK = new MetaMaskSDK({
 //     dappMetadata: {
 //         name: 'Pizzap',
@@ -16,66 +14,55 @@ import Web3 from "web3";
 
 export const useMetamask = () => {
     // const ethereum = MMSDK.getProvider();
-    const { dispatch } = useContext(PNft);
+    const { state, dispatch } = useContext(PNft);
+    const { sdk, chainId, account } = useSDK();
+    const updateAddress = async (_address: string) => {
+        if (!_address) {
+            return
+        }
+        dispatch({
+            type: Type.SET_ADDRESS,
+            payload: {
+                address: _address
+            }
+        });
+        const account = await ProfileService({
+            user_address: _address
+        });
+        dispatch({
+            type: Type.SET_ACCOUNT,
+            payload: {
+                account: account.data
+            }
+        });
+    };
+    const updateNetwork = async (_chain: string) => {
+        if (!_chain) {
+            return
+        }
+        dispatch({
+            type: Type.SET_CHAIN,
+            payload: {
+                chain: web3.utils.hexToNumberString(_chain)
+            }
+        });
+    };
     //连接钱包
     const connectMetamask = async () => {
         if (!window?.ethereum) {
             message.error('reject');
             return
         };
-        const ethereum = window.ethereum;
-        const metamaskProvider = ethereum?.providers?.find((p: any) => p.isMetaMask);
-        if (metamaskProvider && typeof ethereum.selectedProvider !== 'undefined') {
-            ethereum.selectedProvider = metamaskProvider;
-            ethereum.setSelectedProvider(metamaskProvider)
-        };
-        dispatch({
-            type: Type.SET_WEB3,
-            payload: {
-                web3: new Web3(ethereum as any)
-            }
-        });
         try {
-            const result: any = await ethereum.request({ method: 'eth_requestAccounts' });
+            const result: any = await sdk?.connect();
             dispatch({
-                type: Type.SET_ADDRESS,
+                type: Type.SET_WALLET,
                 payload: {
-                    address: result[0]
-                }
-            });
-            const account = await ProfileService({
-                user_address: result[0]
-            });
-            dispatch({
-                type: Type.SET_ACCOUNT,
-                payload: {
-                    account: account.data
-                }
-            });
-            const setAvatar = async () => {
-                const result = await QueryFile({
-                    name: account.data.avatar_minio
-                });
-                dispatch({
-                    type: Type.SET_AVATAR,
-                    payload: {
-                        avatar: result.data
-                    }
-                })
-            };
-            dispatch({
-                type: Type.SET_CONNECT_MODAL,
-                payload: {
-                    connect_modal: false
-                }
-            });
-            dispatch({
-                type: Type.SET_CHAIN,
-                payload: {
-                    chain: web3.utils.hexToNumberString(ethereum?.chainId)
+                    wallet: 'metamask'
                 }
             })
-            account.data.avatar_minio && setAvatar();
+            updateAddress(result?.[0]);
+
         } catch (err: any) {
             message.error(err.message);
             // switch (err.code) {
@@ -87,58 +74,13 @@ export const useMetamask = () => {
             // }
         }
     }
+    useEffect(() => {
+        if (state.wallet === 'metamask') {
+            updateNetwork(chainId ? chainId : '');
+            updateAddress(account ? account : '');
+        }
+    }, [account, chainId])
     return {
         connectMetamask
     }
 };
-
-export const useListen = () => {
-    const { dispatch } = useContext(PNft);
-    const listen = () => {
-        const ethereum = window?.ethereum;
-        setTimeout(() => {
-            if (!ethereum) {
-                return
-            };
-            ethereum.on('accountsChanged', async (accounts: string[]) => {
-                if (accounts.length > 0) {
-                    const account = await ProfileService({
-                        user_address: accounts[0]
-                    });
-                    dispatch({
-                        type: Type.SET_ACCOUNT,
-                        payload: {
-                            account: account.data
-                        }
-                    });
-                }
-                dispatch({
-                    type: Type.SET_ADDRESS,
-                    payload: {
-                        address: accounts.length > 0 ? accounts[0] : null
-                    }
-                });
-                dispatch({
-                    type: Type.SET_CHAIN,
-                    payload: {
-                        chain: web3.utils.hexToNumberString(ethereum?.chainId)
-                    }
-                })
-                if (accounts.length === 0) {
-                    window.location.reload();
-                }
-            });
-            ethereum.on('chainChanged', (res: any) => {
-                dispatch({
-                    type: Type.SET_CHAIN,
-                    payload: {
-                        chain: String(Number(res))
-                    }
-                });
-            });
-        }, 200)
-    }
-    return {
-        listen: listen
-    }
-}

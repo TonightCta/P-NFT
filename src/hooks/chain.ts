@@ -3,16 +3,24 @@ import { PNft } from "../App";
 import { Network, SupportNetwork } from "../utils";
 import { Type, web3 } from "../utils/types";
 import { message } from "antd";
-
+import { useSDK } from "@metamask/sdk-react";
+import { ethereum } from "../utils/types";
+import { DEFAULT_CHAIN_ID, DEFAULT_ETH_JSONRPC_URL, coinbaseWallet } from '../utils/connect/coinbase'
 // Switch public chain
 export const useSwitchChain = () => {
     const { state, dispatch } = useContext(PNft);
+    const { provider } = useSDK();
+    const ethereumCoinbase = coinbaseWallet.makeWeb3Provider(
+        DEFAULT_ETH_JSONRPC_URL,
+        DEFAULT_CHAIN_ID
+    );
     const switchInner = async (chain_id: number): Promise<void> => {
         const withChainID: any = SupportNetwork.filter((item: Network) => {
             return item.chain_id === chain_id
         });
+        const ethereumV2 = state.wallet === 'coinbase' && ethereumCoinbase || state.wallet === 'metamask' &&  provider || ethereum;
         try {
-            const result = await state.ethereum.request({
+            const result = await ethereumV2.request({
                 method: "wallet_switchEthereumChain",
                 params: [{ chainId: web3.utils.toHex(chain_id) }],
             });
@@ -39,11 +47,11 @@ export const useSwitchChain = () => {
                     }
                 ];
                 try {
-                    await state.ethereum.request({
+                    await ethereumV2.request({
                         method: "wallet_addEthereumChain",
                         params: params,
                     });
-                    await state.ethereum.request({
+                    await ethereumV2.request({
                         method: "wallet_switchEthereumChain",
                         params: [{ chainId: web3.utils.toHex(chain_id) }],
                     });

@@ -4,19 +4,27 @@ import './polyfills'
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 import { ConfigProvider } from 'antd';
-
+import { MetaMaskProvider } from '@metamask/sdk-react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <ConfigProvider theme={{
-    token: {
-      colorPrimary: '#E10185',
-    },
+  <MetaMaskProvider debug={false} sdkOptions={{
+    dappMetadata: {
+      name: "Pizzap",
+      url: window.location.href,
+    }
+    // Other options
   }}>
-    <App />
-  </ConfigProvider>
+    <ConfigProvider theme={{
+      token: {
+        colorPrimary: '#E10185',
+      },
+    }}>
+      <App />
+    </ConfigProvider>
+  </MetaMaskProvider>
 );
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

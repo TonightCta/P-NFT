@@ -126,6 +126,13 @@
       .connected-box {
         box-shadow: none;
         padding: 0;
+        display: flex;
+        align-items: center;
+        p{
+          color: #202025;
+          font-size: 16px;
+          font-family: SparkSemiBold;
+        }
         img {
           height: 20px;
           width: auto;
@@ -135,6 +142,13 @@
         span {
           font-size: 24px;
         }
+      }
+    }
+    .connect-without-icon{
+      width: 120px;
+      padding-left: 22px;
+      p{
+        cursor: pointer;
       }
     }
   }
@@ -270,22 +284,73 @@
   .wel-title {
     margin-top: 24px;
   }
-  ul {
-    width: 80%;
+  .select-wallet-tabs {
+    width: 100%;
+    background-color: #f8f8fa;
+    border-radius: 8px;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      padding: 16px;
+      li {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        img {
+          width: 22px;
+          margin-right: 8px;
+        }
+        p {
+          font-family: SparkTextNew;
+          font-size: 14px;
+          transition: 0.3s all;
+        }
+        .line {
+          width: 0;
+          height: 2px;
+          background-color: #df0885;
+          position: absolute;
+          left: 30%;
+          border-radius: 2px;
+          bottom: -16px;
+          transition: 0.3s all;
+        }
+      }
+      li:last-child {
+        img {
+          margin-right: 4px;
+        }
+      }
+      .active-tab {
+        p {
+          color: #df0885;
+        }
+        .line {
+          width: 100px;
+        }
+      }
+    }
+  }
+  .wallets-list {
+    width: 95%;
     margin: 0 auto;
     padding-bottom: 24px;
     li {
       display: flex;
       align-items: center;
       padding: 12px 24px;
-      background-color: #f8f8fa;
       border-radius: 8px;
       margin-top: 24px;
       cursor: pointer;
       transition: 0.2s all;
+      border: 1px solid #eee;
       img {
         width: 30px;
-        height: 30px;
       }
       p {
         font-family: SparkTextNew;
@@ -296,6 +361,7 @@
     }
     li:hover {
       background-color: #eee;
+      border-color: #e0dddd;
     }
   }
 }

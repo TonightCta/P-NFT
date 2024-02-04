@@ -27,7 +27,8 @@ export const defaultState: State = {
     gallery_three: sessionStorage.getItem('gallery_three') || '',
     campage_list: sessionStorage.getItem('campage_list') || '',
     connect_modal: false,
-    is_connect: Number(sessionStorage.getItem('is_connect') as string) || 0 
+    is_connect: Number(sessionStorage.getItem('is_connect') as string) || 0,
+    wallet:sessionStorage.getItem('wallet') || ''
 };
 
 export const defaultContext: Context = {
@@ -113,6 +114,9 @@ export const initState = (state: State, action: IAction) => {
         case Type.SET_IS_CONNECT:
             sessionStorage.setItem('is_connect', String(payload.is_connect));
             return { ...state, is_connect: payload.is_connect }
+        case Type.SET_WALLET:
+            sessionStorage.setItem('wallet',payload.wallet as string);
+            return { ...state,wallet:payload.wallet }
         default:
             return state;
     }

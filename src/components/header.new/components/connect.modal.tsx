@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "antd";
 import { useMetamask } from "../../../utils/connect/metamask";
 import { useCoinbase } from "../../../utils/connect/coinbase";
 // import { useLedger } from "../../../utils/connect/ledger";
-import { useWeb3Modal, useWeb3ModalProvider } from '@web3modal/ethers5/react'
-import { PNft } from "../../../App";
-import { Type } from "../../../utils/types";
-import Web3 from "web3";
+import { useWeb3Modal } from '@web3modal/ethers5/react'
+import { useUnisat } from "../../../utils/connect/unisat";
+import { useOKX } from "../../../utils/connect/okx";
 
 interface Wallet {
     id: number,
@@ -19,7 +18,20 @@ interface Props {
     close: (val: boolean) => void
 }
 
-const WalletList: Wallet[] = [
+const BTCWalletList: Wallet[] = [
+    {
+        id: 4,
+        name: 'Unisat',
+        logo: require('../../../assets/images/unisat.logo.png')
+    },
+    {
+        id: 5,
+        name: 'OKX',
+        logo: require('../../../assets/images/okx.logo.png')
+    }
+]
+
+const EVMWalletList: Wallet[] = [
     {
         id: 1,
         name: 'MetaMask',
@@ -44,32 +56,21 @@ const WalletList: Wallet[] = [
 
 const ConnectModal = (props: Props) => {
     const [visible, setVisible] = useState<boolean>(false);
-    const { dispatch } = useContext(PNft);
     const { connectMetamask } = useMetamask();
     const { connectCoinbase } = useCoinbase();
+    const { connectUnisat } = useUnisat()
+    const { connectOKX } = useOKX();
     const { open } = useWeb3Modal();
+    const [active, setActive] = useState<number>(1);
     // const { connectLedger } = useLedger();
-    const { walletProvider } = useWeb3ModalProvider();
     const close = () => {
         props.close(false);
+        setActive(1);
         setVisible(false);
     };
-
-    useEffect(() => {
-        if (!walletProvider || !window.ethereum.selectedProvider) {
-            return
-        };
-        window?.ethereum.setSelectedProvider(walletProvider);
-        dispatch({
-            type: Type.SET_WEB3,
-            payload: {
-                web3: new Web3(walletProvider as any)
-            }
-        });
-    }, [walletProvider])
     useEffect(() => {
         setVisible(props.visible);
-    }, [props.visible])
+    }, [props.visible]);
     const connect = (_id: number) => {
         close();
         switch (_id) {
@@ -82,31 +83,53 @@ const ConnectModal = (props: Props) => {
             case 3:
                 open();
                 break;
-            // case 4:
-            //     connectLedger();
-            //     break;
+            case 4:
+                connectUnisat();
+                break;
+            case 5:
+                connectOKX();
+                break;
             default:
                 connectMetamask();
         }
     }
     return (
-        <Modal open={visible} title="Welcome to Pizzap" footer={null} onCancel={close}>
+        <Modal open={visible} title={<p style={{fontSize:'24px'}}>Welcome to Pizzap</p>} footer={null} onCancel={close}>
             <div className="connect-wallet-box">
                 <p className="wel-title">Please select sign-in method</p>
-                <ul>
-                    {
-                        WalletList.map((item: Wallet, index: number) => {
-                            return (
-                                <li key={index} onClick={() => {
-                                    connect(item.id)
-                                }}>
-                                    <img src={item.logo} alt="" />
-                                    <p>{item.name}</p>
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
+                <div className="select-wallet-tabs">
+                    <ul className="tabs">
+                        <li className={`${active === 1 ? 'active-tab' : ''}`} onClick={() => {
+                            setActive(1)
+                        }}>
+                            <img src={require('../../../assets/images/bitcoin.logo.png')} alt="" />
+                            <p>Bitcoin</p>
+                            <p className="line"></p>
+                        </li>
+                        <li className={`${active === 2 ? 'active-tab' : ''}`} onClick={() => {
+                            setActive(2)
+                        }}>
+                            <img src={require('../../../assets/images/eth.tablogo.png')} alt="" />
+                            <p>Ethereum</p>
+                            <p className="line"></p>
+                        </li>
+                    </ul>
+                    <ul className="wallets-list">
+                        {
+                            (active === 1 ? BTCWalletList : EVMWalletList).map((item: Wallet, index: number) => {
+                                return (
+                                    <li key={index} onClick={() => {
+                                        connect(item.id)
+                                    }}>
+                                        <img src={item.logo} alt="" />
+                                        <p>{item.name}</p>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                </div>
+
             </div>
         </Modal>
     )

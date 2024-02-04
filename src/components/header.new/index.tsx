@@ -12,7 +12,8 @@ import MobileMenuDraw from "./components/mobile.menu";
 import { useSwitchChain } from "../../hooks/chain";
 import ConnectModal from "./components/connect.modal";
 import { ProfileService } from "../../request/api";
-import { useWeb3Modal,useWeb3ModalAccount } from "@web3modal/ethers5/react";
+import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
+import { useUnisat } from "../../utils/connect/unisat";
 
 export interface Menu {
     name: string,
@@ -41,8 +42,8 @@ export const MenuList: Menu[] = [
         url: '/airdrop',
     },
     {
-        name:'FAQ',
-        url:'https://forms.gle/LDzXJgQhQ3Ety4kT8'
+        name: 'FAQ',
+        url: 'https://forms.gle/LDzXJgQhQ3Ety4kT8'
     }
 ]
 
@@ -57,6 +58,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
     const [chainPop, setChainPop] = useState<boolean>(false);
     const [visible, setVisible] = useState<boolean>(false);
     const { address, chainId } = useWeb3ModalAccount();
+    const { switchNetworkUnisat } = useUnisat();
     const hide = () => {
         setOpen(false);
     };
@@ -85,6 +87,41 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
         });
     }
     useEffect(() => {
+        // if (!address && state.is_connect === 1) {
+        //     dispatch({
+        //         type: Type.SET_ADDRESS,
+        //         payload: {
+        //             address: ''
+        //         }
+        //     })
+        //     dispatch({
+        //         type: Type.SET_IS_CONNECT,
+        //         payload: {
+        //             is_connect: 0
+        //         }
+        //     });
+        //     dispatch({
+        //         type: Type.SET_WALLET,
+        //         payload: {
+        //             wallet: ''
+        //         }
+        //     })
+        // };
+        if (address) {
+            dispatch({
+                type: Type.SET_IS_CONNECT,
+                payload: {
+                    is_connect: 1
+                }
+            })
+            dispatch({
+                type: Type.SET_WALLET,
+                payload: {
+                    wallet: 'walletconnect'
+                }
+            })
+            userInfo(address as string)
+        }
         if (!address && state.is_connect === 1) {
             dispatch({
                 type: Type.SET_ADDRESS,
@@ -98,15 +135,12 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     is_connect: 0
                 }
             });
-        };
-        if (address && state.is_connect === 1) {
             dispatch({
-                type: Type.SET_IS_CONNECT,
+                type: Type.SET_WALLET,
                 payload: {
-                    is_connect: 1
+                    wallet: ''
                 }
             })
-            userInfo(address as string)
         }
     }, [address]);
     useEffect(() => {
@@ -164,7 +198,13 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                             payload: {
                                 address: ''
                             }
-                        })
+                        });
+                        dispatch({
+                            type: Type.SET_WALLET,
+                            payload: {
+                                wallet: ''
+                            }
+                        });
                         navigate('/');
                     };
                     // disconnect();
@@ -193,6 +233,25 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
             </ul>
         </div>
     )
+    const chainBTC = (
+        <div className="connect-menu connect-menu-chain" onClick={() => {
+            setChainPop(false)
+        }}>
+            <ul>
+                {
+                    ['livenet', 'testnet'].map((item: string, index: number) => {
+                        return (
+                            <li key={index} onClick={() => {
+                                switchNetworkUnisat(item)
+                            }}>
+                                {item}
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+        </div>
+    )
     return (
         <div className="header-wapper-new">
             <img src={require('../../assets/new/logo.png')} alt="" className="left-logo" onClick={() => {
@@ -204,7 +263,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                         MenuList.map((item: Menu, index: number) => {
                             return (
                                 <li className={`${index === active ? 'active-menu' : ''}`} key={index} onClick={() => {
-                                    if(item.name === 'FAQ'){
+                                    if (item.name === 'FAQ') {
                                         window.open(item.url);
                                         return
                                     }
@@ -219,19 +278,35 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                         })
                     }
                 </ul>
-                <Popover open={chainPop} onOpenChange={(e: boolean) => {
+                {(state.wallet && state.wallet !== 'btc') && <Popover open={chainPop} onOpenChange={(e: boolean) => {
                     if (flag) {
                         return
                     }
                     setChainPop(e)
                 }} content={chainContent} title={null} trigger="click">
-                    <div className="connect-box select-chain">
+                    <div className="connect-box select-chain" style={{ paddingLeft: '24px' }}>
                         <div className="connected-box">
                             <img src={FilterAddress(state.chain as string)?.chain_logo} alt="" />
                             <IconFont type="icon-xiangxia" />
                         </div>
                     </div>
-                </Popover>
+                </Popover>}
+                {/* BTC Select Network */}
+                {
+                    (state.wallet && state.wallet === 'btc') && <Popover open={chainPop} onOpenChange={(e: boolean) => {
+                        if (flag) {
+                            return
+                        }
+                        setChainPop(e)
+                    }} content={chainBTC} title={null} trigger="click">
+                        <div className="connect-box select-chain connect-without-icon">
+                            <div className="connected-box">
+                                <p>{state.chain}</p>
+                                <IconFont type="icon-xiangxia" />
+                            </div>
+                        </div>
+                    </Popover>
+                }
                 <div className={`connect-box ${state.address ? 'connected-box' : ''}`}>
                     {!state.address
                         ? <Button type="default" onClick={() => {

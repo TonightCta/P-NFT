@@ -1,4 +1,4 @@
-import { web3, web3P } from "./types"
+import { web3P } from "./types"
 import ABI721 from './abi/721.json'
 import ABIMarket from './abi/market.json'
 import ABIERC20 from './abi/erc20.json'
@@ -13,8 +13,12 @@ import { FilterAddress, FilterAddressToName, calsMarks } from "."
 import { useSwitchChain } from "../hooks/chain"
 import { PNft } from "../App"
 import OPABI from './abi/op.json'
+import { DEFAULT_CHAIN_ID, DEFAULT_ETH_JSONRPC_URL, coinbaseWallet } from '../utils/connect/coinbase'
+import { useSDK } from '@metamask/sdk-react';
+import Web3 from "web3"
+import { useWeb3ModalProvider } from "@web3modal/ethers5/react"
+import { ethereum } from '../utils/types'
 // import { parseEther, parseGwei } from 'viem'
-// import Web3 from "web3"
 
 
 interface Send {
@@ -39,39 +43,49 @@ export const useContract = () => {
     const [SBTContract, setSBTContract] = useState<any>();
     const [BBCContract, setBBCContract] = useState<any>();
     const { switchC } = useSwitchChain();
+    const [web3V2, setWbe3V2] = useState<any>();
+    const { provider } = useSDK();
     const { state } = useContext(PNft);
+    const { walletProvider } = useWeb3ModalProvider();
     const [send, setSend] = useState<Send>({
         from: state.address || '',
         gas: state.chain === '10' ? '' : '0x2dc6c0',
         gasLimit: state.chain === '10' ? '' : '0x2dc6c0',
     });
-    const cals = async () => {
-        const pi = state.ethereum ? await state.web3.eth.getGasPrice() : '0';
-        setGasPrice(pi);
-    };
+    // const cals = async () => {
+    //     const pi = state.ethereum ? await web3V2.eth.getGasPrice() : '0';
+    //     setGasPrice(pi);
+    // };
     const init = useCallback(async () => {
-        await cals();
+        const ethereumCoinbase = coinbaseWallet.makeWeb3Provider(
+            DEFAULT_ETH_JSONRPC_URL,
+            DEFAULT_CHAIN_ID
+        );
+        const filterProvider = new Web3(state.wallet === 'metamask' && provider || state.wallet === 'coinbase' && ethereumCoinbase || state.wallet === 'walletconnect' && walletProvider || ethereum);
+        const pi = filterProvider ? await filterProvider.eth.getGasPrice() : '0';
+        setGasPrice(pi);
+        setWbe3V2(new Web3(state.wallet === 'metamask' && provider || state.wallet === 'coinbase' && ethereumCoinbase || state.wallet === 'walletconnect' && walletProvider || ethereum));
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? FilterAddress(state.chain as string).contract_market : FilterAddress(state.chain as string).contract_market_test;
-        setNFTContract(new web3.eth.Contract(ABI721 as any, NFTAddress, {
+        setNFTContract(new filterProvider.eth.Contract(ABI721 as any, NFTAddress, {
             gasPrice: gasPrice
         }));
-        setBBCContract(new web3.eth.Contract(BBCABI as any, '0x8e25e5c37983f915adcf212c00b2fe12d998699c', {
+        setBBCContract(new filterProvider.eth.Contract(BBCABI as any, '0x8e25e5c37983f915adcf212c00b2fe12d998699c', {
             gasPrice: gasPrice
         }));
-        setERC20Contract(new web3.eth.Contract(ABIERC20 as any, FilterAddress(state.chain as string).contract_erc20, {
+        setERC20Contract(new filterProvider.eth.Contract(ABIERC20 as any, FilterAddress(state.chain as string).contract_erc20, {
             gasPrice: gasPrice
         }));
-        setMARKETContract(new web3.eth.Contract(ABIMarket as any, MarketAddress, {
+        setMARKETContract(new filterProvider.eth.Contract(ABIMarket as any, MarketAddress, {
             gasPrice: gasPrice
         }));
-        setSBTContract(new web3.eth.Contract(ABISBT as any, Address.PlianContractSBTTest, {
+        setSBTContract(new filterProvider.eth.Contract(ABISBT as any, Address.PlianContractSBTTest, {
             gasPrice: gasPrice
         }));
     }, [state.chain]);
     useEffect(() => {
         init();
-    }, [state.chain, state.web3])
+    }, [state.chain,state.wallet])
     useEffect(() => {
         setSend({
             ...send,
@@ -84,7 +98,7 @@ export const useContract = () => {
             message.error('You need to install Metamask to use this feature');
             return
         };
-        const Fee: string = web3.utils.toWei(FilterAddressToName(state.chain as string).fee, 'ether');
+        const Fee: string = web3V2.utils.toWei(FilterAddressToName(state.chain as string).fee, 'ether');
         const Gas: string = FilterAddressToName(state.chain as string).gas;
         return new Promise((resolve, reject) => {
             NFTContract.methods.mint(state.address, _data_ipfs).send({
@@ -128,7 +142,7 @@ export const useContract = () => {
     };
     //ERC20授权
     const approveToken = async (_token_address: string) => {
-        const contract = new state.web3.eth.Contract(ABIERC20 as any, _token_address, {
+        const contract = new web3V2.eth.Contract(ABIERC20 as any, _token_address, {
             gasPrice: gasPrice
         });
         return new Promise((resolve, reject) => {
@@ -209,7 +223,7 @@ export const useContract = () => {
                 calsMarks(NFTAddress),
                 _token_id,
                 calsMarks(_address),
-                state.web3.utils.toWei(String(_price), 'ether'))
+                web3V2.utils.toWei(String(_price), 'ether'))
                 .send({
                     from: send.from,
                     gas: Gas
@@ -267,7 +281,7 @@ export const useContract = () => {
             message.error('You need to install Metamask to use this feature');
             return
         }
-        const SBTContractInner = new state.web3.eth.Contract(ABISBT as any, Address.PlianContractSBTTest, {
+        const SBTContractInner = new web3V2.eth.Contract(ABISBT as any, Address.PlianContractSBTTest, {
             gasPrice: gasPrice
         })
         const total = await SBTContractInner.methods.balanceOf(send.from).call();
@@ -280,7 +294,7 @@ export const useContract = () => {
             return 0
         }
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
-        const NFTContractInner = new state.web3.eth.Contract(ABI721 as any, NFTAddress, {
+        const NFTContractInner = new web3V2.eth.Contract(ABI721 as any, NFTAddress, {
             gasPrice: gasPrice
         })
         const total = await NFTContractInner.methods.totalSupply().call();
@@ -293,7 +307,7 @@ export const useContract = () => {
             return 'uninstall'
         };
         const NFdress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
-        const NN = new web3.eth.Contract(ABI721 as any, NFdress, {
+        const NN = new web3V2.eth.Contract(ABI721 as any, NFdress, {
             gasPrice: gasPrice
         })
         const approve = await NN.methods.getApproved(_token_id).call();
@@ -308,11 +322,11 @@ export const useContract = () => {
         return result
     };
     const getBalance = async () => {
-        const result = await state.web3.eth.getBalance(send.from);
+        const result = await web3V2.eth.getBalance(send.from);
         return result;
     }
     const balanceErc20 = async (_token_address: string): Promise<string> => {
-        const contract = new state.web3.eth.Contract(NormalABIERC20 as any, _token_address);
+        const contract = new web3V2.eth.Contract(NormalABIERC20 as any, _token_address);
         const balance = await contract.methods.balanceOf(send.from).call();
         return balance;
     }
@@ -330,7 +344,7 @@ export const useContract = () => {
         const Gas: string = FilterAddressToName(state.chain as string).gas;
         return new Promise((resolve, reject) => {
             BBCContract.methods.buy(_hash, _nonce, +_amount).send({
-                value: state.web3.utils.toWei(String(+_amount * 0.05)),
+                value: web3V2.utils.toWei(String(+_amount * 0.05)),
                 from: send.from,
                 gas: Gas
             }).on('receipt', (res: string) => {
@@ -358,16 +372,16 @@ export const useContract = () => {
                     ItemType: 0,
                     Token: "0x0000000000000000000000000000000000000000",
                     IdentifierOrCriteria: "0",
-                    StartAmount: String(web3.utils.toWei(String((_amount * 0.975).toFixed(4)), 'ether')),
-                    EndAmount: String(web3.utils.toWei(String((_amount * 0.975).toFixed(4)), 'ether')),
+                    StartAmount: String(web3V2.utils.toWei(String((_amount * 0.975).toFixed(4)), 'ether')),
+                    EndAmount: String(web3V2.utils.toWei(String((_amount * 0.975).toFixed(4)), 'ether')),
                     Recipient: state.address
                 },
                 {
                     ItemType: 0,
                     Token: "0x0000000000000000000000000000000000000000",
                     IdentifierOrCriteria: "0",
-                    StartAmount: String(web3.utils.toWei(String((_amount * 0.025).toFixed(4)), 'ether')),
-                    EndAmount: String(web3.utils.toWei(String((_amount * 0.025).toFixed(4)), 'ether')),
+                    StartAmount: String(web3V2.utils.toWei(String((_amount * 0.025).toFixed(4)), 'ether')),
+                    EndAmount: String(web3V2.utils.toWei(String((_amount * 0.025).toFixed(4)), 'ether')),
                     Recipient: "0x0000a26b00c1f0df003000390027140000faa719"
                 },
             ],
@@ -378,7 +392,7 @@ export const useContract = () => {
             ZoneHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
             Salt: "24446860302761739304752683030156737591518664810215442929802418156332078926289",
             ConduitKey: "0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000",
-            TotalOriginalConsiderationItems:'1',
+            TotalOriginalConsiderationItems: '1',
             Counter: "0",
         };
         const domain = {
@@ -403,7 +417,7 @@ export const useContract = () => {
                 { name: "ZoneHash", type: "string" },
                 { name: "Salt", type: "string" },
                 { name: "ConduitKey", type: "string" },
-                { name:'TotalOriginalConsiderationItems',type:'string' },
+                { name: 'TotalOriginalConsiderationItems', type: 'string' },
                 { name: "Counter", type: "string" },
             ],
             Offer: [
@@ -447,7 +461,7 @@ export const useContract = () => {
     };
     const OPBuy = (_amount: string, _key: string) => {
         const Gas: string = FilterAddressToName(state.chain as string).gas;
-        const OPContract = new state.web3.Contract(OPABI as any, '0x00000000000000ADc04C56Bf30aC9d3c0aAF14dC', {
+        const OPContract = new web3V2.Contract(OPABI as any, '0x00000000000000ADc04C56Bf30aC9d3c0aAF14dC', {
             gasPrice: gasPrice
         });
         return new Promise((resolve, reject) => {
