@@ -58,6 +58,14 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             chain: String(e)
         })
     }
+    const isDisable = (_chain:string) => {
+        const chian = _chain === '8007736' || _chain === '314' || _chain === '10' || _chain === '210425';
+        if(state.wallet && state.wallet !== 'btc' && chian){
+            return false
+        }else{
+            return true
+        }
+    }
     const getLabels = async () => {
         const result = await LabelList({
             page_size: 100
@@ -217,7 +225,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                                 value: item.chain_id,
                                 label: item.chain_name,
                                 logo: item.chain_logo,
-                                disabled: item.chain_id !== '8007736' && item.chain_id !== '314' && item.chain_id !== '10' && item.chain_id !== '210425'
+                                disabled:isDisable(item.chain_id)
                             }
                         }).map((item: { value: string, label: string, logo: string, disabled: boolean }, index: number) => {
                             return (
@@ -233,7 +241,10 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
 
                 </Select>
             </div>
-            <div className="next-btn" onClick={() => {
+            <div className={`next-btn ${(!state.wallet || state.wallet === 'btc') ? 'disable-btn' : ''}`} onClick={() => {
+                if(!state.wallet || state.wallet === 'btc'){
+                    return
+                }
                 setActive(1);
             }}>
                 <IconFont type="icon-jiantou" />

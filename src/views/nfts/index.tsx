@@ -13,6 +13,7 @@ import { DownOutlined } from "@ant-design/icons";
 import FixedModal from "../detail/components/fixed.price";
 import { useContract } from "../../utils/contract";
 import { useSwitchChain } from "../../hooks/chain";
+import { FilterAddress } from "../../utils";
 // import FooterNew from "../screen.new/components/footer.new";
 
 interface OP {
@@ -60,6 +61,11 @@ const options: OP[] = [
         value: '210425',
         icon: require('../../assets/images/plat.logo.png'),
     },
+    {
+        label: 'Bitcoin',
+        value: '',
+        icon: require('../../assets/images/bitcoin.logo.png')
+    }
 ]
 
 const OwnerNFTSView = (): ReactElement<ReactNode> => {
@@ -203,9 +209,10 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                     options.map((item: OP, index: number) => {
                         return (
                             <li key={index} onClick={() => {
+                                if (item.label === 'Bitcoin') { return }
                                 setChainInfo(item);
                                 hide()
-                            }}>
+                            }} className={`${item.label === 'Bitcoin' ? 'disable-chain' : ''}`}>
                                 {item.icon && <img src={item.icon} alt="" />}
                                 <p>{item.label}</p>
                             </li>
@@ -247,6 +254,12 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                         })
                                     }
                                 </ul>
+                                <div className="balance-box">
+                                    <p>Balance:<img src={state.wallet === 'btc' ? require('../../assets/images/bitcoin.logo.png') : FilterAddress(state.chain as string).chain_logo} alt=""/>
+                                        <span>{state.balance}</span>
+                                    </p>
+                                    <p>Price&nbsp;($&nbsp;64,567.52)</p>
+                                </div>
                             </div>
                             {/* <div className="search-box">
                                 <input type="text" placeholder="Search" />

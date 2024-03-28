@@ -47,7 +47,7 @@ export const useMetamask = () => {
             }
         });
     };
-    //连接钱包
+    //Connect Wallet
     const connectMetamask = async () => {
         if (!window?.ethereum) {
             message.error('reject');
@@ -62,7 +62,13 @@ export const useMetamask = () => {
                 }
             })
             updateAddress(result?.[0]);
-
+            const balance = await web3.eth.getBalance(result?.[0]);
+            dispatch({
+                type: Type.SET_BALANCE,
+                payload: {
+                    balance: String((+balance / 1e18).toFixed(4))
+                }
+            })
         } catch (err: any) {
             message.error(err.message);
             // switch (err.code) {
@@ -78,6 +84,16 @@ export const useMetamask = () => {
         if (state.wallet === 'metamask') {
             updateNetwork(chainId ? chainId : '');
             updateAddress(account ? account : '');
+            const next = async () => {
+                const balance = await web3.eth.getBalance(account as string);
+                dispatch({
+                    type: Type.SET_BALANCE,
+                    payload: {
+                        balance: String((+balance / 1e18).toFixed(4))
+                    }
+                })
+            };
+            account && next();
         }
     }, [account, chainId])
     return {

@@ -12,8 +12,9 @@ import MobileMenuDraw from "./components/mobile.menu";
 import { useSwitchChain } from "../../hooks/chain";
 import ConnectModal from "./components/connect.modal";
 import { ProfileService } from "../../request/api";
-import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
+import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import { useUnisat } from "../../utils/connect/unisat";
+import Web3 from "web3";
 
 export interface Menu {
     name: string,
@@ -59,6 +60,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
     const [visible, setVisible] = useState<boolean>(false);
     const { address, chainId } = useWeb3ModalAccount();
     const { switchNetworkUnisat } = useUnisat();
+    const { walletProvider } = useWeb3ModalProvider();
     const hide = () => {
         setOpen(false);
     };
@@ -85,6 +87,16 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                 account: account.data
             }
         });
+    };
+    const queryBalance = async (_address: string) => {
+        const web3W = new Web3(walletProvider as any);
+        const balance = await web3W.eth.getBalance(_address);
+        dispatch({
+            type: Type.SET_BALANCE,
+            payload: {
+                balance: String((+balance / 1e18).toFixed(4))
+            }
+        })
     }
     useEffect(() => {
         // if (!address && state.is_connect === 1) {
@@ -120,7 +132,8 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     wallet: 'walletconnect'
                 }
             })
-            userInfo(address as string)
+            userInfo(address as string);
+            queryBalance(address);
         }
         if (!address && state.is_connect === 1) {
             dispatch({
@@ -166,12 +179,14 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
     }, [location.pathname]);
     useEffect(() => {
         if (!chainId) return
+        if(!address) return
         dispatch({
             type: Type.SET_CHAIN,
             payload: {
                 chain: String(chainId)
             }
         });
+        queryBalance(address);
     }, [chainId])
     const [active, setActive] = useState<number>(99);
     const { open } = useWeb3Modal();
@@ -187,10 +202,15 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     // })
                     // navigate('/owner');
                     navigate(`/user/${state.address}`)
-                }}>My NFTs</li>
+                }}>
+                    <img src={require('../../assets/images/user.icon.png')} alt="" />
+                    My NFTs
+                </li>
                 <li onClick={() => {
                     navigate('/profile')
-                }}>Setting</li>
+                }}>
+                    <img src={require('../../assets/images/setting.icon.png')} alt="" />
+                    Setting</li>
                 <li onClick={() => {
                     const disconnect = () => {
                         dispatch({
@@ -209,7 +229,9 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     };
                     // disconnect();
                     state.is_connect === 1 ? open({ view: 'Account' }) : disconnect();
-                }}>Disconnect</li>
+                }}>
+                    <img src={require('../../assets/images/disconnect.icon.png')} alt="" />
+                    Disconnect</li>
             </ul>
         </div>
     )
@@ -293,19 +315,12 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                 </Popover>}
                 {/* BTC Select Network */}
                 {
-                    (state.wallet && state.wallet === 'btc') && <Popover open={chainPop} onOpenChange={(e: boolean) => {
-                        if (flag) {
-                            return
-                        }
-                        setChainPop(e)
-                    }} content={chainBTC} title={null} trigger="click">
-                        <div className="connect-box select-chain connect-without-icon">
-                            <div className="connected-box">
-                                <p>{state.chain}</p>
-                                <IconFont type="icon-xiangxia" />
-                            </div>
+                    (state.wallet && state.wallet === 'btc') && <div className="connect-box select-chain connect-without-icon">
+                        <div className="connected-box">
+                            <img src={require('../../assets/images/bitcoin.logo.png')} alt="" />
+                            <p>Bitcoin</p>
                         </div>
-                    </Popover>
+                    </div>
                 }
                 <div className={`connect-box ${state.address ? 'connected-box' : ''}`}>
                     {!state.address

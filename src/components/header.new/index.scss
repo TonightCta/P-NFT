@@ -146,9 +146,9 @@
     }
     .connect-without-icon{
       width: 120px;
-      padding-left: 22px;
+      padding:0 22px;
       p{
-        cursor: pointer;
+        transform: translateY(1px);
       }
     }
   }

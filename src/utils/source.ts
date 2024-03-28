@@ -568,7 +568,7 @@ export const NetworkConfigName: ConfigName[] = [
                 address: SystemAddress
             },
         ],
-        gas: '20000000',
+        gas: '8000000',
     },
     {
         chain_id: '10',

@@ -35,7 +35,8 @@ export interface State {
     campage_list?: string,
     connect_modal?:boolean,
     is_connect?:number,
-    wallet?:string
+    wallet?:string,
+    balance?:string
 }
 
 export interface IResponse {
@@ -72,7 +73,8 @@ export enum Type {
     SET_CAMPAGE_LIST = 'set_campage_list',
     SET_CONNECT_MODAL = 'set_connect_modal',
     SET_IS_CONNECT = 'set_is_connect',
-    SET_WALLET = 'set_wallet'
+    SET_WALLET = 'set_wallet',
+    SET_BALANCE = 'set_balance'
 };
 
 export interface IAction {

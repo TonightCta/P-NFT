@@ -144,6 +144,10 @@
             }
           }
         }
+        .disable-btn{
+          filter: grayscale(1);
+          cursor: no-drop;
+        }
         .public-inp-box {
           margin-bottom: 24px;
           .select-custom-option {

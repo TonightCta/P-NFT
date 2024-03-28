@@ -57,6 +57,7 @@ export const useContract = () => {
     //     setGasPrice(pi);
     // };
     const init = useCallback(async () => {
+        if (state.wallet === 'btc') return
         const ethereumCoinbase = coinbaseWallet.makeWeb3Provider(
             DEFAULT_ETH_JSONRPC_URL,
             DEFAULT_CHAIN_ID
@@ -85,14 +86,14 @@ export const useContract = () => {
     }, [state.chain]);
     useEffect(() => {
         init();
-    }, [state.chain,state.wallet])
+    }, [state.chain, state.wallet])
     useEffect(() => {
         setSend({
             ...send,
             from: state.address as string
         })
     }, [state.address])
-    //铸币
+    //Mint
     const mint = async (_data_ipfs: string) => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
@@ -105,7 +106,6 @@ export const useContract = () => {
                 from: send.from,
                 gas: Gas,
                 value: Fee,
-                type: '0x1'
             })
                 .on('receipt', (res: any) => {
                     resolve(res)
@@ -115,7 +115,7 @@ export const useContract = () => {
                 }))
         })
     };
-    //查询Owner NFT
+    //Query Owner NFT
     const queryOwner = async () => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
@@ -124,10 +124,10 @@ export const useContract = () => {
         await switchC(+(state.chain as string));
         const total = await NFTContract.methods.balanceOf(send.from).call();
         const actions = []
-        let getInfo = async (index: number) => {
+        const getInfo = async (index: number) => {
             try {
-                let id = await NFTContract.methods.tokenOfOwnerByIndex(send.from, index).call();
-                let tokenURI = await NFTContract.methods.tokenURI(id).call();
+                const id = await NFTContract.methods.tokenOfOwnerByIndex(send.from, index).call();
+                const tokenURI = await NFTContract.methods.tokenURI(id).call();
                 return { id, tokenURI }
             } catch (error) {
                 console.log('%cerror: ', 'color: pink; background: #aaa;', error)
@@ -137,10 +137,10 @@ export const useContract = () => {
             actions.push(getInfo(index))
         }
 
-        let results = await Promise.all(actions)
+        const results = await Promise.all(actions)
         return results
     };
-    //ERC20授权
+    //ERC20 Approve
     const approveToken = async (_token_address: string) => {
         const contract = new web3V2.eth.Contract(ABIERC20 as any, _token_address, {
             gasPrice: gasPrice
@@ -157,7 +157,7 @@ export const useContract = () => {
             })
         })
     }
-    //购买
+    //Buy
     const buy = async (_order_id: string, _price: string, _paymod: string) => {
         const Gas: string = FilterAddressToName(state.chain as string).gas;
         if (!state.ethereum) {
@@ -189,7 +189,7 @@ export const useContract = () => {
             }
         })
     }
-    //上架 - 授权
+    //List - Approve
     const putApprove = async (_token_id: number): Promise<string> => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
@@ -210,7 +210,7 @@ export const useContract = () => {
                 })
         })
     }
-    //上架 - list
+    //List
     const putList = async (_token_id: number, _price: number, _address: string): Promise<string> => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
@@ -235,7 +235,7 @@ export const useContract = () => {
                 }))
         })
     }
-    //下架
+    //Take Off
     const takeOff = async (_order_id: number) => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
@@ -255,7 +255,7 @@ export const useContract = () => {
                 }))
         })
     }
-    //活动领奖
+    //Claim Rewards
     const claimMint = async () => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');

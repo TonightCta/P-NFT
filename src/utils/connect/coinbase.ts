@@ -39,6 +39,13 @@ export const useCoinbase = () => {
                 address: data[0]
             }
         });
+        const balance = await web3.eth.getBalance(data[0]);
+        dispatch({
+            type: Type.SET_BALANCE,
+            payload: {
+                balance: String((+balance / 1e18).toFixed(4))
+            }
+        })
         dispatch({
             type: Type.SET_CONNECT_MODAL,
             payload: {
@@ -71,6 +78,13 @@ export const useCoinbase = () => {
                         account: account.data
                     }
                 });
+                const balance = await web3.eth.getBalance(accounts[0]);
+                dispatch({
+                    type: Type.SET_BALANCE,
+                    payload: {
+                        balance: String((+balance / 1e18).toFixed(4))
+                    }
+                })
             }
             dispatch({
                 type: Type.SET_ADDRESS,
@@ -78,6 +92,7 @@ export const useCoinbase = () => {
                     address: accounts.length > 0 ? accounts[0] : null
                 }
             });
+
             dispatch({
                 type: Type.SET_CHAIN,
                 payload: {

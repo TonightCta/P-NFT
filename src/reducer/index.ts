@@ -28,7 +28,8 @@ export const defaultState: State = {
     campage_list: sessionStorage.getItem('campage_list') || '',
     connect_modal: false,
     is_connect: Number(sessionStorage.getItem('is_connect') as string) || 0,
-    wallet:sessionStorage.getItem('wallet') || ''
+    wallet:sessionStorage.getItem('wallet') || '',
+    balance:sessionStorage.getItem('balance') || '0'
 };
 
 export const defaultContext: Context = {
@@ -117,6 +118,9 @@ export const initState = (state: State, action: IAction) => {
         case Type.SET_WALLET:
             sessionStorage.setItem('wallet',payload.wallet as string);
             return { ...state,wallet:payload.wallet }
+        case Type.SET_BALANCE:
+            sessionStorage.setItem('balance',payload.balance as string);
+            return { ...state,balance:payload.balance }
         default:
             return state;
     }

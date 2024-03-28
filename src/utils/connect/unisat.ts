@@ -47,6 +47,13 @@ export const useUnisat = () => {
                     wallet: 'btc'
                 }
             });
+            const balance = await win.unisat.getBalance();
+            dispatch({
+                type:Type.SET_BALANCE,
+                payload:{
+                    balance:String(balance.total.toFixed(4))
+                }
+            })
             const network = await win.unisat.getNetwork();
             await updateNetwork(network);
             await updateAddress(result[0]);

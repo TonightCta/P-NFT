@@ -44,10 +44,17 @@ export const useOKX = () => {
             dispatch({
                 type: Type.SET_WALLET,
                 payload: {
-                    wallet: 'okx'
+                    wallet: 'btc'
                 }
             });
             await updateAddress(result.address);
+            const balance = await win.okxwallet.bitcoin.getBalance();
+            dispatch({
+                type:Type.SET_BALANCE,
+                payload:{
+                    balance:String(balance.total.toFixed(4))
+                }
+            })
             const network = await win.okxwallet.bitcoin.getNetwork();
             updateNetwork(network);
             win.okxwallet.bitcoin.on('accountsChanged', (accounts: string[]) => {
