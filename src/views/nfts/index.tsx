@@ -14,6 +14,7 @@ import FixedModal from "../detail/components/fixed.price";
 import { useContract } from "../../utils/contract";
 import { useSwitchChain } from "../../hooks/chain";
 import { FilterAddress } from "../../utils";
+import IconFont from "../../utils/icon";
 // import FooterNew from "../screen.new/components/footer.new";
 
 interface OP {
@@ -221,7 +222,8 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 }
             </ul>
         </div>
-    )
+    );
+    const [filter, setFilter] = useState<boolean>(false);
     return (
         <div className="owner-view">
             {VERSION === 'old' && <MaskCard />}
@@ -255,7 +257,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                     }
                                 </ul>
                                 <div className="balance-box">
-                                    <p>Balance:<img src={state.wallet === 'btc' ? require('../../assets/images/bitcoin.logo.png') : FilterAddress(state.chain as string).chain_logo} alt=""/>
+                                    <p>Balance:<img src={state.wallet === 'btc' ? require('../../assets/images/bitcoin.logo.png') : FilterAddress(state.chain as string).chain_logo} alt="" />
                                         <span>{state.balance}</span>
                                     </p>
                                     <p>Price&nbsp;($&nbsp;64,567.52)</p>
@@ -264,68 +266,91 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             {/* <div className="search-box">
                                 <input type="text" placeholder="Search" />
                             </div> */}
-                        </div>
-                        <div className="other-filter">
-                            <Popover
-                                placement="bottom"
-                                className="select-chain-asset"
-                                open={open}
-                                onOpenChange={handleOpenChange}
-                                trigger={['click']}
-                                title={null}
-                                content={content}>
-                                <div className="ss-i">
-                                    <div>
-                                        {chainInfo.icon && <img src={chainInfo.icon} alt="" />}
-                                        <p>{chainInfo.label}</p>
+                            <div className="other-filter">
+                                <Popover
+                                    placement="bottom"
+                                    className="select-chain-asset"
+                                    open={open}
+                                    onOpenChange={handleOpenChange}
+                                    trigger={['click']}
+                                    title={null}
+                                    content={content}>
+                                    <div className="ss-i">
+                                        <div>
+                                            {chainInfo.icon && <img src={chainInfo.icon} alt="" />}
+                                            <p>{chainInfo.label}</p>
+                                        </div>
+                                        <DownOutlined />
                                     </div>
-                                    <DownOutlined />
-                                </div>
-                            </Popover>
+                                </Popover>
+                            </div>
                         </div>
                         <div className={`conponenst-gater ${loading ? 'gater-6n' : ''}`} id="ownerView">
                             <div className="list-item" >
-                                {loading && <div className="load-data-box">
-                                    <Spin size="large" />
+                                {activeTop === 1 && <div className={`wallet-assets-filter ${filter ? 'close-condition' : ''}`}>
+                                    <div className="control-filter" onClick={() => {
+                                        setFilter(!filter)
+                                    }}>
+                                        <IconFont type="icon-a-lujing219" className={`${!filter ? 'close-filter' : ''}`} />
+                                    </div>
+                                    <div className="condition-list">
+                                        <ul>
+                                            {
+                                                ['All', 'Tokens', 'NFTs', 'Inscriptions'].map((item: string, index: number) => {
+                                                    return (
+                                                        <li key={index} className={`${item === 'NFTs' ? 'active-condition' : 'dis-c'}`}>
+                                                            <p>{item}</p>
+                                                        </li>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
                                 </div>}
-                                {
-                                    (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
-                                        // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
-                                        return (
-                                            <NewNFTCard type={activeTop === 0 ? 1 : 2} key={index} item={item} uploadTakeoff={async () => {
-                                                await switchC(+item.chain_id);
-                                                const hash: any = await takeOff(+item.order_id);
-                                                if (!hash || hash.message) {
-                                                    return
-                                                };
-                                                const maker = await MFTOffService({
-                                                    chain_id: item.chain_id,
-                                                    sender: state.address,
-                                                    tx_hash: hash['transactionHash']
-                                                });
-                                                const { status } = maker;
-                                                if (status !== 200) {
-                                                    message.error(maker.message);
-                                                    return
-                                                };
-                                                message.success('Take off the shelves Successfully!');
-                                                setList([]);
-                                                setPage(1);
-                                                setLoading(true);
-                                                saleListFN();
-                                            }} uploadSaleInfo={() => {
-                                                setSale({
-                                                    collection_name: item.collection_name,
-                                                    token_id: item.token_id,
-                                                    token_name: item.token_name,
-                                                    chain_id: item.chain_id,
-                                                    image_minio_url: item.image_minio_url
-                                                });
-                                                setFixedVisible(true);
-                                            }} />
-                                        )
-                                    })
-                                }
+                                <div className="item-inner-list">
+                                    {loading && <div className="load-data-box">
+                                        <Spin size="large" />
+                                    </div>}
+                                    {
+                                        (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
+                                            // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
+                                            return (
+                                                <NewNFTCard type={activeTop === 0 ? 1 : 2} key={index} item={item} uploadTakeoff={async () => {
+                                                    await switchC(+item.chain_id);
+                                                    const hash: any = await takeOff(+item.order_id);
+                                                    if (!hash || hash.message) {
+                                                        return
+                                                    };
+                                                    const maker = await MFTOffService({
+                                                        chain_id: item.chain_id,
+                                                        sender: state.address,
+                                                        tx_hash: hash['transactionHash']
+                                                    });
+                                                    const { status } = maker;
+                                                    if (status !== 200) {
+                                                        message.error(maker.message);
+                                                        return
+                                                    };
+                                                    message.success('Take off the shelves Successfully!');
+                                                    setList([]);
+                                                    setPage(1);
+                                                    setLoading(true);
+                                                    saleListFN();
+                                                }} uploadSaleInfo={() => {
+                                                    setSale({
+                                                        collection_name: item.collection_name,
+                                                        token_id: item.token_id,
+                                                        token_name: item.token_name,
+                                                        chain_id: item.chain_id,
+                                                        image_minio_url: item.image_minio_url
+                                                    });
+                                                    setFixedVisible(true);
+                                                }} />
+                                            )
+                                        })
+                                    }
+                                </div>
+
                             </div>
                         </div>
                         {

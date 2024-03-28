@@ -2,10 +2,10 @@ import { ReactElement, ReactNode, useContext, useEffect, useState } from "react"
 import './index.scss'
 import FooterNew from "../screen.new/components/footer.new";
 import IconFont from "../../utils/icon";
-import { Button, Select, message } from "antd";
+import { Button, Select, message, Popover } from "antd";
 import DesignBox from "./components/design.box";
 import { CategoryList, LabelList } from "../../request/api";
-import { CloseOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { Config, NetworkConfig } from "../../utils/source";
 import { PNft } from "../../App";
 
@@ -20,10 +20,29 @@ export interface Input {
     name: string,
     desc: string,
     category: number,
+    nft_type: string,
     chain: string,
     labels: number[]
 }
 
+interface TokenMsg {
+    icon: string,
+    name: string
+}
+const TokenList: TokenMsg[] = [
+    {
+        icon: require('../../assets/images/eth.logo.png'),
+        name: 'ETH'
+    },
+    {
+        icon: require('../../assets/images/plian.logo.png'),
+        name: 'Pi'
+    },
+    {
+        icon: require('../../assets/images/fil.logo.png'),
+        name: 'FIL'
+    }
+]
 const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     const [active, setActive] = useState<number>(0);
     const [show, setShow] = useState<boolean>(false);
@@ -32,10 +51,12 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     const [labelsID, setLabelsID] = useState<number[]>([]);
     const [labelsText, setLabelsText] = useState<string[]>([]);
     const { state } = useContext(PNft);
+    const [tokenPop, setTokenPop] = useState<boolean>(false);
     const [input, setInput] = useState<Input>({
         name: '',
         desc: '',
         category: 1,
+        nft_type: '721',
         chain: state.chain as string,
         labels: []
     })
@@ -58,11 +79,11 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             chain: String(e)
         })
     }
-    const isDisable = (_chain:string) => {
+    const isDisable = (_chain: string) => {
         const chian = _chain === '8007736' || _chain === '314' || _chain === '10' || _chain === '210425';
-        if(state.wallet && state.wallet !== 'btc' && chian){
+        if (state.wallet && state.wallet !== 'btc' && chian) {
             return false
-        }else{
+        } else {
             return true
         }
     }
@@ -86,6 +107,9 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             ...input,
             category: +value
         })
+    }
+    const  handleOpenChange = (_v:boolean) => {
+        setTokenPop(_v)
     }
     useEffect(() => {
         getCategory();
@@ -117,6 +141,49 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     //         </ul>
     //     </div>
     // )
+    const selectTokenContent = () => {
+        return (
+            <div className="select-token-content">
+                <p className="select-token-title">Select a token</p>
+                <div className="search-box">
+                    <SearchOutlined />
+                    <input type="text" placeholder="Search name or paste address" />
+                </div>
+                <div className="block-list">
+                    <ul>
+                        {
+                            TokenList.map((item: TokenMsg, index: number) => {
+                                return (
+                                    <li key={index} onClick={() => {
+                                        setTokenPop(false)
+                                    }}>
+                                        <img src={item.icon} alt="" />
+                                        <p>{item.name}</p>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                </div>
+                <div className="inline-list">
+                    <ul>
+                        {
+                            TokenList.map((item: TokenMsg, index: number) => {
+                                return (
+                                    <li key={index} onClick={() => {
+                                        setTokenPop(false)
+                                    }}>
+                                        <img src={item.icon} alt="" />
+                                        <p>{item.name}</p>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                </div>
+            </div>
+        )
+    }
     const inputBox = (
         <div className="input-box">
             <div className="public-inp-box">
@@ -140,9 +207,16 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             <div className="public-inp-box">
                 <p><sup>*</sup>NFT Type</p>
                 <Select
-                    defaultValue="721"
+                    value={input.nft_type}
+                    onChange={(val: string) => {
+                        setInput({
+                            ...input,
+                            nft_type: val
+                        })
+                    }}
                     options={[
                         { value: '721', label: 'ERC721' },
+                        { value: '40', label: 'BTC40' },
                     ]}
                 />
             </div>
@@ -215,34 +289,46 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             </div>
             <div className="public-inp-box">
                 <p><sup>*</sup>Chain</p>
-                <Select
-                    defaultValue={state.chain as string}
-                    onChange={selectChain}
-                >
-                    {
-                        NetworkConfig.map((item: Config) => {
-                            return {
-                                value: item.chain_id,
-                                label: item.chain_name,
-                                logo: item.chain_logo,
-                                disabled:isDisable(item.chain_id)
-                            }
-                        }).map((item: { value: string, label: string, logo: string, disabled: boolean }, index: number) => {
-                            return (
-                                <Select.Option key={index} value={item.value} disabled={item.disabled}>
-                                    <div className="select-custom-option">
-                                        <img src={item.logo} alt="" />
-                                        <p>{item.label}</p>
-                                    </div>
-                                </Select.Option>
-                            )
-                        })
-                    }
+                <div className="select-chain-token">
+                    <Select
+                        defaultValue={state.chain as string}
+                        onChange={selectChain}
+                    >
+                        {
+                            NetworkConfig.map((item: Config) => {
+                                return {
+                                    value: item.chain_id,
+                                    label: item.chain_name,
+                                    logo: item.chain_logo,
+                                    disabled: isDisable(item.chain_id)
+                                }
+                            }).map((item: { value: string, label: string, logo: string, disabled: boolean }, index: number) => {
+                                return (
+                                    <Select.Option key={index} value={item.value} disabled={item.disabled}>
+                                        <div className="select-custom-option">
+                                            <img src={item.logo} alt="" />
+                                            <p>{item.label}</p>
+                                        </div>
+                                    </Select.Option>
+                                )
+                            })
+                        }
 
-                </Select>
+                    </Select>
+                    <Popover open={tokenPop} onOpenChange={handleOpenChange} rootClassName="custom-select-token-pop" content={selectTokenContent} title={null} placement="bottom" trigger={['click']}>
+                        <div className="select-token">
+                            <p>Asses</p>
+                            <p>
+                                <img src={require('../../assets/images/pi_logo.png')} alt="" />
+                                <span className="token-name">Pi</span>
+                                <CaretDownOutlined />
+                            </p>
+                        </div>
+                    </Popover>
+                </div>
             </div>
             <div className={`next-btn ${(!state.wallet || state.wallet === 'btc') ? 'disable-btn' : ''}`} onClick={() => {
-                if(!state.wallet || state.wallet === 'btc'){
+                if (!state.wallet || state.wallet === 'btc') {
                     return
                 }
                 setActive(1);

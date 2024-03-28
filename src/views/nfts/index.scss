@@ -403,7 +403,7 @@
       ul {
         display: flex;
         padding-right: 36px;
-        border-right: 1px solid #E6E6E6;
+        border-right: 1px solid #e6e6e6;
         li {
           color: #686a6c;
           font-size: 16px;
@@ -420,33 +420,33 @@
           color: #141416;
         }
       }
-      .balance-box{
+      .balance-box {
         padding: 12px 30px;
-        border: 1px solid #FA89CB;
+        border: 1px solid #fa89cb;
         border-radius: 8px;
         display: flex;
         align-items: center;
         margin-left: 34px;
-        p{
+        p {
           font-size: 16px;
           font-weight: 600;
           color: #202025;
           transform: translateY(1px);
-          img{
+          img {
             width: 20px;
             margin: 0 4px;
             vertical-align: middle;
             display: inline-block;
             transform: translateY(-2px);
           }
-          span{
+          span {
             font-size: 20px;
             display: inline-block;
           }
         }
-        p:last-child{
+        p:last-child {
           font-size: 12px;
-          color: #686A6C;
+          color: #686a6c;
           margin-left: 12px;
           font-weight: 400;
           transform: translateY(3px);
@@ -476,9 +476,9 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 16px;
-      height: 40px;
+      height: 48px;
       cursor: pointer;
-      div{
+      div {
         display: flex;
         align-items: center;
       }
@@ -526,13 +526,13 @@
         color: #f23176;
       }
     }
-    .disable-chain{
+    .disable-chain {
       filter: grayscale(1);
       cursor: no-drop;
     }
-    .disable-chain:hover{
+    .disable-chain:hover {
       background-color: white;
-      p{
+      p {
         color: #202025;
       }
     }
@@ -548,7 +548,7 @@
   position: relative;
   cursor: pointer;
   transition: 0.3s all;
-  .chain-logo{
+  .chain-logo {
     position: absolute;
     background-color: black;
     top: 16px;
@@ -560,7 +560,7 @@
     width: 32px;
     height: 32px;
     z-index: 22;
-    img{
+    img {
       width: 20px;
     }
   }
@@ -572,7 +572,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    .error-card{
+    .error-card {
       padding-left: 60px;
     }
     .play-btn {
@@ -720,6 +720,75 @@
 .conponenst-gater {
   padding-bottom: 20px;
   .list-item {
+    .wallet-assets-filter {
+      width: 302px;
+      border-right: 1px solid #e8e8e8;
+      margin-right: 30px;
+      transition: .5s all;
+      overflow: hidden;
+      .control-filter {
+        width: 48px;
+        height: 48px;
+        background-color: #f6f6f6;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        span {
+          color: #050505;
+          font-size: 16px;
+          display: inline-block;
+          transition: .3s all;
+        }
+        .close-filter{
+          transform:scaleX(-1);
+        }
+      }
+      .condition-list {
+        margin-top: 24px;
+        transition: .3s all;
+        min-width: 302px;
+        ul {
+          display: flex;
+          flex-wrap: wrap;
+          li {
+            padding: 10px 14px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            margin-right: 18px;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: 0.3s all;
+            p {
+              color: #202025c8;
+              font-size: 16px;
+              font-weight: 600;
+              transition: 0.3s all;
+            }
+          }
+          .dis-c{
+            cursor: no-drop;
+          }
+          .active-condition {
+            background-color: #202025;
+            p {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+    .close-condition{
+      width: 68px;
+      .condition-list{
+        opacity: 0;
+      }
+    }
+    .item-inner-list {
+      display: flex;
+      flex: 1;
+    }
     .market-card {
       width: calc(25% - 19px);
       margin-right: 24px;

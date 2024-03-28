@@ -11,7 +11,6 @@ import { LAND, MODE, useContract } from "../../../utils/contract";
 import { useSwitchChain } from "../../../hooks/chain";
 import * as Address from '../../../utils/source'
 import { PNft } from "../../../App";
-import { ethereum, web3 } from "../../../utils/types";
 import { useNavigate } from "react-router-dom";
 import { FilterAddress } from "../../../utils";
 
@@ -212,7 +211,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.address as string).contract_721_test;
         formData.append('chain_id', props.info.chain);
         formData.append('contract_address', NFTAddress);
-        formData.append('contract_type', '721');
+        formData.append('contract_type', props.info.nft_type);
         formData.append('sender', state.address);
         formData.append('tx_hash', result['transactionHash']);
         formData.append('image_minio', aiImageView.minio_key);
