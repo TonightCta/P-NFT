@@ -7,24 +7,25 @@ import VoiceMapNew from "./components/voice.map.new";
 import BuildInNew from "./components/build.in";
 import FooterNew from "./components/footer.new";
 import VoiceNftNew from "./components/voice.nft";
+import GalleryView from "../gallery";
 // import { KeepAlive } from "react-keep-alive";
 // import KeepAlive, { AliveScope } from 'react-activation'
-
 const ScreenViewNew = (): ReactElement<ReactNode> => {
-    return (
-        <div className="screen-view-new">
-            {/* <KeepAlive name="screen">
+  return (
+    <div className="screen-view-new">
+      {/* <KeepAlive name="screen">
                 <ScreenIndexNew />
             </KeepAlive> */}
-            <ScreenIndexNew />
-            <RibbonWapper />
-            <CreatorWapper />
-            <VoiceMapNew />
-            <BuildInNew />
-            <VoiceNftNew />
-            <FooterNew />
-        </div>
-    )
+      <ScreenIndexNew />
+      <RibbonWapper />
+      <CreatorWapper />
+      <VoiceMapNew />
+      <BuildInNew />
+      <VoiceNftNew />
+      <GalleryView />
+      <FooterNew />
+    </div>
+  )
 };
 
 export default ScreenViewNew;

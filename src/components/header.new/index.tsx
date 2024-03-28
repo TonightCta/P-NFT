@@ -30,10 +30,10 @@ export const MenuList: Menu[] = [
         name: 'Collections',
         url: '/collections',
     },
-    {
-        name: 'Gallery',
-        url: '/gallery',
-    },
+    // {
+    //     name: 'Gallery',
+    //     url: '/gallery',
+    // },
     {
         name: 'Campaigns',
         url: '/campaigns',
@@ -164,14 +164,14 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
             case '/collections':
                 setActive(1);
                 break;
-            case '/gallery':
+            // case '/gallery':
+            //     setActive(2);
+            //     break;
+            case '/campaigns':
                 setActive(2);
                 break;
-            case '/campaigns':
-                setActive(3);
-                break;
             case '/airdrop':
-                setActive(4);
+                setActive(3);
                 break;
             default:
                 setActive(99)
