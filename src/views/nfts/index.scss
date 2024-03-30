@@ -539,7 +539,7 @@
   }
 }
 .new-nft-card {
-  width: 15.1%;
+  width: calc(15.8% - 8px);
   border-radius: 16px;
   overflow: hidden;
   margin-right: 32px;
@@ -565,7 +565,7 @@
     }
   }
   .nft-box {
-    height: 244px;
+    height: 204px;
     width: 100%;
     overflow: hidden;
     display: flex;
@@ -626,6 +626,7 @@
     img {
       width: 100%;
       transition: 0.3s all;
+      z-index: 10;
     }
   }
   .oper-box {
@@ -713,6 +714,24 @@
 .new-nft-card:nth-child(6n) {
   margin-right: 0;
 }
+@media screen and (max-width:1920px) {
+  .new-nft-card{
+    width: calc(15.5% - 8px);
+  }
+}
+@media screen and (max-width:1720px) {
+  .new-nft-card{
+    width: calc(15.2% - 8px);
+  }
+}
+@media screen and (max-width:1400px) {
+  .new-nft-card{
+    width: 17.5%!important;
+  }
+}
+// .new-nft-card:nth-child(6n) {
+//   margin-right: 32px;
+// }
 .no-more {
   color: #686a6c;
   font-size: 16px;
@@ -788,6 +807,7 @@
     .item-inner-list {
       display: flex;
       flex: 1;
+      flex-wrap: wrap;
     }
     .tokens-list {
       flex: 1;
@@ -805,7 +825,7 @@
         font-weight: 600;
         height: 100%;
       }
-      .w-tr{
+      .w-tr {
         transform: translateY(-20px);
       }
       .token-msg {
@@ -937,25 +957,31 @@
     }
   }
 }
-// @media screen and (max-width: 1660px) {
-//   .owner-view {
-//     .owner-inner {
-//       .inner-data {
-//         .conponenst-gater {
-//           .list-item {
-//             .new-nft-card {
-//               width: 17.5%;
-//             }
-//             .nft-box {
-//               height: 200px;
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-@media screen and (max-width: 1440px) {
+@media screen and (max-width: 1660px) {
+  .owner-view {
+    .owner-inner {
+      .inner-data {
+        .conponenst-gater {
+          .list-item {
+            .new-nft-card {
+              width: 18.2%;
+            }
+            .new-nft-card:nth-child(5n) {
+              margin-right: 0;
+            }
+            .new-nft-card:nth-child(6n) {
+              margin-right: 32px;
+            }
+            .nft-box {
+              height: 200px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1550px) {
   .owner-view {
     .owner-inner {
       .inner-data {
@@ -1096,7 +1122,11 @@
           border-radius: 12px;
           border: 0;
           font-size: 16px;
-          background: linear-gradient(90deg, #f23176 0%, #6a40fb 100%);
+          background: linear-gradient(
+            90deg,
+            #f23176 0%,
+            #6a40fb 100%
+          ) !important;
         }
         .end-date {
           padding: 6px 10px;
@@ -1354,7 +1384,7 @@
         .conponenst-gater {
           .list-item {
             .new-nft-card {
-              width: calc(50% - 1rem);
+              width: calc(50% - 1rem)!important;
               margin-right: 2rem;
               .nft-box {
                 height: 15.8rem;

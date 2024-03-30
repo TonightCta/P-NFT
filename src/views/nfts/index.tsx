@@ -126,6 +126,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         if (status !== 200) {
             return
         };
+        console.log(data.total)
         setTotal(data.total)
         if (!data.item) {
             setList([]);
@@ -274,12 +275,12 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                         })
                                     }
                                 </ul>
-                                <div className="balance-box">
+                                {searchParams.address === state.address && <div className="balance-box">
                                     <p>Balance:<img src={state.wallet === 'btc' ? require('../../assets/images/bitcoin.logo.png') : FilterAddress(state.chain as string).chain_logo} alt="" />
                                         <span>{state.balance}</span>
                                     </p>
                                     <div className="balance-by-u">Price&nbsp;($&nbsp;{balanceUSDT ? balanceUSDT : <Spin size="small"/>})</div>
-                                </div>
+                                </div>}
                             </div>
                             {/* <div className="search-box">
                                 <input type="text" placeholder="Search" />
@@ -382,7 +383,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             total === 0 && !loading && <p className="no-more">No more</p>
                         }
                         <div className="page-oper">
-                            <Pagination hideOnSinglePage defaultCurrent={1} pageSize={18} total={total} onChange={(page) => {
+                            <Pagination hideOnSinglePage defaultCurrent={1} pageSize={12} total={total} onChange={(page) => {
                                 window.scrollTo({
                                     top: 220,
                                     behavior: 'smooth'
