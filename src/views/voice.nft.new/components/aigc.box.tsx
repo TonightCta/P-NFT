@@ -4,7 +4,7 @@ import { Button, Select, Slider, message, Image } from "antd";
 import type { SliderMarks } from 'antd/es/slider';
 import { Input } from "..";
 import axios from "axios";
-import { Model } from "../../../utils/source";
+import { MintV2ContractAddress, Model } from "../../../utils/source";
 import { NFTMintService, QueryFile } from "../../../request/api";
 import { useMetamask } from "../../../utils/connect/metamask";
 import { LAND, MODE, useContract } from "../../../utils/contract";
@@ -88,7 +88,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
     const [modelType, setModelType] = useState<string>('1');
     const [prompts, setPrompts] = useState<string>('');
     const { connectMetamask } = useMetamask();
-    const { mint, getBalance } = useContract();
+    const { mint, getBalance, queryERC20Approve, approveToken, tokenMint } = useContract();
     const { state } = useContext(PNft);
     const { switchC } = useSwitchChain();
     const navigate = useNavigate();
@@ -191,6 +191,19 @@ const AigcBox = (props: { info: Input }): ReactElement => {
             return
         }
         setWait(true);
+        const pay_address = props.info.token_info.address.slice(props.info.token_info.address.length - 8, props.info.token_info.address.length) === '00000000';
+        if (!pay_address) {
+            const approve_amount = await queryERC20Approve(state.address as string, MintV2ContractAddress, props.info.token_info.address);
+            if (+approve_amount / 1e18 < 1) {
+                const approve: any = await approveToken(props.info.token_info.address, MintV2ContractAddress);
+                if (!approve || approve.message) {
+                    setWait(false);
+                    return
+                };
+                submitMint();
+                return
+            }
+        }
         let data: any = {
             name: props.info.name,
             description: props.info.desc,
@@ -202,7 +215,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
         }
         const blob = new Blob([data], { type: 'text/json' });
         const blob_ipfs = await uploadFileFN(`${new Date().getTime()}.json`, blob);
-        const result: any = await mint(blob_ipfs.ipfshash);
+        const result: any = props.info.chain === '8007736' ? await tokenMint(blob_ipfs.ipfshash, props.info.token_info.address) : await mint(blob_ipfs.ipfshash);
         if (!result || result.message) {
             setWait(false);
             return
@@ -210,7 +223,7 @@ const AigcBox = (props: { info: Input }): ReactElement => {
         const formData = new FormData();
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.address as string).contract_721_test;
         formData.append('chain_id', props.info.chain);
-        formData.append('contract_address', NFTAddress);
+        formData.append('contract_address', props.info.chain === '8007736' ? MintV2ContractAddress : NFTAddress);
         formData.append('contract_type', props.info.nft_type);
         formData.append('sender', state.address);
         formData.append('tx_hash', result['transactionHash']);

@@ -444,7 +444,7 @@
             display: inline-block;
           }
         }
-        p:last-child {
+        .balance-by-u {
           font-size: 12px;
           color: #686a6c;
           margin-left: 12px;
@@ -724,7 +724,7 @@
       width: 302px;
       border-right: 1px solid #e8e8e8;
       margin-right: 30px;
-      transition: .5s all;
+      transition: 0.5s all;
       overflow: hidden;
       .control-filter {
         width: 48px;
@@ -739,15 +739,15 @@
           color: #050505;
           font-size: 16px;
           display: inline-block;
-          transition: .3s all;
+          transition: 0.3s all;
         }
-        .close-filter{
-          transform:scaleX(-1);
+        .close-filter {
+          transform: scaleX(-1);
         }
       }
       .condition-list {
         margin-top: 24px;
-        transition: .3s all;
+        transition: 0.3s all;
         min-width: 302px;
         ul {
           display: flex;
@@ -767,7 +767,7 @@
               transition: 0.3s all;
             }
           }
-          .dis-c{
+          .dis-c {
             cursor: no-drop;
           }
           .active-condition {
@@ -779,15 +779,47 @@
         }
       }
     }
-    .close-condition{
+    .close-condition {
       width: 68px;
-      .condition-list{
+      .condition-list {
         opacity: 0;
       }
     }
     .item-inner-list {
       display: flex;
       flex: 1;
+    }
+    .tokens-list {
+      flex: 1;
+      .ant-table-thead {
+        .ant-table-cell {
+          background-color: white;
+          border: 0;
+        }
+      }
+      .ant-table-cell {
+        border: 0;
+      }
+      p {
+        font-size: 16px;
+        font-weight: 600;
+        height: 100%;
+      }
+      .w-tr{
+        transform: translateY(-20px);
+      }
+      .token-msg {
+        display: flex;
+        align-items: center;
+        img {
+          width: 56px;
+          height: 56px;
+        }
+        p {
+          margin-left: 34px;
+          height: auto;
+        }
+      }
     }
     .market-card {
       width: calc(25% - 19px);

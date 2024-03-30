@@ -63,7 +63,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
         const cc = await CollectionInfo({
             collection_id: data.collection_id,
             chain_id: '1',
-            contract_address: FilterAddress(state.chain as string).contract_721
+            contract_address: searchParams.address
         });
         setCollInfo(cc.data)
     }

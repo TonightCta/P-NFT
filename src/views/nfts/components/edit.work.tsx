@@ -9,7 +9,8 @@ import { DownOutlined } from "@ant-design/icons";
 interface Props {
     visible: boolean,
     closeModal: (val: boolean) => void,
-    work_id: number
+    work_id: number,
+    nft_address:string
 }
 
 interface Info {
@@ -22,7 +23,7 @@ interface Info {
     total_submit_items: number,
     description: string,
     wait: boolean,
-    more: boolean
+    more: boolean,
 }
 
 const EditWorkModal = (props: Props): ReactElement => {
@@ -51,7 +52,7 @@ const EditWorkModal = (props: Props): ReactElement => {
         setVisible(false);
         props.closeModal(false);
     };
-    const Card = (props: { item: Info, work_id: number }) => {
+    const Card = (props: { item: Info, work_id: number,nft_address:string }) => {
         const [item, setItem] = useState<Info>(props.item);
         const submitNFT = async (_com_id: number) => {
             setItem({
@@ -62,7 +63,7 @@ const EditWorkModal = (props: Props): ReactElement => {
             const params = {
                 competition_id: _com_id,
                 chain_id: state.chain,
-                contract_address: FilterAddress(state.chain as string).contract_721,
+                contract_address:props.nft_address,
                 token_id: props.work_id,
                 sender: state.address
             };
@@ -134,7 +135,7 @@ const EditWorkModal = (props: Props): ReactElement => {
                                 list.map((item: Info, index: number) => {
                                     return (
                                         <li key={index}>
-                                            <Card item={item} work_id={props.work_id} />
+                                            <Card item={item} work_id={props.work_id} nft_address={props.nft_address}/>
                                         </li>
                                     )
                                 })

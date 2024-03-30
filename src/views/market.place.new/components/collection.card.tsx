@@ -128,7 +128,7 @@ const CollectionCard = (): ReactElement => {
                                         dispatch({
                                             type: Type.SET_COLLECTION_ID,
                                             payload: {
-                                                collection_id: String(item.collection_id)
+                                                collection_id: String(item.collection_id),
                                             }
                                         });
                                         navigate(`/asset/${item.contract_address}`)

@@ -98,4 +98,6 @@ export const SubmitCompetition = (p: o) => post('/compitems/submit', p);
 export const WalletNFT = (p: o) => post('/user/nft/wallet', p);
 //Currency List
 export const CurrencyList = (p: o) => post('/currency/list', p);
+//Currency Info
+export const CurrencyInfo = (p: o) => post('/currency/info', p);
 

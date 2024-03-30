@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import * as Address from '../../../utils/source'
 import { Base64ToFile, CompressImage, FilterAddress } from "../../../utils";
 import CropperModal from "./cropper.modal";
+import { MintV2ContractAddress } from "../../../utils/source";
 
 const BasicBox = (props: { info: Input }): ReactElement => {
     const { audioFile, mediaUrl, startRecord, stopRecord } = useMediaRecorder();
@@ -23,7 +24,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
     const [wait, setWait] = useState<boolean>(false);
     const audioRef: any = useRef('');
     const { connectMetamask } = useMetamask();
-    const { mint, getBalance } = useContract();
+    const { mint, getBalance, tokenMint, queryERC20Approve, approveToken } = useContract();
     const [record, setRecord] = useState<boolean>(false);
     const { state } = useContext(PNft);
     const { switchC } = useSwitchChain();
@@ -110,6 +111,20 @@ const BasicBox = (props: { info: Input }): ReactElement => {
             return
         }
         setWait(true);
+        const pay_address = props.info.token_info.address.slice(props.info.token_info.address.length - 8, props.info.token_info.address.length) === '00000000';
+        if (!pay_address) {
+            const approve_amount = await queryERC20Approve(state.address as string, MintV2ContractAddress, props.info.token_info.address);
+            if (+approve_amount / 1e18 < 1) {
+                const approve: any = await approveToken(props.info.token_info.address, MintV2ContractAddress);
+                if (!approve || approve.message) {
+                    setWait(false);
+                    return
+                };
+                submitMint();
+                return
+            }
+        };
+        console.log(props.info)
         const img_ipfs = await uploadFileFN(`${new Date().getTime()}.png`, review.source);
         const voice_ipfs = audioFile && await uploadFileFN(`${new Date().getTime()}.mp3`, audioFile);
         const img_local = await uploadFileLocaFN(review.source);
@@ -125,7 +140,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         }
         const blob = new Blob([data], { type: 'text/json' });
         const blob_ipfs = await uploadFileFN(`${new Date().getTime()}.json`, blob);
-        const result: any = await mint(blob_ipfs.ipfshash);
+        const result: any = props.info.chain === '8007736' ? await tokenMint(blob_ipfs.ipfshash, props.info.token_info.address) : await mint(blob_ipfs.ipfshash);
         if (!result || result.message) {
             setWait(false);
             return
@@ -135,7 +150,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         formData.append('contract_address', NFTAddress);
         formData.append('contract_type', '721');
-        formData.append('sender', state.address);
+        formData.append('sender', state.address as string);
         formData.append('tx_hash', result['transactionHash']);
         formData.append('image_minio', img_local.minio_key);
         formData.append('voice_minio', audioFile ? voice_local.minio_key : '');

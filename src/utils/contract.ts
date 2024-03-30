@@ -6,6 +6,7 @@ import NormalABIERC20 from './abi/normal_erc20.json'
 import ABISBT from './abi/sbt.json'
 import BBCABI from './abi/bbc.json'
 import HASHABI from './abi/hash.json'
+import NER721ABI from './abi/new_721.json'
 import { message } from "antd"
 import { useCallback, useContext, useEffect, useState } from 'react';
 import * as Address from "./source"
@@ -18,6 +19,7 @@ import { useSDK } from '@metamask/sdk-react';
 import Web3 from "web3"
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react"
 import { ethereum } from '../utils/types'
+import { MintV2ContractAddress } from "./source"
 // import { parseEther, parseGwei } from 'viem'
 
 
@@ -115,6 +117,33 @@ export const useContract = () => {
                 }))
         })
     };
+    const tokenMint = async (_data_ipfs: string, _pay_token_address: string) => {
+        if (!state.ethereum) {
+            message.error('You need to install Metamask to use this feature');
+            return
+        };
+        return new Promise(async (resolve, reject) => {
+            const MintV2Contract = new web3V2.eth.Contract(NER721ABI as any, MintV2ContractAddress, {
+                gasPrice: gasPrice
+            });
+            const Gas: string = FilterAddressToName(state.chain as string).gas;
+            const fee = await MintV2Contract.methods.mintFees(_pay_token_address).call();
+            const pay_address = _pay_token_address.slice(_pay_token_address.length - 8, _pay_token_address.length) === '00000000';
+            MintV2Contract.methods.mintToken(state.address, _pay_token_address, _data_ipfs).send({
+                from: send.from,
+                gas: Gas,
+                value:pay_address ? fee : '0'
+            })
+                .on('receipt', (res: any) => {
+                    resolve(res)
+                }).on('error', ((err: any) => {
+                    resolve(err)
+                    console.log(err)
+                    message.error(err.message)
+                }))
+        })
+
+    }
     //Query Owner NFT
     const queryOwner = async () => {
         if (!state.ethereum) {
@@ -141,22 +170,22 @@ export const useContract = () => {
         return results
     };
     //ERC20 Approve
-    const approveToken = async (_token_address: string) => {
+    const approveToken = async (_token_address: string, _approve_for_address: string) => {
         const contract = new web3V2.eth.Contract(ABIERC20 as any, _token_address, {
             gasPrice: gasPrice
         });
         return new Promise((resolve, reject) => {
             contract.methods.approve(
-                calsMarks(FilterAddress(state.chain as string).contract_market),
+                calsMarks(_approve_for_address),
                 "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
             ).send(send).on('receipt', (res: any) => {
                 resolve(res)
             }).on('error', (err: any) => {
                 resolve(err);
-                message.error(err.message)
+                message.warning('You need to authorize the ERC20 token to continue the operation.')
             })
         })
-    }
+    };
     //Buy
     const buy = async (_order_id: string, _price: string, _paymod: string) => {
         const Gas: string = FilterAddressToName(state.chain as string).gas;
@@ -190,15 +219,19 @@ export const useContract = () => {
         })
     }
     //List - Approve
-    const putApprove = async (_token_id: number): Promise<string> => {
+    const putApprove = async (_token_id: number,_nft_address:string): Promise<string> => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         }
+        console.log(_nft_address)
         const Gas: string = FilterAddressToName(state.chain as string).gas;
         const MarketAddress: string = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddressMarketMain : Address.TaikoContractAddressMarketTest : MODE === 'production' ? FilterAddress(state.chain as string).contract_market : FilterAddress(state.chain as string).contract_market_test;
+        const ContractV2 = new web3V2.eth.Contract(ABI721 as any, _nft_address, {
+            gasPrice: gasPrice
+        })
         return new Promise(async (resolve, reject) => {
-            NFTContract.methods.approve(MarketAddress, _token_id).send(LAND === 'taiko' ? {
+            ContractV2.methods.approve(MarketAddress, _token_id).send(LAND === 'taiko' ? {
                 from: send.from,
                 gas: Gas,
             } : send)
@@ -211,16 +244,16 @@ export const useContract = () => {
         })
     }
     //List
-    const putList = async (_token_id: number, _price: number, _address: string): Promise<string> => {
+    const putList = async (_token_id: number, _price: number, _address: string,_nft_address:string): Promise<string> => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
-        }
+        };
         const Gas: string = FilterAddressToName(state.chain as string).gas;
-        const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
+        // const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
         return new Promise((resolve, reject) => {
             MARKETContract.methods.list(
-                calsMarks(NFTAddress),
+                calsMarks(_nft_address),
                 _token_id,
                 calsMarks(_address),
                 web3V2.utils.toWei(String(_price), 'ether'))
@@ -301,24 +334,29 @@ export const useContract = () => {
         return total
     }
     //授权查询
-    const queryApprove = async (_token_id: number): Promise<string> => {
+    const queryApprove = async (_token_id: number,_nft_address:string): Promise<string> => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         };
         const NFdress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
-        const NN = new web3V2.eth.Contract(ABI721 as any, NFdress, {
+        const NN = new web3V2.eth.Contract(ABI721 as any, _nft_address, {
             gasPrice: gasPrice
         })
         const approve = await NN.methods.getApproved(_token_id).call();
         return approve
     }
-    const queryERC20Approve = async (_owner: string, _market_address: string): Promise<string | number> => {
+    //Token授权查询
+    const queryERC20Approve = async (_owner: string, _market_address: string, _token_address: string): Promise<string | number> => {
+
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
         };
-        const result = await ERC20Contract.methods.allowance(_owner, _market_address).call();
+        const contract = new web3V2.eth.Contract(ABIERC20 as any, _token_address, {
+            gasPrice: gasPrice
+        });
+        const result = await contract.methods.allowance(_owner, _market_address).call();
         return result
     };
     const getBalance = async () => {
@@ -496,7 +534,8 @@ export const useContract = () => {
         transHash,
         BBCBuy,
         signOrder,
-        OPBuy
+        OPBuy,
+        tokenMint
     }
 };
 

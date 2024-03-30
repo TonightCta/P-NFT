@@ -10,6 +10,7 @@ export const PlianContractERC20Test: string = "0xFcb06A1a2E8834Fe9E0b49F533E14AB
 export const PlianContractSBTTest: string = "0x27e67a318f41d7475f409f4a390084b6aa16ac50";
 export const SystemAddress: string = "0x0000000000000000000000000000000000000000"
 export const PNFTAddress = '0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08';
+export const MintV2ContractAddress = '0xd79c5f4973fe62eb1D334C70F4F9D87a2BD738B5'
 
 export const TaikoContractAddress721Main: string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";
 export const TaikoContractAddress721Test: string = "0x169625caf5d3f14e8d9F680Db6923343b80d1B1E";
@@ -448,7 +449,8 @@ export interface ConfigName {
     token: {
         symbol: string,
         icon: string,
-        address: string
+        address: string,
+        fee:string
     }[]
 }
 
@@ -458,6 +460,7 @@ export const NetworkConfig: Config[] = [
         chain_name: 'Plian Subchain 1',
         chain_logo: require('../assets/images/plian.logo.png'),
         contract_721: '0xa2822ac2662fe0cbf470d5721e24f8508ec43d33',
+        // contract_721: '0xd79c5f4973fe62eb1D334C70F4F9D87a2BD738B5',
         contract_721_test: '0x6B2793D4024bC3A9505133c0649e194488be1a47',
         contract_market: '0x286d1ae7c43c5ea3c7bbee601d9c1af875f5c50e',
         contract_market_test: '0xEDC36347d13f7838edCC3f760908c0Cf06C3aCF8',
@@ -522,13 +525,15 @@ export const NetworkConfigName: ConfigName[] = [
         token: [
             {
                 symbol: 'PI',
-                icon: require('../assets/images/pi_logo.png'),
-                address: SystemAddress
+                icon: require('../assets/images/plian.logo.png'),
+                address: SystemAddress,
+                fee: '0.4',
             },
             {
                 symbol: 'PNFT',
                 icon: require('../assets/images/pnft.png'),
-                address: PNFTAddress
+                address: PNFTAddress,
+                fee: '1',
             },
         ],
         gas: '4200000',
@@ -541,8 +546,9 @@ export const NetworkConfigName: ConfigName[] = [
         token: [
             {
                 symbol: 'ETH',
-                icon: "https://static.optimism.io/data/ETH/logo.svg",
-                address: SystemAddress
+                icon: require('../assets/images/eth.logo.png'),
+                address: SystemAddress,
+                fee: '0.0001',
             },
         ],
         gas: '15000000',
@@ -563,9 +569,10 @@ export const NetworkConfigName: ConfigName[] = [
         fee: '0.01',
         token: [
             {
-                symbol: 'ETH',
-                icon: "https://static.optimism.io/data/ETH/logo.svg",
-                address: SystemAddress
+                symbol: 'FIL',
+                icon: require('../assets/images/fil.logo.png'),
+                address: SystemAddress,
+                fee: '0.01',
             },
         ],
         gas: '8000000',
@@ -578,8 +585,9 @@ export const NetworkConfigName: ConfigName[] = [
         token: [
             {
                 symbol: 'ETH',
-                icon: "https://static.optimism.io/data/ETH/logo.svg",
-                address: SystemAddress
+                icon: require('../assets/images/eth.logo.png'),
+                address: SystemAddress,
+                fee: '0.0001',
             }
         ],
         gas: '15000000'
@@ -593,7 +601,8 @@ export const NetworkConfigName: ConfigName[] = [
             {
                 symbol: 'LAT',
                 icon: require('../assets/images/plat.logo.png'),
-                address: SystemAddress
+                address: SystemAddress,
+                fee: '1',
             }
         ],
         gas: '4200000'
@@ -620,24 +629,24 @@ export const TokenInfo: { symbol: string, logo: string }[] = [
 ]
 export const ChainInfo: { name: string, logo: string }[] = [
     {
-        name:'8007736',
-        logo:require('../assets/new/plian_logo.png')
+        name: '8007736',
+        logo: require('../assets/new/plian_logo.png')
     },
     {
-        name:'1',
-        logo:require('../assets/new/eht_white_logo.png')
+        name: '1',
+        logo: require('../assets/new/eht_white_logo.png')
     },
     {
-        name:'314',
-        logo:require('../assets/new/fil_white_logo.png')
+        name: '314',
+        logo: require('../assets/new/fil_white_logo.png')
     },
     {
-        name:'10',
-        logo:require('../assets/new/op_white_logo.png')
+        name: '10',
+        logo: require('../assets/new/op_white_logo.png')
     },
     {
-        name:'210425',
-        logo:require('../assets/images/plat_white.png')
+        name: '210425',
+        logo: require('../assets/images/plat_white.png')
     }
 ]
 

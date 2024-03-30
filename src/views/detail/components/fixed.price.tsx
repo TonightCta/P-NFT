@@ -24,7 +24,8 @@ interface Props {
     upRefresh: () => void,
     chain: string,
     name: string,
-    collection: string
+    collection: string,
+    nft_address:string
 }
 
 interface Wait {
@@ -45,7 +46,7 @@ interface Duration {
 }
 
 // const MODE: string = process.env.REACT_APP_CURRENTMODE as string;
-const OwnerAddress: string[] = [Addresses.PlianContractAddressMarketMain, Addresses.PlianContractAddressMarketTest, Addresses.TaikoContractAddressMarketMain, Addresses.TaikoContractAddressMarketTest, Addresses.OPContractAddress721Main]
+const OwnerAddress: string[] = [Addresses.PlianContractAddressMarketMain, Addresses.PlianContractAddressMarketTest, Addresses.TaikoContractAddressMarketMain, Addresses.TaikoContractAddressMarketTest, Addresses.OPContractAddress721Main,Addresses.MintV2ContractAddress]
 const DurationList: Duration[] = [
     {
         text: 'Custom',
@@ -133,9 +134,10 @@ const FixedModal = (props: Props): ReactElement => {
     const queryApproveFN = async () => {
         // const approve = useGetNFTApprove(props.id);
         // console.log(approve)
-        const approve = await queryApprove(props.id);
+        const approve = await queryApprove(props.id,props.nft_address);
         const bol = OwnerAddress.indexOf(approve.toLowerCase()) > -1;
         setApproved(bol);
+        console.log(approve)
         setWait({
             ...wait,
             approve_dis: bol ? true : false,
@@ -170,7 +172,7 @@ const FixedModal = (props: Props): ReactElement => {
             approve_dis: true,
             approve: true
         })
-        const hash: any = await putApprove(props.id);
+        const hash: any = await putApprove(props.id,props.nft_address);
         if (!hash || hash.message) {
             setWait({
                 ...wait,
@@ -180,6 +182,7 @@ const FixedModal = (props: Props): ReactElement => {
             // message.error(hash.message)
             return
         }
+        queryApproveFN()
         setWait({
             ...wait,
             approve_dis: true,
@@ -216,8 +219,6 @@ const FixedModal = (props: Props): ReactElement => {
                 v += 27
             }
             const normalizedSignature = signature.slice(0, -2) + v.toString(16)
-            console.log(normalizedSignature);
-            console.log(signature);
             maker = await NFTMakerService({
                 chain_id: props.chain,
                 sender: state.address,
@@ -228,7 +229,7 @@ const FixedModal = (props: Props): ReactElement => {
                 signature: normalizedSignature
             });
         } else {
-            const hash: any = await putList(props.id, +price, token.address);
+            const hash: any = await putList(props.id, +price, token.address,props.nft_address);
             if (!hash || hash.message) {
                 setWait({
                     ...wait,

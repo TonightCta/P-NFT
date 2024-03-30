@@ -6,8 +6,9 @@ import { Button, Select, message, Popover } from "antd";
 import DesignBox from "./components/design.box";
 import { CategoryList, LabelList } from "../../request/api";
 import { CaretDownOutlined, CloseOutlined, SearchOutlined } from "@ant-design/icons";
-import { Config, NetworkConfig } from "../../utils/source";
+import { Config, NetworkConfig, SystemAddress } from "../../utils/source";
 import { PNft } from "../../App";
+import { FilterAddressToName } from "../../utils";
 
 interface Op {
     value: string | number,
@@ -16,33 +17,23 @@ interface Op {
     bg?: string
 }
 
+interface TokenMsg {
+    symbol: string,
+    icon: string,
+    address: string,
+    fee: string
+}
+
 export interface Input {
     name: string,
     desc: string,
     category: number,
     nft_type: string,
     chain: string,
-    labels: number[]
+    labels: number[],
+    token_info: TokenMsg
 }
 
-interface TokenMsg {
-    icon: string,
-    name: string
-}
-const TokenList: TokenMsg[] = [
-    {
-        icon: require('../../assets/images/eth.logo.png'),
-        name: 'ETH'
-    },
-    {
-        icon: require('../../assets/images/plian.logo.png'),
-        name: 'Pi'
-    },
-    {
-        icon: require('../../assets/images/fil.logo.png'),
-        name: 'FIL'
-    }
-]
 const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     const [active, setActive] = useState<number>(0);
     const [show, setShow] = useState<boolean>(false);
@@ -58,8 +49,15 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
         category: 1,
         nft_type: '721',
         chain: state.chain as string,
-        labels: []
-    })
+        labels: [],
+        token_info: {
+            symbol: 'Pi',
+            icon: require('../../assets/images/plian.logo.png'),
+            address: SystemAddress,
+            fee: '0.4'
+        }
+    });
+
     const getCategory = async () => {
         const result = await CategoryList({
             page_size: 100
@@ -73,10 +71,11 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
         });
         setCateList(data.data.item);
     };
-    const selectChain = (e: unknown) => {
+    const selectChain = (e: string) => {
         setInput({
             ...input,
-            chain: String(e)
+            chain: e,
+            token_info: FilterAddressToName(e).token[0]
         })
     }
     const isDisable = (_chain: string) => {
@@ -108,7 +107,10 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             category: +value
         })
     }
-    const  handleOpenChange = (_v:boolean) => {
+    const handleOpenChange = (_v: boolean) => {
+        if (input.chain !== '8007736') {
+            return
+        }
         setTokenPop(_v)
     }
     useEffect(() => {
@@ -145,20 +147,24 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
         return (
             <div className="select-token-content">
                 <p className="select-token-title">Select a token</p>
-                <div className="search-box">
+                {/* <div className="search-box">
                     <SearchOutlined />
                     <input type="text" placeholder="Search name or paste address" />
-                </div>
+                </div> */}
                 <div className="block-list">
                     <ul>
                         {
-                            TokenList.map((item: TokenMsg, index: number) => {
+                            FilterAddressToName(input.chain).token.map((item: TokenMsg, index: number) => {
                                 return (
                                     <li key={index} onClick={() => {
+                                        setInput({
+                                            ...input,
+                                            token_info: item
+                                        })
                                         setTokenPop(false)
                                     }}>
                                         <img src={item.icon} alt="" />
-                                        <p>{item.name}</p>
+                                        <p>{item.symbol}</p>
                                     </li>
                                 )
                             })
@@ -168,13 +174,17 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                 <div className="inline-list">
                     <ul>
                         {
-                            TokenList.map((item: TokenMsg, index: number) => {
+                            FilterAddressToName(input.chain).token.map((item: TokenMsg, index: number) => {
                                 return (
                                     <li key={index} onClick={() => {
+                                        setInput({
+                                            ...input,
+                                            token_info: item
+                                        })
                                         setTokenPop(false)
                                     }}>
                                         <img src={item.icon} alt="" />
-                                        <p>{item.name}</p>
+                                        <p>{item.symbol}</p>
                                     </li>
                                 )
                             })
@@ -319,9 +329,11 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                         <div className="select-token">
                             <p>Asses</p>
                             <p>
-                                <img src={require('../../assets/images/pi_logo.png')} alt="" />
-                                <span className="token-name">Pi</span>
-                                <CaretDownOutlined />
+                                <img src={input.token_info.icon} alt="" />
+                                <span className="token-name">{input.token_info.symbol}
+                                    <span className="sm">(Fees:<i>{Number(input.token_info.fee).toFixed(4)}</i>)</span>
+                                </span>
+                                {input.chain === '8007736' && <CaretDownOutlined />}
                             </p>
                         </div>
                     </Popover>

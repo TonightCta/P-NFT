@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './index.scss'
 import { Pagination, Spin, Popover, message } from 'antd'
-import { MFTOffService, WalletNFT } from '../../request/api'
+import { MFTOffService, WalletNFT, CurrencyInfo } from '../../request/api'
 import { NFTItem } from "../../utils/types";
 import OwnerCard from "./components/owner.card";
 import { useParams } from "react-router-dom";
@@ -15,7 +15,9 @@ import { useContract } from "../../utils/contract";
 import { useSwitchChain } from "../../hooks/chain";
 import { FilterAddress } from "../../utils";
 import IconFont from "../../utils/icon";
+import TokensList from "./components/tokens.list";
 // import FooterNew from "../screen.new/components/footer.new";
+import { SystemAddress } from './../../utils/source';
 
 interface OP {
     label: string,
@@ -28,7 +30,8 @@ interface Sale {
     collection_name: string,
     chain_id: string,
     image_minio_url: string,
-    token_id: number
+    token_id: number,
+    nft_address:string
 }
 
 const options: OP[] = [
@@ -88,6 +91,19 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         value: '999',
         icon: ''
     });
+    const [balanceUSDT, setBalanceUSDT] = useState<string>('');
+    const getBalanceByUSDT = async () => {
+        const result = await CurrencyInfo({
+            chain_id: state.chain,
+            contract_address: SystemAddress
+        });
+        const { data } = result;
+        const usdt_balance = data.price_usdt * +state.balance!;
+        setBalanceUSDT(usdt_balance.toFixed(4));
+    };
+    useEffect(() => {
+        getBalanceByUSDT();
+    }, [])
     const hide = () => {
         setOpen(false);
     };
@@ -200,7 +216,8 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         collection_name: '',
         chain_id: '8007736',
         image_minio_url: '',
-        token_id: 0
+        token_id: 0,
+        nft_address:''
     });
     const [fixedVisible, setFixedVisible] = useState<boolean>(false);
     const content = (
@@ -223,6 +240,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
             </ul>
         </div>
     );
+    const [assetsType, setAssetsType] = useState<string>('NFTs');
     const [filter, setFilter] = useState<boolean>(false);
     return (
         <div className="owner-view">
@@ -260,7 +278,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                     <p>Balance:<img src={state.wallet === 'btc' ? require('../../assets/images/bitcoin.logo.png') : FilterAddress(state.chain as string).chain_logo} alt="" />
                                         <span>{state.balance}</span>
                                     </p>
-                                    <p>Price&nbsp;($&nbsp;64,567.52)</p>
+                                    <div className="balance-by-u">Price&nbsp;($&nbsp;{balanceUSDT ? balanceUSDT : <Spin size="small"/>})</div>
                                 </div>
                             </div>
                             {/* <div className="search-box">
@@ -298,7 +316,10 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                             {
                                                 ['All', 'Tokens', 'NFTs', 'Inscriptions'].map((item: string, index: number) => {
                                                     return (
-                                                        <li key={index} className={`${item === 'NFTs' ? 'active-condition' : 'dis-c'}`}>
+                                                        <li key={index} className={`${(item === 'NFTs' || item === 'Tokens') ? '' : 'dis-c'} ${assetsType === item ? 'active-condition' : ''}`} onClick={() => {
+                                                            if (item !== 'NFTs' && item !== 'Tokens') return
+                                                            setAssetsType(item);
+                                                        }}>
                                                             <p>{item}</p>
                                                         </li>
                                                     )
@@ -307,50 +328,54 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                         </ul>
                                     </div>
                                 </div>}
-                                <div className="item-inner-list">
-                                    {loading && <div className="load-data-box">
-                                        <Spin size="large" />
-                                    </div>}
-                                    {
-                                        (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
-                                            // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
-                                            return (
-                                                <NewNFTCard type={activeTop === 0 ? 1 : 2} key={index} item={item} uploadTakeoff={async () => {
-                                                    await switchC(+item.chain_id);
-                                                    const hash: any = await takeOff(+item.order_id);
-                                                    if (!hash || hash.message) {
-                                                        return
-                                                    };
-                                                    const maker = await MFTOffService({
-                                                        chain_id: item.chain_id,
-                                                        sender: state.address,
-                                                        tx_hash: hash['transactionHash']
-                                                    });
-                                                    const { status } = maker;
-                                                    if (status !== 200) {
-                                                        message.error(maker.message);
-                                                        return
-                                                    };
-                                                    message.success('Take off the shelves Successfully!');
-                                                    setList([]);
-                                                    setPage(1);
-                                                    setLoading(true);
-                                                    saleListFN();
-                                                }} uploadSaleInfo={() => {
-                                                    setSale({
-                                                        collection_name: item.collection_name,
-                                                        token_id: item.token_id,
-                                                        token_name: item.token_name,
-                                                        chain_id: item.chain_id,
-                                                        image_minio_url: item.image_minio_url
-                                                    });
-                                                    setFixedVisible(true);
-                                                }} />
-                                            )
-                                        })
-                                    }
-                                </div>
-
+                                {
+                                    assetsType === 'NFTs'
+                                        ? <div className="item-inner-list">
+                                            {loading && <div className="load-data-box">
+                                                <Spin size="large" />
+                                            </div>}
+                                            {
+                                                (activeTop === 0 ? list : itemList).map((item: NFTItem, index: number) => {
+                                                    // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
+                                                    return (
+                                                        <NewNFTCard type={activeTop === 0 ? 1 : 2} key={index} item={item} uploadTakeoff={async () => {
+                                                            await switchC(+item.chain_id);
+                                                            const hash: any = await takeOff(+item.order_id);
+                                                            if (!hash || hash.message) {
+                                                                return
+                                                            };
+                                                            const maker = await MFTOffService({
+                                                                chain_id: item.chain_id,
+                                                                sender: state.address,
+                                                                tx_hash: hash['transactionHash']
+                                                            });
+                                                            const { status } = maker;
+                                                            if (status !== 200) {
+                                                                message.error(maker.message);
+                                                                return
+                                                            };
+                                                            message.success('Take off the shelves Successfully!');
+                                                            setList([]);
+                                                            setPage(1);
+                                                            setLoading(true);
+                                                            saleListFN();
+                                                        }} uploadSaleInfo={() => {
+                                                            setSale({
+                                                                collection_name: item.collection_name,
+                                                                token_id: item.token_id,
+                                                                token_name: item.token_name,
+                                                                chain_id: item.chain_id,
+                                                                image_minio_url: item.image_minio_url,
+                                                                nft_address:item.contract_address
+                                                            });
+                                                            setFixedVisible(true);
+                                                        }} />
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                        : <TokensList chain_id="8007736" />
+                                }
                             </div>
                         </div>
                         {
@@ -368,7 +393,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                     </div>
                 </div>
             </div>
-            <FixedModal name={sale.token_name} collection={sale.collection_name} chain={sale.chain_id} upRefresh={() => {
+            <FixedModal name={sale.token_name} nft_address={sale.nft_address} collection={sale.collection_name} chain={sale.chain_id} upRefresh={() => {
                 setItemList([]);
                 setLoading(true);
                 itemQuery();

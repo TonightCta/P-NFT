@@ -178,7 +178,7 @@ const NewNFTCard = (props: Props): ReactElement => {
                     </Tooltip>
                 </div>}
             </div>
-            <EditWorkModal visible={workBox} work_id={workID} closeModal={(val: boolean) => {
+            <EditWorkModal visible={workBox} nft_address={props.item.contract_address} work_id={workID} closeModal={(val: boolean) => {
                 setWorkBox(val);
             }} />
         </div>

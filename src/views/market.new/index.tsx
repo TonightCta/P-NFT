@@ -8,6 +8,7 @@ import { Button, Spin, message } from "antd";
 import { DateConvert, FilterAddress, randomString } from "../../utils";
 import { useSwitchChain } from "../../hooks/chain";
 import { useContract } from "../../utils/contract";
+import { useParams } from "react-router-dom";
 
 interface Account {
     icon: string,
@@ -41,6 +42,8 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
     const [bgLoad, setBgLoad] = useState<boolean>(true);
     const [mintTotal, setMintTotal] = useState<number>(0);
     const { switchC } = useSwitchChain();
+    const searchParams = useParams();
+
     const { BBCPoolTotal, transHash, BBCBuy } = useContract();
     const [mintNum, setMintNum] = useState<number | string>('');
     const [mint, setMint] = useState<boolean>(false);
@@ -49,7 +52,7 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
         const result = await CollectionInfo({
             collection_id: +(state.collection_id as string),
             chain_id: '1',
-            contract_address: FilterAddress(state.chain as string).contract_721
+            contract_address: searchParams.address
         });
         setWait(false);
         const { data } = result;

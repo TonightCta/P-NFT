@@ -3,7 +3,7 @@ import { ReactElement, useContext, useEffect, useState } from "react";
 import { LAND, useContract } from "../../../utils/contract";
 import { PNft } from "../../../App";
 import { useSwitchChain } from "../../../hooks/chain";
-import { TaikoContractAddressMarketTest } from "../../../utils/source";
+import { PNFTAddress, TaikoContractAddressMarketTest } from "../../../utils/source";
 import { NFTBuyService } from '../../../request/api'
 import { FilterAddress } from "../../../utils";
 interface Item {
@@ -56,7 +56,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             setApproved(true);
             return
         }
-        const approve = await queryERC20Approve(state.address as string, LAND === 'taiko' ? TaikoContractAddressMarketTest : FilterAddress(state.chain as string).contract_market);
+        const approve = await queryERC20Approve(state.address as string, LAND === 'taiko' ? TaikoContractAddressMarketTest : FilterAddress(state.chain as string).contract_market,PNFTAddress);
         const bol = +approve / 1e18 >= +props.item.price / 1e18;
         setApproved(bol);
         setWait({
@@ -84,7 +84,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
             approve_dis: true,
             approve: true
         })
-        const hash: any = await approveToken(props.item.pay_currency_contract);
+        const hash: any = await approveToken(props.item.pay_currency_contract,FilterAddress(state.chain as string).contract_market);
         if (!hash || hash.message) {
             setWait({
                 ...wait,
