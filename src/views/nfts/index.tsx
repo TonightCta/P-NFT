@@ -375,12 +375,12 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                                 })
                                             }
                                         </div>
-                                        : <TokensList chain_id="8007736" />
+                                        : <TokensList chain_id={chainInfo.value} />
                                 }
                             </div>
                         </div>
                         {
-                            total === 0 && !loading && <p className="no-more">No more</p>
+                            total === 0 && !loading && assetsType !== 'Tokens' && <p className="no-more">No more</p>
                         }
                         <div className="page-oper">
                             <Pagination hideOnSinglePage defaultCurrent={1} pageSize={12} total={total} onChange={(page) => {

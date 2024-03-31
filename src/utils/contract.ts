@@ -54,16 +54,16 @@ export const useContract = () => {
         gas: state.chain === '10' ? '' : '0x2dc6c0',
         gasLimit: state.chain === '10' ? '' : '0x2dc6c0',
     });
+    const ethereumCoinbase = coinbaseWallet.makeWeb3Provider(
+        DEFAULT_ETH_JSONRPC_URL,
+        DEFAULT_CHAIN_ID
+    );
     // const cals = async () => {
     //     const pi = state.ethereum ? await web3V2.eth.getGasPrice() : '0';
     //     setGasPrice(pi);
     // };
     const init = useCallback(async () => {
         if (state.wallet === 'btc') return
-        const ethereumCoinbase = coinbaseWallet.makeWeb3Provider(
-            DEFAULT_ETH_JSONRPC_URL,
-            DEFAULT_CHAIN_ID
-        );
         const filterProvider = new Web3(state.wallet === 'metamask' && provider || state.wallet === 'coinbase' && ethereumCoinbase || state.wallet === 'walletconnect' && walletProvider || ethereum);
         const pi = filterProvider ? await filterProvider.eth.getGasPrice() : '0';
         setGasPrice(pi);
@@ -132,7 +132,7 @@ export const useContract = () => {
             MintV2Contract.methods.mintToken(state.address, _pay_token_address, _data_ipfs).send({
                 from: send.from,
                 gas: Gas,
-                value:pay_address ? fee : '0'
+                value: pay_address ? fee : '0'
             })
                 .on('receipt', (res: any) => {
                     resolve(res)
@@ -219,7 +219,7 @@ export const useContract = () => {
         })
     }
     //List - Approve
-    const putApprove = async (_token_id: number,_nft_address:string): Promise<string> => {
+    const putApprove = async (_token_id: number, _nft_address: string): Promise<string> => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
@@ -244,7 +244,7 @@ export const useContract = () => {
         })
     }
     //List
-    const putList = async (_token_id: number, _price: number, _address: string,_nft_address:string): Promise<string> => {
+    const putList = async (_token_id: number, _price: number, _address: string, _nft_address: string): Promise<string> => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
@@ -334,7 +334,7 @@ export const useContract = () => {
         return total
     }
     //授权查询
-    const queryApprove = async (_token_id: number,_nft_address:string): Promise<string> => {
+    const queryApprove = async (_token_id: number, _nft_address: string): Promise<string> => {
         if (!state.ethereum) {
             message.error('You need to install Metamask to use this feature');
             return 'uninstall'
@@ -364,7 +364,8 @@ export const useContract = () => {
         return result;
     }
     const balanceErc20 = async (_token_address: string): Promise<string> => {
-        const contract = new web3V2.eth.Contract(NormalABIERC20 as any, _token_address);
+        const web3 = new Web3(state.wallet === 'metamask' && provider || state.wallet === 'coinbase' && ethereumCoinbase || state.wallet === 'walletconnect' && walletProvider || ethereum)
+        const contract = new web3.eth.Contract(NormalABIERC20 as any, _token_address);
         const balance = await contract.methods.balanceOf(send.from).call();
         return balance;
     }

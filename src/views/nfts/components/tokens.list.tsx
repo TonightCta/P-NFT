@@ -1,5 +1,6 @@
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Table, TableProps } from 'antd';
+import { useContract } from "../../../utils/contract";
 
 interface Props {
     chain_id: string
@@ -23,13 +24,13 @@ const columns: TableProps<DataType>['columns'] = [
         render: (_, _record, index) => (
             <p className="w-tr">{index + 1}</p>
         ),
-        align:'match-parent'
+        align: 'match-parent'
     },
     {
         title: 'Token Logo',
         dataIndex: 'token',
         key: 'token',
-        render:(_,record) => (
+        render: (_, record) => (
             <div className="token-msg">
                 <img src={record.token.icon} alt="" />
                 <p>{record.token.symbol}</p>
@@ -40,7 +41,7 @@ const columns: TableProps<DataType>['columns'] = [
         title: 'Address',
         dataIndex: 'address',
         key: 'address',
-        render:(_,record) => (
+        render: (_, record) => (
             <p className="w-tr">{record.address}</p>
         )
     },
@@ -48,42 +49,50 @@ const columns: TableProps<DataType>['columns'] = [
         title: 'Token Balance',
         dataIndex: 'balance',
         key: 'balance',
-        render:(_,record) => (
+        render: (_, record) => (
             <p className="w-tr">{record.balance}</p>
         )
     }
 ];
-
-const data: DataType[] = [
-    {
-        key: '1',
-        token: {
-            icon: require('../../../assets/images/eth.logo.png'),
-            symbol: 'ETH'
-        },
-        address: '0xbD19c55cEAED0bF7b71CC939316971E8C640730E',
-        balance: '0.0025',
+interface Token {
+    key: string,
+    token: {
+        icon: string,
+        symbol: string,
     },
-    {
-        key: '2',
-        token: {
-            icon: require('../../../assets/images/eth.logo.png'),
-            symbol: 'ETH'
-        },
-        address: '0xbD19c55cEAED0bF7b71CC939316971E8C640730E',
-        balance: '0.0025',
-    },
-    {
-        key: '3',
-        token: {
-            icon: require('../../../assets/images/eth.logo.png'),
-            symbol: 'ETH'
-        },
-        address: '0xbD19c55cEAED0bF7b71CC939316971E8C640730E',
-        balance: '0.0025',
-    },
-];
+    address: string,
+    balance: string
+}
 export const TokensList = (props: Props): ReactElement<ReactNode> => {
+    const [data, setData] = useState<Token[]>(props.chain_id === '8007736' ? [
+        {
+            key: '1',
+            token: {
+                icon: require('../../../assets/images/pnft.png'),
+                symbol: 'PNFT'
+            },
+            address: '0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08',
+            balance: '0.0000',
+        },
+    ] : []);
+    const { balanceErc20 } = useContract();
+    const queryBalance = async () => {
+        const balance = await balanceErc20('0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08');
+        setData([
+            {
+                key: '1',
+                token: {
+                    icon: require('../../../assets/images/pnft.png'),
+                    symbol: 'PNFT'
+                },
+                address: '0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08',
+                balance: String((+balance / 1e18).toFixed(4)),
+            },
+        ])
+    }
+    useEffect(() => {
+        props.chain_id === '8007736' ? setTimeout(() => { queryBalance() }, 1000) : setData([]);
+    }, [props.chain_id])
     return (
         <div className="tokens-list">
             <Table columns={columns} dataSource={data} bordered={false} pagination={false} />;
