@@ -35,7 +35,7 @@ const FooterNew = (): ReactElement<ReactNode> => {
         <div className="footer-wapper-new">
             <div className="left-msg">
                 <img src={require('../../../assets/new/logo.png')} alt="" />
-                <p>Copyright © 2023 Pizzap.All Rights Reserved.</p>
+                <p>Copyright © 2024 Pizzap.All Rights Reserved.</p>
             </div>
             <div className="right-account">
                 <ul>

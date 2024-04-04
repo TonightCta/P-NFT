@@ -32,7 +32,7 @@ const FooterWapper = (): ReactElement<ReactNode> => {
     ]
     return (
         <div className="footer-wapper">
-            <p>Copyright © 2023 Pizzap.All Rights Reserved.</p>
+            <p>Copyright © 2024 Pizzap.All Rights Reserved.</p>
             <ul>
                 {
                     tab.map((item: Tab, index: number): ReactElement => {
