@@ -27,6 +27,18 @@
       margin: 0 auto;
       position: relative;
       padding-top: 74px;
+      .submit-btn {
+        margin-top: 72px;
+        text-align: center;
+        button {
+          width: 468px;
+          height: 60px;
+          border-radius: 14px;
+          border: 0;
+          font-size: 16px;
+          background: linear-gradient(90deg, #f23176 0%, #6a40fb 100%);
+        }
+      }
       .page-icon {
         font-size: 54px;
         color: #686a6c;
@@ -66,6 +78,7 @@
           border: 1px solid #ccc;
           color: #cccccc;
           box-shadow: 0px 6px 24px 1px rgba(110, 110, 110, 0);
+          cursor:no-drop;
         }
       }
       .page-step {
@@ -520,17 +533,6 @@
             }
             .up-audio-box {
               margin-top: 50px;
-            }
-            .submit-btn {
-              margin-top: 72px;
-              button {
-                width: 468px;
-                height: 60px;
-                border-radius: 14px;
-                border: 0;
-                font-size: 16px;
-                background: linear-gradient(90deg, #f23176 0%, #6a40fb 100%);
-              }
             }
           }
           .aigc-box {

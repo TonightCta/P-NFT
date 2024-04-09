@@ -138,7 +138,7 @@ const ContestView = (): ReactElement<ReactNode> => {
                     </div>
                 }
             </div>
-            <FooterNew />
+        <FooterNew />
         </div>
     )
 };

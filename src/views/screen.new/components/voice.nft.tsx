@@ -16,7 +16,6 @@ const VoiceNftNew = (): ReactElement<ReactNode> => {
         'Kobe_Bryant',
         'LADY_GAGA',
         'LEONARDO_DICAPRIO',
-        'Sam_Bankman_Fried',
         'Sheldon',
         'Simba',
         'Taylor_Swift',

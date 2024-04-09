@@ -42,7 +42,7 @@ const InnerCard = (props: { item: any }): ReactElement => {
                         setPlayer(null);
                         return
                     }
-                    const play = document.createElement('audio');
+            const play = document.createElement('audio');
                     setPlayer(play)
                     play.src = item.voice_minio_url;
                     play.loop = false;

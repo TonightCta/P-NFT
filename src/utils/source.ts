@@ -546,7 +546,7 @@ export const NetworkConfigName: ConfigName[] = [
         token: [
             {
                 symbol: 'ETH',
-                icon: require('../assets/images/eth.logo.png'),
+                icon: require('../assets/images/eth.logo.2.png'),
                 address: SystemAddress,
                 fee: '0.0001',
             },
@@ -585,7 +585,7 @@ export const NetworkConfigName: ConfigName[] = [
         token: [
             {
                 symbol: 'ETH',
-                icon: require('../assets/images/eth.logo.png'),
+                icon: require('../assets/images/eth.logo.op.png'),
                 address: SystemAddress,
                 fee: '0.0001',
             }
