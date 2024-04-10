@@ -28,6 +28,12 @@ export const useCoinbase = () => {
             method: 'eth_requestAccounts'
         });
         dispatch({
+          type: Type.SET_EVM,
+          payload: {
+            evm:'0'
+          }
+        })
+        dispatch({
             type: Type.SET_WALLET,
             payload: {
                 wallet: 'coinbase'

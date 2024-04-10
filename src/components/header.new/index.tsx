@@ -131,6 +131,12 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
         payload: {
           wallet: 'walletconnect'
         }
+      });
+      dispatch({
+        type: Type.SET_EVM,
+        payload: {
+          evm:'0'
+        }
       })
       userInfo(address as string);
       queryBalance(address);
@@ -225,6 +231,18 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                 wallet: ''
               }
             });
+            dispatch({
+              type: Type.SET_EVM,
+              payload: {
+                evm: '0'
+              }
+            });
+            dispatch({
+              type: Type.SET_CHAIN,
+              payload: {
+                chain: '8007736'
+              }
+            });
             navigate('/');
           };
           // disconnect();
@@ -289,7 +307,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     window.open(item.url);
                     return
                   }
-                  if (item.url === '/create' && state.wallet === 'btc') {
+                  if (item.url === '/create' && state.evm === '1') {
                     message.warning('This network is not supported yet');
                     return
                   }
@@ -312,7 +330,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
             })
           }
         </ul>
-        {(state.wallet && state.wallet !== 'btc') && <Popover open={chainPop} onOpenChange={(e: boolean) => {
+        {(state.wallet && state.evm === '0') && <Popover open={chainPop} onOpenChange={(e: boolean) => {
           if (flag) {
             return
           }
@@ -331,6 +349,14 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
             <div className="connected-box">
               <img src={require('../../assets/images/bitcoin.logo.png')} alt="" />
               <p>Bitcoin</p>
+            </div>
+          </div>
+        }
+        {
+          (state.wallet && state.wallet === 'sol') && <div className="connect-box select-chain connect-without-icon">
+            <div className="connected-box">
+              <img src={require('../../assets/images/solana.logo.png')} alt="" />
+              <p>Solana</p>
             </div>
           </div>
         }

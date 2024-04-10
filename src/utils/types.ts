@@ -37,7 +37,8 @@ export interface State {
   is_connect?: number,
   wallet?: string,
   balance?: string,
-  create?: string
+  create?: string,
+  evm?:string
 }
 
 export interface IResponse {
@@ -76,7 +77,8 @@ export enum Type {
   SET_IS_CONNECT = 'set_is_connect',
   SET_WALLET = 'set_wallet',
   SET_BALANCE = 'set_balance',
-  SET_CREATE = 'set_create'
+  SET_CREATE = 'set_create',
+  SET_EVM = 'set_evm'
 };
 
 export interface IAction {

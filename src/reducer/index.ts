@@ -30,7 +30,8 @@ export const defaultState: State = {
   is_connect: Number(sessionStorage.getItem('is_connect') as string) || 0,
   wallet: sessionStorage.getItem('wallet') || '',
   balance: sessionStorage.getItem('balance') || '0',
-  create: '0'
+  create: '0',
+  evm:sessionStorage.getItem('evm') || '0', //!! 0 - EVM   1 - Other
 };
 
 export const defaultContext: Context = {
@@ -123,7 +124,10 @@ export const initState = (state: State, action: IAction) => {
       sessionStorage.setItem('balance', payload.balance as string);
       return { ...state, balance: payload.balance }
     case Type.SET_CREATE:
-      return {  ...state,create:payload.create }
+      return { ...state, create: payload.create }
+    case Type.SET_EVM:
+      sessionStorage.setItem('evm', payload.evm as string);
+      return { ...state,evm:payload.evm }
     default:
       return state;
   }

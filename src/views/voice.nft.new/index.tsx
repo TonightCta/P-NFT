@@ -11,6 +11,7 @@ import { PNft } from "../../App";
 import { FilterAddressToName } from "../../utils";
 import { Type } from "../../utils/types";
 import { useNavigate } from "react-router-dom";
+import CreateCollection from "./components/create.collection";
 
 interface Op {
   value: string | number,
@@ -61,7 +62,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     nft_type: '721',
     chain: state.chain as string,
     labels: [],
-    token_info: FilterAddressToName((state.wallet === 'btc' ? '8007736' : state.chain) || '8007736').token[0],
+    token_info: FilterAddressToName((state.evm === '1' ? '8007736' : state.chain) || '8007736').token[0],
     symbol: '',
     tokenURI: '',
     decimals: '',
@@ -94,7 +95,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
   }
   const isDisable = (_chain: string) => {
     const chian = _chain === '8007736' || _chain === '314' || _chain === '10' || _chain === '210425';
-    if (state.wallet && state.wallet !== 'btc' && chian) {
+    if (state.wallet && state.evm !== '1' && chian) {
       return false
     } else {
       return true
@@ -136,11 +137,11 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     setActive(0);
   }, [state.create])
   useEffect(() => {
-    if (state.wallet === 'btc') {
+    if (state.evm === '1') {
       message.warning('This network is not supported yet');
       navigate('/')
     }
-  }, [state.wallet])
+  }, [state.evm])
   // const selectPop = (
   //     <div className="select-pop-content">
   //         <ul>
@@ -220,12 +221,6 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
       </div>
     )
   };
-  const createCollectionWith721 = async () => {
-    console.log('Create collection with ERC721');
-  }
-  const createCollectionWith404 = async () => {
-    console.log('Create collection with ERC404');
-  }
   const inputBox = (
     <div className="input-box">
       <div className="public-inp-box">
@@ -237,7 +232,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
           })
         }} type="text" placeholder="Please enter the name" />
       </div>
-      {createType === 'nft' && <div className="public-inp-box">
+      <div className="public-inp-box">
         <p>Describtion(Optional)</p>
         <textarea placeholder="Please enter the describtion" value={input.desc} onChange={(e) => {
           setInput({
@@ -245,16 +240,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             desc: e.target.value
           })
         }}></textarea>
-      </div>}
-      {createType !== 'nft' && <div className="public-inp-box">
-        <p><sup>*</sup>Symbol</p>
-        <input className="other-in" value={input.name} onChange={(e) => {
-          setInput({
-            ...input,
-            symbol: e.target.value
-          })
-        }} type="text" placeholder="Please enter the symbol" />
-      </div>}
+      </div>
       <div className="public-inp-box">
         <p><sup>*</sup>NFT Type</p>
         <Select
@@ -273,90 +259,15 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             ]}
         />
       </div>
-      {createType !== 'nft' && <div className="public-inp-box">
-        <p><sup>*</sup>Token URI</p>
-        <input className="other-in" value={input.name} onChange={(e) => {
-          setInput({
-            ...input,
-            tokenURI: e.target.value
-          })
-        }} type="text" placeholder="Please enter the token uri" />
-      </div>}
-      {
-        createType !== 'nft' && input.nft_type === '404' && <div className="public-inp-box">
-          <p><sup>*</sup>Decimals</p>
-          <input className="other-in" value={input.name} onChange={(e) => {
-            setInput({
-              ...input,
-              decimals: e.target.value
-            })
-          }} type="text" placeholder="Please enter the decimals" />
-        </div>
-      }
-      {
-        createType !== 'nft' && input.nft_type === '404' && <div className="public-inp-box">
-          <p><sup>*</sup>Total Native Supply</p>
-          <input className="other-in" value={input.name} onChange={(e) => {
-            setInput({
-              ...input,
-              native_supply: e.target.value
-            })
-          }} type="text" placeholder="Please enter the total native supply" />
-        </div>
-      }
-      {
-        createType !== 'nft' && input.nft_type === '721' && <div className="public-inp-box">
-          <p><sup>*</sup>Supply</p>
-          <input className="other-in" value={input.name} onChange={(e) => {
-            setInput({
-              ...input,
-              supply: e.target.value
-            })
-          }} type="text" placeholder="Please enter the supply" />
-        </div>
-      }
-      {
-        createType !== 'nft' && input.nft_type === '721' && <div className="public-inp-box">
-          <p><sup>*</sup>Limit</p>
-          <input className="other-in" value={input.name} onChange={(e) => {
-            setInput({
-              ...input,
-              limit: e.target.value
-            })
-          }} type="text" placeholder="Please enter the limit" />
-        </div>
-      }
-      {
-        createType !== 'nft' && input.nft_type === '721' && <div className="public-inp-box">
-          <p><sup>*</sup>Price</p>
-          <input className="other-in" value={input.name} onChange={(e) => {
-            setInput({
-              ...input,
-              price: e.target.value
-            })
-          }} type="text" placeholder="Please enter the price" />
-        </div>
-      }
-      {
-        createType !== 'nft' && <div className="public-inp-box">
-          <p><sup>*</sup>Admin</p>
-          <input className="other-in" value={input.name} onChange={(e) => {
-            setInput({
-              ...input,
-              native_supply: e.target.value
-            })
-          }} type="text" placeholder="Please enter the admin" />
-        </div>
-      }
-      {createType === 'nft' && <div className="public-inp-box">
+      <div className="public-inp-box">
         <p><sup>*</sup>Category</p>
         <Select
           defaultValue="1"
           onChange={selectCategory}
           options={cateList}
         />
-      </div>}
-      {createType === 'nft' && <div className="public-inp-box">
+      </div>
+      <div className="public-inp-box">
         <p><sup>*</sup>Labels</p>
         <div className="select-custom-box">
           <div className="view-labels">
@@ -389,8 +300,8 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
           {labelsText.length < 1 && <p className="label-placeholder">Select Label</p>}
           {/* <DownOutlined /> */}
         </div>
-      </div>}
-      {createType === 'nft' && <div className="select-pop-content">
+      </div>
+      <div className="select-pop-content">
         <ul>
           {
             labelsList.map((item: Op, index: number) => {
@@ -414,13 +325,14 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             })
           }
         </ul>
-      </div>}
-      {createType === 'nft' && <div className="public-inp-box">
+      </div>
+      <div className="public-inp-box">
         <p><sup>*</sup>Chain</p>
         <div className="select-chain-token">
           <Select
             defaultValue={state.chain as string}
             onChange={selectChain}
+            listHeight={ 400 }
           >
             {
               NetworkConfig.map((item: Config) => {
@@ -456,26 +368,16 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
             </div>
           </Popover>
         </div>
-      </div>}
-      {
-        createType !== 'nft' && <div className="public-inp-box">
-          <p className="submit-btn">
-            <Button type="primary" onClick={() => {
-              input.nft_type === '721' ? createCollectionWith721() : createCollectionWith404();
-            }}>Submit</Button>
-          </p>
-        </div>
-      }
-      {createType === 'nft' && <div className={`next-btn ${(!state.wallet || state.wallet === 'btc') ? 'disable-btn' : ''}`} onClick={() => {
-        if (!state.wallet || state.wallet === 'btc') {
+      </div>
+      <div className={`next-btn ${(!state.wallet || state.evm === '1') ? 'disable-btn' : ''}`} onClick={() => {
+        if (!state.wallet || state.evm === '0') {
           return
         }
         setActive(1);
       }}>
         <IconFont type="icon-jiantou" />
         <IconFont type="icon-jiantou" />
-      </div>}
-
+      </div>
     </div>
   )
   return (
@@ -505,7 +407,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                 }}>NEW NFT</Button>
                 <Button type="primary" onClick={() => {
                   // setShow(true);
-                  return
+                  //TODO
                   setCreateType('collection')
                   dispatch({
                     type: Type.SET_CREATE,
@@ -532,7 +434,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                 </div>
                 {
                   active === 0
-                    ? inputBox
+                    ? createType === 'nft' ? inputBox : <CreateCollection/>
                     : <DesignBox info={input} upDateBack={() => {
                       setActive(0);
                     }} />

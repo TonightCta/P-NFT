@@ -13,7 +13,7 @@ import { DownOutlined } from "@ant-design/icons";
 import FixedModal from "../detail/components/fixed.price";
 import { useContract } from "../../utils/contract";
 import { useSwitchChain } from "../../hooks/chain";
-import { FilterAddress } from "../../utils";
+import { FilterAddress, FilterChainsToken } from "../../utils";
 import IconFont from "../../utils/icon";
 import TokensList from "./components/tokens.list";
 // import FooterNew from "../screen.new/components/footer.new";
@@ -69,6 +69,11 @@ const options: OP[] = [
     label: 'Bitcoin',
     value: 'btcmain',
     icon: require('../../assets/images/bitcoin.logo.png')
+  },
+  {
+    label: 'Solana',
+    value: 'solmain',
+    icon: require('../../assets/images/solana.logo.png')
   }
 ]
 
@@ -280,7 +285,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                   }
                 </ul>
                 {searchParams.address === state.address && <div className="balance-box">
-                  <p>Balance:<img src={state.wallet === 'btc' ? require('../../assets/images/bitcoin.logo.png') : FilterAddress(state.chain as string).chain_logo} alt="" />
+                  <p>Balance:<img src={state.evm === '1' ? FilterChainsToken(state.wallet as string).logo : FilterAddress(state.chain as string).chain_logo} alt="" />
                     <span>{state.balance}</span>
                   </p>
                   <div className="balance-by-u">Price&nbsp;($&nbsp;{balanceUSDT ? balanceUSDT : <Spin size="small" />})</div>

@@ -47,6 +47,12 @@ export const useOKX = () => {
                     wallet: 'btc'
                 }
             });
+            dispatch({
+              type: Type.SET_EVM,
+              payload: {
+                evm:'1'
+              }
+            })
             await updateAddress(result.address);
             const balance = await win.okxwallet.bitcoin.getBalance();
             dispatch({

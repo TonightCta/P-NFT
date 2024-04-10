@@ -56,6 +56,12 @@ export const useMetamask = () => {
     try {
       const result: any = await sdk?.connect();
       dispatch({
+        type: Type.SET_EVM,
+        payload: {
+          evm:'0'
+        }
+      })
+      dispatch({
         type: Type.SET_WALLET,
         payload: {
           wallet: 'metamask'
