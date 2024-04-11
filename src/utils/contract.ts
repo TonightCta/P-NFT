@@ -258,6 +258,7 @@ export const useContract = () => {
         .on('receipt', (res: any) => {
           resolve(res);
         }).on('error', (err: any) => {
+          console.log(err)
           message.error(err.message);
           resolve(err)
         })

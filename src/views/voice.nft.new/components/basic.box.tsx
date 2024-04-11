@@ -148,7 +148,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         const formData = new FormData();
         formData.append('chain_id', props.info.chain);
         const NFTAddress = LAND === 'taiko' ? MODE === 'taikomain' ? Address.TaikoContractAddress721Main : Address.TaikoContractAddress721Test : MODE === 'production' ? FilterAddress(state.chain as string).contract_721 : FilterAddress(state.chain as string).contract_721_test;
-        formData.append('contract_address', NFTAddress);
+        formData.append('contract_address', props.info.chain === '8007736' ? MintV2ContractAddress : NFTAddress);
         formData.append('contract_type', '721');
         formData.append('sender', state.address as string);
         formData.append('tx_hash', result['transactionHash']);

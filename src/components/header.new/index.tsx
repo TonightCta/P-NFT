@@ -7,35 +7,64 @@ import { PNft } from "../../App";
 import { FilterAddress, calsAddress } from "../../utils";
 import { Type } from "../../utils/types";
 import { Config, NetworkConfig, flag } from "../../utils/source";
-import { MenuOutlined } from "@ant-design/icons";
+import { DownOutlined, MenuOutlined } from "@ant-design/icons";
 import MobileMenuDraw from "./components/mobile.menu";
 import { useSwitchChain } from "../../hooks/chain";
 import ConnectModal from "./components/connect.modal";
 import { ProfileService } from "../../request/api";
 import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
-import { useUnisat } from "../../utils/connect/unisat";
+// import { useUnisat } from "../../utils/connect/unisat";
 import Web3 from "web3";
 
 export interface Menu {
   name: string,
-  url: string
+  url: string,
+  children?: Menu[]
 }
 
 export const MenuList: Menu[] = [
   {
-    name: 'Create',
-    url: '/create',
+    name: 'Inscriptions',
+    url: '',
+    children: [
+      {
+        name: 'Inscribe',
+        url: '/inscribe'
+      },
+      {
+        name: 'Collection',
+        url: '/ins-collection'
+      }
+    ]
   },
   {
-    name: 'Collections',
-    url: '/collections',
+    name: 'NFTs',
+    url: '',
+    children: [
+      {
+        name: 'Create',
+        url: '/create',
+      },
+      {
+        name: 'Collections',
+        url: '/collections',
+      },
+    ]
   },
   // {
-  //     name: 'Gallery',
-  //     url: '/gallery',
+  //   name: 'Create',
+  //   url: '/create',
+  // },
+  // {
+  //   name: 'Collections',
+  //   url: '/collections',
   // },
   {
-    name: 'Campaigns',
+    name: 'Memes',
+    url: '/memes',
+  },
+  {
+    name: 'AI Campaigns',
     url: '/campaigns',
   },
   {
@@ -59,8 +88,9 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
   const [chainPop, setChainPop] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const { address, chainId } = useWeb3ModalAccount();
-  const { switchNetworkUnisat } = useUnisat();
+  // const { switchNetworkUnisat } = useUnisat();
   const { walletProvider } = useWeb3ModalProvider();
+  const [levelPop, setLevelPop] = useState<boolean>(false);
   const hide = () => {
     setOpen(false);
   };
@@ -135,7 +165,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       dispatch({
         type: Type.SET_EVM,
         payload: {
-          evm:'0'
+          evm: '0'
         }
       })
       userInfo(address as string);
@@ -164,20 +194,26 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
   }, [address]);
   useEffect(() => {
     switch (location.pathname) {
-      case '/create':
+      case '/inscribe':
         setActive(0);
+        break;
+      case '/ins-collection':
+        setActive(0);
+        break;
+      case '/create':
+        setActive(1);
         break;
       case '/collections':
         setActive(1);
         break;
-      // case '/gallery':
-      //     setActive(2);
-      //     break;
-      case '/campaigns':
+      case '/memes':
         setActive(2);
         break;
-      case '/airdrop':
+      case '/campaigns':
         setActive(3);
+        break;
+      case '/airdrop':
+        setActive(4);
         break;
       default:
         setActive(99)
@@ -273,25 +309,62 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       </ul>
     </div>
   )
-  const chainBTC = (
-    <div className="connect-menu connect-menu-chain" onClick={() => {
-      setChainPop(false)
-    }}>
+  const ContentLevelMenu = (props: { item: Menu }) => {
+    return (
       <ul>
         {
-          ['livenet', 'testnet'].map((item: string, index: number) => {
+          props.item.children!.map((item: Menu, index: number) => {
             return (
               <li key={index} onClick={() => {
-                switchNetworkUnisat(item)
+                if (item.url === '/create' && state.evm === '1') {
+                  message.warning('This network is not supported yet');
+                  return
+                }
+                if (item.url === '/create') {
+                  dispatch({
+                    type: Type.SET_CREATE,
+                    payload: {
+                      create: '0'
+                    }
+                  })
+                }
+                navigate(item.url)
+                // setLevelPop(false);
               }}>
-                {item}
+                <p>
+                  {item.name}
+                  {/* {item.url === '/inscribe' && <img src={require('../../assets/images/fire.gif')} alt="" className="need-t" />} */}
+                  {item.url === '/create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i" />}
+                </p>
               </li>
             )
           })
         }
       </ul>
-    </div>
-  )
+    )
+  }
+  // const chainBTC = (
+  //   <div className="connect-menu connect-menu-chain" onClick={() => {
+  //     setChainPop(false)
+  //   }}>
+  //     <ul>
+  //       {
+  //         ['livenet', 'testnet'].map((item: string, index: number) => {
+  //           return (
+  //             <li key={index} onClick={() => {
+  //               switchNetworkUnisat(item)
+  //             }}>
+  //               {item}
+  //             </li>
+  //           )
+  //         })
+  //       }
+  //     </ul>
+  //   </div>
+  // )
+  const handleLevel = (newOpen: boolean) => {
+    setLevelPop(newOpen);
+  };
   return (
     <div className="header-wapper-new">
       <img src={require('../../assets/new/logo.png')} alt="" className="left-logo" onClick={() => {
@@ -307,24 +380,36 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     window.open(item.url);
                     return
                   }
-                  if (item.url === '/create' && state.evm === '1') {
-                    message.warning('This network is not supported yet');
-                    return
-                  }
+                  if (item.children) return
+                  // if (item.url === '/create' && state.evm === '1') {
+                  //   message.warning('This network is not supported yet');
+                  //   return
+                  // }
+                  // if (item.url === '/create') {
+                  //   dispatch({
+                  //     type: Type.SET_CREATE,
+                  //     payload: {
+                  //       create: '0'
+                  //     }
+                  //   })
+                  // }
                   setActive(index);
-                  if (item.url === '/create') {
-                    dispatch({
-                      type: Type.SET_CREATE,
-                      payload: {
-                        create: '0'
-                      }
-                    })
-                  }
                   navigate(item.url)
                 }}>
-                  {item.name}
-                  {item.name === 'Campaigns' && <img src={require('../../assets/images/fire.gif')} alt="" />}
-                  {item.name === 'Create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i" />}
+                  {
+                    !item.children
+                      ? <p>{item.name}</p>
+                      //TODO  open={levelPop} onOpenChange={handleLevel}
+                      : <Popover placement="bottom" rootClassName="custom-level-menu" title={null} content={<ContentLevelMenu item={item} />}>
+                        <p className="with-arrow">
+                          {item.name}
+                          <DownOutlined />
+                        </p>
+                      </Popover>
+                  }
+
+                  {item.url === '/memes' && <img src={require('../../assets/images/fire.gif')} alt="" />}
+                  {/* {item.url === '/create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i" />} */}
                 </li>
               )
             })

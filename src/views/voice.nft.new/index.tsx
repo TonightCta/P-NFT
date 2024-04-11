@@ -370,7 +370,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
         </div>
       </div>
       <div className={`next-btn ${(!state.wallet || state.evm === '1') ? 'disable-btn' : ''}`} onClick={() => {
-        if (!state.wallet || state.evm === '0') {
+        if (!state.wallet || state.evm === '1') {
           return
         }
         setActive(1);
@@ -407,6 +407,8 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                 }}>NEW NFT</Button>
                 <Button type="primary" onClick={() => {
                   // setShow(true);
+                  message.warning('Coming soon');
+                  return
                   //TODO
                   setCreateType('collection')
                   dispatch({

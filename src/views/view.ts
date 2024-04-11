@@ -21,27 +21,33 @@ const ContestDetailView = React.lazy(() => import('./contest.detail/index'))
 const VoiceNFTNewView = React.lazy(() => import('./voice.nft.new/index'))
 const PageNotFound = React.lazy(() => import('./not.found/index'));
 const VideoView = React.lazy(() => import('./video/index'))
+const InscribeView = React.lazy(() => import('./inscribe/index'));
+const InsCollectionView = React.lazy(() => import('./ins.collection/index'));
+const MemesView = React.lazy(() => import('./memes/index'))
 
 export {
-    IndexView,
-    ScreenView,
-    ScreenViewNew,
-    MarketView,
-    ProfileView,
-    DetailView,
-    OwnerNFTSView,
-    VoiceNFTView,
-    AirdropView,
-    MarketPlaceView,
-    ToolView,
-    MarketViewNew,
-    MarketPlaceViewNew,
-    MarketViewAll,
-    DetailNewView,
-    GalleryView,
-    ContestView,
-    ContestDetailView,
-    VoiceNFTNewView,
-    PageNotFound,
-    VideoView
+  IndexView,
+  ScreenView,
+  ScreenViewNew,
+  MarketView,
+  ProfileView,
+  DetailView,
+  OwnerNFTSView,
+  VoiceNFTView,
+  AirdropView,
+  MarketPlaceView,
+  ToolView,
+  MarketViewNew,
+  MarketPlaceViewNew,
+  MarketViewAll,
+  DetailNewView,
+  GalleryView,
+  ContestView,
+  ContestDetailView,
+  VoiceNFTNewView,
+  PageNotFound,
+  VideoView,
+  InscribeView,
+  InsCollectionView,
+  MemesView
 }
