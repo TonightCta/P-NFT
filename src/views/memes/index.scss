@@ -1,8 +1,91 @@
 .memes-view {
-  padding-top: 200px;
+  padding-top: 122px;
 
-  h2 {
-    color: #000;
-    font-size: 30px;
+  .memes-inner {
+    width: 1360px;
+    margin: 0 auto;
+
+    .view-title {
+      text-align: left;
+      font-size: 40px;
+      font-weight: bold;
+      color: #191919;
+    }
+
+    .table-list {
+      margin-top: 56px;
+
+      .ant-table-thead {
+        .ant-table-cell {
+          font-size: 14px;
+          font-weight: bold;
+        }
+      }
+
+      .ant-table-cell {
+        background-color: white;
+        border: 0;
+        font-size: 16px;
+        vertical-align: middle;
+      }
+
+      .ant-table-cell::before {
+        display: none;
+      }
+
+      .ant-table-row {
+        .ant-table-cell:first-child {
+          border-top-left-radius: 6px;
+          border-bottom-left-radius: 6px;
+        }
+
+        .ant-table-cell:last-child {
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+        }
+      }
+
+      .ant-table-row:hover {
+        .ant-table-cell {
+          background-color: #F5F5F5;
+        }
+      }
+      .bold-text{
+        font-weight: bold;
+      }
+      .icon-box{
+        display: flex;
+        align-items: center;
+        img{
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          margin-right: 12px;
+        }
+      }
+      .chains-list{
+        display: flex;
+        img{
+          height: 20px;
+          margin-right: 4px;
+        }
+        img:nth-child(2){
+          height: 18px;
+          width: 24px;
+        }
+      }
+      .up-c{
+        color: #047B1F;
+        span{
+          margin-right: 2px;
+        }
+      }
+      .down-c{
+        color: #D00901;
+        span{
+          margin-right: 2px;
+        }
+      }
+    }
   }
 }

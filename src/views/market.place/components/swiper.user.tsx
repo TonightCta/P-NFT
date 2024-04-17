@@ -22,7 +22,7 @@ const cateSwiper: Cate[] = [
         rank_icon: require('../../../assets/images/rank_1.png'),
         name_p: 'Spark',
         id: 1,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 521,
         rank_color: '#EF466F'
@@ -36,7 +36,7 @@ const cateSwiper: Cate[] = [
         rank_icon: require('../../../assets/images/rank_2.png'),
         name_p: 'Digi ART',
         id: 2,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 238,
         rank_color: '#9757D7'
@@ -50,7 +50,7 @@ const cateSwiper: Cate[] = [
         rank_icon: require('../../../assets/images/rank_3.png'),
         name_p: 'Something Beautiful',
         id: 3,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 196,
         rank_color: '#45B26B'
@@ -64,7 +64,7 @@ const cateSwiper: Cate[] = [
         rank_icon: '',
         name_p: 'Something Beautiful',
         id: 3,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 196,
         rank_color: '#45B26B'
@@ -78,7 +78,7 @@ const cateSwiper: Cate[] = [
         rank_icon: '',
         name_p: 'Something Beautiful',
         id: 3,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 196,
         rank_color: '#45B26B'
@@ -92,7 +92,7 @@ const cateSwiper: Cate[] = [
         rank_icon: '',
         name_p: 'Something Beautiful',
         id: 3,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 196,
         rank_color: '#45B26B'
@@ -106,7 +106,7 @@ const cateSwiper: Cate[] = [
         rank_icon: '',
         name_p: 'Something Beautiful',
         id: 3,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 196,
         rank_color: '#45B26B'
@@ -120,7 +120,7 @@ const cateSwiper: Cate[] = [
         rank_icon: '',
         name_p: 'Something Beautiful',
         id: 3,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 196,
         rank_color: '#45B26B'
@@ -134,7 +134,7 @@ const cateSwiper: Cate[] = [
         rank_icon: '',
         name_p: 'Something Beautiful',
         id: 3,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 196,
         rank_color: '#45B26B'
@@ -146,9 +146,9 @@ const cateSwiper: Cate[] = [
         img_3: '',
         name: "",
         rank_icon: '',
-        name_p: 'Something Beautiful',
+        name_p: 'Something Beautiful', 
         id: 3,
-        icon: require('../../../assets/images/WechatIMG20.jpeg'),
+        icon: require('../../../assets/images/test2.png'),
         show: true,
         item: 196,
         rank_color: '#45B26B'
