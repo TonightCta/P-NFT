@@ -1,52 +1,74 @@
-import { ReactElement, ReactNode } from "react";
-import './index.scss'
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import FooterNew from "../screen.new/components/footer.new";
-
-import { Space, Table, Tag } from 'antd';
+import { CurrencyList } from '../../request/api'
+import { Table, Tooltip } from 'antd';
 import type { TableProps } from 'antd';
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
+import './index.scss'
+import { addCommasToNumber } from "../../utils";
 
 interface DataType {
   key: string;
-  name: {
-    icon: string,
-    name: string
-  };
-  chians: string[];
-  price: number | string;
-  d1: number;
-  d7: number,
-  d30: number,
+  description: string;
+  logo_minio_url: string,
+  currency_name: string,
+  chain_info: {
+    chain_id: string,
+    logo_url: string
+  }[];
+  price_usdt: number;
+  percent_change_1d: number;
+  percent_change_7d: number,
+  percent_change_30d: number,
   cap: number | string,
-  cap_r: number,
-  supply: number | string,
-  issue: number
+  market_cap_rank: number,
+  total_supply: number | string,
+  issue_year: number
 }
-
+const toNormalNumber = (number: number): string => {
+  {
+    const e = String(number)
+    let rex = /^([0-9])\.?([0-9]*)e-([0-9])/
+    if (!rex.test(e)) return String(number)
+    const numArr = e.match(rex)
+    const n = Number('' + numArr![1] + (numArr![2] || ''))
+    const num = '0.' + String(Math.pow(10, Number(numArr![3]) - 1)).substr(1) + n
+    return num.replace(/0*$/, '') // 防止可能出现0.0001540000000的情况
+  }
+}
+const countTrailingZeros = (numberString: string) => {
+  const decimalIndex = numberString.indexOf('.');
+  const decimalPart = numberString.substring(decimalIndex + 1);
+  const match = decimalPart.match(/^(0*)[1-9]/);
+  if (match) {
+    const last = decimalPart.substring(match[1].length, match[1].length + 2);
+    // console.log(decimalPart.substring(match[1].length, match[1].length + 2));
+    return `0.0{${match[1].length}}${last}`
+  }
+}
 const columns: TableProps<DataType>['columns'] = [
   {
     title: '#',
-    key: 'index',
-    render: (_text, _, index) => <p className="bold-text">{index + 1}</p>,
+    key: 'rank',
+    dataIndex: 'rank',
+    render: (text) => <p className="bold-text">{text}</p>,
   },
   {
     title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    key: 'description',
     render: (_) => <div className="icon-box">
-      <img src={_.icon} alt="" />
-      <p className="bold-text">{_.name}</p>
+      <img src={_.logo_minio_url} alt="" />
+      <p className="bold-text">{_.description}<span>{_.currency_name}</span></p>
     </div>
   },
   {
     title: 'Chains',
-    dataIndex: 'chains',
-    key: 'chains',
+    key: 'chain_info',
     render: (_text, _) => <div className="chains-list">
       {
-        _.chians.map((item: string, index: number) => {
+        _.chain_info.map((item: { chain_id: string, logo_url: string }, index: number) => {
           return (
-            <img src={item} alt="" key={index} />
+            <img src={item.logo_url} alt="" key={index} />
           )
         })
       }
@@ -54,206 +76,101 @@ const columns: TableProps<DataType>['columns'] = [
   },
   {
     title: 'Price',
-    key: 'price',
-    dataIndex: 'price',
-    render: (text) => <p>${text}</p>
+    key: 'price_usdt',
+    dataIndex: 'price_usdt',
+    render: (text) => <>
+      {
+        text > 0.01
+          ? <p>${text.toFixed(4)}</p>
+          : <p>{countTrailingZeros(toNormalNumber(text))}</p>
+      }
+
+    </>
   },
   {
     title: '1D %',
-    key: 'd1',
-    dataIndex: 'd1',
-    render: (text) => <p className="up-c">
+    key: 'percent_change_1d',
+    dataIndex: 'percent_change_1d',
+    render: (text) => <p className={`${text > 0 ? 'up-c' : 'down-c'}`}>
       <CaretUpOutlined />
-      {text}%
+      {text.toFixed(2)}%
     </p>
   },
   {
     title: '7D %',
-    key: 'd7',
-    dataIndex: 'd7',
-    render: (text) => <p className="down-c">
+    key: 'percent_change_7d',
+    dataIndex: 'percent_change_7d',
+    render: (text) => <p className={`${text > 0 ? 'up-c' : 'down-c'}`}>
       <CaretDownOutlined />
-      {text}%
+      {text.toFixed(2)}%
     </p>
   },
   {
     title: '30D %',
-    key: 'd30',
-    dataIndex: 'd30',
-    render: (text) => <p className="up-c">
+    key: 'percent_change_30d',
+    dataIndex: 'percent_change_30d',
+    render: (text) => <p className={`${text > 0 ? 'up-c' : 'down-c'}`}>
       <CaretUpOutlined />
-      {text}%
+      {text.toFixed(2)}%
     </p>
   },
   {
     title: 'Market Cap',
-    key: 'cap',
-    dataIndex: 'cap',
-    render: (text) => <p>${text}</p>
+    key: 'market_cap_usdt',
+    dataIndex: 'market_cap_usdt',
+    render: (text) => <p>${addCommasToNumber(text.toFixed(0))}</p>
   },
   {
     title: 'Market Cap Rank',
-    key: 'cap_r',
-    dataIndex: 'cap_r',
+    key: 'market_cap_rank',
+    dataIndex: 'market_cap_rank',
     align: 'center'
   },
   {
     title: 'Circulating Supply',
-    key: 'supply',
-    dataIndex: 'supply'
+    key: 'total_supply',
+    dataIndex: 'total_supply',
+    render: (text) => <p>{addCommasToNumber(text.toFixed(0))}</p>
   },
   {
     title: 'Issue Year',
-    key: 'issue',
-    dataIndex: 'issue',
-    align:'right'
+    key: 'issue_year',
+    dataIndex: 'issue_year',
+    align: 'right'
   }
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: {
-      icon: require('../../assets/images/test2.png'),
-      name: 'Alex'
-    },
-    chians: [
-      require('../../assets/images/eth.logo.png'),
-      require('../../assets/new/plian_logo_black.png'),
-    ],
-    price: '0.000000593282024',
-    d1: 1.13,
-    d7: 4.45,
-    d30: 2.12,
-    cap: '139,248,437.2638',
-    cap_r: 97,
-    supply: '139,248,437.2638',
-    issue: 2024
-  },
-  {
-    key: '1',
-    name: {
-      icon: require('../../assets/images/test2.png'),
-      name: 'Alex'
-    },
-    chians: [
-      require('../../assets/images/eth.logo.png'),
-      require('../../assets/new/plian_logo_black.png'),
-    ],
-    price: '0.000000593282024',
-    d1: 1.13,
-    d7: 4.45,
-    d30: 2.12,
-    cap: '139,248,437.2638',
-    cap_r: 97,
-    supply: '139,248,437.2638',
-    issue: 2024
-  },
-  {
-    key: '1',
-    name: {
-      icon: require('../../assets/images/test2.png'),
-      name: 'Alex'
-    },
-    chians: [
-      require('../../assets/images/eth.logo.png'),
-      require('../../assets/new/plian_logo_black.png'),
-    ],
-    price: '0.000000593282024',
-    d1: 1.13,
-    d7: 4.45,
-    d30: 2.12,
-    cap: '139,248,437.2638',
-    cap_r: 97,
-    supply: '139,248,437.2638',
-    issue: 2024
-  },
-  {
-    key: '1',
-    name: {
-      icon: require('../../assets/images/test2.png'),
-      name: 'Alex'
-    },
-    chians: [
-      require('../../assets/images/eth.logo.png'),
-      require('../../assets/new/plian_logo_black.png'),
-    ],
-    price: '0.000000593282024',
-    d1: 1.13,
-    d7: 4.45,
-    d30: 2.12,
-    cap: '139,248,437.2638',
-    cap_r: 97,
-    supply: '139,248,437.2638',
-    issue: 2024
-  },
-  {
-    key: '1',
-    name: {
-      icon: require('../../assets/images/test2.png'),
-      name: 'Alex'
-    },
-    chians: [
-      require('../../assets/images/eth.logo.png'),
-      require('../../assets/new/plian_logo_black.png'),
-    ],
-    price: '0.000000593282024',
-    d1: 1.13,
-    d7: 4.45,
-    d30: 2.12,
-    cap: '139,248,437.2638',
-    cap_r: 97,
-    supply: '139,248,437.2638',
-    issue: 2024
-  },
-  {
-    key: '1',
-    name: {
-      icon: require('../../assets/images/test2.png'),
-      name: 'Alex'
-    },
-    chians: [
-      require('../../assets/images/eth.logo.png'),
-      require('../../assets/new/plian_logo_black.png'),
-    ],
-    price: '0.000000593282024',
-    d1: 1.13,
-    d7: 4.45,
-    d30: 2.12,
-    cap: '139,248,437.2638',
-    cap_r: 97,
-    supply: '139,248,437.2638',
-    issue: 2024
-  },
-  {
-    key: '1',
-    name: {
-      icon: require('../../assets/images/test2.png'),
-      name: 'Alex'
-    },
-    chians: [
-      require('../../assets/images/eth.logo.png'),
-      require('../../assets/new/plian_logo_black.png'),
-    ],
-    price: '0.000000593282024',
-    d1: 1.13,
-    d7: 4.45,
-    d30: 2.12,
-    cap: '139,248,437.2638',
-    cap_r: 97,
-    supply: '139,248,437.2638',
-    issue: 2024
-  },
 ];
 
 
 const MemesView = (): ReactElement<ReactNode> => {
+  const [data, setData] = useState<DataType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const getMemesList = async () => {
+    setLoading(true)
+    const result = await CurrencyList({
+      category: 'meme',
+      page_size: 30,
+      page_num: 1
+    });
+    const { data } = result;
+    setLoading(false);
+    data.data.item = data.data.item.map((item: DataType, index: number) => {
+      return {
+        ...item,
+        key: index + 1
+      }
+    })
+    setData(data.data.item);
+    console.log(result)
+  };
+  useEffect(() => {
+    getMemesList();
+  }, [])
   return (
     <div className="memes-view">
       <div className="memes-inner">
         <p className="view-title">Memes</p>
         <div className="table-list">
-          <Table columns={columns} dataSource={data} pagination={false} />
+          <Table columns={columns} loading={loading} dataSource={data} pagination={false} />
         </div>
       </div>
       <FooterNew />

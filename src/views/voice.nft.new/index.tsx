@@ -407,8 +407,8 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                 }}>NEW NFT</Button>
                 <Button type="primary" onClick={() => {
                   // setShow(true);
-                  message.warning('Coming soon');
-                  return
+                  // message.warning('Coming soon');
+                  // return
                   //TODO
                   setCreateType('collection')
                   dispatch({

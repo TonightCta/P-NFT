@@ -222,3 +222,6 @@ export const CompressImage = (file: File, quality: number, callback: (compressed
   };
   reader.readAsDataURL(file);
 };
+export const addCommasToNumber = (number: number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

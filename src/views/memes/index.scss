@@ -2,7 +2,7 @@
   padding-top: 122px;
 
   .memes-inner {
-    width: 1360px;
+    width: 1460px;
     margin: 0 auto;
 
     .view-title {
@@ -25,7 +25,7 @@
       .ant-table-cell {
         background-color: white;
         border: 0;
-        font-size: 16px;
+        font-size: 14px;
         vertical-align: middle;
       }
 
@@ -52,6 +52,10 @@
       }
       .bold-text{
         font-weight: bold;
+        span{
+          color: #808A9D;
+          margin-left: 8px;
+        }
       }
       .icon-box{
         display: flex;
