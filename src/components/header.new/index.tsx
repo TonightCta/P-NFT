@@ -198,7 +198,8 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
         setActive(0);
         break;
       case '/ins-collection':
-        setActive(0);
+        message.warning('Coming Soon')
+        // setActive(0);
         break;
       case '/create':
         setActive(1);
@@ -320,6 +321,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                   message.warning('This network is not supported yet');
                   return
                 }
+                if (item.url === '/ins-collection') { message.warning('Coming Soon'); return;}
                 if (item.url === '/create') {
                   dispatch({
                     type: Type.SET_CREATE,

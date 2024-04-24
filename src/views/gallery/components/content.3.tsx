@@ -17,7 +17,7 @@ const Content3 = (): ReactElement => {
     const { state, dispatch } = useContext(PNft);
     const [groupList, setGroupList] = useState<Group[]>([]);
     const getInfo = async () => {
-        if (state.gallery_three) {
+      if (state.gallery_three) {
             setData(JSON.parse(state.gallery_three));
             return
         }

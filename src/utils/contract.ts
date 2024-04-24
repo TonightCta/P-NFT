@@ -7,6 +7,7 @@ import ABISBT from './abi/sbt.json'
 import BBCABI from './abi/bbc.json'
 import HASHABI from './abi/hash.json'
 import NER721ABI from './abi/new_721.json'
+import CollectionABI from './abi/404.json'
 import { message } from "antd"
 import { useCallback, useContext, useEffect, useState } from 'react';
 import * as Address from "./source"
@@ -19,7 +20,7 @@ import { useSDK } from '@metamask/sdk-react';
 import Web3 from "web3"
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react"
 import { ethereum } from '../utils/types'
-import { MintV2ContractAddress } from "./source"
+import { MintV2ContractAddress, CreateCollectionAddress } from "./source"
 // import { parseEther, parseGwei } from 'viem'
 
 
@@ -537,7 +538,7 @@ export const useContract = () => {
   };
   const OPBuy = (_amount: string, _key: string) => {
     const Gas: string = FilterAddressToName(state.chain as string).gas;
-    const OPContract = new web3V2.Contract(OPABI as any, '0x00000000000000ADc04C56Bf30aC9d3c0aAF14dC', {
+    const OPContract = new web3V2.eth.Contract(OPABI as any, '0x00000000000000ADc04C56Bf30aC9d3c0aAF14dC', {
       gasPrice: gasPrice
     });
     return new Promise((resolve, reject) => {
@@ -550,6 +551,56 @@ export const useContract = () => {
       }).on('error', (err: any) => {
         message.error(err.message);
         resolve(err)
+      })
+    })
+  }
+  const CreateCollectionWith404 = (_name: string, _symbol: string, _token_uri: string, _decimals: number, _total_supply: number, _address: string) => {
+    const Gas: string = FilterAddressToName(state.chain as string).gas;
+    const Contract = new web3V2.eth.Contract(CollectionABI, CreateCollectionAddress, {
+      gasPrice: gasPrice
+    });
+    return new Promise((resolve, reject) => {
+      Contract.methods.create404Collection(
+        _name,
+        _symbol,
+        _token_uri,
+        _decimals,
+        _total_supply,
+        _address
+      ).send({
+        from: send.from,
+        gas: Gas
+      }).on('receipt', (res: string) => {
+        console.log(res);
+        resolve(res);
+      }).on('error', (err: any) => {
+        console.log(err)
+      })
+    })
+  }
+  const CreateCollectionWith721 = (_name: string, _symbol: string, _token_uri: string, _supply: number, _limit: number, _price: number,_address:string) => {
+    console.log('721')
+    const Gas: string = FilterAddressToName(state.chain as string).gas;
+    const Contract = new web3V2.eth.Contract(CollectionABI, CreateCollectionAddress, {
+      gasPrice: gasPrice
+    });
+    return new Promise((resolve, reject) => {
+      Contract.methods.create721SaleCollection(
+        _name,
+        _symbol,
+        _token_uri,
+        _supply,
+        _limit,
+        _price,
+        _address
+      ).send({
+        from: send.from,
+        gas: Gas
+      }).on('receipt', (res: string) => {
+        console.log(res);
+        resolve(res);
+      }).on('error', (err: any) => {
+        console.log(err)
       })
     })
   }
@@ -573,7 +624,9 @@ export const useContract = () => {
     BBCBuy,
     signOrder,
     OPBuy,
-    tokenMint
+    tokenMint,
+    CreateCollectionWith404,
+    CreateCollectionWith721
   }
 };
 

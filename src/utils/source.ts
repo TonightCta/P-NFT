@@ -19,6 +19,8 @@ export const TaikoContractAddressMarketMain: string = "0xfeF733d1b4AeDf93A8AB195
 export const TaikoContractAddressERC20Test: string = "0x6302744962a0578e814c675b40909e64d9966b0d";
 export const VERSION: string = process.env.REACT_APP_VERSION as string;
 export const SOLERC20: string = '0x570A5D26f7765Ecb712C0924E4De545B89fD43dF';
+export const CreateCollectionAddress = '0xccF09e95F7578A2B5576E6C745ac12a53b3a6031';
+
 interface Model {
   value: string,
   label: string

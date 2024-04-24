@@ -1,9 +1,9 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
 import FooterNew from "../screen.new/components/footer.new";
 import { CurrencyList } from '../../request/api'
-import { Table, Tooltip } from 'antd';
+import { Popover, Spin, Table, Tooltip } from 'antd';
 import type { TableProps } from 'antd';
-import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined, MoreOutlined } from "@ant-design/icons";
 import './index.scss'
 import { addCommasToNumber } from "../../utils";
 
@@ -25,6 +25,10 @@ interface DataType {
   total_supply: number | string,
   issue_year: number
 }
+interface Chain {
+  chain_id: string,
+  logo_url: string
+}
 const toNormalNumber = (number: number): string => {
   {
     const e = String(number)
@@ -33,7 +37,7 @@ const toNormalNumber = (number: number): string => {
     const numArr = e.match(rex)
     const n = Number('' + numArr![1] + (numArr![2] || ''))
     const num = '0.' + String(Math.pow(10, Number(numArr![3]) - 1)).substr(1) + n
-    return num.replace(/0*$/, '') // 防止可能出现0.0001540000000的情况
+    return num.replace(/0*$/, '')
   }
 }
 const countTrailingZeros = (numberString: string) => {
@@ -43,8 +47,25 @@ const countTrailingZeros = (numberString: string) => {
   if (match) {
     const last = decimalPart.substring(match[1].length, match[1].length + 2);
     // console.log(decimalPart.substring(match[1].length, match[1].length + 2));
-    return `0.0{${match[1].length}}${last}`
+    return `$0.0{${match[1].length}}${last}`
   }
+}
+const MoreChainPop = (props: {
+  chains: Chain[]
+}) => {
+  return (
+    <ul className="pop-chain-list">
+      {
+        props.chains.map((item: Chain, index: number) => {
+          return (
+            <li key={index}>
+              {index !== 0 && <img src={require(`../../assets/logo/${item.chain_id}.png`)} alt="" />}
+            </li>
+          )
+        })
+      }
+    </ul>
+  )
 }
 const columns: TableProps<DataType>['columns'] = [
   {
@@ -58,7 +79,7 @@ const columns: TableProps<DataType>['columns'] = [
     key: 'description',
     render: (_) => <div className="icon-box">
       <img src={_.logo_minio_url} alt="" />
-      <p className="bold-text">{_.description}<span>{_.currency_name}</span></p>
+      <p className="bold-text flex-c">{_.description}<span>{_.currency_name}</span></p>
     </div>
   },
   {
@@ -66,11 +87,20 @@ const columns: TableProps<DataType>['columns'] = [
     key: 'chain_info',
     render: (_text, _) => <div className="chains-list">
       {
-        _.chain_info.map((item: { chain_id: string, logo_url: string }, index: number) => {
-          return (
-            <img src={item.logo_url} alt="" key={index} />
-          )
-        })
+        _.chain_info.length <= 2
+          ? _.chain_info.map((item: Chain, index: number) => {
+            return (
+              <img src={require(`../../assets/logo/${item.chain_id}.png`)} alt="" key={index} />
+            )
+          })
+          : <div className="more-logo">
+            <img src={require(`../../assets/logo/${_.chain_info[0].chain_id}.png`)} alt="" />
+            <Popover placement="right" title={null} content={<MoreChainPop chains={_.chain_info} />}>
+              <div className="more-btn">
+                <MoreOutlined />
+              </div>
+            </Popover>
+          </div>
       }
     </div>
   },
@@ -160,7 +190,6 @@ const MemesView = (): ReactElement<ReactNode> => {
       }
     })
     setData(data.data.item);
-    console.log(result)
   };
   useEffect(() => {
     getMemesList();
@@ -170,7 +199,12 @@ const MemesView = (): ReactElement<ReactNode> => {
       <div className="memes-inner">
         <p className="view-title">Memes</p>
         <div className="table-list">
-          <Table columns={columns} loading={loading} dataSource={data} pagination={false} />
+          {/* {loading
+            ? <Spin size="large" />
+            : <Table columns={columns} dataSource={data} pagination={false} />} */}
+          <Table columns={columns} loading={loading} dataSource={data} pagination={false} locale={{
+            emptyText:loading ? <p></p> : <p>No Data</p>
+          }}/>
         </div>
       </div>
       <FooterNew />

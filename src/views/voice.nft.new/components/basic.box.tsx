@@ -124,7 +124,6 @@ const BasicBox = (props: { info: Input }): ReactElement => {
                 return
             }
         };
-        console.log(props.info)
         const img_ipfs = await uploadFileFN(`${new Date().getTime()}.png`, review.source);
         const voice_ipfs = audioFile && await uploadFileFN(`${new Date().getTime()}.mp3`, audioFile);
         const img_local = await uploadFileLocaFN(review.source);
@@ -152,8 +151,8 @@ const BasicBox = (props: { info: Input }): ReactElement => {
         formData.append('contract_type', '721');
         formData.append('sender', state.address as string);
         formData.append('tx_hash', result['transactionHash']);
-        formData.append('image_minio', img_local.minio_key);
-        formData.append('voice_minio', audioFile ? voice_local.minio_key : '');
+        formData.append('image_file_name', img_local.file_name);
+        formData.append('voice_file_name', audioFile ? voice_local.file_name : '');
         formData.append('meta_data_ipfs', blob_ipfs.ipfshash);
         formData.append('image_ipfs', img_ipfs.ipfshash);
         formData.append('voice_ipfs', audioFile ? voice_ipfs.ipfshash : '');
