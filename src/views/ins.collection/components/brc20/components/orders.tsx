@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
+import { flag } from "../../../../../utils/source";
 
 interface DataType {
   key: string;
@@ -137,7 +138,7 @@ const data: DataType[] = [
 const OrdersTab = (): ReactElement => {
   return (
     <div className="orders-tab">
-      <Table columns={columns} dataSource={data} pagination={ false } />
+      <Table columns={columns} dataSource={data} scroll={{ x: flag ? 1360 : 0 }} pagination={ false } />
     </div>
   )
 };

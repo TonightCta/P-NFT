@@ -328,15 +328,18 @@
 }
 @media screen and (max-width: 1280px) {
   .ins-collection-view {
+    padding-top: 12rem;
     .mask-box {
       top: -780px;
       left: -600px;
     }
     .make-type {
+      margin-bottom: 3.2rem;
       ul {
         li {
           width: 10rem;
           height: 3rem;
+          border-radius: .8rem;
           p {
             font-size: 1.2rem;
           }
@@ -345,6 +348,113 @@
     }
     .ins-tab-card {
       width: 90%;
+      .brc20-land {
+        .tabs-box {
+          ul {
+            li {
+              p {
+                font-size: 1.4rem;
+              }
+            }
+          }
+        }
+        .filter-box {
+          .filter-inner {
+            width: 16rem;
+            height: 3.6rem;
+            padding: 0 1.2rem;
+            border-radius: .8rem;
+            p {
+              font-size: 1.4rem;
+            }
+            span {
+              font-size: 1.3rem;
+            }
+          }
+        }
+        .inner-data {
+          .listed-tab {
+            li {
+              width: calc(50% - 1rem);
+            }
+            .list-card {
+              width: 100%;
+              .to-msg {
+                p {
+                  font-size: 1.2rem;
+                }
+                .list-a {
+                  font-size: 2.4rem;
+                  line-height: 4.8rem;
+                }
+                .list-total {
+                  span {
+                    font-size: 1.4rem;
+                  }
+                }
+              }
+              .b-box {
+                .list-id {
+                  font-size: 1.3rem;
+                }
+                .list-b-p {
+                  flex-direction: column;
+                  align-items: flex-start;
+                  p {
+                    font-size: 1.2rem;
+                    img {
+                      width: 1.8rem;
+                      height: 1.8rem;
+                    }
+                  }
+                  .list-p-u {
+                    margin-top: .8rem;
+                  }
+                }
+                button {
+                  margin-top: .8rem;
+                  height: 2rem;
+                  font-size: 1.2rem;
+                  border-radius: .4rem;
+                  line-height: 1.2rem;
+                }
+              }
+            }
+          }
+          .orders-tab {
+            .ant-table-thead {
+              .ant-table-cell {
+                font-size: 1.2rem;
+              }
+            }
+            .ant-table-cell {
+              font-size: 1.4rem;
+            }
+          }
+        }
+      }
+      .collection-land {
+        .tabs-box {
+          ul {
+            li {
+              p {
+                font-size: 1.4rem;
+              }
+            }
+          }
+        }
+        .ant-table-cell {
+          font-size: 1.4rem;
+        }
+        .poster-box {
+          img {
+            width: 4.8rem;
+            height: 4.8rem;
+            border-radius: .8rem;
+            margin-right: 1.2rem;
+          }
+        }
+      }
     }
   }
 }

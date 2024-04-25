@@ -1,5 +1,6 @@
 import { Button, Flex } from "antd";
 import { ReactElement } from "react";
+import { flag } from "../../../../../utils/source";
 
 const ListedTab = (): ReactElement => {
   const ListCard = () => {
@@ -30,7 +31,7 @@ const ListedTab = (): ReactElement => {
   }
   return (
     <div className="listed-tab">
-      <Flex wrap="wrap" gap={40}>
+      <Flex wrap="wrap" gap={flag ? 20 : 40}>
         {
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item: number, index: number) => {
             return (

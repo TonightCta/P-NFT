@@ -2,6 +2,7 @@ import { ReactElement, useState } from "react";
 
 import { Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
+import { flag } from "../../../../utils/source";
 
 interface DataType {
   key: string;
@@ -26,6 +27,8 @@ const columns: TableProps<DataType>['columns'] = [
     title: '#',
     key: 'index',
     render: (_text, _, index) => <p>{index + 1}</p>,
+    fixed:flag ? true : false,
+    width:flag ? 60 : 'auto'
   },
   {
     title: 'Collection',
@@ -149,7 +152,7 @@ const CollectionLand = (): ReactElement => {
         </ul>
       </div>
       <div className="table-list">
-        <Table columns={columns} dataSource={data} pagination={false} />
+        <Table columns={columns} dataSource={data} pagination={false} scroll={{ x: flag ? 700 : 0 }}/>
       </div>
     </div>
   )
