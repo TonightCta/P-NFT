@@ -6,6 +6,7 @@ import type { TableProps } from 'antd';
 import { CaretDownOutlined, CaretUpOutlined, MoreOutlined } from "@ant-design/icons";
 import './index.scss'
 import { addCommasToNumber } from "../../utils";
+import { flag } from "../../utils/source";
 
 interface DataType {
   key: string;
@@ -73,6 +74,7 @@ const columns: TableProps<DataType>['columns'] = [
     key: 'rank',
     dataIndex: 'rank',
     render: (text) => <p className="bold-text">{text}</p>,
+    width: flag ? 60 : 'auto'
   },
   {
     title: 'Name',
@@ -122,7 +124,7 @@ const columns: TableProps<DataType>['columns'] = [
     key: 'percent_change_1d',
     dataIndex: 'percent_change_1d',
     render: (text) => <p className={`${text > 0 ? 'up-c' : 'down-c'}`}>
-      <CaretUpOutlined />
+      {text > 0 ? <CaretUpOutlined /> : <CaretDownOutlined />}
       {text.toFixed(2)}%
     </p>
   },
@@ -131,7 +133,7 @@ const columns: TableProps<DataType>['columns'] = [
     key: 'percent_change_7d',
     dataIndex: 'percent_change_7d',
     render: (text) => <p className={`${text > 0 ? 'up-c' : 'down-c'}`}>
-      <CaretDownOutlined />
+      {text > 0 ? <CaretUpOutlined /> : <CaretDownOutlined />}
       {text.toFixed(2)}%
     </p>
   },
@@ -140,7 +142,7 @@ const columns: TableProps<DataType>['columns'] = [
     key: 'percent_change_30d',
     dataIndex: 'percent_change_30d',
     render: (text) => <p className={`${text > 0 ? 'up-c' : 'down-c'}`}>
-      <CaretUpOutlined />
+      {text > 0 ? <CaretUpOutlined /> : <CaretDownOutlined />}
       {text.toFixed(2)}%
     </p>
   },
@@ -197,14 +199,17 @@ const MemesView = (): ReactElement<ReactNode> => {
   return (
     <div className="memes-view">
       <div className="memes-inner">
+        <div className="mask-box">
+          <img src={require('../../assets/images/memes_mask.png')} className="left-mask" alt="" />
+        </div>
         <p className="view-title">Memes</p>
         <div className="table-list">
           {/* {loading
             ? <Spin size="large" />
             : <Table columns={columns} dataSource={data} pagination={false} />} */}
-          <Table columns={columns} loading={loading} dataSource={data} pagination={false} locale={{
-            emptyText:loading ? <p></p> : <p>No Data</p>
-          }}/>
+          <Table columns={columns} scroll={{ x: flag ? 1660 : 0 }} loading={loading} dataSource={data} pagination={false} locale={{
+            emptyText: loading ? <p></p> : <p>No Data</p>
+          }} />
         </div>
       </div>
       <FooterNew />

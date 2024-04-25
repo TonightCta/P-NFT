@@ -1,6 +1,22 @@
 .memes-view {
   padding-top: 122px;
 
+  .mask-box {
+    position: fixed;
+    z-index: 100;
+
+    img {
+      width: 1412px;
+      height: 1358px;
+      position: fixed;
+    }
+
+    .left-mask {
+      top: -658px;
+      left: -632px;
+    }
+  }
+
   .memes-inner {
     width: 1360px;
     margin: 0 auto;
@@ -15,9 +31,15 @@
     .table-list {
       margin-top: 56px;
       min-height: 800px;
-      .ant-spin-nested-loading{
+      position: relative;
+      z-index: 200;
+      border-radius: 6px;
+      overflow: hidden;
+
+      .ant-spin-nested-loading {
         min-height: 400px;
       }
+
       .ant-table-thead {
         .ant-table-cell {
           font-size: 14px;
@@ -50,44 +72,54 @@
 
       .ant-table-row:hover {
         .ant-table-cell {
-          background-color: #F5F5F5;
+          background-color: #f5f5f5;
         }
       }
-      .bold-text{
+
+      .bold-text {
         font-weight: bold;
-        span{
-          color: #808A9D;
+
+        span {
+          color: #808a9d;
           margin-left: 8px;
         }
       }
-      .icon-box{
+
+      .icon-box {
         display: flex;
         align-items: center;
-        img{
+
+        img {
           width: 48px;
           height: 48px;
           border-radius: 50%;
           margin-right: 12px;
         }
-        .flex-c{
+
+        .flex-c {
           display: flex;
           flex-direction: column;
-          span{
+
+          span {
             margin-left: 0;
             font-size: 12px;
           }
         }
       }
-      .chains-list{
+
+      .chains-list {
         display: flex;
-        img{
+
+        img {
           height: 20px;
           margin-right: 4px;
         }
       }
-      .more-logo{
+
+      .more-logo {
         display: flex;
-        .more-btn{
+
+        .more-btn {
           width: 20px;
           height: 20px;
           border-radius: 50%;
@@ -96,38 +128,75 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          span{
+
+          span {
             display: inline-block;
             transform: rotate(90deg);
             color: #666;
           }
         }
       }
-      .up-c{
-        color: #047B1F;
-        span{
+
+      .up-c {
+        color: #047b1f;
+
+        span {
           margin-right: 2px;
         }
       }
-      .down-c{
-        color: #D00901;
-        span{
+
+      .down-c {
+        color: #d00901;
+
+        span {
           margin-right: 2px;
         }
       }
     }
   }
 }
-.pop-chain-list{
+
+.pop-chain-list {
   display: flex;
-  li{
+
+  li {
     margin-right: 12px;
     height: 20px;
-    img{
+
+    img {
       width: 20px;
     }
   }
-  li:first-child,li:last-child{
+
+  li:first-child,
+  li:last-child {
     margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .memes-view {
+    .mask-box {
+      .left-mask {
+        top: -750px;
+        left: -750px;
+      }
+    }
+
+    .memes-inner {
+      width: 90%;
+
+      .table-list {
+        margin-top: 2rem;
+
+        .ant-table {
+          background-color: rgba(0, 0, 0, 0);
+        }
+
+        .ant-table-cell {
+          background-color: rgba(0, 0, 0, 0);
+        }
+      }
+    }
   }
 }

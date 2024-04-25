@@ -22,11 +22,14 @@
     }
   }
 
+  background-color: rgba(240, 240, 240, 0.5);
+
   .inner-w-ins {
     width: 920px;
     margin: 0 auto;
     position: relative;
     padding-top: 74px;
+    z-index: 200;
 
     .page-icon {
       font-size: 54px;
@@ -337,7 +340,8 @@
             color: rgba(32, 32, 37, 0.3);
           }
         }
-        .add-t{
+
+        .add-t {
           text-align: left;
           margin-top: 8px;
           color: #6A40FB;
@@ -345,10 +349,12 @@
           font-size: 14px;
         }
       }
-      .hex-mode-box{
-        .unknow-inp{
+
+      .hex-mode-box {
+        .unknow-inp {
           margin: 24px auto;
-          input{
+
+          input {
             width: 100%;
             height: 48px;
             border-radius: 8px;
@@ -374,5 +380,136 @@
     width: 20px;
     height: 20px;
     margin-right: 8px;
+  }
+}
+
+@media screen and (max-width:1280px) {
+  .inscribe-view {
+    padding-top: 6rem;
+
+    .inner-w-ins {
+      width: 90%;
+      padding-top: 3rem;
+
+      .page-icon {
+        span {
+          font-size: 2.8rem;
+        }
+      }
+
+      .page-title {
+        font-size: 3rem;
+      }
+
+      .page-step {
+        display: none;
+      }
+
+      .make-type {
+        ul {
+          li {
+            width: 12rem;
+            height: 3.2rem;
+            border-radius: .8rem;
+
+            p {
+              font-size: 1.4rem;
+            }
+          }
+        }
+      }
+
+      .make-inner {
+        padding-bottom: 3.6rem;
+        .public-label{
+          font-size: 1.4rem;
+        }
+        .public-inp-box{
+          .ant-select{
+            height: 3.6rem;
+            .ant-select-selector {
+  
+              .ant-select-selection-item {
+                line-height: 3.2rem;
+                .select-custom-option{
+                  height: 3.4rem;
+                }
+              }
+            }
+            .select-custom-option {
+    
+              p {
+                font-size: 1.2rem;
+              }
+              img{
+                width: 1.8rem;
+                height: 1.8rem;
+              }
+            }
+          }
+          input{
+            height: 3.6rem;
+            font-size: 1.4rem;
+          }
+        }
+        .tabs-step-2{
+          ul{
+            li{
+              font-size: 1.4rem;
+            }
+          }
+        }
+        .t-5{
+          margin-top: 2rem;
+        }
+        .dis-box{
+          flex-direction: column;
+          .public-dis{
+            width: 100%;
+            .inp-box{
+              input{
+                height: 3.6rem;
+                font-size: 1.4rem;
+              }
+              .select-q{
+                width: 5.4rem;
+                height: 3.6rem;
+                font-size: 1.4rem;
+              }
+            }
+          }
+        }
+        .hex-mode-box,.single-children{
+          .unknow-inp{
+            margin-bottom: 0;
+            input{
+              height: 3.6rem;
+            }
+          }
+          .dis-box{
+            .public-dis{
+              input{
+                height: 3.6rem;
+              }
+              span{
+                font-size: 1.6rem;
+                top: 4rem;
+                right: 1.6rem;
+              }
+            }
+            .right-mint{
+              margin-top: 2rem;
+            }
+          }
+        }
+        .submit-btn {
+          button {
+            height: 3.6rem;
+            border-radius: .8rem;
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
   }
 }
