@@ -468,6 +468,9 @@
   }
   .other-filter {
     width: 180px;
+    .mobile-filter-btn{
+      display: none;
+    }
     .ss-i {
       width: 100%;
       border: 1px solid #ccc;
