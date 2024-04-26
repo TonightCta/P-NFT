@@ -715,18 +715,18 @@
   margin-right: 0;
 }
 @media screen and (max-width:1920px) {
-  .new-nft-card{
+  .new-nft-card {
     width: calc(15.5% - 8px);
   }
 }
 @media screen and (max-width:1720px) {
-  .new-nft-card{
+  .new-nft-card {
     width: calc(15.2% - 8px);
   }
 }
 @media screen and (max-width:1400px) {
-  .new-nft-card{
-    width: 17.5%!important;
+  .new-nft-card {
+    width: 17.5% !important;
   }
 }
 // .new-nft-card:nth-child(6n) {
@@ -763,45 +763,6 @@
         .close-filter {
           transform: scaleX(-1);
         }
-      }
-      .condition-list {
-        margin-top: 24px;
-        transition: 0.3s all;
-        min-width: 302px;
-        ul {
-          display: flex;
-          flex-wrap: wrap;
-          li {
-            padding: 10px 14px;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-            margin-right: 18px;
-            margin-bottom: 24px;
-            cursor: pointer;
-            transition: 0.3s all;
-            p {
-              color: #202025c8;
-              font-size: 16px;
-              font-weight: 600;
-              transition: 0.3s all;
-            }
-          }
-          .dis-c {
-            cursor: no-drop;
-          }
-          .active-condition {
-            background-color: #202025;
-            p {
-              color: white;
-            }
-          }
-        }
-      }
-    }
-    .close-condition {
-      width: 68px;
-      .condition-list {
-        opacity: 0;
       }
     }
     .item-inner-list {
@@ -865,11 +826,48 @@
     border-radius: 20px;
   }
 }
-
+.condition-list {
+  margin-top: 24px;
+  transition: 0.3s all;
+  min-width: 302px;
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    li {
+      padding: 10px 14px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      margin-right: 18px;
+      margin-bottom: 24px;
+      cursor: pointer;
+      transition: 0.3s all;
+      p {
+        color: #202025c8;
+        font-size: 16px;
+        font-weight: 600;
+        transition: 0.3s all;
+      }
+    }
+    .dis-c {
+      cursor: no-drop;
+    }
+    .active-condition {
+      background-color: #202025;
+      p {
+        color: white;
+      }
+    }
+  }
+}
+.close-condition {
+  width: 68px;
+  .condition-list {
+    opacity: 0;
+  }
+}
 .tab-list {
   max-width: 1733px;
   padding-bottom: 80px;
-
   .list-content {
     ul {
       display: flex;
@@ -1109,7 +1107,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-
         display: flex;
         align-items: center;
         .left-i {
@@ -1122,11 +1119,9 @@
           border-radius: 12px;
           border: 0;
           font-size: 16px;
-          background: linear-gradient(
-            90deg,
-            #f23176 0%,
-            #6a40fb 100%
-          ) !important;
+          background: linear-gradient(90deg,
+              #f23176 0%,
+              #6a40fb 100%) !important;
         }
         .end-date {
           padding: 6px 10px;
@@ -1197,6 +1192,17 @@
   }
 }
 @media screen and (max-width: 1280px) {
+  .condition-list{
+    margin-top: 0;
+    ul{
+      li{
+        padding: .6rem .8rem;
+        p{
+          font-size: 1.4rem;
+        }
+      }
+    }
+  }
   .owner-view {
     width: 100%;
     padding: 0;
@@ -1358,14 +1364,68 @@
         }
         .filter-box {
           margin-top: 0;
+          flex-direction: column;
+          align-items: flex-start;
+          padding-bottom: 1.6rem;
           .tabs {
             padding: 2px 4px;
+            width: 100%;
+            justify-content: space-between;
             ul {
               li {
                 width: 7rem;
                 height: 3rem;
                 font-size: 1.4rem;
                 line-height: 3rem;
+              }
+            }
+            .balance-box {
+              margin-left: 2.4rem;
+              padding: .6rem 2rem;
+              flex-direction: column;
+              p {
+                font-size: 1.4rem;
+                img {
+                  width: 1.6rem;
+                }
+                span {
+                  font-size: 1.4rem;
+                }
+              }
+              .balance-by-u {
+                width: 100%;
+                text-align: right;
+              }
+            }
+          }
+          .other-filter {
+            margin-top: 1.6rem;
+            height: 3.6rem;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            .mobile-filter-btn {
+              width: 3rem;
+              height: 3rem;
+              border-radius: .6rem;
+              background-color: #eee;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              span {
+                color: #202025;
+                font-size: 1.4rem;
+              }
+            }
+            .select-chain-asset {
+              height: 100%;
+              width: 18rem;
+              p {
+                font-size: 1.4rem;
+              }
+              span {
+                font-size: 1.2rem;
               }
             }
           }
@@ -1383,8 +1443,11 @@
         }
         .conponenst-gater {
           .list-item {
+            .wallet-assets-filter {
+              display: none;
+            }
             .new-nft-card {
-              width: calc(50% - 1rem)!important;
+              width: calc(50% - 1rem) !important;
               margin-right: 2rem;
               .nft-box {
                 height: 15.8rem;
