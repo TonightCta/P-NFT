@@ -12,10 +12,10 @@ import { FilterChainInfo } from "../../../utils";
 import { ErrorCard } from "../../../components/error.card";
 
 interface Data {
-    logo_minio_url: string,
+    logo_url:string,
+    poster_url:string,
     collection_name: string,
     contract_address: string,
-    poster_minio_url: string,
     collection_id: number,
     total_supply: number,
     creator_name: string,
@@ -137,7 +137,7 @@ const CollectionCard = (): ReactElement => {
                                             <img src={FilterChainInfo(item.chain_id).logo} alt="" />
                                         </div>
                                         <div className="poster-img">
-                                            <img className="" src={item.poster_minio_url} alt="" onLoad={() => {
+                                            <img className="" src={item.poster_url} alt="" onLoad={() => {
                                                 const updataList = [...data];
                                                 if (updataList[index]) {
                                                     updataList[index].load = !item.load;
@@ -163,7 +163,7 @@ const CollectionCard = (): ReactElement => {
                                             <p className="name">{item.collection_name}</p>
                                             <div className="items-creator">
                                                 <div className="account">
-                                                    <img src={item.logo_minio_url} alt="" />
+                                                    <img src={item.logo_url} alt="" />
                                                     <p>{item.creator_name}</p>
                                                 </div>
                                                 <div className="items-box">{item.total_supply}&nbsp;ITEMS</div>

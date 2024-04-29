@@ -12,7 +12,7 @@ import { Type } from "../../../utils/types";
 import { ErrorCard } from "../../../components/error.card";
 
 interface Data {
-    img_urls: { minio_url: string }[],
+    img_urls: { img_url: string }[],
     id: number,
     minter_name: string,
     total_mint: number,
@@ -107,7 +107,7 @@ const CreatorCard = (): ReactElement => {
                                     }}>
                                         <div className="img-box">
                                             <div className="img-outside">
-                                                <img src={item.img_urls[0]?.minio_url} alt="" onLoad={() => {
+                                                <img src={item.img_urls[0]?.img_url} alt="" onLoad={() => {
                                                     const updateList = [...data];
                                                     if (updateList[index]) {
                                                         updateList[index].load = !item.load;
@@ -127,9 +127,9 @@ const CreatorCard = (): ReactElement => {
                                             </div>
                                             <div className="img-list">
                                                 {
-                                                    item.img_urls?.slice(1, 5).map((item: { minio_url: string }, index: number) => {
+                                                    item.img_urls?.slice(1, 5).map((item: { img_url: string }, index: number) => {
                                                         return (
-                                                            <img src={item.minio_url} alt="" key={index} />
+                                                            <img src={item.img_url} alt="" key={index} />
                                                         )
                                                     })
                                                 }

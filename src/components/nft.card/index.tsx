@@ -31,7 +31,7 @@ const NftCard = (props: Props): ReactElement => {
             navigate(`/asset/${FilterAddressToName(item.chain_id).chain_name}/${item.contract_address}/${item.token_id}`)
         }}>
             <div className="nft-msg">
-                <img src={props.info.file_image_minio_url ? props.info.file_image_minio_url : props.info.image_minio_url} alt="" onLoad={() => {
+                <img src={props.info.file_image_url} alt="" onLoad={() => {
                     setItem({
                         ...item,
                         load: false
@@ -46,7 +46,7 @@ const NftCard = (props: Props): ReactElement => {
                     <Spin />
                 </div>}
                 {item.error && <ErrorCard />}
-                {item.voice_minio_url && <div className="play-btn" onClick={(e) => {
+                {item.file_voice_url && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
                     if (item.play) {
                         player.pause();
@@ -59,7 +59,7 @@ const NftCard = (props: Props): ReactElement => {
                     }
                     const play = document.createElement('audio');
                     setPlayer(play)
-                    play.src = item.voice_minio_url;
+                    play.src = item.file_voice_url;
                     play.loop = false;
                     play.play();
                     setItem({

@@ -55,7 +55,7 @@ const ShowContent = (): ReactElement => {
                             return (
                                 <li key={index}>
                                     <div className="nft-box">
-                                        <Image src={item.file_minio_url} alt="" onLoad={() => {
+                                        <Image src={item.file_url} alt="" onLoad={() => {
                                             const updateList = [...data];
                                             if (updateList[index]) {
                                                 updateList[index].load = !item.load;
@@ -75,7 +75,7 @@ const ShowContent = (): ReactElement => {
                                     </div>
                                     <p className="nft-name">{item.file_name}</p>
                                     <div className="minter-msg">
-                                        <img src={item.minter_minio_url} alt="" />
+                                        <img src={item.minter_url} alt="" />
                                         <p>{item.minter_name}</p>
                                     </div>
                                 </li>

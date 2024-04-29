@@ -90,7 +90,7 @@ const NewNFTCard = (props: Props): ReactElement => {
                     <Spin size="large" />
                 </div>}
                 {item.error && <ErrorCard />}
-                <img src={props.item.image_minio_url} alt="" onLoad={() => {
+                <img src={props.item.image_url} alt="" onLoad={() => {
                     setItem({
                         ...item,
                         load: false
@@ -101,7 +101,7 @@ const NewNFTCard = (props: Props): ReactElement => {
                         error: true
                     })
                 }} />
-                {item.voice_minio_url && <div className="play-btn" onClick={(e) => {
+                {item.voice_url && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
                     if (item.play) {
                         player.pause();
@@ -114,7 +114,7 @@ const NewNFTCard = (props: Props): ReactElement => {
                     }
                     const play = document.createElement('audio');
                     setPlayer(play)
-                    play.src = item.voice_minio_url;
+                    play.src = item.voice_url;
                     play.loop = false;
                     play.play();
                     setItem({

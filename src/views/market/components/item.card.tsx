@@ -65,9 +65,9 @@ const CardItem = (props: Props): ReactElement => {
                 {item.load && <div className="load-box">
                     <Spin />
                 </div>}
-                {item.voice_minio_url && item.voice_minio_url !== 'undefined' && <div className="play-btn" onClick={(e) => {
+                {item.voice_url && item.voice_url !== 'undefined' && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
-                    if (!item.voice_minio_url) {
+                    if (!item.voice_url) {
                         message.error('Failed')
                         return
                     };
@@ -82,7 +82,7 @@ const CardItem = (props: Props): ReactElement => {
                     }
                     const play = document.createElement('audio');
                     setPlayer(play)
-                    play.src = item.voice_minio_url;
+                    play.src = item.voice_url;
                     play.loop = false;
                     play.play();
                     setItem({

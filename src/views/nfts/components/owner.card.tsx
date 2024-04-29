@@ -38,7 +38,6 @@ const OwnerCard = (props: Props): ReactElement => {
     const account = await ProfileService({
       user_address: searchParams.address
     });
-    console.log(account)
     setProfile(account.data);
     props.updateBG(account.data.bgimage_url);
   };

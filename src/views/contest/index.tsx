@@ -16,7 +16,7 @@ interface Data {
     total_submit_items: number,
     end_time: number,
     start_time: number,
-    poster_minio: string,
+    poster_url: string,
     load: boolean,
     error: boolean
 }
@@ -105,7 +105,7 @@ const ContestView = (): ReactElement<ReactNode> => {
                                                             updataList[index].error = !item.error;
                                                             setData(updataList);
                                                         }
-                                                    }} src={item.poster_minio} alt="" />
+                                                    }} src={item.poster_url} alt="" />
                                                 </div>
                                                 <div className="msg-box">
                                                     <p className="text-overflow">{item.name}</p>

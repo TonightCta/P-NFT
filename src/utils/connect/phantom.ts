@@ -67,7 +67,6 @@ export const usePhantom = () => {
       })
       // return
       const info = await connection.getAccountInfo(publicKey);
-      console.log(info);
       const balance = await connection.getTokenAccountBalance(publicKey);
       console.log(balance)
       dispatch({

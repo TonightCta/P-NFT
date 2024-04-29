@@ -8,8 +8,9 @@ import { ErrorCard } from "../../../components/error.card";
 
 interface Card {
     file_minio_url: string,
+    file_url:string,
     file_name: string,
-    minter_minio_url: string,
+    minter_url: string,
     minter_name: string,
     minter: string,
     load:boolean,
@@ -116,7 +117,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                 </div>}
                 {itemInfo.error && <ErrorCard/>}
                 <div className="nft-box">
-                    <img src={itemInfo.file_minio_url} alt="" onLoad={() => {
+                    <img src={itemInfo.file_url} alt="" onLoad={() => {
                         setItemInfo({
                             ...itemInfo,
                             load:!itemInfo.load
@@ -130,7 +131,7 @@ const CreatorWapper = (): ReactElement<ReactNode> => {
                 </div>
                 <p>{itemInfo.file_name}</p>
                 <div className="account-box">
-                    <img src={itemInfo.minter_minio_url} alt="" />
+                    <img src={itemInfo.minter_url} alt="" />
                     <p>{itemInfo.minter_name}</p>
                 </div>
             </div>

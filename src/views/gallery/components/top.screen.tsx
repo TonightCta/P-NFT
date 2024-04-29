@@ -12,11 +12,11 @@ import { Type } from "../../../utils/types";
 import { ErrorCard } from "../../../components/error.card";
 
 export interface Data {
-    minter_minio_url: string,
+    file_url:string,
+    minter_url:string,
     minter_name: string,
     file_description: string,
     file_name: string,
-    file_minio_url: string,
     load: boolean,
     error: boolean
 }
@@ -60,7 +60,7 @@ const TopScreen = (): ReactElement => {
     return (
         <div className={`top-screen ${ani}`}>
             <div className="bg-box">
-                <img src={data[active]?.file_minio_url} alt="" />
+                <img src={data[active]?.file_url} alt="" />
                 <div className="bg-mask"></div>
                 <div className="linear-box"></div>
             </div>
@@ -82,7 +82,7 @@ const TopScreen = (): ReactElement => {
                                         </p>
                                         <div className="creator-msg">
                                             <p className="creator-name">
-                                                <img src={item.minter_minio_url} alt="" />
+                                                <img src={item.minter_url} alt="" />
                                                 {item.minter_name}
                                             </p>
                                             <p className="creator-title">{item.file_name}</p>
@@ -90,7 +90,7 @@ const TopScreen = (): ReactElement => {
                                         </div>
                                     </div>
                                     <div className="first-nft-pic">
-                                        <Image src={item.file_minio_url} onLoad={() => {
+                                        <Image src={item.file_url} onLoad={() => {
                                             const updateList = [...data];
                                             if (updateList[index]) {
                                                 updateList[index].load = !item.load;
@@ -113,7 +113,7 @@ const TopScreen = (): ReactElement => {
                                     </div>
                                     <div className="mobile-creator-msg creator-msg">
                                         <div className="creator-name">
-                                            <Image src={item.minter_minio_url} />
+                                            <Image src={item.minter_url} />
                                             {item.minter_name}
                                         </div>
                                         <p className="creator-title">{item.file_name}</p>

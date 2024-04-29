@@ -24,7 +24,7 @@ const ContestCard = (props: { item: Data, upDate: () => void }): ReactElement<Re
     return (
         <div className="contest-card">
             <div className="nft-box">
-                <img src={props.item.item_minio_url} alt="" onLoad={() => {
+                <img src={props.item.item_url} alt="" onLoad={() => {
                     setItem({
                         ...item,
                         load: false

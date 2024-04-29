@@ -13,7 +13,7 @@ import { Type } from "../../utils/types";
 import { useNavigate } from "react-router-dom";
 import CreateCollection from "./components/create.collection";
 
-interface Op {
+export interface Op {
   value: string | number,
   label: string,
   label_icon: string,
@@ -436,7 +436,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
                 </div>
                 {
                   active === 0
-                    ? createType === 'nft' ? inputBox : <CreateCollection/>
+                    ? createType === 'nft' ? inputBox : <CreateCollection cateList={cateList}/>
                     : <DesignBox info={input} upDateBack={() => {
                       setActive(0);
                     }} />

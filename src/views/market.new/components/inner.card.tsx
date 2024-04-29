@@ -27,11 +27,11 @@ const InnerCard = (props: { item: any }): ReactElement => {
                 <div className="loading-box-public">
                     <Spin />
                 </div>
-                <img src={item.image_minio_url} alt="" />
+                <img src={item.image_url} alt="" />
                 <div className="nft-tag">
                     <img src={FilterAddressToName(item.chain_id).chain_logo} alt="" />
                 </div>
-                {item.voice_minio_url && <div className="play-btn" onClick={(e) => {
+                {item.voice_url && <div className="play-btn" onClick={(e) => {
                     e.stopPropagation();
                     if (item.play) {
                         player.pause();
@@ -44,7 +44,7 @@ const InnerCard = (props: { item: any }): ReactElement => {
                     }
             const play = document.createElement('audio');
                     setPlayer(play)
-                    play.src = item.voice_minio_url;
+                    play.src = item.voice_url;
                     play.loop = false;
                     play.play();
                     setItem({

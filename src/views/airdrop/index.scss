@@ -595,6 +595,7 @@
     .activity-card {
       opacity: 0;
       transition: 1s all;
+      padding-right: 100px;
       .free-mint-card {
         .card-msg {
           filter: grayscale(1);

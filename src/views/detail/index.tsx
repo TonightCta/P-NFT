@@ -54,7 +54,7 @@ const DetailView = (): ReactElement<ReactNode> => {
             <div className="up-mask">
                 <div className="nft-msg">
                     <div className="left-nft-box">
-                        <img src={item.file_image_ipfs} onLoad={() => {
+                        <img src={item.file_url} onLoad={() => {
                             setImgLoad(false);
                         }} alt="" />
                         {imgLoad && <div className="load-box">
@@ -63,7 +63,7 @@ const DetailView = (): ReactElement<ReactNode> => {
                         <div className="audio-box">
                             <div className="play-btn" onClick={(e) => {
                                 e.stopPropagation();
-                                if (!item.voice_minio_url) {
+                                if (!item.voice_url) {
                                     message.error('Failed')
                                     return
                                 };
@@ -78,7 +78,7 @@ const DetailView = (): ReactElement<ReactNode> => {
                                 }
                                 const play = document.createElement('audio');
                                 setPlayer(play)
-                                play.src = item.voice_minio_url;
+                                play.src = item.voice_url;
                                 play.loop = false;
                                 play.play();
                                 setItem({

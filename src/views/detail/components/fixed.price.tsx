@@ -137,7 +137,6 @@ const FixedModal = (props: Props): ReactElement => {
         const approve = await queryApprove(props.id,props.nft_address);
         const bol = OwnerAddress.indexOf(approve.toLowerCase()) > -1;
         setApproved(bol);
-        console.log(approve)
         setWait({
             ...wait,
             approve_dis: bol ? true : false,

@@ -12,7 +12,7 @@ interface Item {
     order_id: string,
     pay_currency_name: string,
     token_id: number,
-    image_minio_url: string,
+    image_url: string,
     pay_currency_contract: string,
     seaport_buy_Param: {
         fulfiller_conduit_key: string,
@@ -156,7 +156,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
                 {
                     <div className="sell-nft">
                         <div className="nft-box">
-                            <img src={props.item.file_image_ipfs || props.item.image_minio_url} alt="" />
+                            <img src={props.item.image_url} alt="" />
                         </div>
                         <p className="nft-name">PAI SPACE</p>
                         <p className="token-id">#{props.item.token_id}</p>

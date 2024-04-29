@@ -78,7 +78,7 @@ const ActivityCard = (): ReactElement => {
                                 <li>
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[1]?.img_minio_url ? <img src={rankList[1].img_minio_url} alt="" /> : <DefaultAvatar address={rankList[1]?.contract_address} diameter={110} />}
+                                            {rankList[1]?.img_url ? <img src={rankList[1].img_url} alt="" /> : <DefaultAvatar address={rankList[1]?.contract_address} diameter={110} />}
                                         </div>
                                         <p>2</p>
                                     </div>
@@ -89,7 +89,7 @@ const ActivityCard = (): ReactElement => {
                                     <img className="rank-1-icon" src={require('../../../assets/images/drop_rank_1.png')} alt="" />
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[0]?.img_minio_url ? <img src={rankList[0].img_minio_url} alt="" /> : <DefaultAvatar address={rankList[0]?.contract_address} diameter={150} />}
+                                            {rankList[0]?.img_url ? <img src={rankList[0].img_url} alt="" /> : <DefaultAvatar address={rankList[0]?.contract_address} diameter={150} />}
                                         </div>
                                         <p>1</p>
                                     </div>
@@ -99,7 +99,7 @@ const ActivityCard = (): ReactElement => {
                                 <li>
                                     <div className="nfts-box">
                                         <div className="img-inner">
-                                            {rankList[2]?.img_minio_url ? <img src={rankList[2].img_minio_url} alt="" /> : <DefaultAvatar address={rankList[2]?.contract_address} diameter={110} />}
+                                            {rankList[2]?.img_url ? <img src={rankList[2].img_url} alt="" /> : <DefaultAvatar address={rankList[2]?.contract_address} diameter={110} />}
                                         </div>
                                         <p>3</p>
                                     </div>
@@ -132,7 +132,7 @@ const ActivityCard = (): ReactElement => {
                                             <div className="avatar-box">
                                                 <p className="rank-num">{index + 4}</p>
                                                 <div className="avatar-inner">
-                                                    {item.img_minio_url ? <img src={item.img_minio_url} alt="" /> : <DefaultAvatar address={item.contract_address} diameter={60} />}
+                                                    {item.img_url ? <img src={item.img_url} alt="" /> : <DefaultAvatar address={item.contract_address} diameter={60} />}
                                                 </div>
                                                 <p className="rank-name">{calsAddress(item.minter)}</p>
                                             </div>

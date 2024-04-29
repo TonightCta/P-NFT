@@ -16,13 +16,13 @@ interface Account {
 };
 
 export interface Info {
-    bg_image_minio_url: string,
+    bg_image_url:string,
+    logo_url:string,
     collection_description: string,
     collection_name: string,
     total_supply: number,
     creator_earnings: number,
     discord_link: string,
-    logo_minio_url: string,
     medium_link: string,
     tg_link: string,
     twitter_link: string,
@@ -114,7 +114,7 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                     </div>
                     : <div>
                         <div className="bg-box">
-                            <img src={info?.bg_image_minio_url} onLoad={() => {
+                            <img src={info?.bg_image_url} onLoad={() => {
                                 setBgLoad(false)
                             }} alt="" />
                             {bgLoad && <div className="load">
@@ -123,7 +123,7 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
                         </div>
                         <div className="content-box">
                             <div className="collection-logo">
-                                <img src={info?.logo_minio_url} alt="" />
+                                <img src={info?.logo_url} alt="" />
                             </div>
                             <div className="collection-name">
                                 <p>{info?.collection_name}</p>

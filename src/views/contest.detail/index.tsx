@@ -10,9 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 interface Info {
-    bg_image_minio: string,
+    bg_image_url:string,
     name: string,
-    logo_minio: string,
     start_time: number,
     end_time: number,
     description: string,
@@ -21,7 +20,6 @@ interface Info {
 }
 
 export interface Data {
-    item_minio_url: string,
     compitem_id: number,
     submitter: string,
     submitter_avatar_url: string,
@@ -29,7 +27,8 @@ export interface Data {
     vote_amount: number,
     name: string,
     load:boolean,
-    error:boolean
+    error:boolean,
+    item_url:string
 }
 
 const ContestDetailView = (): ReactElement<ReactNode> => {
@@ -128,7 +127,7 @@ const ContestDetailView = (): ReactElement<ReactNode> => {
             <div className="detail-inner">
                 <div className="info-card">
                     <div className="left-bg">
-                        <img src={info?.bg_image_minio} alt="" />
+                        <img src={info?.bg_image_url} alt="" />
                         <div className="loading-box">
                             <Spin size="large" />
                         </div>

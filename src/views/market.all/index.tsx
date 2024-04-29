@@ -14,7 +14,7 @@ interface Category {
 
 interface DataType {
     key: string;
-    logo_minio_url: string;
+    logo_url: string;
     collection_name: string;
     floor_price: number,
     listed_amount: number;
@@ -67,11 +67,11 @@ const columns: ColumnsType<DataType> = [
         title: 'Collection',
         dataIndex: 'name',
         key: 'name',
-        render: (_, { logo_minio_url, collection_name }) => (
+        render: (_, { logo_url, collection_name }) => (
             <div className="img-box">
                 <Image
                     width={flag ? 42 : 72}
-                    src={logo_minio_url}
+                    src={logo_url}
                 />
                 <p>{collection_name}</p>
             </div>
@@ -122,11 +122,11 @@ const columnsMobile: ColumnsType<DataType> = [
         title: 'Collection',
         dataIndex: 'name',
         key: 'name',
-        render: (_, { logo_minio_url, collection_name }) => (
+        render: (_, { logo_url, collection_name }) => (
             <div className="img-box">
                 <Image
                     width={flag ? 42 : 72}
-                    src={logo_minio_url}
+                    src={logo_url}
                 />
                 <p>{collection_name}</p>
             </div>

@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
 import FooterNew from "../screen.new/components/footer.new";
 import { CurrencyList } from '../../request/api'
-import { Popover, Spin, Table, Tooltip } from 'antd';
+import { Popover, Table } from 'antd';
 import type { TableProps } from 'antd';
 import { CaretDownOutlined, CaretUpOutlined, MoreOutlined } from "@ant-design/icons";
 import './index.scss'
@@ -11,7 +11,6 @@ import { flag } from "../../utils/source";
 interface DataType {
   key: string;
   description: string;
-  logo_minio_url: string,
   currency_name: string,
   chain_info: {
     chain_id: string,
@@ -80,7 +79,7 @@ const columns: TableProps<DataType>['columns'] = [
     title: 'Name',
     key: 'description',
     render: (_) => <div className="icon-box">
-      <img src={_.logo_minio_url} alt="" />
+      <img src={_.logo_url} alt="" />
       <p className="bold-text flex-c">{_.description}<span>{_.currency_name}</span></p>
     </div>
   },

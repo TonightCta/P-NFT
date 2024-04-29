@@ -12,6 +12,8 @@ export const EditAvatarService = (p: o) => post('/profile/uploadavatar', p);
 export const UploadFileService = (p: FormData) => post('/file/upload', p);
 //Mint NFT
 export const NFTMintService = (p: FormData) => post('/nft/mint', p);
+//Mint Collection 
+export const CollectionMintService = (p:FormData) => post('/collection/mint',p);
 //Maker NFT
 export const NFTMakerService = (p: o) => post('/order/maker', p);
 //Buy NFT

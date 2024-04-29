@@ -14,7 +14,6 @@ import { useSwitchChain } from "../../hooks/chain";
 import { FilterAddress, FilterAddressToChain, FilterTokenInfo } from "../../utils";
 
 interface Info {
-    image_minio_url: string,
     order_id: string,
     file_name: string,
     token_id: number,
@@ -32,8 +31,8 @@ interface Info {
 
 interface CollInfo {
     collection_description: string,
+    logo_url:string,
     collection_name: string,
-    logo_minio_url: string
 }
 
 const DetailNewView = (): ReactElement<ReactNode> => {
@@ -81,7 +80,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                         <IconFont type="icon-fanhuijiantou" onClick={() => {
                             window.history.back()
                         }} />
-                        <img src={collInfo?.logo_minio_url} alt="" />
+                        <img src={collInfo?.logo_url} alt="" />
                         <p>{collInfo?.collection_name}</p>
                     </div>
                     <div className="first-screen">
@@ -91,9 +90,9 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                             </div>}
                             <Image
                                 onLoad={() => { setImgLoad(false) }}
-                                src={info?.image_minio_url}
+                                src={info?.image_url}
                             />
-                            {info.voice_minio_url && <div className="play-btn" onClick={(e) => {
+                            {info.voice_url && <div className="play-btn" onClick={(e) => {
                                 e.stopPropagation();
                                 if (playF) {
                                     player.pause();
@@ -103,7 +102,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 }
                                 const play = document.createElement('audio');
                                 setPlayer(play)
-                                play.src = info.voice_minio_url;
+                                play.src = info.voice_url;
                                 play.loop = false;
                                 play.play();
                                 setPlay(true);
@@ -119,7 +118,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                                 <IconFont type="icon-fanhuijiantou" onClick={() => {
                                     window.history.back()
                                 }} />
-                                <img src={collInfo?.logo_minio_url} alt="" />
+                                <img src={collInfo?.logo_url} alt="" />
                                 <p>{collInfo?.collection_name}</p>
                             </div>
                             <p className="nft-name">{info?.file_name}&nbsp;#{info?.token_id}</p>
@@ -181,7 +180,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                         </div>
                     </div>
                     <MsgCard about={collInfo?.collection_description as string} description={info!.file_description} />
-                    <TradeHistory price={info.price} pay_currency_name="PI" image_minio_url={info.image_minio_url} tokenID={info!.token_id} address={info!.contract_address} />
+                    <TradeHistory price={info.price} pay_currency_name="PI" image_minio_url={info.image_url} tokenID={info!.token_id} address={info!.contract_address} />
                     <FooterNew />
                     <BuyNFTsModal visible={takeVisible} closeModal={(val: boolean) => {
                         setTakeVisible(val)

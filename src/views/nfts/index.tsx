@@ -142,7 +142,6 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     if (status !== 200) {
       return;
     }
-    console.log(data.total);
     setTotal(data.total);
     if (!data.item) {
       setList([]);
