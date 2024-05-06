@@ -23,7 +23,9 @@ const PageNotFound = React.lazy(() => import('./not.found/index'));
 const VideoView = React.lazy(() => import('./video/index'))
 const InscribeView = React.lazy(() => import('./inscribe/index'));
 const InsCollectionView = React.lazy(() => import('./ins.collection/index'));
-const MemesView = React.lazy(() => import('./memes/index'))
+const MemesView = React.lazy(() => import('./memes/index'));
+const LaunchpadView = React.lazy(() => import('./launchpad/index'));
+const LaunchpadDetailView = React.lazy(() => import('./launchpad.detail/index'));
 
 export {
   IndexView,
@@ -49,5 +51,7 @@ export {
   VideoView,
   InscribeView,
   InsCollectionView,
-  MemesView
+  MemesView,
+  LaunchpadView,
+  LaunchpadDetailView
 }

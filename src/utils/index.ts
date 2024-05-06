@@ -138,6 +138,14 @@ export const DateConvert = (_time: number): string => {
   const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
   return `${year}/${month}/${day}`
 };
+//Date conversion
+export const DateConvertS = (_time: number): string => {
+  const date = new Date(_time * 1000);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+  const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
+  return `${day}/${month}/${year}`
+};
 
 export const FilterAddress = (chain_id: string) => {
   return NetworkConfig.filter((item: Config) => { return item.chain_id === chain_id })[0]

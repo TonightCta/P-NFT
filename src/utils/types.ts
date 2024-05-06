@@ -38,7 +38,9 @@ export interface State {
   wallet?: string,
   balance?: string,
   create?: string,
-  evm?:string
+  evm?:string,
+  launchpad?:string,
+  memes?:string
 }
 
 export interface IResponse {
@@ -78,7 +80,9 @@ export enum Type {
   SET_WALLET = 'set_wallet',
   SET_BALANCE = 'set_balance',
   SET_CREATE = 'set_create',
-  SET_EVM = 'set_evm'
+  SET_EVM = 'set_evm',
+  SET_LAUNCHPAD = 'set_launchpad',
+  SET_MEMES = 'set_memes'
 };
 
 export interface IAction {

@@ -1,33 +1,27 @@
 .memes-view {
   padding-top: 122px;
-
   .mask-box {
     position: fixed;
     z-index: 100;
-
     img {
       width: 1412px;
       height: 1358px;
       position: fixed;
     }
-
     .left-mask {
       top: -658px;
       left: -632px;
     }
   }
-
   .memes-inner {
     width: 1360px;
     margin: 0 auto;
-
     .view-title {
       text-align: left;
       font-size: 40px;
       font-weight: bold;
       color: #191919;
     }
-
     .table-list {
       margin-top: 56px;
       min-height: 800px;
@@ -35,90 +29,73 @@
       z-index: 200;
       border-radius: 6px;
       overflow: hidden;
-
       .ant-spin-nested-loading {
         min-height: 400px;
       }
-
       .ant-table-thead {
         .ant-table-cell {
           font-size: 14px;
           font-weight: bold;
         }
       }
-
       .ant-table-cell {
         background-color: white;
         border: 0;
         font-size: 14px;
         vertical-align: middle;
       }
-
       .ant-table-cell::before {
         display: none;
       }
-
       .ant-table-row {
         .ant-table-cell:first-child {
           border-top-left-radius: 6px;
           border-bottom-left-radius: 6px;
         }
-
         .ant-table-cell:last-child {
           border-top-right-radius: 6px;
           border-bottom-right-radius: 6px;
         }
       }
-
       .ant-table-row:hover {
         .ant-table-cell {
           background-color: #f5f5f5;
         }
       }
-
       .bold-text {
         font-weight: bold;
-
         span {
           color: #808a9d;
           margin-left: 8px;
         }
       }
-
       .icon-box {
         display: flex;
         align-items: center;
-
         img {
           width: 48px;
           height: 48px;
           border-radius: 50%;
           margin-right: 12px;
         }
-
         .flex-c {
           display: flex;
           flex-direction: column;
-
           span {
             margin-left: 0;
             font-size: 12px;
           }
         }
       }
-
       .chains-list {
         display: flex;
-
         img {
           height: 20px;
           margin-right: 4px;
         }
       }
-
       .more-logo {
         display: flex;
-
         .more-btn {
           width: 20px;
           height: 20px;
@@ -128,7 +105,6 @@
           display: flex;
           align-items: center;
           justify-content: center;
-
           span {
             display: inline-block;
             transform: rotate(90deg);
@@ -136,18 +112,14 @@
           }
         }
       }
-
       .up-c {
         color: #047b1f;
-
         span {
           margin-right: 2px;
         }
       }
-
       .down-c {
         color: #d00901;
-
         span {
           margin-right: 2px;
         }
@@ -155,25 +127,20 @@
     }
   }
 }
-
 .pop-chain-list {
   display: flex;
-
   li {
     margin-right: 12px;
     height: 20px;
-
     img {
       width: 20px;
     }
   }
-
   li:first-child,
   li:last-child {
     margin-right: 0;
   }
 }
-
 @media screen and (max-width: 1280px) {
   .memes-view {
     .mask-box {
@@ -182,17 +149,13 @@
         left: -750px;
       }
     }
-
     .memes-inner {
       width: 90%;
-
       .table-list {
         margin-top: 2rem;
-
         .ant-table {
           background-color: rgba(0, 0, 0, 0);
         }
-
         .ant-table-cell {
           background-color: rgba(0, 0, 0, 0);
         }

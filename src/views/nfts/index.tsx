@@ -35,7 +35,7 @@ interface Sale {
   token_name: string;
   collection_name: string;
   chain_id: string;
-  image_minio_url: string;
+  image_url: string;
   token_id: number;
   nft_address: string;
 }
@@ -231,7 +231,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     token_name: "",
     collection_name: "",
     chain_id: "8007736",
-    image_minio_url: "",
+    image_url: "",
     token_id: 0,
     nft_address: "",
   });
@@ -369,7 +369,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
               className={`conponenst-gater ${loading ? "gater-6n" : ""}`}
               id="ownerView"
             >
-              <div className="list-item">
+              <div className={`list-item ${!filter ? "filter-condition" : ""}`}>
                 {activeTop === 1 && (
                   <div
                     className={`wallet-assets-filter ${
@@ -461,7 +461,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                                 token_id: item.token_id,
                                 token_name: item.token_name,
                                 chain_id: item.chain_id,
-                                image_minio_url: item.image_minio_url,
+                                image_url: item.image_url,
                                 nft_address: item.contract_address,
                               });
                               setFixedVisible(true);
@@ -509,7 +509,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
         }}
         sell
         visible={fixedVisible}
-        image={sale.image_minio_url}
+        image={sale.image_url}
         id={sale.token_id}
         closeModal={(val: boolean) => {
           setFixedVisible(val);

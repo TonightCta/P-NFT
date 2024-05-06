@@ -468,7 +468,7 @@
   }
   .other-filter {
     width: 180px;
-    .mobile-filter-btn{
+    .mobile-filter-btn {
       display: none;
     }
     .ss-i {
@@ -819,6 +819,47 @@
       transform: translateY(-5px);
     }
   }
+  .filter-condition {
+    .new-nft-card {
+      width: calc(15% - 8px);
+    }
+    .item-inner-list {
+      @media screen and (max-width:1920px) {
+        .new-nft-card {
+          .nft-box {
+            height: 162px;
+          }
+        }
+      }
+      @media screen and (max-width:1720px) {
+        .new-nft-card {
+          width: calc(18% - 8px);
+        }
+        .new-nft-card:nth-child(5n) {
+          margin-right: 0;
+        }
+        .new-nft-card:nth-child(6n) {
+          margin-right: 22px;
+        }
+      }
+      @media screen and (max-width:1660px) {
+        .new-nft-card {
+          width: calc(23% - 8px)!important;
+        }
+        .new-nft-card:nth-child(4n) {
+          margin-right: 0;
+        }
+        .new-nft-card:nth-child(5n) {
+          margin-right: 22px!important;
+        }
+      }
+      @media screen and (max-width:1400px) {
+        .new-nft-card {
+          width: 17.5% !important;
+        }
+      }
+    }
+  }
 }
 .has-no-more {
   font-size: 16px;
@@ -863,7 +904,7 @@
   }
 }
 .close-condition {
-  width: 68px;
+  width: 68px !important;
   .condition-list {
     opacity: 0;
   }
@@ -1195,12 +1236,12 @@
   }
 }
 @media screen and (max-width: 1280px) {
-  .condition-list{
+  .condition-list {
     margin-top: 0;
-    ul{
-      li{
+    ul {
+      li {
         padding: .6rem .8rem;
-        p{
+        p {
           font-size: 1.4rem;
         }
       }

@@ -1,0 +1,127 @@
+.launchpad-view {
+    padding-top: 180px;
+    .mask-box {
+        position: fixed;
+        z-index: 100;
+        img {
+            width: 1412px;
+            height: 1358px;
+            position: fixed;
+        }
+        .left-mask {
+            top: -658px;
+            left: -632px;
+        }
+        .right-mask {
+            bottom: -300px;
+            right: -922px;
+        }
+    }
+    .launchpad-inner {
+        width: 1360px;
+        margin: 0 auto;
+        padding-top: 80px;
+        .n-t{
+            margin-top: 36px;
+        }
+        .load-box{
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .view-title {
+            font-size: 48px;
+            color: #202025;
+            font-family: SparkTitleNew;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        .data-list {
+            min-height: 300px;
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            .card-lan {
+                width: calc(50% - 20px);
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
+                margin-bottom: 40px;
+                cursor: pointer;
+                .poster-box {
+                    width: 100%;
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 280px;
+                    img {
+                        width: 100%;
+                        display: inline-block;
+                        transition: .3s all;
+                    }
+                }
+                .msg-box {
+                    padding: 20px 24px 14px 24px;
+                    .adv-remark {
+                        width: 80%;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        font-size: 20px;
+                        color: #000;
+                        white-space: nowrap;
+                        font-family: SparkSemiBold;
+                        margin-bottom: 12px;
+                        line-height: 28px;
+                        text-align: left;
+                    }
+                    .total-msg {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        .end-point {
+                            border-radius: 8px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            .point-box {
+                                width: 16px;
+                                height: 16px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                border-radius: 50%;
+                                background-color: rgba(255, 51, 170, .2);
+                                margin-right: 6px;
+                                .point-inner {
+                                    width: 8px;
+                                    height: 8px;
+                                    background-color: #FF33AA;
+                                    border-radius: 50%;
+                                }
+                            }
+                            p {
+                                font-size: 14px;
+                                color: #202025;
+                            }
+                        }
+                    }
+                    .total-num {
+                        font-size: 16px;
+                        color: #686A6C;
+                    }
+                }
+            }
+            .card-lan:hover {
+                .poster-box {
+                    img {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+    }
+}

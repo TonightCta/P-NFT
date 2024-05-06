@@ -1,5 +1,11 @@
-import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
-import './index.scss'
+import {
+  ReactElement,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import "./index.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Popover, message } from "antd";
 import IconFont from "../../utils/icon";
@@ -12,44 +18,52 @@ import MobileMenuDraw from "./components/mobile.menu";
 import { useSwitchChain } from "../../hooks/chain";
 import ConnectModal from "./components/connect.modal";
 import { ProfileService } from "../../request/api";
-import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import {
+  useWeb3Modal,
+  useWeb3ModalAccount,
+  useWeb3ModalProvider,
+} from "@web3modal/ethers5/react";
 // import { useUnisat } from "../../utils/connect/unisat";
 import Web3 from "web3";
 
 export interface Menu {
-  name: string,
-  url: string,
-  children?: Menu[]
+  name: string;
+  url: string;
+  children?: Menu[];
 }
 
 export const MenuList: Menu[] = [
   {
-    name: 'Inscriptions',
-    url: '',
+    name: "Inscriptions",
+    url: "",
     children: [
       {
-        name: 'Inscribe',
-        url: '/inscribe'
+        name: "Inscribe",
+        url: "/inscribe",
       },
       {
-        name: 'Collection',
-        url: '/ins-collection'
-      }
-    ]
+        name: "Collection",
+        url: "/ins-collection",
+      },
+    ],
   },
   {
-    name: 'NFTs',
-    url: '',
+    name: "NFTs",
+    url: "",
     children: [
       {
-        name: 'Create',
-        url: '/create',
+        name: "Create",
+        url: "/create",
       },
       {
-        name: 'Collections',
-        url: '/collections',
+        name: "Collections",
+        url: "/collections",
       },
-    ]
+      {
+        name: "Launchpad",
+        url: "/launchpad",
+      },
+    ],
   },
   // {
   //   name: 'Create',
@@ -60,22 +74,22 @@ export const MenuList: Menu[] = [
   //   url: '/collections',
   // },
   {
-    name: 'Memes',
-    url: '/memes',
+    name: "Memes",
+    url: "/memes",
   },
   {
-    name: 'AI Campaigns',
-    url: '/campaigns',
+    name: "AI Campaigns",
+    url: "/campaigns",
   },
   {
-    name: 'Airdrops',
-    url: '/airdrop',
+    name: "Airdrops",
+    url: "/airdrop",
   },
   {
-    name: 'FAQ',
-    url: 'https://forms.gle/LDzXJgQhQ3Ety4kT8'
-  }
-]
+    name: "FAQ",
+    url: "https://forms.gle/LDzXJgQhQ3Ety4kT8",
+  },
+];
 
 const HeaderWapperNew = (): ReactElement<ReactNode> => {
   const navigate = useNavigate();
@@ -97,25 +111,25 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
   const handleOpenChange = (newOpen: boolean) => {
     if (flag) {
       setOpen(false);
-      return
+      return;
     }
     setOpen(newOpen);
   };
   const userInfo = async (address: string) => {
     const account = await ProfileService({
-      user_address: address
+      user_address: address,
     });
     dispatch({
       type: Type.SET_ADDRESS,
       payload: {
-        address: address
-      }
+        address: address,
+      },
     });
     dispatch({
       type: Type.SET_ACCOUNT,
       payload: {
-        account: account.data
-      }
+        account: account.data,
+      },
     });
   };
   const queryBalance = async (_address: string) => {
@@ -124,10 +138,10 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
     dispatch({
       type: Type.SET_BALANCE,
       payload: {
-        balance: String((+balance / 1e18).toFixed(4))
-      }
-    })
-  }
+        balance: String((+balance / 1e18).toFixed(4)),
+      },
+    });
+  };
   useEffect(() => {
     // if (!address && state.is_connect === 1) {
     //     dispatch({
@@ -153,21 +167,21 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       dispatch({
         type: Type.SET_IS_CONNECT,
         payload: {
-          is_connect: 1
-        }
-      })
+          is_connect: 1,
+        },
+      });
       dispatch({
         type: Type.SET_WALLET,
         payload: {
-          wallet: 'walletconnect'
-        }
+          wallet: "walletconnect",
+        },
       });
       dispatch({
         type: Type.SET_EVM,
         payload: {
-          evm: '0'
-        }
-      })
+          evm: "0",
+        },
+      });
       userInfo(address as string);
       queryBalance(address);
     }
@@ -175,176 +189,204 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       dispatch({
         type: Type.SET_ADDRESS,
         payload: {
-          address: ''
-        }
-      })
+          address: "",
+        },
+      });
       dispatch({
         type: Type.SET_IS_CONNECT,
         payload: {
-          is_connect: 0
-        }
+          is_connect: 0,
+        },
       });
       dispatch({
         type: Type.SET_WALLET,
         payload: {
-          wallet: ''
-        }
-      })
+          wallet: "",
+        },
+      });
     }
   }, [address]);
   useEffect(() => {
     switch (location.pathname) {
-      case '/inscribe':
+      case "/inscribe":
         setActive(0);
         break;
-      case '/ins-collection':
-        message.warning('Coming Soon')
+      case "/ins-collection":
+        message.warning("Coming Soon");
         // setActive(0);
         break;
-      case '/create':
+      case "/create":
         setActive(1);
         break;
-      case '/collections':
+      case "/collections":
         setActive(1);
         break;
-      case '/memes':
+      case "/launchpad":
+        setActive(1);
+        break;
+      case "/memes":
         setActive(2);
         break;
-      case '/campaigns':
+      case "/campaigns":
         setActive(3);
         break;
-      case '/airdrop':
+      case "/airdrop":
         setActive(4);
         break;
       default:
-        setActive(99)
+        setActive(99);
     }
   }, [location.pathname]);
   useEffect(() => {
-    if (!chainId) return
-    if (!address) return
+    if (!chainId) return;
+    if (!address) return;
     dispatch({
       type: Type.SET_CHAIN,
       payload: {
-        chain: String(chainId)
-      }
+        chain: String(chainId),
+      },
     });
     queryBalance(address);
-  }, [chainId])
+  }, [chainId]);
   const [active, setActive] = useState<number>(99);
   const { open } = useWeb3Modal();
   const content = (
     <div className="connect-menu" onClick={hide}>
       <ul>
-        <li onClick={() => {
-          // dispatch({
-          //     type: Type.SET_OWNER_ADDRESS,
-          //     payload: {
-          //         owner_address: state.address as string
-          //     }
-          // })
-          // navigate('/owner');
-          navigate(`/user/${state.address}`)
-        }}>
-          <img src={require('../../assets/images/user.icon.png')} alt="" />
+        <li
+          onClick={() => {
+            // dispatch({
+            //     type: Type.SET_OWNER_ADDRESS,
+            //     payload: {
+            //         owner_address: state.address as string
+            //     }
+            // })
+            // navigate('/owner');
+            navigate(`/user/${state.address}`);
+          }}
+        >
+          <img src={require("../../assets/images/user.icon.png")} alt="" />
           Profile
         </li>
-        <li onClick={() => {
-          navigate('/profile')
-        }}>
-          <img src={require('../../assets/images/setting.icon.png')} alt="" />
-          Setting</li>
-        <li onClick={() => {
-          const disconnect = () => {
-            dispatch({
-              type: Type.SET_ADDRESS,
-              payload: {
-                address: ''
-              }
-            });
-            dispatch({
-              type: Type.SET_WALLET,
-              payload: {
-                wallet: ''
-              }
-            });
-            dispatch({
-              type: Type.SET_EVM,
-              payload: {
-                evm: '0'
-              }
-            });
-            dispatch({
-              type: Type.SET_CHAIN,
-              payload: {
-                chain: '8007736'
-              }
-            });
-            navigate('/');
-          };
-          // disconnect();
-          state.is_connect === 1 ? open({ view: 'Account' }) : disconnect();
-        }}>
-          <img src={require('../../assets/images/disconnect.icon.png')} alt="" />
-          Disconnect</li>
+        <li
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          <img src={require("../../assets/images/setting.icon.png")} alt="" />
+          Setting
+        </li>
+        <li
+          onClick={() => {
+            const disconnect = () => {
+              dispatch({
+                type: Type.SET_ADDRESS,
+                payload: {
+                  address: "",
+                },
+              });
+              dispatch({
+                type: Type.SET_WALLET,
+                payload: {
+                  wallet: "",
+                },
+              });
+              dispatch({
+                type: Type.SET_EVM,
+                payload: {
+                  evm: "0",
+                },
+              });
+              dispatch({
+                type: Type.SET_CHAIN,
+                payload: {
+                  chain: "8007736",
+                },
+              });
+              navigate("/");
+            };
+            // disconnect();
+            state.is_connect === 1 ? open({ view: "Account" }) : disconnect();
+          }}
+        >
+          <img
+            src={require("../../assets/images/disconnect.icon.png")}
+            alt=""
+          />
+          Disconnect
+        </li>
       </ul>
     </div>
-  )
+  );
   const chainContent = (
-    <div className="connect-menu connect-menu-chain" onClick={() => {
-      setChainPop(false)
-    }}>
+    <div
+      className="connect-menu connect-menu-chain"
+      onClick={() => {
+        setChainPop(false);
+      }}
+    >
       <ul>
-        {
-          NetworkConfig.map((item: Config, index: number) => {
-            return (
-              <li key={index} onClick={() => {
-                switchC(+item.chain_id)
-              }}>
-                <img src={item.chain_logo} alt="" />
-                {item.chain_name}
-              </li>
-            )
-          })
-        }
+        {NetworkConfig.map((item: Config, index: number) => {
+          return (
+            <li
+              key={index}
+              onClick={() => {
+                switchC(+item.chain_id);
+              }}
+            >
+              <img src={item.chain_logo} alt="" />
+              {item.chain_name}
+            </li>
+          );
+        })}
       </ul>
     </div>
-  )
+  );
   const ContentLevelMenu = (props: { item: Menu }) => {
     return (
       <ul>
-        {
-          props.item.children!.map((item: Menu, index: number) => {
-            return (
-              <li key={index} onClick={() => {
-                if (item.url === '/create' && state.evm === '1') {
-                  message.warning('This network is not supported yet');
-                  return
+        {props.item.children!.map((item: Menu, index: number) => {
+          return (
+            <li
+              key={index}
+              onClick={() => {
+                if (item.url === "/create" && state.evm === "1") {
+                  message.warning("This network is not supported yet");
+                  return;
                 }
-                if (item.url === '/ins-collection') { message.warning('Coming Soon'); return;}
-                if (item.url === '/create') {
+                if (item.url === "/ins-collection") {
+                  message.warning("Coming Soon");
+                  return;
+                }
+                if (item.url === "/create") {
                   dispatch({
                     type: Type.SET_CREATE,
                     payload: {
-                      create: '0'
-                    }
-                  })
+                      create: "0",
+                    },
+                  });
                 }
-                navigate(item.url)
+                navigate(item.url);
                 // setLevelPop(false);
-              }}>
-                <p>
-                  {item.name}
-                  {/* {item.url === '/inscribe' && <img src={require('../../assets/images/fire.gif')} alt="" className="need-t" />} */}
-                  {item.url === '/create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i" />}
-                </p>
-              </li>
-            )
-          })
-        }
+              }}
+            >
+              <p>
+                {item.name}
+                {/* {item.url === '/inscribe' && <img src={require('../../assets/images/fire.gif')} alt="" className="need-t" />} */}
+                {item.url === "/create" && (
+                  <img
+                    src={require("../../assets/images/ai.gif")}
+                    alt=""
+                    className="ai-i"
+                  />
+                )}
+              </p>
+            </li>
+          );
+        })}
       </ul>
-    )
-  }
+    );
+  };
   // const chainBTC = (
   //   <div className="connect-menu connect-menu-chain" onClick={() => {
   //     setChainPop(false)
@@ -369,20 +411,27 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
   };
   return (
     <div className="header-wapper-new">
-      <img src={require('../../assets/new/logo.png')} alt="" className="left-logo" onClick={() => {
-        navigate('/')
-      }} />
+      <img
+        src={require("../../assets/new/logo.png")}
+        alt=""
+        className="left-logo"
+        onClick={() => {
+          navigate("/");
+        }}
+      />
       <div className="right-menu">
         <ul>
-          {
-            MenuList.map((item: Menu, index: number) => {
-              return (
-                <li className={`${index === active ? 'active-menu' : ''}`} key={index} onClick={() => {
-                  if (item.name === 'FAQ') {
+          {MenuList.map((item: Menu, index: number) => {
+            return (
+              <li
+                className={`${index === active ? "active-menu" : ""}`}
+                key={index}
+                onClick={() => {
+                  if (item.name === "FAQ") {
                     window.open(item.url);
-                    return
+                    return;
                   }
-                  if (item.children) return
+                  if (item.children) return;
                   // if (item.url === '/create' && state.evm === '1') {
                   //   message.warning('This network is not supported yet');
                   //   return
@@ -396,67 +445,104 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                   //   })
                   // }
                   setActive(index);
-                  navigate(item.url)
-                }}>
-                  {
-                    !item.children
-                      ? <p>{item.name}</p>
-                      //TODO  open={levelPop} onOpenChange={handleLevel}
-                      : <Popover placement="bottom" rootClassName="custom-level-menu" title={null} content={<ContentLevelMenu item={item} />}>
-                        <p className="with-arrow">
-                          {item.name}
-                          <DownOutlined />
-                        </p>
-                      </Popover>
-                  }
+                  navigate(item.url);
+                }}
+              >
+                {!item.children ? (
+                  <p>{item.name}</p>
+                ) : (
+                  //TODO  open={levelPop} onOpenChange={handleLevel}
+                  <Popover
+                    placement="bottom"
+                    rootClassName="custom-level-menu"
+                    title={null}
+                    content={<ContentLevelMenu item={item} />}
+                  >
+                    <p className="with-arrow">
+                      {item.name}
+                      <DownOutlined />
+                    </p>
+                  </Popover>
+                )}
 
-                  {item.url === '/memes' && <img src={require('../../assets/images/fire.gif')} alt="" />}
-                  {/* {item.url === '/create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i" />} */}
-                </li>
-              )
-            })
-          }
+                {item.url === "/memes" && (
+                  <img src={require("../../assets/images/fire.gif")} alt="" />
+                )}
+                {/* {item.url === '/create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i" />} */}
+              </li>
+            );
+          })}
         </ul>
-        {(state.wallet && state.evm === '0') && <Popover open={chainPop} onOpenChange={(e: boolean) => {
-          if (flag) {
-            return
-          }
-          setChainPop(e)
-        }} content={chainContent} title={null} trigger="click">
-          <div className="connect-box select-chain" style={{ paddingLeft: '24px' }}>
-            <div className="connected-box">
-              <img src={FilterAddress(state.chain as string)?.chain_logo} alt="" />
-              <IconFont type="icon-xiangxia" />
+        {state.wallet && state.evm === "0" && (
+          <Popover
+            open={chainPop}
+            onOpenChange={(e: boolean) => {
+              if (flag) {
+                return;
+              }
+              setChainPop(e);
+            }}
+            content={chainContent}
+            title={null}
+            trigger="click"
+          >
+            <div
+              className="connect-box select-chain"
+              style={{ paddingLeft: "24px" }}
+            >
+              <div className="connected-box">
+                <img
+                  src={FilterAddress(state.chain as string)?.chain_logo}
+                  alt=""
+                />
+                <IconFont type="icon-xiangxia" />
+              </div>
             </div>
-          </div>
-        </Popover>}
+          </Popover>
+        )}
         {/* BTC Select Network */}
-        {
-          (state.wallet && state.wallet === 'btc') && <div className="connect-box select-chain connect-without-icon">
+        {state.wallet && state.wallet === "btc" && (
+          <div className="connect-box select-chain connect-without-icon">
             <div className="connected-box">
-              <img src={require('../../assets/images/bitcoin.logo.png')} alt="" />
+              <img
+                src={require("../../assets/images/bitcoin.logo.png")}
+                alt=""
+              />
               <p>Bitcoin</p>
             </div>
           </div>
-        }
-        {
-          (state.wallet && state.wallet === 'sol') && <div className="connect-box select-chain connect-without-icon">
+        )}
+        {state.wallet && state.wallet === "sol" && (
+          <div className="connect-box select-chain connect-without-icon">
             <div className="connected-box">
-              <img src={require('../../assets/images/solana.logo.png')} alt="" />
+              <img
+                src={require("../../assets/images/solana.logo.png")}
+                alt=""
+              />
               <p>Solana</p>
             </div>
           </div>
-        }
-        <div className={`connect-box ${state.address ? 'connected-box' : ''}`}>
-          {!state.address
-            ? <Button type="default" onClick={() => {
-              // connectMetamask();
-              setVisible(true);
-            }}>
+        )}
+        <div className={`connect-box ${state.address ? "connected-box" : ""}`}>
+          {!state.address ? (
+            <Button
+              type="default"
+              onClick={() => {
+                // connectMetamask();
+                setVisible(true);
+              }}
+            >
               <IconFont type="icon-wallet" />
               Connect Wallet
             </Button>
-            : <Popover open={openPop} onOpenChange={handleOpenChange} content={content} title={null} trigger="click">
+          ) : (
+            <Popover
+              open={openPop}
+              onOpenChange={handleOpenChange}
+              content={content}
+              title={null}
+              trigger="click"
+            >
               <div className="connected-box-i">
                 <img src={state.account.avatar_url} alt="" />
                 <p>{calsAddress(state.address)}</p>
@@ -465,22 +551,30 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                 </div>
               </div>
             </Popover>
-          }
+          )}
         </div>
         <div className="mobile-menu">
-          <MenuOutlined onClick={() => {
-            setMobileMenu(true)
-          }} />
-          <MobileMenuDraw visible={mobileMenu} closeDraw={(val: boolean) => {
-            setMobileMenu(val);
-          }} />
+          <MenuOutlined
+            onClick={() => {
+              setMobileMenu(true);
+            }}
+          />
+          <MobileMenuDraw
+            visible={mobileMenu}
+            closeDraw={(val: boolean) => {
+              setMobileMenu(val);
+            }}
+          />
         </div>
-        <ConnectModal visible={visible} close={(val: boolean) => {
-          setVisible(val);
-        }} />
+        <ConnectModal
+          visible={visible}
+          close={(val: boolean) => {
+            setVisible(val);
+          }}
+        />
       </div>
     </div>
-  )
+  );
 };
 
 export default HeaderWapperNew;

@@ -1,0 +1,140 @@
+.launchpad-detail-view {
+    padding-top: 124px;
+    p {
+        color: #200205;
+    }
+    .detail-inner {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 80px;
+        .poster-box {
+            width: 800px;
+            height: 800px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 32px;
+            border-radius: 16px;
+            overflow: hidden;
+            img {
+                width: 100%;
+            }
+        }
+        .collection-msg {
+            flex: 1;
+            text-align: left;
+            .col-n-b {
+                display: flex;
+                align-items: center;
+                span {
+                    color: #200205;
+                    font-size: 22px;
+                    cursor: pointer;
+                }
+                img {
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    margin-left: 24px;
+                    margin-right: 12px;
+                }
+                p {
+                    font-size: 20px;
+                    color: #666;
+                }
+            }
+            .col-name {
+                font-size: 48px;
+                font-family: SparkSemiBold;
+                margin-top: 16px;
+                margin-bottom: 22px;
+            }
+            .creator-msg {
+                display: flex;
+                img {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    margin-right: 12px;
+                }
+                .c-by {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding: 10px 0;
+                    p {
+                        font-size: 16px;
+                    }
+                    p:last-child {
+                        color: #666;
+                    }
+                }
+            }
+            .mint-box {
+                margin-top: 108px;
+                padding: 28px 30px;
+                border-radius: 16px;
+                border: 1px solid #E6E6E6;
+                background-color: #FCFCFD;
+                .price-total {
+                    display: flex;
+                    .total-public {
+                        margin-right: 50px;
+                        p:first-child {
+                            font-size: 20px;
+                            color: #686A6C;
+                        }
+                        p:last-child {
+                            font-size: 40px;
+                            line-height: 66px;
+                            img {
+                                width: 32px;
+                                height: 32px;
+                                margin-right: 12px;
+                                vertical-align: middle;
+                                display: inline-block;
+                                transform: translateY(-4px);
+                            }
+                        }
+                    }
+                }
+                .mint-oper {
+                    margin-top: 8px;
+                    button {
+                        width: 614px;
+                        height: 86px;
+                        border-radius: 16px;
+                        background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+                        font-size: 24px;
+                        color: white;
+
+                    }
+                }
+            }
+            .desc-box {
+                margin-top: 64px;
+                padding: 24px 0;
+                background-color: #FCFCFD;
+                border-radius: 16px;
+                border: 1px solid #E6E6E6;
+                .desc-title {
+                    padding: 0 30px 16px;
+                    border-bottom: 1px solid #E6E6E6;
+                    span {
+                        font-size: 20px;
+                        margin-right: 12px;
+                    }
+                    font-size: 18px;
+                    color: #202025;
+                }
+                .desc-text {
+                    padding-top: 32px;
+                    padding-left: 30px;
+                    font-size: 14px;
+                    color: #202025;
+                    line-height: 20px;
+                }
+            }
+        }
+    }
+}
