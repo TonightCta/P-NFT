@@ -8,7 +8,7 @@ import { CategoryList, LabelList } from "../../request/api";
 import { CaretDownOutlined, CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { Config, NetworkConfig, SystemAddress } from "../../utils/source";
 import { PNft } from "../../App";
-import { FilterAddressToName } from "../../utils";
+import { FilterAddressToName, SupportID } from "../../utils";
 import { Type } from "../../utils/types";
 import { useNavigate } from "react-router-dom";
 import CreateCollection from "./components/create.collection";
@@ -60,7 +60,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
     desc: '',
     category: 1,
     nft_type: '721',
-    chain: state.chain as string,
+    chain: SupportID.indexOf(+(state.chain as string)) > -1 ? state.chain as string : '8007736',
     labels: [],
     token_info: FilterAddressToName((state.evm === '1' ? '8007736' : state.chain) || '8007736').token[0],
     symbol: '',
@@ -330,7 +330,7 @@ const VoiceNFTNewView = (): ReactElement<ReactNode> => {
         <p><sup>*</sup>Chain</p>
         <div className="select-chain-token">
           <Select
-            defaultValue={state.chain as string}
+            defaultValue={input.chain}
             onChange={selectChain}
             listHeight={ 400 }
           >

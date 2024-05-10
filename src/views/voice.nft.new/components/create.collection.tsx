@@ -171,7 +171,8 @@ const CreateCollection = (props: { cateList: Op[] }): ReactElement => {
   const createCollectionWith721 = async () => {
     const pass = checkInput();
     if (pass === "0") return;
-    await switchC(8007736);
+    const r: any = await switchC(8007736);
+    if (r.code) return;
     if (!input.supply) {
       message.error("Please enter the collection supply");
       return;
@@ -244,12 +245,13 @@ const CreateCollection = (props: { cateList: Op[] }): ReactElement => {
     }
     message.success("Created successfully");
     resetInput();
-    navigate('/collections')
+    navigate("/collections");
   };
   const createCollectionWith404 = async () => {
     const pass = checkInput();
     if (pass === "0") return;
-    await switchC(8007736);
+    const r: any = await switchC(8007736);
+    if (r.code) return;
     if (!input.decimals) {
       message.error("Please enter the precision");
       return;
@@ -314,7 +316,7 @@ const CreateCollection = (props: { cateList: Op[] }): ReactElement => {
     }
     message.success("Created successfully");
     resetInput();
-    navigate('/collections')
+    navigate("/collections");
   };
   const selectCategory = (value: string) => {
     setInput({

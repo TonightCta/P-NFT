@@ -122,7 +122,7 @@ const RouteConfig = (): ReactElement<ReactNode> => {
           }
         ></Route>
         <Route
-          path="/launchpad/:id"
+          path="/launchpad/:id/:chain/:address"
           element={
             <React.Suspense fallback={<Loading />}>
               <View.LaunchpadDetailView />

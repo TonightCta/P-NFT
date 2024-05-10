@@ -163,7 +163,8 @@ const FixedModal = (props: Props): ReactElement => {
     //     console.log(approveSta)
     // },[approveStatus])
     const putApproveFN = async () => {
-        await switchC(+props.chain);
+        const switc:any = await switchC(+props.chain);
+        if(switc.code) return
         // write?.();
         // return
         setWait({
@@ -195,7 +196,8 @@ const FixedModal = (props: Props): ReactElement => {
             message.error('Please enter the price');
             return
         };
-        await switchC(+props.chain)
+        const switc:any = await switchC(+props.chain);
+        if(switc.code) return
         setWait({
             ...wait,
             list_dis: true,

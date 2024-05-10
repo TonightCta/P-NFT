@@ -217,7 +217,8 @@ const VoiceNFTView = (): ReactElement<ReactNode> => {
             await connectMetamask();
             return
         }
-        await switchC(+(state.chain as string))
+        const r:any = await switchC(+(state.chain as string));
+        if(r.code) return
         if (!form.name) {
             setError({
                 ...error,

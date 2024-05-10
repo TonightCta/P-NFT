@@ -148,10 +148,12 @@ export const DateConvertS = (_time: number): string => {
 };
 
 export const FilterAddress = (chain_id: string) => {
-  return NetworkConfig.filter((item: Config) => { return item.chain_id === chain_id })[0]
+  const chain = SupportID.indexOf(+chain_id) > -1 ? chain_id : '8007736'
+  return NetworkConfig.filter((item: Config) => { return item.chain_id === chain })[0]
 }
 export const FilterAddressToName = (chain_id: string) => {
-  return NetworkConfigName.filter((item: ConfigName) => { return item.chain_id === chain_id })[0]
+  const chain = SupportID.indexOf(+chain_id) > -1 ? chain_id : '8007736'
+  return NetworkConfigName.filter((item: ConfigName) => { return item.chain_id === chain })[0]
 }
 export const FilterAddressToChain = (chain_name: string) => {
   return NetworkConfigName.filter((item: ConfigName) => { return item.chain_name === chain_name })[0]

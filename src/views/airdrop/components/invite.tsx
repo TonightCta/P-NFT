@@ -77,7 +77,8 @@ const InviteCard = (): ReactElement => {
             await connectMetamask();
             return
         }
-        await switchC(Number(process.env.REACT_APP_CHAIN))
+        const switc:any = await switchC(Number(process.env.REACT_APP_CHAIN));
+        if(switc.code) return
         setWait(true);
         const result = await ActivityJoinService({
             user_address: state.address,

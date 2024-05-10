@@ -175,7 +175,8 @@ const AigcBox = (props: { info: Input }): ReactElement => {
       await connectMetamask();
       return
     }
-    await switchC(+(props.info.chain))
+    const r:any = await switchC(+(props.info.chain));
+    if(r.code) return
     const balance = await getBalance();
     const numberBalance: number = +balance / 1e18;
     if (numberBalance <= 0) {

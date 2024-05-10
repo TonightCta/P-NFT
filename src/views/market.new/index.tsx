@@ -58,7 +58,8 @@ const MarketViewNew = (): ReactElement<ReactNode> => {
         const { data } = result;
         setInfo(data);
         if (+(info?.collection_id as string) === 2) {
-            await switchC(1);
+            const switc:any = await switchC(1);
+            if(switc) return
             const total = await BBCPoolTotal();
             setMintTotal(total)
         };

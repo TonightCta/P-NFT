@@ -25,11 +25,12 @@ export interface Col {
   poster_url: string;
   total_supply: number;
   current_supply: number;
+  loading: boolean;
 }
 
 const LaunchpadView = (): ReactElement<ReactNode> => {
   const [data, setData] = useState<Col[]>([]);
-  const { state,dispatch } = useContext(PNft);
+  const { state, dispatch } = useContext(PNft);
   const [loading, setLoading] = useState<boolean>(false);
   const getList = async () => {
     if (state.launchpad) {
@@ -44,13 +45,19 @@ const LaunchpadView = (): ReactElement<ReactNode> => {
     });
     setLoading(false);
     const { data } = result;
-    setData(data.data.item);
+    const filter = data.data.item.map((item: any) => {
+      return (item = {
+        ...item,
+        loading: true,
+      });
+    });
+    setData(filter);
     dispatch({
-      type:Type.SET_LAUNCHPAD,
-      payload:{
-        launchpad:data.data.item
-      }
-    })
+      type: Type.SET_LAUNCHPAD,
+      payload: {
+        launchpad: filter,
+      },
+    });
   };
   useEffect(() => {
     getList();
