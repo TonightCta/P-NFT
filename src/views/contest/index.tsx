@@ -68,7 +68,7 @@ const ContestView = (): ReactElement<ReactNode> => {
     return (
         <div className="contest-view">
             <div className="page-inner">
-                <p className="view-title">AIGC Campaigns</p>
+                {/* <p className="view-title">AIGC Campaigns</p> */}
                 {
                     wait
                         ? <div className="loading-box">
@@ -138,7 +138,7 @@ const ContestView = (): ReactElement<ReactNode> => {
                     </div>
                 }
             </div>
-        <FooterNew />
+        {/* <FooterNew /> */}
         </div>
     )
 };

@@ -42,10 +42,10 @@ const MobileMenu: Menu[] = [
     name: "Memes",
     url: "/memes",
   },
-  {
-    name: "AI Campaigns",
-    url: "/campaigns",
-  },
+  // {
+  //   name: "AI Campaigns",
+  //   url: "/campaigns",
+  // },
   {
     name: "Airdrops",
     url: "/airdrop",

@@ -75,15 +75,43 @@ export const MenuList: Menu[] = [
   // },
   {
     name: "Memes",
-    url: "/memes",
+    url: "",
+    children: [
+      {
+        name: "Hot Memes",
+        url: "/memes",
+      },
+      {
+        name: "Hackthon",
+        url: "/hackthon",
+      },
+    ],
   },
-  {
-    name: "AI Campaigns",
-    url: "/campaigns",
-  },
+  // {
+  //   name: "AI Campaigns",
+  //   url: "/campaigns",
+  // },
   {
     name: "Airdrops",
     url: "/airdrop",
+    children: [
+      {
+        name: "Daily Bonus",
+        url: "/airdrop",
+      },
+      {
+        name: "Invite",
+        url: "/airdrop",
+      },
+      {
+        name: "Rank",
+        url: "/airdrop",
+      },
+      {
+        name: "AIGC Campaigns",
+        url: "/airdrop",
+      },
+    ],
   },
   {
     name: "FAQ",
@@ -227,11 +255,11 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       case "/memes":
         setActive(2);
         break;
-      case "/campaigns":
-        setActive(3);
-        break;
+      // case "/campaigns":
+      //   setActive(3);
+      //   break;
       case "/airdrop":
-        setActive(4);
+        setActive(3);
         break;
       default:
         setActive(99);
@@ -366,13 +394,32 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     },
                   });
                 }
+                if (item.url === "/airdrop") {
+                  dispatch({
+                    type: Type.SET_AIRDROP_TYPE,
+                    payload: {
+                      airdrop_type:
+                        (item.name === "Daily Bonus" && "0") ||
+                        (item.name === "Invite" && "1") ||
+                        (item.name === "Rank" && "2") ||
+                        (item.name === "AIGC Campaigns" && "3") ||
+                        "0",
+                    },
+                  });
+                }
                 navigate(item.url);
                 // setLevelPop(false);
               }}
             >
               <p>
                 {item.name}
-                {/* {item.url === '/inscribe' && <img src={require('../../assets/images/fire.gif')} alt="" className="need-t" />} */}
+                {item.url === "/memes" && (
+                  <img
+                    src={require("../../assets/images/fire.gif")}
+                    alt=""
+                    className="need-t"
+                  />
+                )}
                 {item.url === "/create" && (
                   <img
                     src={require("../../assets/images/ai.gif")}

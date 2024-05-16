@@ -74,6 +74,14 @@ const RouteConfig = (): ReactElement<ReactNode> => {
             </React.Suspense>
           }
         ></Route>
+        <Route
+          path="/hackthon"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <View.HackthonView />
+            </React.Suspense>
+          }
+        ></Route>
         {/* <Route path="/gallery" element={<React.Suspense fallback={<Loading />}>
           <View.GalleryView />
         </React.Suspense>}></Route> */}

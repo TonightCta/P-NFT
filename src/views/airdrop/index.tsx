@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import FreeMintCard from "./components/free.mint";
 import InviteCard from "./components/invite";
 import ActivityCard from "./components/activity";
@@ -6,9 +6,16 @@ import './index.scss'
 import { VERSION, flag } from "../../utils/source";
 import IconFont from "../../utils/icon";
 import FooterNew from "../screen.new/components/footer.new";
+import ContestView from "../contest";
+import { PNft } from "../../App";
 
 const AirdropView = (): ReactElement<ReactNode> => {
     const [active, setActive] = useState<number>(0);
+    const { state } = useContext(PNft);
+    useEffect(() => {
+        console.log(state.airdrop_type)
+        setActive(+(state.airdrop_type as string));
+    },[state.airdrop_type])
     return (
         <div className={`airdrop-view ${VERSION === 'new' ? 'airdrop-view-new' : ''}`}>
             {VERSION !== 'new'
@@ -16,6 +23,14 @@ const AirdropView = (): ReactElement<ReactNode> => {
                     <img src={require('../../assets/images/drop_bg.png')} alt="" />
                 </div>
                 : <div className="bg-box-new">
+                    <p>
+                        {
+                            active === 0 && 'Daily Bouns' || 
+                            active === 1 && 'Invite' || 
+                            active === 2 && 'Rank' || 
+                            active === 3 && 'AIGC Campaigns'
+                        }
+                    </p>
                     <img src={require(`../../assets/images/${flag ? 'airdrop_mobile_bg' : 'airdrop_new_bg'}.png`)} alt="" />
                 </div>
             }
@@ -27,7 +42,7 @@ const AirdropView = (): ReactElement<ReactNode> => {
                     <div className="tabs">
                         <ul className="select-card">
                             {
-                                ['Daily Bonus', 'Invite', 'Rank'].map((item: string, index: number): ReactElement => {
+                                ['Daily Bonus', 'Invite', 'Rank','AI Campaigns'].map((item: string, index: number): ReactElement => {
                                     return (
                                         <li key={index} className={`select-card-li ${active === index ? 'active-tab' : ''}`} onClick={() => {
                                             setActive(index)
@@ -47,7 +62,8 @@ const AirdropView = (): ReactElement<ReactNode> => {
                         {
                             active === 0 && <FreeMintCard /> ||
                             active === 1 && <InviteCard /> ||
-                            active === 2 && <ActivityCard />
+                            active === 2 && <ActivityCard /> ||
+                            active === 3 && <ContestView/>
                         }
                     </div>
                 </div>

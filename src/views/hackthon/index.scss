@@ -1,8 +1,9 @@
-.launchpad-view {
+.hackthon-view {
     padding-top: 160px;
     .mask-box {
         position: fixed;
         z-index: 100;
+        display: none;
         img {
             width: 1412px;
             height: 1358px;
@@ -17,7 +18,7 @@
             right: -922px;
         }
     }
-    .launchpad-inner {
+    .hackthon-inner {
         width: 1360px;
         margin: 0 auto;
         .n-t {

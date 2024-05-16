@@ -106,10 +106,6 @@ const InviteCard = (): ReactElement => {
         <div className={show}>
             <div className="invite-card">
                 <div className="free-mint-card">
-                    <div className="card-msg">
-                        <p className="card-name">INVITE</p>
-                        {/* <p className="name-2">Invite</p> */}
-                    </div>
                     <p className="mobile-title">Invite</p>
                     <ul>
                         {

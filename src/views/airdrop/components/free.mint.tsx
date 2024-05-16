@@ -84,13 +84,6 @@ const FreeMintCard = (): ReactElement => {
         <div className={show}>
             <div className="free-card">
                 <div className="free-mint-card">
-                    <div className="card-msg">
-                        <div className="card-name other-set">
-                            <p>DAILY</p>
-                            <p>BONUS</p>
-                        </div>
-                        {/* <p className="name-2">Daily bonus</p> */}
-                    </div>
                     <p className="mobile-title">Daily bonus</p>
                     <ul>
                         {

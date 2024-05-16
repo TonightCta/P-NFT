@@ -11,27 +11,22 @@
   justify-content: space-between;
   padding: 0 60px;
   box-shadow: 0px 0px 10px #eee;
-
   .mobile-menu {
     display: none;
   }
-
   .left-logo {
     width: 138px;
     height: 36px;
     cursor: pointer;
   }
-
   .right-menu {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     flex: 1;
-
     ul {
       display: flex;
       align-items: center;
-
       li {
         font-size: 18px;
         color: #202025;
@@ -40,7 +35,6 @@
         margin-right: 5rem;
         font-family: SparkSemiBold;
         position: relative;
-
         img {
           width: 20px;
           height: 20px;
@@ -48,12 +42,10 @@
           top: -2px;
           right: -20px;
         }
-
         .ai-i {
           height: 12px;
           right: -22px;
         }
-
         span {
           font-size: 14px;
           margin-left: 8px;
@@ -61,25 +53,21 @@
           transition: .3s all;
         }
       }
-
       li:hover {
         span {
           transform: rotate(180deg);
         }
       }
-
       .active-menu {
         color: #df0885;
       }
     }
-
     .connect-box {
       border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-
       button {
         width: 225px;
         background-color: rgba(0, 0, 0, 0);
@@ -88,37 +76,31 @@
         font-size: 16px;
         color: #202025;
         box-shadow: none;
-
         span {
           transform: translateY(-1px);
         }
-
         .anticon {
           font-size: 24px;
           color: #686a6c;
           transform: translateY(3px);
         }
       }
-
       .connected-box-i {
         display: flex;
         align-items: center;
         height: 42px;
         cursor: pointer;
-
         img {
           width: 28px;
           height: 28px;
           border-radius: 50%;
         }
-
         p {
           margin: 0 12px;
           font-size: 16px;
           color: #202025;
         }
       }
-
       .arrow-box {
         width: 24px;
         height: 24px;
@@ -127,64 +109,53 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
         span {
           color: #000;
           font-size: 20px;
         }
       }
     }
-
     .connected-box {
       width: 200px;
     }
-
     .select-chain {
       margin-right: 24px;
       height: 42px;
       background-color: white;
       width: 94px;
       box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-
       .connected-box {
         box-shadow: none;
         padding: 0;
         display: flex;
         align-items: center;
-
         p {
           color: #202025;
           font-size: 16px;
           font-family: SparkSemiBold;
         }
-
         img {
           height: 20px;
           width: auto;
           margin-right: 12px;
           border-radius: 0;
         }
-
         span {
           font-size: 24px;
         }
       }
     }
-
     .connect-without-icon {
       width: 120px;
       padding: 0 22px;
-
       p {
         transform: translateY(1px);
       }
     }
   }
 }
-
 .connect-menu {
   width: 201px;
-
   ul {
     li {
       font-size: 14px;
@@ -196,92 +167,75 @@
       border-radius: 8px;
       display: flex;
       align-items: center;
-
       img {
         width: auto;
         height: 18px;
         margin-right: 12px;
       }
     }
-
     li:first-child {
       img {
         width: 18px;
       }
     }
-
     li:hover {
       background-color: #ddd;
     }
   }
 }
-
 .connect-menu-chain {
   width: 180px;
 }
-
 @media screen and (max-width: 1280px) {
   .header-wapper-new {
     width: 100%;
     padding: 0 12px;
     height: 60px;
-
     .mobile-menu {
       display: block;
       margin-left: 16px;
-
       span {
         color: #686a6c;
         font-size: 16px;
         font-weight: bold;
       }
     }
-
     .left-logo {
       width: 80px;
       height: 20px;
     }
-
     .right-menu {
       ul {
         display: none;
       }
-
       .select-chain {
         display: none;
       }
-
       .connect-box {
         width: 124px;
         height: 28px;
         padding: 4px 8px;
         border-radius: 8px;
-
         button {
           font-size: 12px;
-
           .anticon {
             font-size: 14px;
           }
-
           span {
             transform: translateY(2px) scale(0.9) translateX(-5px);
           }
         }
       }
-
       .connected-box {
         .connected-box-i {
           img {
             width: 20px;
             height: 20px;
           }
-
           p {
             margin-left: 6px;
             font-size: 12px;
           }
-
           .arrow-box {
             display: none;
           }
@@ -290,25 +244,20 @@
     }
   }
 }
-
 .mobile-menu {
   display: flex;
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-
   .menu-box {
     flex: 1;
     width: 100%;
-
     ul {
       width: 100%;
-
       li {
         margin-bottom: 32px;
         position: relative;
-
         img {
           position: absolute;
           width: 2rem;
@@ -316,13 +265,11 @@
           top: -0.8rem;
           left: 5rem;
         }
-
         .ai-i {
           height: 1.1rem;
           left: 5rem;
           top: -0.2rem;
         }
-
         p {
           color: #202025;
           text-align: left;
@@ -333,24 +280,20 @@
     }
   }
 }
-
 .connect-wallet-box {
   .wel-title {
     margin-top: 24px;
   }
-
   .select-wallet-tabs {
     width: 100%;
     background-color: #f8f8fa;
     border-radius: 8px;
     margin-top: 24px;
     margin-bottom: 16px;
-
     .tabs {
       display: flex;
       border-bottom: 1px solid #eee;
       padding: 16px;
-
       li {
         width: 50%;
         display: flex;
@@ -358,18 +301,15 @@
         justify-content: center;
         cursor: pointer;
         position: relative;
-
         img {
           width: 22px;
           margin-right: 8px;
         }
-
         p {
           font-family: SparkTextNew;
           font-size: 14px;
           transition: 0.3s all;
         }
-
         .line {
           width: 0;
           height: 2px;
@@ -381,30 +321,25 @@
           transition: 0.3s all;
         }
       }
-
       li:last-child {
         img {
           margin-right: 4px;
         }
       }
-
       .active-tab {
         p {
           color: #df0885;
         }
-
         .line {
           width: 100px;
         }
       }
     }
   }
-
   .wallets-list {
     width: 95%;
     margin: 0 auto;
     padding-bottom: 24px;
-
     li {
       display: flex;
       align-items: center;
@@ -414,11 +349,9 @@
       cursor: pointer;
       transition: 0.2s all;
       border: 1px solid #eee;
-
       img {
         width: 26px;
       }
-
       p {
         font-family: SparkTextNew;
         font-size: 16px;
@@ -426,54 +359,44 @@
         transition: 0.2s all;
       }
     }
-
     li:hover {
       background-color: #eee;
       border-color: #e0dddd;
     }
   }
 }
-
 .custom-level-menu {
   border-radius: 16px;
-
   ul {
     li {
-      width: 140px;
-      padding-left: 22px;
+      min-width: 120px;
+      padding: 0 22px;
       height: 48px;
       cursor: pointer;
       transition: .3s all;
       border-radius: 16px;
-
-
-
       p {
         line-height: 48px;
         position: relative;
         color: rgba(32, 32, 37, .8);
         font-size: 16px;
         transition: .3s all;
-
         img {
           width: 20px;
           height: 20px;
           margin-left: 4px;
         }
-
         .ai-i {
           height: 12px;
         }
-        .need-t{
+        .need-t {
           display: inline-block;
           transform: translateY(2px);
         }
       }
     }
-
     li:hover {
       background-color: #F0F0F0;
-
       p {
         color: #202025;
       }

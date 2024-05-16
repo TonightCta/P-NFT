@@ -26,6 +26,7 @@ const InsCollectionView = React.lazy(() => import('./ins.collection/index'));
 const MemesView = React.lazy(() => import('./memes/index'));
 const LaunchpadView = React.lazy(() => import('./launchpad/index'));
 const LaunchpadDetailView = React.lazy(() => import('./launchpad.detail/index'));
+const HackthonView = React.lazy(() => import('./hackthon/index'))
 
 export {
   IndexView,
@@ -53,5 +54,6 @@ export {
   InsCollectionView,
   MemesView,
   LaunchpadView,
-  LaunchpadDetailView
+  LaunchpadDetailView,
+  HackthonView
 }

@@ -2,7 +2,7 @@ import { ReactElement, ReactNode, useEffect, useState } from "react";
 import "./index.scss";
 import FooterNew from "../screen.new/components/footer.new";
 import IconFont from "../../utils/icon";
-import { Button, Spin } from "antd";
+import { Button, Spin, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import MintModal from "./components/mint.modal";
 import { CollectionInfo } from "../../request/api";
@@ -24,6 +24,11 @@ export interface Info {
   pay_token_name: string;
   poster_url: string;
   total_supply: number;
+  website_link:string,
+  twitter_link:string,
+  medium_link:string,
+  discord_link:string,
+  tg_link:string
 }
 
 const LaunchpadDetailView = (): ReactElement<ReactNode> => {
@@ -46,6 +51,11 @@ const LaunchpadDetailView = (): ReactElement<ReactNode> => {
     pay_token_name: "",
     poster_url: "",
     total_supply: 0,
+    website_link:'',
+    medium_link:'',
+    tg_link:'',
+    discord_link:'',
+    twitter_link:''
   });
   const [chainMsg, setChainMsg] = useState<{
     price: number | string;
@@ -78,6 +88,13 @@ const LaunchpadDetailView = (): ReactElement<ReactNode> => {
   useEffect(() => {
     getInfo();
   }, []);
+  const website = (_url: string) => {
+    if(!_url){
+      message.error('Link not set');
+      return
+    }
+    window.open(_url, "_blank");
+  };
   return (
     <div className="launchpad-detail-view">
       <div className="mobile-show-msg">
@@ -106,7 +123,6 @@ const LaunchpadDetailView = (): ReactElement<ReactNode> => {
           <img
             src={info?.poster_url}
             onLoad={() => {
-              console.log(123);
               setLoading(false);
             }}
             alt=""
@@ -130,6 +146,25 @@ const LaunchpadDetailView = (): ReactElement<ReactNode> => {
               <p>Created by {info?.creator_name}</p>
               <p>{info?.total_supply}&nbsp;NFTs</p>
             </div>
+          </div>
+          <div className="outside-link">
+            <ul>
+              <li onClick={() => {website(info.website_link)}}>
+                <IconFont type="icon-globe-simple-bold" />
+              </li>
+              <li onClick={() => {website(info.tg_link)}}>
+                <IconFont type="icon-telegram-logo-bold" />,
+              </li>
+              <li onClick={() => {website(info.twitter_link)}}>
+                <IconFont type="icon-twitter-logo-bold" />
+              </li>
+              <li onClick={() => {website(info.medium_link)}}>
+                <IconFont type="icon-medium1" />
+              </li>
+              <li onClick={() => {website(info.discord_link)}}>
+                <IconFont type="icon-discord-logo-bold" color="red" />
+              </li>
+            </ul>
           </div>
           <div className="mint-box">
             <div className="price-total">

@@ -33,6 +33,7 @@ export const defaultState: State = {
   evm: sessionStorage.getItem("evm") || "0", //!! 0 - EVM   1 - Other
   launchpad: sessionStorage.getItem("launchpad") || "",
   memes: sessionStorage.getItem("memes") || "",
+  airdrop_type:sessionStorage.getItem('airdrop_type') || '0'
 };
 
 export const defaultContext: Context = {
@@ -147,6 +148,9 @@ export const initState = (state: State, action: IAction) => {
     case Type.SET_MEMES:
       sessionStorage.setItem("memes", JSON.stringify(payload.memes));
       return { ...state, memes: JSON.stringify(payload.memes) };
+    case Type.SET_AIRDROP_TYPE:
+      sessionStorage.setItem('airdrop_type',payload.airdrop_type as string);
+      return { ...state,airdrop_type:payload.airdrop_type }
     default:
       return state;
   }

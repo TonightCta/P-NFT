@@ -73,8 +73,29 @@
                     }
                 }
             }
+            .outside-link{
+                margin-top: 32px;
+                ul{
+                    display: flex;
+                    li{
+                        width: 40px;
+                        height: 40px;
+                        margin-right: 16px;
+                        border: 2px solid rgba(0,0,0,.2);
+                        border-radius: 16px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        span{
+                            color: #000;
+                            font-size: 24px;
+                        }
+                    }
+                }
+            }
             .mint-box {
-                margin-top: 108px;
+                margin-top: 34px;
                 padding: 28px 30px;
                 border-radius: 16px;
                 border: 1px solid #E6E6E6;
@@ -328,8 +349,7 @@
                 height: 33.5rem;
                 border-radius: 8px;
                 img {
-                    width: 100%;
-                    height: auto;
+                    height: 100%;
                 }
             }
             .collection-msg {

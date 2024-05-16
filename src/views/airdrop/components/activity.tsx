@@ -48,10 +48,6 @@ const ActivityCard = (): ReactElement => {
         <div className={show}>
             <div className="activity-card">
                 <div className="free-mint-card">
-                    <div className="card-msg">
-                        <p className="card-name">RANK</p>
-                        {/* <p className="name-2">Rank</p> */}
-                    </div>
                     <p className="mobile-title">Rank</p>
                     <ul>
                         <li>

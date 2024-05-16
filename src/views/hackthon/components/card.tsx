@@ -11,9 +11,9 @@ const CardLan = (props: Col): ReactElement => {
     <div
       className="card-lan"
       onClick={() => {
-        navigate(
-          `/launchpad/${props.collection_id}/${props.chain_id}/${props.contract_address}`
-        );
+        // navigate(
+        //   `/launchpad/${props.collection_id}/${props.chain_id}/${props.contract_address}`
+        // );
       }}
     >
       <div className="poster-box">
@@ -36,25 +36,8 @@ const CardLan = (props: Col): ReactElement => {
           </div>
           <p className="total-num">
             <img src={require("../../../assets/images/fire.gif")} alt="" />
-            {addCommasToNumber(props.current_supply)}/
             {addCommasToNumber(props.total_supply)}
           </p>
-        </div>
-        <div className="progress-box">
-          <div
-            className="box-i"
-            style={{
-              width: `${(props.current_supply / props.total_supply) * 100}%`,
-            }}
-          ></div>
-          <div
-            className="p-num"
-            style={{
-              left: `${(props.current_supply / props.total_supply) * 100 - 2}%`,
-            }}
-          >
-            <p>{(props.current_supply / props.total_supply) * 100}%</p>
-          </div>
         </div>
       </div>
     </div>
