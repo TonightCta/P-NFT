@@ -1,0 +1,276 @@
+.hackthon-detail-view {
+    padding-top: 178px;
+    color: black;
+    position: relative;
+    .bg-box {
+        width: 100%;
+        height: 360px;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        z-index: 100;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .hackthon-msg-card {
+        width: 1360px;
+        margin: 0 auto;
+        border-radius: 24px;
+        display: flex;
+        background-color: white;
+        box-shadow: 0px 3px 6px 1px rgba(0, 0, 0, 0.16);
+        position: relative;
+        z-index: 200;
+        padding: 40px;
+        .poster-box {
+            width: 620px;
+            height: 348px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-right: 40px;
+            img {
+                width: 100%;
+            }
+        }
+        .info-box {
+            flex: 1;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            .name {
+                font-size: 32px;
+                font-family: SparkBold;
+                line-height: 48px;
+            }
+            .remark {
+                color: #686A6C;
+                font-size: 16px;
+                line-height: 24px;
+            }
+            .date-oper {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                .date-text {
+                    padding: 4px 8px;
+                    background-color: #fcf4f9;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    color: #f54898;
+                    display: inline-block;
+                }
+                .oper-box {
+                    display: flex;
+                    margin-top: 24px;
+                    align-items: center;
+                    justify-content: space-between;
+                    p {
+                        font-size: 12px;
+                        color: #686A6C;
+                        margin-left: 8px;
+                    }
+                    button {
+                        border-radius: 12px;
+                        border: 0;
+                        height: 48px;
+                        background: linear-gradient(90deg, #F5319D 0%, #6665E6 100%);
+                    }
+                }
+            }
+        }
+    }
+    .tabs-oper {
+        display: flex;
+        justify-content: space-between;
+        width: 1360px;
+        margin: 0 auto;
+        margin-top: 48px;
+        align-items: center;
+        margin-bottom: 40px;
+        p {
+            font-size: 18px;
+            color: SparkTitleNew;
+            font-weight: 500;
+            color: #F5319D;
+        }
+        button {
+            height: 48px;
+            border-radius: 12px;
+            border: 0;
+            width: 120px;
+            background: linear-gradient(90deg, #F5319D 0%, #6665E6 100%);
+        }
+    }
+    .item-list {
+        display: flex;
+        flex-wrap: wrap;
+        width: 1360px;
+        margin: 0 auto;
+        .hackthon-card-detail {
+            width: calc(25% - 30px);
+            margin-right: 40px;
+            overflow: hidden;
+            text-align: left;
+            margin-bottom: 40px;
+            .poster-box {
+                height: 310px;
+                overflow: hidden;
+                border-radius: 8px;
+                img {
+                    width: 100%;
+                }
+            }
+            .name {
+                font-size: 20px;
+                font-family: SparkBold;
+                line-height: 36px;
+            }
+            .oper-box {
+                display: flex;
+                height: 40px;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+        .hackthon-card-detail:nth-child(4n) {
+            margin-right: 0;
+        }
+    }
+}
+.work-modal-custom {
+    .work-inner {
+        ul {
+            li {
+                margin-top: 24px;
+                p {
+                    text-align: left;
+                    margin-right: 24px;
+                    margin-bottom: 12px;
+                }
+                .upload-nft-box {
+                    width: 200px;
+                    height: 200px;
+                    margin: 16px auto 0;
+                    border: 1px solid #eee;
+                    border-radius: 8px;
+                    .up-box {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: relative;
+                        cursor: pointer;
+                        img {
+                            position: relative;
+                            z-index: 50;
+                        }
+                        input {
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                            z-index: 100;
+                            top: 0;
+                            left: 0;
+                            opacity: 0;
+                            cursor: pointer;
+                        }
+                    }
+                    .review-box {
+                        width: 100%;
+                        height: 100%;
+                        position: relative;
+                        .img-box {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 8px;
+                            overflow: hidden;
+                            img {
+                                width: 100%;
+                            }
+                        }
+                        .delete-btn {
+                            position: absolute;
+                            width: 24px;
+                            height: 24px;
+                            border-radius: 50%;
+                            background-color: #ddd;
+                            text-align: center;
+                            cursor: pointer;
+                            top: -12px;
+                            right: -12px;
+                            span {
+                                font-size: 14px;
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
+                input {
+                    width: 100%;
+                    height: 48px;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    border: 1px solid #eee;
+                    padding-left: 12px;
+                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                }
+                input::placeholder {
+                    color: #999;
+                }
+            }
+        }
+        .submit {
+            text-align: center;
+            margin-top: 32px;
+            button {
+                width: 120px;
+                height: 48px;
+                border-radius: 12px;
+                font-size: 16px;
+            }
+        }
+    }
+}
+.vote-modal-custom {
+    .vote-inner {
+        ul {
+            li {
+                margin-top: 24px;
+                p {
+                    text-align: left;
+                    margin-right: 24px;
+                    margin-bottom: 12px;
+                }
+                input {
+                    width: 100%;
+                    height: 48px;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    border: 1px solid #eee;
+                    padding-left: 12px;
+                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                }
+                input::placeholder {
+                    color: #999;
+                }
+            }
+        }
+        .submit {
+            text-align: center;
+            margin-top: 32px;
+            button {
+                width: 120px;
+                height: 48px;
+                border-radius: 12px;
+                font-size: 16px;
+            }
+        }
+    }
+}

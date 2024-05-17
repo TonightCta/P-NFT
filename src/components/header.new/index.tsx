@@ -255,9 +255,9 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       case "/memes":
         setActive(2);
         break;
-      // case "/campaigns":
-      //   setActive(3);
-      //   break;
+      case "/hackthon":
+        setActive(2);
+        break;
       case "/airdrop":
         setActive(3);
         break;

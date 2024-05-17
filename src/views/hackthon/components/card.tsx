@@ -11,9 +11,9 @@ const CardLan = (props: Col): ReactElement => {
     <div
       className="card-lan"
       onClick={() => {
-        // navigate(
-        //   `/launchpad/${props.collection_id}/${props.chain_id}/${props.contract_address}`
-        // );
+        navigate(
+          `/hackthon/1`
+        );
       }}
     >
       <div className="poster-box">

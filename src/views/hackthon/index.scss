@@ -30,13 +30,25 @@
             align-items: center;
             justify-content: center;
         }
-        .view-title {
-            font-size: 48px;
-            color: #202025;
-            font-family: SparkTitleNew;
+        .title-oper {
             padding-bottom: 16px;
             border-bottom: 1px solid #ddd;
-            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .view-title {
+                font-size: 48px;
+                color: #202025;
+                font-family: SparkTitleNew;
+                text-align: left;
+            }
+            button {
+                width: 120px;
+                height: 48px;
+                border-radius: 12px;
+                border: 0;
+                background: linear-gradient(90deg, #F5319D 0%, #6665E6 100%);
+            }
         }
         .data-list {
             min-height: 300px;
@@ -66,7 +78,7 @@
                         position: relative;
                         z-index: 200;
                     }
-                    .load-box{
+                    .load-box {
                         position: absolute;
                         width: 100%;
                         height: 100%;
@@ -171,32 +183,81 @@
         }
     }
 }
-@media screen and (max-width:1280px){
-    .launchpad-view{
+.launch-modal-custom {
+    .launch-inner {
+        width: 95%;
+        margin: 0 auto;
+        ul {
+            li {
+                margin-top: 24px;
+                p {
+                    font-size: 16px;
+                    color: #202025;
+                    margin-right: 24px;
+                    width: 160px;
+                    text-align: left;
+                    margin-bottom: 12px;
+                }
+                input {
+                    width: 100%;
+                    height: 48px;
+                    font-size: 16px;
+                    border-radius: 8px;
+                    border: 1px solid #eee;
+                    padding-left: 12px;
+                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                }
+                input::placeholder {
+                    color: #999;
+                }
+                .ant-picker{
+                    width: 100%;
+                    border-color: #eee;
+                    padding: 0 11px 0;
+                    input{
+                        border: 0;
+                        padding-left: 0;
+                    }
+                }
+            }
+        }
+        .submit {
+            text-align: center;
+            button {
+                width: 120px;
+                height: 48px;
+                border-radius: 12px;
+                font-size: 16px;
+            }
+        }
+    }
+}
+@media screen and (max-width:1280px) {
+    .hackthon-view {
         padding-top: 0;
-        .launchpad-inner{
+        .hackthon-inner {
             padding-top: 10rem;
             width: 90%;
             position: relative;
             z-index: 200;
-            .view-title{
+            .view-title {
                 font-size: 24px;
             }
-            .data-list{
+            .data-list {
                 min-height: 0;
-                .card-lan{
+                .card-lan {
                     width: 100%;
-                    .poster-box{
+                    .poster-box {
                         height: 14rem;
                     }
-                    .msg-box{
+                    .msg-box {
                         padding: 1rem 1.2rem 1.6rem 1.2rem;
-                        .adv-remark{
+                        .adv-remark {
                             font-size: 1.4rem;
                         }
-                        .progress-box{
+                        .progress-box {
                             width: 98%;
-                            margin:1rem auto 0;
+                            margin: 1rem auto 0;
                         }
                     }
                 }

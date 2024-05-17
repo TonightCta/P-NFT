@@ -9,9 +9,10 @@ import "./index.scss";
 import FooterNew from "../screen.new/components/footer.new";
 import CardLan from "./components/card";
 import { CollectionList } from "../../request/api";
-import { Spin } from "antd";
+import { Button, Spin } from "antd";
 import { PNft } from "../../App";
 import { Type } from "../../utils/types";
+import LaunchModal from "./components/launch.modal";
 
 export interface Col {
   bg_image_url: string;
@@ -32,6 +33,7 @@ const HackthonView = (): ReactElement<ReactNode> => {
   const [data, setData] = useState<Col[]>([]);
   const { state, dispatch } = useContext(PNft);
   const [loading, setLoading] = useState<boolean>(false);
+  const [visible,setVisible] = useState<boolean>(false);
   const getList = async () => {
     if (state.launchpad) {
       setData(JSON.parse(state.launchpad));
@@ -77,7 +79,12 @@ const HackthonView = (): ReactElement<ReactNode> => {
         />
       </div>
       <div className="hackthon-inner">
-        <p className="view-title">Meme Hackthon</p>
+        <div className="title-oper">
+          <p className="view-title">Meme Hackthon</p>
+          <Button type="primary" onClick={() => {
+            setVisible(true);
+          }}>Launch</Button>
+        </div>
         {loading ? (
           <div className="load-box">
             <Spin size="large" className="n-t" />
@@ -90,6 +97,9 @@ const HackthonView = (): ReactElement<ReactNode> => {
           </div>
         )}
       </div>
+      <LaunchModal visible={visible} onClose={(val:boolean) => {
+        setVisible(val);
+      }}/>
       <FooterNew />
     </div>
   );
