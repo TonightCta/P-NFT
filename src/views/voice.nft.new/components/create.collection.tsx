@@ -288,7 +288,7 @@ const CreateCollection = (props: { cateList: Op[] }): ReactElement => {
     const formdata = new FormData();
     formdata.append("chain_id", "8007736");
     formdata.append("trx_hash", result["transactionHash"]);
-    formdata.append("sender", state.address as string);
+    formdata.append("sender", state.address as string); 
     formdata.append("collection_name", input.name);
     formdata.append("collection_description", input.desc);
     formdata.append("contract_type", "ERC404");

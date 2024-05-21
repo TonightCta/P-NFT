@@ -140,7 +140,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
           return;
         }
         submitMint();
-        return;
+        return; 
       }
     }
     const img_ipfs = await uploadFileFN(

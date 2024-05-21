@@ -1,9 +1,7 @@
 import { Button } from "antd";
 import { ReactElement, useState } from "react";
-import VoteModal from "./vote.modal";
 
 const HackthonCardD = (props:{backModal:(id:number) => void}): ReactElement => {
-  const [visible, setVisible] = useState<boolean>(false);
   return (
     <div className="hackthon-card-detail">
       <div>

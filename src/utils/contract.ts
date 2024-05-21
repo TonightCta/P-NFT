@@ -9,6 +9,7 @@ import HASHABI from "./abi/hash.json";
 import NER721ABI from "./abi/new_721.json";
 import CollectionABI from "./abi/404.json";
 import MintCollectionABI from "./abi/mint.collection.json";
+import MemeABI from "./abi/meme.json";
 import { message } from "antd";
 import { useCallback, useContext, useEffect, useState } from "react";
 import * as Address from "./source";
@@ -241,8 +242,8 @@ export const useContract = () => {
       message.error("You need to install Metamask to use this feature");
       return;
     }
-    const switc:any = await switchC(+(state.chain as string));
-    if(switc.code) return
+    const switc: any = await switchC(+(state.chain as string));
+    if (switc.code) return;
     const total = await NFTContract.methods.balanceOf(send.from).call();
     const actions = [];
     const getInfo = async (index: number) => {
@@ -859,11 +860,13 @@ export const useContract = () => {
     const total = await Contract.methods.MaxSupply().call();
     const current = await Contract.methods.totalSupply().call();
     // return web3.utils.fromWei(result, "ether");
-    return{
-      price,total,current
-    }
+    return {
+      price,
+      total,
+      current,
+    };
   };
-  const QueryNFTLimit = async(_address:string) : Promise<string> => {
+  const QueryNFTLimit = async (_address: string): Promise<string> => {
     const web3 = new Web3(
       (state.wallet === "metamask" && provider) ||
         (state.wallet === "coinbase" && ethereumCoinbase) ||
@@ -875,12 +878,12 @@ export const useContract = () => {
     });
     const result = await Contract.methods.MintLimit().call();
     return result;
-  }
+  };
   const MintCollection = async (
     _address: string,
     _quantity: number,
-    _price:number,
-    _owner:string
+    _price: number,
+    _owner: string
   ) => {
     const web3 = new Web3(
       (state.wallet === "metamask" && provider) ||
@@ -896,7 +899,7 @@ export const useContract = () => {
       Contract.methods
         .buy(_owner, _quantity)
         .send({
-          value:web3.utils.toWei(String(_price)),
+          value: web3.utils.toWei(String(_price)),
           from: send.from,
           gas: Gas,
         })

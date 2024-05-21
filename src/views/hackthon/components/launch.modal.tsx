@@ -1,33 +1,53 @@
 import { ReactElement, useEffect, useState } from "react";
 import { Button, DatePicker, Modal, message } from "antd";
 import type { DatePickerProps } from "antd";
+import { useHackthon } from "../../../hooks/hackthon";
 
 interface Input {
   name: string;
   symbol: string;
   total_supply: number | string;
-  end_time: string;
+  end_time: string | number;
   contract: string;
   funding: string | number;
   fee: string | number;
   vote: string | number;
 }
 
-const LaunchModal = (props: { visible: boolean,onClose:(val:boolean) => void }): ReactElement => {
+const LaunchModal = (props: {
+  visible: boolean;
+  onClose: (val: boolean) => void;
+}): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
   const [input, setInput] = useState<Input>({
     name: "",
     symbol: "",
     total_supply: "",
     end_time: "",
-    contract: "",
+    contract: "0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08",
     funding: "",
     fee: "",
     vote: "",
   });
-  const [loading,setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { CreateHackthon } = useHackthon();
+  const resetInp = () => {
+    setInput({
+      name: "",
+      symbol: "",
+      total_supply: "",
+      end_time: "",
+      contract: "0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08",
+      funding: "",
+      fee: "",
+      vote: "",
+    });
+  };
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
+    setInput({
+      ...input,
+      end_time: new Date(dateString).getTime() / 1000,
+    });
   };
   const submitLaunch = async () => {
     if (!input.name) {
@@ -66,18 +86,39 @@ const LaunchModal = (props: { visible: boolean,onClose:(val:boolean) => void }):
       message.error("Please enter the min submission fee");
       return;
     }
-    if (+input.fee) {
+    if (+input.fee < 0) {
       message.error("Please enter the correct min submission fee");
       return;
     }
-    if(!input.vote){
-      message.error('Please enter the min voting amount');
-      return
+    if (!input.vote) {
+      message.error("Please enter the min voting amount");
+      return;
     }
-    if(+input.vote < 0){
-      message.error('Please enter the correct min voting amount');
-      return
+    if (+input.vote < 0) {
+      message.error("Please enter the correct min voting amount");
+      return;
     }
+    setLoading(true);
+    const result: any = await CreateHackthon(
+      input.name,
+      input.symbol,
+      +input.total_supply,
+      +input.end_time,
+      input.contract,
+      +input.funding,
+      +input.fee,
+      +input.vote
+    );
+    setLoading(false);
+    console.log(result);
+    if (!result || result.message) {
+      message.error(result.message);
+      return;
+    }
+    message.success("Initiated successfully");
+    resetInp();
+    setVisible(false);
+    props.onClose(false);
   };
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
@@ -91,7 +132,7 @@ const LaunchModal = (props: { visible: boolean,onClose:(val:boolean) => void }):
       className="launch-modal-custom"
       onCancel={() => {
         setVisible(false);
-        props.onClose(false)
+        props.onClose(false);
       }}
     >
       <div className="launch-inner">
@@ -200,7 +241,12 @@ const LaunchModal = (props: { visible: boolean,onClose:(val:boolean) => void }):
           </li>
         </ul>
         <p className="submit">
-          <Button type="primary" loading={loading} disabled={loading} onClick={submitLaunch}>
+          <Button
+            type="primary"
+            loading={loading}
+            disabled={loading}
+            onClick={submitLaunch}
+          >
             Submit
           </Button>
         </p>
