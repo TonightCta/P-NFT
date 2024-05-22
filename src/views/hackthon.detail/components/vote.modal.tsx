@@ -75,7 +75,7 @@ const VoteModal = (props: {
   }, [props.visible]);
   return (
     <Modal
-      title="Vote"
+      title={<p className="center-modal-title">Vote</p>}
       className="vote-modal-custom"
       open={visible}
       footer={null}
@@ -87,7 +87,7 @@ const VoteModal = (props: {
       <div className="vote-inner">
         <ul>
           <li>
-            <p>Contribution Amount</p>
+            <p><sup>*</sup>Contribution Amount</p>
             <input
               type="number"
               placeholder="Please enter the contribution amount"
@@ -101,7 +101,7 @@ const VoteModal = (props: {
             />
           </li>
           <li>
-            <p>Referrer</p>
+            <p><sup>*</sup>Referrer</p>
             <input
               type="text"
               placeholder="Please enter the referrer address"

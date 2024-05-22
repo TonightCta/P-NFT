@@ -1,7 +1,7 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { Button, Modal, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { Base64ToFile, CompressImage } from "../../../utils";
+import { Base64ToFile, CompressImage, GetUrlKey } from "../../../utils";
 import axios from "axios";
 import { useHackthon } from "../../../hooks/hackthon";
 import { PNft } from "../../../App";
@@ -21,6 +21,7 @@ const SubmitWorkModal = (props: {
   visible: boolean;
   hackthon_id:number;
   min:string;
+  openSuccess:(val:number) => void;
   onClose: (val: boolean) => void;
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -33,7 +34,7 @@ const SubmitWorkModal = (props: {
       source: "",
     },
     amount: "",
-    address: SystemAddress
+    address: GetUrlKey('referrer', window.location.href) || SystemAddress
   });
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
@@ -109,6 +110,7 @@ const SubmitWorkModal = (props: {
     message.success('Submit successful');
     setVisible(false);
     props.onClose(false);
+    props.openSuccess(props.hackthon_id);
     setInput({
         amount:'',
         img:{

@@ -97,7 +97,7 @@ const HackthonView = (): ReactElement<ReactNode> => {
           </div>
         )}
       </div>
-      <LaunchModal visible={visible} onClose={(val:boolean) => {
+      <LaunchModal openSuccess={(val:number) => {}} visible={visible} onClose={(val:boolean) => {
         setVisible(val);
       }}/>
       <FooterNew />

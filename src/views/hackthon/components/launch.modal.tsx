@@ -6,6 +6,7 @@ import { useHackthon } from "../../../hooks/hackthon";
 interface Input {
   name: string;
   symbol: string;
+  desc: string;
   total_supply: number | string;
   end_time: string | number;
   contract: string;
@@ -17,11 +18,13 @@ interface Input {
 const LaunchModal = (props: {
   visible: boolean;
   onClose: (val: boolean) => void;
+  openSuccess:(val:number) => void
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
   const [input, setInput] = useState<Input>({
     name: "",
     symbol: "",
+    desc: "",
     total_supply: "",
     end_time: "",
     contract: "0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08",
@@ -35,6 +38,7 @@ const LaunchModal = (props: {
     setInput({
       name: "",
       symbol: "",
+      desc: "",
       total_supply: "",
       end_time: "",
       contract: "0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08",
@@ -66,36 +70,8 @@ const LaunchModal = (props: {
       message.error("Please enter correct the total supply");
       return;
     }
-    if (!input.end_time) {
-      message.error("Please select the end time");
-      return;
-    }
     if (!input.contract) {
       message.error("Please enter the contract address");
-      return;
-    }
-    if (!input.funding) {
-      message.error("Please enter the min funding amount");
-      return;
-    }
-    if (+input.funding < 0) {
-      message.error("Please enter the correct min funding amount");
-      return;
-    }
-    if (!input.fee) {
-      message.error("Please enter the min submission fee");
-      return;
-    }
-    if (+input.fee < 0) {
-      message.error("Please enter the correct min submission fee");
-      return;
-    }
-    if (!input.vote) {
-      message.error("Please enter the min voting amount");
-      return;
-    }
-    if (+input.vote < 0) {
-      message.error("Please enter the correct min voting amount");
       return;
     }
     setLoading(true);
@@ -119,13 +95,15 @@ const LaunchModal = (props: {
     resetInp();
     setVisible(false);
     props.onClose(false);
+    //TODO
+    props.openSuccess(1)
   };
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
   }, [props.visible]);
   return (
     <Modal
-      title="Launch hackthon"
+      title={<p className="center-modal-title">Launch Hackthon</p>}
       open={visible}
       footer={null}
       width={680}
@@ -138,7 +116,9 @@ const LaunchModal = (props: {
       <div className="launch-inner">
         <ul>
           <li>
-            <p>Name</p>
+            <p>
+              <sup>*</sup>Name
+            </p>
             <input
               type="text"
               placeholder="Please enter the name"
@@ -152,7 +132,9 @@ const LaunchModal = (props: {
             />
           </li>
           <li>
-            <p>Symbol</p>
+            <p>
+              <sup>*</sup>Symbol
+            </p>
             <input
               type="text"
               placeholder="Please enter the symbol"
@@ -166,25 +148,24 @@ const LaunchModal = (props: {
             />
           </li>
           <li>
-            <p>Total Supply</p>
-            <input
-              type="number"
-              placeholder="Please enter the total supply"
-              value={input.total_supply}
+            <p>
+              <sup>*</sup>Description
+            </p>
+            <textarea
+              placeholder="Please enter the description"
+              value={input.desc}
               onChange={(e) => {
                 setInput({
                   ...input,
-                  total_supply: e.target.value,
+                  desc: e.target.value,
                 });
               }}
-            />
+            ></textarea>
           </li>
           <li>
-            <p>End Time</p>
-            <DatePicker onChange={onChange} />
-          </li>
-          <li>
-            <p>Pay Token Contract</p>
+            <p>
+              <sup>*</sup>Pay Token
+            </p>
             <input
               type="text"
               placeholder="Please enter the pay token contract"
@@ -198,6 +179,26 @@ const LaunchModal = (props: {
             />
           </li>
           <li>
+            <p>
+              <sup>*</sup>Total Supply
+            </p>
+            <input
+              type="number"
+              placeholder="Please enter the total supply"
+              value={input.total_supply}
+              onChange={(e) => {
+                setInput({
+                  ...input,
+                  total_supply: e.target.value,
+                });
+              }}
+            />
+          </li>
+          {/* <li>
+            <p>End Time</p>
+            <DatePicker onChange={onChange} />
+          </li>
+           <li>
             <p>Min Funding Amount</p>
             <input
               type="number"
@@ -238,7 +239,7 @@ const LaunchModal = (props: {
                 });
               }}
             />
-          </li>
+          </li> */}
         </ul>
         <p className="submit">
           <Button

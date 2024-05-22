@@ -1,0 +1,505 @@
+.hackthon-new-view {
+    padding-top: 180px;
+    .title-oper {
+        width: calc(100% - 120px);
+        margin: 0 auto;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        p {
+            font-size: 48px;
+            color: #202025;
+            font-family: SparkBold;
+        }
+        button {
+            width: 186px;
+            height: 48px;
+            background: #202025 !important;
+            border-radius: 16px;
+            font-size: 18px;
+            font-family: SparkBold;
+        }
+    }
+    .share-box {
+        width: calc(100% - 120px);
+        margin: 0 auto;
+        height: 55px;
+        background-color: #FDFDE8;
+        padding-left: 324px;
+        display: flex;
+        align-items: center;
+        p {
+            font-size: 12px;
+            color: #686A6C;
+            margin-right: 44px;
+            span {
+                font-size: 24px;
+                color: #FA43A8;
+                font-family: SparkBold;
+                margin-right: 6px;
+            }
+        }
+        button {
+            width: 138px;
+            height: 48px;
+            font-size: 18px;
+            color: #FA43A8;
+            border-radius: 16px;
+            background-color: white;
+            border-color: #FA43A8;
+            .anticon {
+                font-size: 22px;
+                display: inline-block;
+                transform: translateY(3px);
+            }
+        }
+    }
+    .new-view-inner {
+        width: calc(100% - 120px);
+        margin: 0 auto;
+        display: flex;
+        padding-top: 24px;
+        .left-name {
+            width: 300px;
+            padding-right: 20px;
+            .ant-anchor {
+                display: none;
+            }
+            border-right: 1px solid #E8E8E8;
+            .anchor-box {
+                display: flex;
+                margin-bottom: 24px;
+                .left-msg {
+                    p {
+                        font-size: 16px;
+                        color: #202025;
+                        transition: .3s all;
+                        text-align: left;
+                        line-height: 20px;
+                    }
+                    .coin-list {
+                        display: flex;
+                        margin-top: 8px;
+                        img {
+                            width: 20px;
+                            height: 20px;
+                            margin-right: 12px;
+                        }
+                    }
+                }
+                .right-icon {
+                    min-width: 50px;
+                    min-height: 50px;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 16px;
+                    border: 1px solid rgba(0, 0, 0, 0);
+                    background-color: #F6F6F6;
+                    margin-left: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: .3s all;
+                    span {
+                        color: #202025;
+                        font-size: 14px;
+                        display: inline-block;
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+            .active-anchor {
+                .left-msg {
+                    p {
+                        font-weight: bold;
+                    }
+                }
+                .right-icon {
+                    border-color: #FA43A8;
+                    background-color: rgba(0, 0, 0, 0);
+                    span {
+                        color: #FA43A8;
+                    }
+                }
+            }
+        }
+        .right-content {
+            flex: 1;
+            height: calc(100vh - 328px);
+            overflow: auto;
+            padding-left: 24px;
+            .test-share {
+                text-align: left;
+                display: flex;
+                align-items: center;
+                p {
+                    font-size: 16px;
+                    color: #202025;
+                }
+                input {
+                    width: 200px;
+                    height: 32px;
+                    border-radius: 8px;
+                    border: 1px solid #eee;
+                    padding-left: 8px;
+                    margin-right: 12px;
+                }
+            }
+            .part-box {
+                width: 100%;
+                height: 1100px;
+                background-color: #ccc;
+            }
+            .part-box:nth-child(odd) {
+                background-color: #eee;
+            }
+            .items-list {
+                display: flex;
+                flex-wrap: wrap;
+                text-align: left;
+                .hackthon-card-new {
+                    width: 23%;
+                    margin-right: 24px;
+                    margin-top: 24px;
+                    box-shadow: 0px 6px 24px 1px rgba(110, 110, 110, 0.18);
+                    border-radius: 16px;
+                    overflow: hidden;
+                    position: relative;
+                    padding-bottom: 24px;
+                    cursor: pointer;
+                    .nft-box {
+                        width: 100%;
+                        overflow: hidden;
+                        height: 244px;
+                        overflow: hidden;
+                        img {
+                            width: 100%;
+                            transition: .3s all;
+                        }
+                    }
+                    .name {
+                        font-size: 18px;
+                        font-family: SparkTitleNew;
+                        color: #0D0D0D;
+                        margin-top: 14px;
+                        padding-left: 20px;
+                    }
+                    .owner-vote {
+                        display: flex;
+                        align-items: center;
+                        padding-left: 20px;
+                        p {
+                            line-height: 24px;
+                            margin-top: 12px;
+                            font-size: 12px;
+                            color: #686A6C;
+                            span {
+                                font-size: 16px;
+                                color: #0D0D0D;
+                                font-family: SparkBold;
+                                margin-left: 6px;
+                            }
+                            .gr-c {
+                                color: #6A40FB;
+                            }
+                            .anticon {
+                                margin-right: 6px;
+                            }
+                        }
+                        p:first-child {
+                            margin-right: 38px;
+                        }
+                    }
+                    .vote-btn {
+                        position: absolute;
+                        width: 100%;
+                        height: 48px;
+                        transition: .3s all;
+                        transform: translateY(100%);
+                        bottom: 0;
+                        left: 0;
+                        button {
+                            width: 100%;
+                            height: 100%;
+                            background: linear-gradient(90deg, #FA3370 0%, #7E77FC 100%);
+                            border: 0;
+                            border-radius: 0;
+                            font-size: 14px;
+                            font-family: SparkSemiBold;
+                        }
+                    }
+                }
+                .hackthon-card-new:hover {
+                    .nft-box {
+                        img {
+                            transform: scale(1.1);
+                        }
+                    }
+                    .vote-btn {
+                        transform: translateY(0);
+                    }
+                }
+                .add-work {
+                    height: 338px;
+                    width: 23%;
+                    border: 1px solid #eee;
+                    margin-top: 24px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0px 6px 24px 1px rgba(110, 110, 110, 0.18);
+                    span {
+                        font-size: 68px;
+                        font-weight: bold;
+                        color: #FA43A8;
+                    }
+                }
+                .hackthon-card-new:nth-child(4n) {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}
+.launch-modal-custom {
+    .center-modal-title {
+        text-align: center;
+        font-size: 24px;
+    }
+    .launch-inner {
+        width: 95%;
+        margin: 0 auto;
+        ul {
+            li {
+                margin-top: 12px;
+                p {
+                    font-size: 16px;
+                    color: #202025;
+                    margin-right: 24px;
+                    width: 160px;
+                    text-align: left;
+                    margin-bottom: 8px;
+                    sup {
+                        color: #DF0885;
+                    }
+                }
+                input {
+                    width: 100%;
+                    height: 48px;
+                    font-size: 16px;
+                    border-radius: 8px;
+                    border: 1px solid #ccc;
+                    padding-left: 12px;
+                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                }
+                textarea {
+                    width: 100%;
+                    outline: none;
+                    resize: none;
+                    border-radius: 8px;
+                    height: 120px;
+                    box-sizing: border-box;
+                    padding: 12px;
+                    font-size: 14px;
+                    border-color: #ccc;
+                }
+                input::placeholder {
+                    color: #999;
+                }
+                textarea::placeholder {
+                    color: #999;
+                }
+                .ant-picker {
+                    width: 100%;
+                    border-color: #eee;
+                    padding: 0 11px 0;
+                    input {
+                        border: 0;
+                        padding-left: 0;
+                    }
+                }
+            }
+        }
+        .submit {
+            text-align: center;
+            margin-top: 24px;
+            padding-bottom: 12px;
+            button {
+                width: 100%;
+                height: 48px;
+                border-radius: 12px;
+                font-size: 16px;
+                background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+                border: 0;
+            }
+        }
+    }
+}
+.work-modal-custom {
+    .work-inner {
+        ul {
+            li {
+                margin-top: 24px;
+                p {
+                    text-align: left;
+                    margin-right: 24px;
+                    margin-bottom: 12px;
+                }
+                .upload-nft-box {
+                    width: 200px;
+                    height: 200px;
+                    margin: 16px auto 0;
+                    border: 1px solid #eee;
+                    border-radius: 8px;
+                    .up-box {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: relative;
+                        cursor: pointer;
+                        img {
+                            position: relative;
+                            z-index: 50;
+                        }
+                        input {
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                            z-index: 100;
+                            top: 0;
+                            left: 0;
+                            opacity: 0;
+                            cursor: pointer;
+                        }
+                    }
+                    .review-box {
+                        width: 100%;
+                        height: 100%;
+                        position: relative;
+                        .img-box {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 8px;
+                            overflow: hidden;
+                            img {
+                                width: 100%;
+                            }
+                        }
+                        .delete-btn {
+                            position: absolute;
+                            width: 24px;
+                            height: 24px;
+                            border-radius: 50%;
+                            background-color: #ddd;
+                            text-align: center;
+                            cursor: pointer;
+                            top: -12px;
+                            right: -12px;
+                            span {
+                                font-size: 14px;
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
+                input {
+                    width: 100%;
+                    height: 48px;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    border: 1px solid #eee;
+                    padding-left: 12px;
+                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                }
+                input::placeholder {
+                    color: #999;
+                }
+            }
+        }
+        .submit {
+            text-align: center;
+            margin-top: 32px;
+            button {
+                width: 120px;
+                height: 48px;
+                border-radius: 12px;
+                font-size: 16px;
+            }
+        }
+    }
+}
+.vote-modal-custom {
+    .center-modal-title {
+        text-align: center;
+        font-size: 24px;
+    }
+    .vote-inner {
+        ul {
+            li {
+                margin-top: 12px;
+                p {
+                    text-align: left;
+                    margin-right: 24px;
+                    margin-bottom: 8px;
+                    sup {
+                        color: #DF0885;
+                    }
+                }
+                input {
+                    width: 100%;
+                    height: 48px;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    border: 1px solid #eee;
+                    padding-left: 12px;
+                    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                }
+                input::placeholder {
+                    color: #999;
+                }
+            }
+        }
+        .submit {
+            text-align: center;
+            margin-top: 24px;
+            padding-bottom: 12px;
+            button {
+                width: 100%;
+                height: 48px;
+                border-radius: 12px;
+                font-size: 16px;
+                background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+                border: 0;
+            }
+        }
+    }
+}
+.custom-success-modal {
+    .success-inner {
+        text-align: center;
+        padding: 32px 0;
+        img {
+            width: 54px;
+            height: 54px;
+        }
+        .submit {
+            margin-top: 32px;
+            button {
+                width: 100%;
+                height: 48px;
+                border-radius: 12px;
+                border: 0;
+                background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+                font-size: 16px;
+            }
+        }
+    }
+}

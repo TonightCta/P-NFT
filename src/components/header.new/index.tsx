@@ -83,7 +83,7 @@ export const MenuList: Menu[] = [
       },
       {
         name: "Hackthon",
-        url: "/hackthon",
+        url: "/hackthon-n",
       },
     ],
   },
@@ -255,7 +255,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       case "/memes":
         setActive(2);
         break;
-      case "/hackthon":
+      case "/hackthon-n":
         setActive(2);
         break;
       case "/airdrop":

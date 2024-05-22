@@ -11,24 +11,24 @@ import { PNFTAddress } from "../../utils/source";
 const HackthonDetailView = (): ReactElement<ReactNode> => {
   const [workModal, setWorkModal] = useState<boolean>(false);
   const [voteModal, setVoteModal] = useState<boolean>(false);
-  const { QueryHackthonInfo,CheckHackthon,ClaimHackthon } = useHackthon();
+  const { QueryHackthonInfo, CheckHackthon, ClaimHackthon } = useHackthon();
   const [info, setInfo] = useState<any>();
   const query = async () => {
     const info = await QueryHackthonInfo();
-    console.log(info)
+    console.log(info);
     setInfo(info);
-  }
+  };
   useEffect(() => {
-    query()
+    query();
   }, []);
   const checkClaim = async () => {
     const result = await CheckHackthon(+info?.hackthonId);
     console.log(result);
-  }
+  };
   const claimReward = async () => {
-    const result = await ClaimHackthon(+info?.hackthonId,PNFTAddress);
+    const result = await ClaimHackthon(+info?.hackthonId, PNFTAddress);
     console.log(result);
-  }
+  };
   return (
     <div className="hackthon-detail-view">
       <div className="bg-box">
@@ -43,7 +43,9 @@ const HackthonDetailView = (): ReactElement<ReactNode> => {
           <p className="remark">{info?.symbol}...</p>
           <div className="date-oper">
             <p className="date-text">
-              {DateConvertS(Date.now() / 1000)}<span>-</span>{DateConvertS(+info?.endTime)}
+              {DateConvertS(Date.now() / 1000)}
+              <span>-</span>
+              {DateConvertS(+info?.endTime)}
             </p>
             <div className="oper-box">
               <Button
@@ -55,7 +57,9 @@ const HackthonDetailView = (): ReactElement<ReactNode> => {
                 Submit Your Work
               </Button>
               <p>(Dev:Shown when not attending)</p>
-              <Button type="primary" onClick={checkClaim}>Check / Claim</Button>
+              <Button type="primary" onClick={checkClaim}>
+                Check / Claim
+              </Button>
               <p>(Dev:Shown when participating)</p>
             </div>
           </div>
@@ -77,6 +81,7 @@ const HackthonDetailView = (): ReactElement<ReactNode> => {
         })}
       </div>
       <SubmitWorkModal
+        openSuccess={(val: number) => {}}
         visible={workModal}
         hackthon_id={+info?.hackthonId}
         min={info?.minSubmissionFee}

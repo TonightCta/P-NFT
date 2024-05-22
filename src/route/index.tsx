@@ -83,10 +83,18 @@ const RouteConfig = (): ReactElement<ReactNode> => {
           }
         ></Route>
         <Route
+          path="/hackthon-n"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <View.HackthonNewView />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
           path="/hackthon/:id"
           element={
             <React.Suspense fallback={<Loading />}>
-              <View.HackthonDetailView />
+              <View.HackthonDetailNewView />
             </React.Suspense>
           }
         ></Route>

@@ -1,0 +1,121 @@
+.hackthon-detail-new-view {
+    padding-top: 160px;
+    .detail-inner {
+        width: calc(100% - 120px);
+        display: flex;
+        margin: 0 auto;
+        .left-nft {
+            width: 800px;
+            height: 800px;
+            min-width: 800px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-right: 34px;
+            img {
+                width: 100%;
+            }
+        }
+        .right-msg {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            .back-title {
+                display: flex;
+                align-items: center;
+                span {
+                    color: #202025;
+                    font-size: 16px;
+                    margin-right: 24px;
+                    cursor: pointer;
+                }
+                font-size: 20px;
+                color: rgba(0, 0, 0, .6);
+            }
+            .nft-name {
+                margin-top: 16px;
+                font-size: 48px;
+                font-family: SparkSemiBold;
+                color: #000;
+            }
+            .owner-msg {
+                display: flex;
+                margin-top: 30px;
+                align-items: center;
+                .gr-c {
+                    font-size: 16px;
+                    color: #6A40FB;
+                    margin-right: 6px;
+                }
+                p {
+                    font-size: 12px;
+                    color: #686A6C;
+                    margin-right: 6px;
+                }
+                .bold {
+                    font-size: 16px;
+                    color: #0D0D0D;
+                    font-family: SparkBold;
+                    margin-right: 26px;
+                }
+                .address {
+                    font-family: SparkSemiBold;
+                    font-size: 16px;
+                    color: #0D0D0D;
+                }
+            }
+            .desc {
+                margin-top: 20px;
+                font-size: 14px;
+                color: #707070;
+                line-height: 18px;
+            }
+            .vote-box {
+                width: 240px;
+                height: 240px;
+                background-color: #F7F7F7;
+                border-radius: 16px;
+                margin-top: -32px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                p {
+                    span {
+                        font-size: 28px;
+                        margin-right: 8px;
+                        transform: translateY(-2px);
+                    }
+                    font-size: 40px;
+                    color: #202025;
+                }
+                p:last-child {
+                    font-size: 18px;
+                    color: #686A6C;
+                    margin-top: 14px;
+                }
+            }
+            .oper-box {
+                display: flex;
+                button {
+                    height: 84px;
+                    border-radius: 16px;
+                    font-size: 24px;
+                }
+                button:first-child {
+                    width: 560px;
+                    background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+                    margin-right: 20px;
+                    border: 0;
+                }
+                button:last-child {
+                    flex: 1;
+                    color: #FA43A8;
+                    background-color: white;
+                    border-color: #FA43A8;
+                }
+            }
+        }
+    }
+}
