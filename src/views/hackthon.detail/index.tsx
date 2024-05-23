@@ -4,17 +4,17 @@ import { Button } from "antd";
 import HackthonCardD from "./components/card";
 import SubmitWorkModal from "./components/submit.work.modal";
 import VoteModal from "./components/vote.modal";
-import { useHackthon } from "../../hooks/hackthon";
+import { useHackathon } from "../../hooks/hackthon";
 import { DateConvertS } from "../../utils";
 import { PNFTAddress } from "../../utils/source";
 
 const HackthonDetailView = (): ReactElement<ReactNode> => {
   const [workModal, setWorkModal] = useState<boolean>(false);
   const [voteModal, setVoteModal] = useState<boolean>(false);
-  const { QueryHackthonInfo, CheckHackthon, ClaimHackthon } = useHackthon();
+  const { QueryHackathonInfo, CheckHackathon, ClaimHackathon } = useHackathon();
   const [info, setInfo] = useState<any>();
   const query = async () => {
-    const info = await QueryHackthonInfo();
+    const info = await QueryHackathonInfo();
     console.log(info);
     setInfo(info);
   };
@@ -22,11 +22,11 @@ const HackthonDetailView = (): ReactElement<ReactNode> => {
     query();
   }, []);
   const checkClaim = async () => {
-    const result = await CheckHackthon(+info?.hackthonId);
+    const result = await CheckHackathon(+info?.hackthonId);
     console.log(result);
   };
   const claimReward = async () => {
-    const result = await ClaimHackthon(+info?.hackthonId, PNFTAddress);
+    const result = await ClaimHackathon(+info?.hackthonId, PNFTAddress);
     console.log(result);
   };
   return (

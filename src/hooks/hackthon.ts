@@ -26,7 +26,7 @@ const ethereumCoinbase = coinbaseWallet.makeWeb3Provider(
   DEFAULT_CHAIN_ID
 );
 
-export const useHackthon = () => {
+export const useHackathon = () => {
   const { state } = useContext(PNft);
   const { provider } = useSDK();
   const [contract, setContract] = useState<any>();
@@ -64,7 +64,7 @@ export const useHackthon = () => {
   useEffect(() => {
     initContract();
   }, []);
-  const CreateHackthon = async (
+  const CreateHackathon = async (
     _name: string,
     _symbol: string,
     _total: number, //toWei
@@ -103,7 +103,7 @@ export const useHackthon = () => {
         });
     });
   };
-  const QueryHackthonInfo = async () => {
+  const QueryHackathonInfo = async () => {
     // hackthonIdCounter
     const web3 = new Web3(
       (state.wallet === "metamask" && provider) ||
@@ -157,7 +157,7 @@ export const useHackthon = () => {
         });
     });
   };
-  const SubmitHackthon = async (
+  const SubmitHackathon = async (
     _id: number,
     _image: string,
     _amount: number, //toWei
@@ -191,7 +191,7 @@ export const useHackthon = () => {
         });
     });
   };
-  const VoteHackthon = async (
+  const VoteHackathon = async (
     _id: number,
     _nft_id: number,
     _amount: number, //toWei
@@ -219,14 +219,14 @@ export const useHackthon = () => {
         });
     });
   };
-  const CheckHackthon = async (_hackthon_id: number) => {
+  const CheckHackathon = async (_hackathon_id: number) => {
     const result = await contract.methods
-      .checkClaimableAmount(_hackthon_id)
+      .checkClaimableAmount(_hackathon_id)
       .call();
     console.log(result);
     return result;
   };
-  const ClaimHackthon = async (_id: number, _address: string) => {
+  const ClaimHackathon = async (_id: number, _address: string) => {
     return new Promise((resolve, reject) => {
       contract.methods
         .claimTokens(_address)
@@ -245,12 +245,12 @@ export const useHackthon = () => {
     });
   };
   return {
-    CreateHackthon,
-    QueryHackthonInfo,
-    SubmitHackthon,
-    VoteHackthon,
-    CheckHackthon,
-    ClaimHackthon,
+    CreateHackathon,
+    QueryHackathonInfo,
+    SubmitHackathon,
+    VoteHackathon,
+    CheckHackathon,
+    ClaimHackathon,
     QueryERC20Approve,
     ApproveToken,
     QueryNFT,

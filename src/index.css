@@ -145,3 +145,12 @@ input {
 textarea{
   font-family: SparkTextNew;
 }
+.ant-image-preview-wrap{
+  z-index: 6000!important;
+}
+.ant-image-preview-mask{
+  z-index: 6000!important;
+}
+.ant-image-preview-operations-wrapper{
+  z-index: 6000;
+}

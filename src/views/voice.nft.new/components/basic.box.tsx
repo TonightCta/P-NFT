@@ -7,7 +7,6 @@ import Recording from "../../voice.nft/components/recording";
 import { Input } from "..";
 import axios from "axios";
 import { LAND, MODE, useContract } from "../../../utils/contract";
-import { ethereum, web3 } from "../../../utils/types";
 import { NFTMintService, UploadFileService } from "../../../request/api";
 import { PNft } from "../../../App";
 import { useMetamask } from "../../../utils/connect/metamask";

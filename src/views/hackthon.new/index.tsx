@@ -10,7 +10,7 @@ import { Anchor, Button } from "antd";
 import "./index.scss";
 import HackthonCardNew from "./components/card";
 import { PlusOutlined } from "@ant-design/icons";
-import { useHackthon } from "../../hooks/hackthon";
+import { useHackathon } from "../../hooks/hackthon";
 import LaunchModal from "../hackthon/components/launch.modal";
 import SubmitWorkModal from "../hackthon.detail/components/submit.work.modal";
 import { PNft } from "../../App";
@@ -99,7 +99,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     type: 1,
   });
   const [successModal, setSuccessModal] = useState<boolean>(false);
-  const { QueryHackthonInfo } = useHackthon();
+  const { QueryHackathonInfo } = useHackathon();
   const [info, setInfo] = useState<any>();
   const { state } = useContext(PNft);
   const [lock, setLock] = useState<boolean>(false);
@@ -111,7 +111,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
 
   const [active, setActive] = useState<string>("#part-1");
   const query = async () => {
-    const info = await QueryHackthonInfo();
+    const info = await QueryHackathonInfo();
     setInfo(info);
   };
   //   const [lock, setLock] = useState<boolean>(false);
@@ -122,7 +122,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         top:
           (document.getElementById(
             `part-${GetUrlKey("id", window.location.href)}`
-          )?.offsetTop as number) - 328,
+          )?.offsetTop as number) - 288,
         behavior: "smooth",
       });
     }
@@ -137,7 +137,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   return (
     <div className="hackthon-new-view">
       <div className="title-oper">
-        <p>Meme Hackthon</p>
+        <p>Meme Hackathon</p>
         <Button
           type="primary"
           onClick={() => {
@@ -163,7 +163,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
           onClick={() => {
             const windowName = "newWindow";
             const windowFeatures = "width=800,height=600,top=100,left=100";
-            const url = `https://test.pizzap.io/#/hackthon-n?referrer=${state.address}&id=${share}`;
+            const url = `https://test.pizzap.io/#/?referrer=${state.address}&id=${share}`;
             window.open(
               `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                 "Alex share"
@@ -257,11 +257,11 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
           {data.map((item: Data, index: number) => {
             return (
               <div key={index} id={item.key} style={{ marginBottom: "32px" }}>
-                <p
+                {/* <p
                   style={{ fontSize: "30px", color: "red", textAlign: "left" }}
                 >
                   {item.title}
-                </p>
+                </p> */}
                 <div className="items-list">
                   {item.items.map((item: number, index: number) => {
                     return (
@@ -324,9 +324,9 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         }}
       />
       <SuccessModal
+        {...success}
         address={state.address as string}
         visible={successModal}
-        type={1}
         onClose={(val: boolean) => {
           setSuccessModal(val);
         }}

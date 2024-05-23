@@ -34,7 +34,8 @@ const RouteConfig = (): ReactElement<ReactNode> => {
           index
           element={
             <React.Suspense fallback={<Loading />}>
-              {VERSION === "new" ? <View.ScreenViewNew /> : <View.ScreenView />}
+              <View.HackthonNewView/>
+              {/* {VERSION === "new" ? <View.ScreenViewNew /> : <View.ScreenView />} */}
             </React.Suspense>
           }
         ></Route>
@@ -75,21 +76,22 @@ const RouteConfig = (): ReactElement<ReactNode> => {
           }
         ></Route>
         <Route
-          path="/hackthon"
+          path="/hackathon"
           element={
             <React.Suspense fallback={<Loading />}>
-              <View.HackthonView />
+              {/* <View.HackthonView /> */}
+              <View.HackthonNewView/>
             </React.Suspense>
           }
         ></Route>
-        <Route
+        {/* <Route
           path="/hackthon-n"
           element={
             <React.Suspense fallback={<Loading />}>
               <View.HackthonNewView />
             </React.Suspense>
           }
-        ></Route>
+        ></Route> */}
         <Route
           path="/hackthon/:id"
           element={

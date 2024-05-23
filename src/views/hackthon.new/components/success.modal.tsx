@@ -6,6 +6,7 @@ interface Props {
   visible: boolean;
   type: number;
   address: string;
+  id:number;
   onClose: (val: boolean) => void;
 }
 
@@ -34,12 +35,12 @@ const SuccessModal = (props: Props): ReactElement => {
             onClick={() => {
               const windowName = "newWindow";
               const windowFeatures = "width=800,height=600,top=100,left=100";
-              const url_hackthon = `https://test.pizzap.io/#/hackthon-n?referrer=${
+              const url_hackthon = `https://test.pizzap.io/#/?referrer=${
                 props.address
-              }&id=${1}`;
-              const url_vote = `https://test.pizzap.io/#/hackthon/1?referrer=${
+              }&id=${props.id}`;
+              const url_vote = `https://test.pizzap.io/#/hackthon/${props.id}?referrer=${
                 props.address
-              }&id=${1}`;
+              }`;
               window.open(
                 `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                   "Alex share"

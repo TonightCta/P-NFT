@@ -21,9 +21,9 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
           <div>
             <p className="back-title">
               <IconFont type="icon-fanhuijiantou" onClick={() => {
-                navigate('/hackthon-n')
+                navigate('/hackathon')
               }}/>
-              Meme Hackthon
+              Meme Hackathon
             </p>
             <p className="nft-name">NFT Bus panda xxxxxx #0098</p>
             <div className="owner-msg">

@@ -1,9 +1,10 @@
 import { Button, Modal, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { MemeAddress, SystemAddress } from "../../../utils/source";
-import { useHackthon } from "../../../hooks/hackthon";
+import { useHackathon } from "../../../hooks/hackthon";
 import { web3 } from "../../../utils/types";
 import { PNft } from "../../../App";
+import { GetUrlKey } from "../../../utils";
 
 interface Input {
   amount: string | number;
@@ -17,12 +18,12 @@ const VoteModal = (props: {
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const { QueryERC20Approve, ApproveToken, VoteHackthon, QueryNFT } =
-    useHackthon();
+  const { QueryERC20Approve, ApproveToken, VoteHackathon, QueryNFT } =
+    useHackathon();
   const { state } = useContext(PNft);
   const [input, setInput] = useState<Input>({
     amount: "",
-    address: SystemAddress,
+    address: GetUrlKey("referrer", window.location.href) || SystemAddress,
   });
   const submitVote = async () => {
     if (!input.amount) {
@@ -50,7 +51,7 @@ const VoteModal = (props: {
       return;
     }
     const id = await QueryNFT();
-    const result:any = await VoteHackthon(
+    const result:any = await VoteHackathon(
       props.id,
       +id - 1,
       +input.amount,

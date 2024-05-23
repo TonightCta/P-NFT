@@ -33,19 +33,23 @@ export interface Menu {
 }
 
 export const MenuList: Menu[] = [
+  // {
+  //   name: "Inscriptions",
+  //   url: "",
+  //   children: [
+  //     {
+  //       name: "Inscribe",
+  //       url: "/inscribe",
+  //     },
+  //     {
+  //       name: "Collection",
+  //       url: "/ins-collection",
+  //     },
+  //   ],
+  // },
   {
-    name: "Inscriptions",
-    url: "",
-    children: [
-      {
-        name: "Inscribe",
-        url: "/inscribe",
-      },
-      {
-        name: "Collection",
-        url: "/ins-collection",
-      },
-    ],
+    name: "Hot Memes",
+    url: "/memes",
   },
   {
     name: "NFTs",
@@ -73,20 +77,21 @@ export const MenuList: Menu[] = [
   //   name: 'Collections',
   //   url: '/collections',
   // },
-  {
-    name: "Memes",
-    url: "",
-    children: [
-      {
-        name: "Hot Memes",
-        url: "/memes",
-      },
-      {
-        name: "Hackthon",
-        url: "/hackthon-n",
-      },
-    ],
-  },
+  
+  // {
+  //   name: "Memes",
+  //   url: "",
+  //   children: [
+  //     {
+  //       name: "Hot Memes",
+  //       url: "/memes",
+  //     },
+  //     {
+  //       name: "Hackathon",
+  //       url: "/hacktahon",
+  //     },
+  //   ],
+  // },
   // {
   //   name: "AI Campaigns",
   //   url: "/campaigns",
@@ -236,12 +241,15 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
   }, [address]);
   useEffect(() => {
     switch (location.pathname) {
-      case "/inscribe":
+      // case "/inscribe":
+      //   setActive(0);
+      //   break;
+      // case "/ins-collection":
+      //   message.warning("Coming Soon");
+      //   setActive(0);
+      //   break;
+      case "/memes":
         setActive(0);
-        break;
-      case "/ins-collection":
-        message.warning("Coming Soon");
-        // setActive(0);
         break;
       case "/create":
         setActive(1);
@@ -252,14 +260,11 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       case "/launchpad":
         setActive(1);
         break;
-      case "/memes":
-        setActive(2);
-        break;
-      case "/hackthon-n":
-        setActive(2);
-        break;
+      // case "/hackathon":
+      //   setActive(2);
+      //   break;
       case "/airdrop":
-        setActive(3);
+        setActive(2);
         break;
       default:
         setActive(99);

@@ -1,7 +1,8 @@
 import { ReactElement, useEffect, useState } from "react";
 import { Button, DatePicker, Modal, message } from "antd";
 import type { DatePickerProps } from "antd";
-import { useHackthon } from "../../../hooks/hackthon";
+import { useHackathon } from "../../../hooks/hackthon";
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 
 interface Input {
   name: string;
@@ -18,14 +19,14 @@ interface Input {
 const LaunchModal = (props: {
   visible: boolean;
   onClose: (val: boolean) => void;
-  openSuccess:(val:number) => void
+  openSuccess: (val: number) => void;
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
   const [input, setInput] = useState<Input>({
     name: "",
     symbol: "",
     desc: "",
-    total_supply: "",
+    total_supply: 1000,
     end_time: "",
     contract: "0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08",
     funding: "",
@@ -33,13 +34,13 @@ const LaunchModal = (props: {
     vote: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
-  const { CreateHackthon } = useHackthon();
+  const { CreateHackathon } = useHackathon();
   const resetInp = () => {
     setInput({
       name: "",
       symbol: "",
       desc: "",
-      total_supply: "",
+      total_supply: 1000,
       end_time: "",
       contract: "0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08",
       funding: "",
@@ -75,7 +76,7 @@ const LaunchModal = (props: {
       return;
     }
     setLoading(true);
-    const result: any = await CreateHackthon(
+    const result: any = await CreateHackathon(
       input.name,
       input.symbol,
       +input.total_supply,
@@ -96,7 +97,7 @@ const LaunchModal = (props: {
     setVisible(false);
     props.onClose(false);
     //TODO
-    props.openSuccess(1)
+    props.openSuccess(1);
   };
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
@@ -180,19 +181,44 @@ const LaunchModal = (props: {
           </li>
           <li>
             <p>
-              <sup>*</sup>Total Supply
+              <sup>*</sup>Total Supply<span>(Unit: thousand)</span>
             </p>
-            <input
-              type="number"
-              placeholder="Please enter the total supply"
-              value={input.total_supply}
-              onChange={(e) => {
-                setInput({
-                  ...input,
-                  total_supply: e.target.value,
-                });
-              }}
-            />
+            <div className="with-oper">
+              <div
+                className="oper-btn"
+                onClick={() => {
+                  if (+input.total_supply <= 1000) return;
+                  setInput({
+                    ...input,
+                    total_supply: +input.total_supply / 2,
+                  });
+                }}
+              >
+                <MinusOutlined />
+              </div>
+              <input
+                type="number"
+                placeholder="Please enter the total supply"
+                value={input.total_supply}
+                onChange={(e) => {
+                  setInput({
+                    ...input,
+                    total_supply: e.target.value,
+                  });
+                }}
+              />
+              <div
+                className="oper-btn"
+                onClick={() => {
+                  setInput({
+                    ...input,
+                    total_supply: +input.total_supply * 2,
+                  });
+                }}
+              >
+                <PlusOutlined />
+              </div>
+            </div>
           </li>
           {/* <li>
             <p>End Time</p>
