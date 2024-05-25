@@ -34,7 +34,7 @@ export const VERSION: string = process.env.REACT_APP_VERSION as string;
 export const SOLERC20: string = "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF";
 export const CreateCollectionAddress: string =
   "0xccF09e95F7578A2B5576E6C745ac12a53b3a6031";
-export const MemeAddress: string = "0xB2Aa24eD5003e5a71270E052c39106BbB0F70951";
+export const MemeAddress: string = "0xA2135Ba86d6B99Db650BC5D4F209d4b4433681ae";
 
 interface Model {
   value: string;
@@ -485,6 +485,16 @@ export const NetworkConfig: Config[] = [
     contract_erc20: "0xFcb06A1a2E8834Fe9E0b49F533E14AB6384f74AC",
   },
   {
+    chain_id:'8453',
+    chain_name:'Base',
+    chain_logo:require('../assets/images/base.logo.png'),
+    contract_721:'',
+    contract_721_test:'',
+    contract_market:'',
+    contract_market_test:'',
+    contract_erc20:''
+  },
+  {
     chain_id: "1",
     chain_name: "Ethereum",
     chain_logo: require("../assets/images/eth.logo.png"),
@@ -552,6 +562,21 @@ export const NetworkConfigName: ConfigName[] = [
         icon: require("../assets/images/pnft.png"),
         address: PNFTAddress,
         fee: "1",
+      },
+    ],
+    gas: "4200000",
+  },
+  {
+    chain_id: "8453",
+    chain_name: "base",
+    chain_logo: require("../assets/images/base.logo.png"),
+    fee: "0.4",
+    token: [
+      {
+        symbol: "PI",
+        icon: require("../assets/images/plian.logo.png"),
+        address: SystemAddress,
+        fee: "0.4",
       },
     ],
     gas: "4200000",

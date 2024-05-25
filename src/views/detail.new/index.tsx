@@ -208,7 +208,7 @@ const DetailNewView = (): ReactElement<ReactNode> => {
                           const switc: any = await switchC(
                             +(state.chain as string)
                           );
-                          if (switc.code) return;
+                          if (switc?.code) return;
                           setTakeVisible(true);
                         }}
                       >

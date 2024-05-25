@@ -433,7 +433,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             item={item}
                             uploadTakeoff={async () => {
                               const switc: any = await switchC(+item.chain_id);
-                              if (switc.code) return;
+                              if (switc?.code) return;
                               const hash: any = await takeOff(+item.order_id);
                               if (!hash || hash.message) {
                                 return;

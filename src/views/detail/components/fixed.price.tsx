@@ -164,7 +164,7 @@ const FixedModal = (props: Props): ReactElement => {
     // },[approveStatus])
     const putApproveFN = async () => {
         const switc:any = await switchC(+props.chain);
-        if(switc.code) return
+        if(switc?.code) return
         // write?.();
         // return
         setWait({
@@ -197,7 +197,7 @@ const FixedModal = (props: Props): ReactElement => {
             return
         };
         const switc:any = await switchC(+props.chain);
-        if(switc.code) return
+        if(switc?.code) return
         setWait({
             ...wait,
             list_dis: true,

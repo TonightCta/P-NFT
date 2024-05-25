@@ -1,6 +1,6 @@
 import { Button, Modal, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { MemeAddress, SystemAddress } from "../../../utils/source";
+import { MemeAddress } from "../../../utils/source";
 import { useHackathon } from "../../../hooks/hackthon";
 import { web3 } from "../../../utils/types";
 import { PNft } from "../../../App";
@@ -14,6 +14,7 @@ interface Input {
 const VoteModal = (props: {
   visible: boolean;
   id: number;
+  min: string;
   onClose: (val: boolean) => void;
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -22,9 +23,16 @@ const VoteModal = (props: {
     useHackathon();
   const { state } = useContext(PNft);
   const [input, setInput] = useState<Input>({
-    amount: "",
-    address: GetUrlKey("referrer", window.location.href) || SystemAddress,
+    amount: props.min ? +props.min / 1e18 : "",
+    address: GetUrlKey("referrer", window.location.href) || "",
   });
+  useEffect(() => {
+    props.min &&
+      setInput({
+        ...input,
+        amount: +props.min / 1e18,
+      });
+  }, [props.min]);
   const submitVote = async () => {
     if (!input.amount) {
       message.error("Please enter the contribution amount");
@@ -34,8 +42,16 @@ const VoteModal = (props: {
       message.error("Please enter the correct contribution amount");
       return;
     }
-    if (!input.address) {
-      message.error("Please enter the referrer address");
+    if (input.address && input.address.length !== 42) {
+      message.error("Please enter the correct wallet address");
+      return;
+    }
+    if (input.address && input.address.substring(0, 2) !== "0x") {
+      message.error("Please enter the correct wallet address");
+      return;
+    }
+    if (input.address === state.address) {
+      message.error("The same wallet address cannot be recommended");
       return;
     }
     setLoading(true);
@@ -51,7 +67,7 @@ const VoteModal = (props: {
       return;
     }
     const id = await QueryNFT();
-    const result:any = await VoteHackathon(
+    const result: any = await VoteHackathon(
       props.id,
       +id - 1,
       +input.amount,
@@ -59,14 +75,14 @@ const VoteModal = (props: {
     );
     setLoading(false);
     console.log(result);
-    if(!result || result.message){
+    if (!result || result.message) {
       message.error(result.message);
-      return
-    };
-    message.success('Vote Successful');
+      return;
+    }
+    message.success("Vote Successful");
     setInput({
-      amount:'',
-      address:SystemAddress
+      amount: "",
+      address: GetUrlKey("referrer", window.location.href) || "",
     });
     setVisible(false);
     props.onClose(false);
@@ -88,10 +104,15 @@ const VoteModal = (props: {
       <div className="vote-inner">
         <ul>
           <li>
-            <p><sup>*</sup>Contribution Amount</p>
+            <p>
+              <sup>*</sup>Contribution Amount
+              <span>(1PNFT equals one vote)</span>
+            </p>
             <input
               type="number"
-              placeholder="Please enter the contribution amount"
+              placeholder={`Please enter the contribution amount(min:${
+                +props.min / 1e18
+              })`}
               value={input.amount}
               onChange={(e) => {
                 setInput({
@@ -102,7 +123,7 @@ const VoteModal = (props: {
             />
           </li>
           <li>
-            <p><sup>*</sup>Referrer</p>
+            <p>Referrer</p>
             <input
               type="text"
               placeholder="Please enter the referrer address"

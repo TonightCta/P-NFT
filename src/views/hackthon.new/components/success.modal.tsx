@@ -14,7 +14,7 @@ const SuccessModal = (props: Props): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
-  }, []);
+  }, [props.visible]);
   return (
     <Modal
       title={null}

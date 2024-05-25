@@ -5,7 +5,7 @@ import { Base64ToFile, CompressImage, GetUrlKey } from "../../../utils";
 import axios from "axios";
 import { useHackathon } from "../../../hooks/hackthon";
 import { PNft } from "../../../App";
-import { MemeAddress, SystemAddress } from "../../../utils/source";
+import { MemeAddress } from "../../../utils/source";
 import { web3 } from "../../../utils/types";
 import IconFont from "../../../utils/icon";
 
@@ -170,12 +170,13 @@ const SubmitWorkModal = (props: {
     },
     name: "",
     desc: "",
-    amount: "",
-    address: GetUrlKey("referrer", window.location.href) || SystemAddress,
+    amount:props.min ? +props.min / 1e18 : '',
+    address: GetUrlKey("referrer", window.location.href) || '',
   });
   const [collList, setCollList] = useState<Coll[]>(WordList[0].coll);
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
+    console.log('0xbd19c55ceaed0bf7b71cc939316971e8c640730e'.length)
   }, [props.visible]);
   const uploadFile = (e: any) => {
     const file = e.target.files[0];
@@ -201,6 +202,12 @@ const SubmitWorkModal = (props: {
     ipfs: "",
     file_name: "",
   });
+  useEffect(() => {
+    props.min && setInput({
+      ...input,
+      amount:+props.min / 1e18
+    })
+  },[props.min])
   const uploadFileFN = async (_file_name: string, _file: any) => {
     if (!_file) {
       return;
@@ -236,9 +243,17 @@ const SubmitWorkModal = (props: {
       message.error("Please enter the correct contribution amount");
       return;
     }
-    if (!input.address) {
-      message.error("Please enter the referrer address");
-      return;
+    if(input.address && input.address.length !== 42){
+      message.error('Please enter the correct wallet address');
+      return
+    }
+    if(input.address && input.address.substring(0,2) !== '0x'){
+      message.error('Please enter the correct wallet address');
+      return
+    }
+    if(input.address === state.address){
+      message.error('The same wallet address cannot be recommended');
+      return
     }
     setLoading(true);
     const query = await QueryERC20Approve(state.address as string, MemeAddress);
@@ -280,7 +295,7 @@ const SubmitWorkModal = (props: {
       },
       name: "",
       desc: "",
-      address: SystemAddress,
+      address: GetUrlKey("referrer", window.location.href) || '',
     });
     setWordList([]);
     setAiImageView({
@@ -318,7 +333,7 @@ const SubmitWorkModal = (props: {
   };
   return (
     <Modal
-      title={<p className="center-modal-title">Create</p>}
+      title={<p className="center-modal-title">Submit</p>}
       open={visible}
       footer={null}
       width={920}
@@ -406,7 +421,7 @@ const SubmitWorkModal = (props: {
             </div>
             <div className="word-inner n-t">
               <div className="inner-b">
-                <p className="b-name">Hackthon Theme</p>
+                <p className="b-name">Hackthon Element</p>
                 <ul>
                   {HackthonTheme.map((item: string, index: number) => {
                     return (

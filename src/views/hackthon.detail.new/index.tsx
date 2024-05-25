@@ -1,4 +1,10 @@
-import { ReactElement, ReactNode, useContext, useState } from "react";
+import {
+  ReactElement,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import IconFont from "../../utils/icon";
 import { Button } from "antd";
 import "./index.scss";
@@ -6,26 +12,43 @@ import FooterNew from "../screen.new/components/footer.new";
 import VoteModal from "../hackthon.detail/components/vote.modal";
 import { PNft } from "../../App";
 import { useNavigate } from "react-router-dom";
+import { useHackathon } from "../../hooks/hackthon";
 
 const HackthonDetailNewView = (): ReactElement<ReactNode> => {
   const [voteModal, setVoteModal] = useState<boolean>(false);
   const { state } = useContext(PNft);
   const navigate = useNavigate();
+  const { QueryHackathonInfo, QueryNFT, QueryNFTInfo } = useHackathon();
+  const [info, setInfo] = useState<any>();
+  const [nft, setNft] = useState<string>("");
+  const query = async () => {
+    const info = await QueryHackathonInfo();
+    setInfo(info);
+    const id = await QueryNFT();
+    const nft = await QueryNFTInfo(+id - 1);
+    setNft(nft);
+  };
+  useEffect(() => {
+    query();
+  }, []);
   return (
     <div className="hackthon-detail-new-view">
       <div className="detail-inner">
         <div className="left-nft">
-          <img src={require("../../assets/images/test2.png")} alt="" />
+          <img src={nft ? nft : require("../../assets/images/test2.png")} alt="" />
         </div>
         <div className="right-msg">
           <div>
             <p className="back-title">
-              <IconFont type="icon-fanhuijiantou" onClick={() => {
-                navigate('/hackathon')
-              }}/>
+              <IconFont
+                type="icon-fanhuijiantou"
+                onClick={() => {
+                  navigate("/hackathon");
+                }}
+              />
               Meme Hackathon
             </p>
-            <p className="nft-name">NFT Bus panda xxxxxx #0098</p>
+            <p className="nft-name">NFT Name</p>
             <div className="owner-msg">
               <IconFont type="icon-a-zu1439" className="gr-c" />
               <p>Owner</p>
@@ -47,11 +70,14 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
               creating tools to create, which currently support the creation of
               pictures, copywriting, and voice.
             </p>
+            <p className="chain-li">
+              <img src={require('../../assets/logo/8007736.png')} alt="" />
+            </p>
           </div>
           <div className="vote-box">
             <p>
               <IconFont type="icon-a-zu1441" />
-              20,000
+              20,000<span className="w-text">PNFT</span>
             </p>
             <p>Total Votes</p>
           </div>
@@ -69,7 +95,9 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
               onClick={() => {
                 const windowName = "newWindow";
                 const windowFeatures = "width=800,height=600,top=100,left=100";
-                const url = `https://test.pizzap.io/#/hackthon/1?referrer=${state.address}&id=${1}`;
+                const url = `https://test.pizzap.io/#/hackthon/1?referrer=${
+                  state.address
+                }&id=${1}`;
                 window.open(
                   `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                     "Alex share"
@@ -86,7 +114,8 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
         </div>
       </div>
       <VoteModal
-        id={1}
+        id={+info?.hackthonId}
+        min={info?.minVotingAmount}
         visible={voteModal}
         onClose={(val: boolean) => {
           setVoteModal(val);

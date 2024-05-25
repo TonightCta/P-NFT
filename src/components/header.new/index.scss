@@ -138,7 +138,7 @@
           height: 20px;
           width: auto;
           margin-right: 12px;
-          border-radius: 0;
+          border-radius: 50%;
         }
         span {
           font-size: 24px;
@@ -171,6 +171,7 @@
         width: auto;
         height: 18px;
         margin-right: 12px;
+        border-radius: 50%;
       }
     }
     li:first-child {

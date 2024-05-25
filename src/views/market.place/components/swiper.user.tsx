@@ -237,7 +237,7 @@ const SwiperUser = (props: Props): ReactElement => {
   const navigate = useNavigate();
   const getMintRank = async () => {
     const switc: any = await switchC(+(state.chain as string));
-    if (switc.code) return;
+    if (switc?.code) return;
     const NFTAddress =
       LAND === "taiko"
         ? MODE === "taikomain"

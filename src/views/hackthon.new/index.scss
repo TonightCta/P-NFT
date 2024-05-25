@@ -14,17 +14,27 @@
             font-family: SparkBold;
         }
         button {
-            width: 186px;
+            width: 226px;
             height: 48px;
             background: #202025 !important;
             border-radius: 16px;
             font-size: 18px;
             font-family: SparkBold;
+            border: 0;
+            box-shadow: none;
+        }
+    }
+    .share-p {
+        width: calc(100% - 120px);
+        margin: 0 auto;
+        display: flex;
+        .label {
+            width: 260px;
+            margin-right: 24px;
         }
     }
     .share-box {
-        width: calc(100% - 120px);
-        margin: 0 auto;
+        flex: 1;
         height: 55px;
         background-color: #FDFDE8;
         padding-left: 324px;
@@ -62,7 +72,7 @@
         display: flex;
         padding-top: 24px;
         .left-name {
-            width: 300px;
+            width: 260px;
             padding-right: 20px;
             .ant-anchor {
                 display: none;
@@ -70,7 +80,8 @@
             border-right: 1px solid #E8E8E8;
             .anchor-box {
                 display: flex;
-                margin-bottom: 24px;
+                margin-bottom: 36px;
+                justify-content: space-between;
                 .left-msg {
                     p {
                         font-size: 16px;
@@ -78,6 +89,13 @@
                         transition: .3s all;
                         text-align: left;
                         line-height: 20px;
+                        img {
+                            width: 20px;
+                            height: 20px;
+                            vertical-align: middle;
+                            margin-right: 4px;
+                            transform: translateY(-2px);
+                        }
                     }
                     .coin-list {
                         display: flex;
@@ -172,9 +190,11 @@
                     cursor: pointer;
                     .nft-box {
                         width: 100%;
-                        overflow: hidden;
                         height: 244px;
                         overflow: hidden;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                         img {
                             width: 100%;
                             transition: .3s all;
@@ -210,7 +230,7 @@
                             }
                         }
                         p:first-child {
-                            margin-right: 38px;
+                            margin-right: 20px;
                         }
                     }
                     .vote-btn {
@@ -310,6 +330,57 @@
                     font-size: 15px;
                     border-color: #ccc;
                 }
+                .token-box {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    height: 48px;
+                    img {
+                        width: 24px;
+                        height: 24px;
+                    }
+                    .select-chain {
+                        width: 65%;
+                    }
+                    .ant-select {
+                        height: 48px;
+                        width: 100%;
+                        .select-custom-option {
+                            display: flex;
+                            align-items: center;
+                            img {
+                                margin-right: 8px;
+                            }
+                            p {
+                                margin: 0;
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                    .token-i {
+                        flex: 1;
+                        margin-left: 24px;
+                        height: 48px;
+                        display: flex;
+                        align-items: center;
+                        img {
+                            margin-right: 4px;
+                        }
+                        p {
+                            margin: 0;
+                        }
+                        border-radius: 8px;
+                        p:last-child {
+                            font-size: 14px;
+                            color: #686A6C;
+                            span {
+                                font-weight: bold;
+                                color: #DF0885;
+                            }
+                        }
+                    }
+                }
                 input::placeholder {
                     color: #999;
                 }
@@ -338,10 +409,10 @@
                         cursor: pointer;
                         border-radius: 8px;
                         border: 1px solid #DF0885;
-                        display:flex;
+                        display: flex;
                         align-items: center;
                         justify-content: center;
-                        span{
+                        span {
                             font-size: 20px;
                             color: #DF0885;
                         }
@@ -644,6 +715,10 @@
                     sup {
                         color: #DF0885;
                     }
+                    span {
+                        font-size: 12px;
+                        color: #686A6C;
+                    }
                 }
                 input {
                     width: 100%;
@@ -693,5 +768,26 @@
                 font-size: 16px;
             }
         }
+    }
+}
+.ant-select-dropdown {
+    z-index: 6500;
+}
+.select-custom-option {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    p {
+        margin-bottom: 0;
+        font-size: 14px;
+        span {
+            font-weight: bold;
+            color: #DF0885;
+        }
+    }
+    img {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
     }
 }

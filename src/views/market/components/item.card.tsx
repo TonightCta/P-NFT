@@ -28,7 +28,7 @@ const CardItem = (props: Props): ReactElement => {
     },[props.item])
     const confirm = async () => {
         const switc:any = await switchC(+(state.chain as string));
-        if(switc.code) return
+        if(switc?.code) return
         const hash: any = await takeOff(+item.order_id);
         if (!hash || hash.message) {
             return

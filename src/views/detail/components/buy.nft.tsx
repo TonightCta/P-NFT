@@ -79,7 +79,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
     }, [props.visible]);
     const putApproveFN = async () => {
         const switc:any = await switchC(+(state.chain as string))
-        if(switc.code) return 
+        if(switc?.code) return 
         setWait({
             ...wait,
             approve_dis: true,
@@ -105,7 +105,7 @@ const BuyNFTsModal = (props: Props): ReactElement => {
     };
     const putListFN = async () => {
         const switc:any = await switchC(+(state.chain as string))
-        if(switc.code) return
+        if(switc?.code) return
         setWait({
             ...wait,
             list_dis: true,

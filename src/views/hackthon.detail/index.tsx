@@ -80,7 +80,7 @@ const HackthonDetailView = (): ReactElement<ReactNode> => {
           );
         })}
       </div>
-      <SubmitWorkModal
+      {/* <SubmitWorkModal
         openSuccess={(val: number) => {}}
         visible={workModal}
         hackthon_id={+info?.hackthonId}
@@ -90,12 +90,13 @@ const HackthonDetailView = (): ReactElement<ReactNode> => {
         }}
       />
       <VoteModal
+        min={info?.minSubmissionFee}
         id={+info?.hackthonId}
         visible={voteModal}
         onClose={(val: boolean) => {
           setVoteModal(val);
         }}
-      />
+      /> */}
     </div>
   );
 };

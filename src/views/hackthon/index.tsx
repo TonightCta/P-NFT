@@ -33,7 +33,7 @@ const HackthonView = (): ReactElement<ReactNode> => {
   const [data, setData] = useState<Col[]>([]);
   const { state, dispatch } = useContext(PNft);
   const [loading, setLoading] = useState<boolean>(false);
-  const [visible,setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const getList = async () => {
     if (state.launchpad) {
       setData(JSON.parse(state.launchpad));
@@ -81,9 +81,14 @@ const HackthonView = (): ReactElement<ReactNode> => {
       <div className="hackthon-inner">
         <div className="title-oper">
           <p className="view-title">Meme Hackthon</p>
-          <Button type="primary" onClick={() => {
-            setVisible(true);
-          }}>Launch</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            Launch
+          </Button>
         </div>
         {loading ? (
           <div className="load-box">
@@ -97,9 +102,14 @@ const HackthonView = (): ReactElement<ReactNode> => {
           </div>
         )}
       </div>
-      <LaunchModal openSuccess={(val:number) => {}} visible={visible} onClose={(val:boolean) => {
-        setVisible(val);
-      }}/>
+      {/* <LaunchModal
+      address=""
+        openSuccess={(val: number) => {}}
+        visible={visible}
+        onClose={(val: boolean) => {
+          setVisible(val);
+        }}
+      /> */}
       <FooterNew />
     </div>
   );

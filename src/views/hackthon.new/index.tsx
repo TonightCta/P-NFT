@@ -6,7 +6,7 @@ import {
   useEffect,
   useContext,
 } from "react";
-import { Anchor, Button } from "antd";
+import { Anchor, Button, message } from "antd";
 import "./index.scss";
 import HackthonCardNew from "./components/card";
 import { PlusOutlined } from "@ant-design/icons";
@@ -18,6 +18,7 @@ import { GetUrlKey, addCommasToNumber } from "../../utils";
 import IconFont from "../../utils/icon";
 import VoteModal from "../hackthon.detail/components/vote.modal";
 import SuccessModal from "./components/success.modal";
+import ConnectModal from "../../components/header.new/components/connect.modal";
 // import { useSpring,animated } from 'react-spring'
 // import CountUp from "react-countup";
 // import React from "react";
@@ -35,10 +36,24 @@ interface Data {
 
 const data = [
   {
+    id: 0,
+    key: "part-0",
+    href: "#part-0",
+    title: "PNFT x Test",
+    items: [1, 2, 3, 4, 5],
+    coin: [
+      require("../../assets/logo/1.png"),
+      require("../../assets/logo/137.png"),
+      require("../../assets/logo/solmain.png"),
+    ],
+    sub: 15,
+    vote: 20000,
+  },
+  {
     id: 1,
     key: "part-1",
     href: "#part-1",
-    title: "Dragon Minds Soar: AI Creativity more text",
+    title: "PNFT x Test",
     items: [1, 2, 3, 4, 5],
     coin: [
       require("../../assets/logo/1.png"),
@@ -52,7 +67,7 @@ const data = [
     id: 2,
     key: "part-2",
     href: "#part-2",
-    title: "My Web3 Working Brunch More Text",
+    title: "PNFT x Test",
     items: [1, 2, 3, 4, 5, 6, 7, 8],
     coin: [
       require("../../assets/logo/56.png"),
@@ -65,7 +80,7 @@ const data = [
     id: 3,
     key: "part-3",
     href: "#part-3",
-    title: "Dragon Minds Soar: AI Creativity more text",
+    title: "PNFT x Test",
     items: [1, 2, 3],
     coin: [
       require("../../assets/logo/btcmain.png"),
@@ -78,7 +93,7 @@ const data = [
     id: 4,
     key: "part-4",
     href: "#part-4",
-    title: "Dragon Minds Soar: AI Creativity more text",
+    title: "PNFT x Test",
     items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     coin: [
       require("../../assets/logo/1.png"),
@@ -94,25 +109,41 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   const [workModal, setWorkModal] = useState<boolean>(false);
   const [voteModal, setVoteModal] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
+  const [connectModalB, setConnectModal] = useState<boolean>(false);
   const [success, setSuccess] = useState<{ id: number; type: number }>({
     id: 0,
     type: 1,
   });
+  const [chainData, setChainData] = useState<Data[]>(data);
   const [successModal, setSuccessModal] = useState<boolean>(false);
-  const { QueryHackathonInfo } = useHackathon();
+  const { QueryHackathonInfo, QueryNFT, QueryNFTInfo } = useHackathon();
   const [info, setInfo] = useState<any>();
   const { state } = useContext(PNft);
   const [lock, setLock] = useState<boolean>(false);
   const [share, setShare] = useState<number | string>("");
   const [shareInfo, setShareInfo] = useState<{ sub: number; vote: number }>({
-    sub: data[0].sub,
-    vote: data[0].vote,
+    sub: 1,
+    vote: 1,
   });
 
   const [active, setActive] = useState<string>("#part-1");
   const query = async () => {
     const info = await QueryHackathonInfo();
+    const id = await QueryNFT();
+    const nft = await QueryNFTInfo(+id - 1);
     setInfo(info);
+    data[0] = {
+      id: 0,
+      key: "part-0",
+      href: "#part-0",
+      title: `PNFT x ${info?.symbol}`,
+      items: [nft],
+      coin: [require("../../assets/logo/8007736.png")],
+      sub: 1,
+      vote: 1,
+    };
+    setChainData([...data]);
+    setShareInfo({ sub: 1, vote: 1 });
   };
   //   const [lock, setLock] = useState<boolean>(false);
   useEffect(() => {
@@ -138,48 +169,61 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     <div className="hackthon-new-view">
       <div className="title-oper">
         <p>Meme Hackathon</p>
-        <Button
-          type="primary"
-          onClick={() => {
-            setVisible(true);
-          }}
-        >
-          Launch
-        </Button>
+        {state.address ? (
+          <Button
+            type="primary"
+            onClick={() => {
+              if (!state.address) {
+                message.error("You need connect the wallet first");
+                return;
+              }
+              setVisible(true);
+            }}
+          >
+            Launch Hackathon
+          </Button>
+        ) : (
+          <Button type="primary" onClick={() => {
+            setConnectModal(true);
+          }}>Connect Wallet</Button>
+        )}
       </div>
-      <div className="share-box">
-        <p>
-          {/* <React.Fragment>
+      <div className="share-p">
+        <div className="label"></div>
+        <div className="share-box">
+          <p>
+            {/* <React.Fragment>
             <CountUp start={0} end={100} decimals={0} separator="," />
           </React.Fragment> */}
-          <span>{shareInfo.sub}</span>
-          submissions
-        </p>
-        <p>
-          total votes <span>{addCommasToNumber(shareInfo.vote)}</span>TRUMP
-        </p>
-        <Button
-          type="primary"
-          onClick={() => {
-            const windowName = "newWindow";
-            const windowFeatures = "width=800,height=600,top=100,left=100";
-            const url = `https://test.pizzap.io/#/?referrer=${state.address}&id=${share}`;
-            window.open(
-              `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                "Alex share"
-              )}&url=${encodeURIComponent(url)}`,
-              windowName,
-              windowFeatures
-            );
-          }}
-        >
-          Share
-          <IconFont type="icon-arrow-up-right" />
-        </Button>
+            <span>{shareInfo.sub}</span>
+            submissions
+          </p>
+          <p>
+            total votes <span>{addCommasToNumber(shareInfo.vote)}</span>$PNFT
+          </p>
+          <Button
+            type="primary"
+            onClick={() => {
+              const windowName = "newWindow";
+              const windowFeatures = "width=800,height=600,top=100,left=100";
+              const url = `https://test.pizzap.io/#/?referrer=${state.address}&id=${share}`;
+              window.open(
+                `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                  "Alex share"
+                )}&url=${encodeURIComponent(url)}`,
+                windowName,
+                windowFeatures
+              );
+            }}
+          >
+            Share
+            <IconFont type="icon-arrow-up-right" />
+          </Button>
+        </div>
       </div>
       <div className="new-view-inner">
         <div className="left-name">
-          {data.map((item: Data, index: number) => {
+          {chainData.map((item: Data, index: number) => {
             return (
               <div
                 className={`anchor-box ${
@@ -196,7 +240,10 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                 }}
               >
                 <div className="left-msg">
-                  <p>{item.title}</p>
+                  <p>
+                    <img src={require("../../assets/images/pnft.png")} alt="" />
+                    {item.title}
+                  </p>
                   <div className="coin-list">
                     {item.coin.map((item: string, index: number) => {
                       return <img src={item} alt="" key={`${index}-coin`} />;
@@ -254,7 +301,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
               Share
             </Button>
           </div> */}
-          {data.map((item: Data, index: number) => {
+          {chainData.map((item: Data, index: number) => {
             return (
               <div key={index} id={item.key} style={{ marginBottom: "32px" }}>
                 {/* <p
@@ -263,9 +310,11 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                   {item.title}
                 </p> */}
                 <div className="items-list">
-                  {item.items.map((item: number, index: number) => {
+                  {item.items.map((item: number | string, index: number) => {
                     return (
                       <HackthonCardNew
+                        item={item}
+                        address={state.address || ""}
                         key={index}
                         backModal={(id: number) => {
                           setVoteModal(true);
@@ -276,6 +325,12 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                   <div
                     className="add-work"
                     onClick={() => {
+                      //TODO
+                      //switch network
+                      if (!state.address) {
+                        message.error("You need connect the wallet first");
+                        return;
+                      }
                       setWorkModal(true);
                     }}
                   >
@@ -289,6 +344,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       </div>
       <LaunchModal
         visible={visible}
+        address={state.address || ""}
         openSuccess={(val: number) => {
           setSuccessModal(true);
           setSuccess({
@@ -304,11 +360,13 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       <SubmitWorkModal
         visible={workModal}
         openSuccess={(val: number) => {
+          query();
           setSuccessModal(true);
           setSuccess({
             type: 2,
             id: val,
           });
+          console.log("success submit");
         }}
         hackthon_id={+info?.hackthonId}
         min={info?.minSubmissionFee}
@@ -319,16 +377,23 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       <VoteModal
         id={+info?.hackthonId}
         visible={voteModal}
+        min={info?.minVotingAmount}
         onClose={(val: boolean) => {
           setVoteModal(val);
         }}
       />
       <SuccessModal
-        {...success}
-        address={state.address as string}
         visible={successModal}
+        {...success}
+        address={state.address || ""}
         onClose={(val: boolean) => {
           setSuccessModal(val);
+        }}
+      />
+      <ConnectModal
+        visible={connectModalB}
+        close={(val: boolean) => {
+          setConnectModal(val);
         }}
       />
     </div>

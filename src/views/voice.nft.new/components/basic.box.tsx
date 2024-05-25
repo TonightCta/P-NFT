@@ -94,7 +94,7 @@ const BasicBox = (props: { info: Input }): ReactElement => {
   const submitMint = async () => {
     const switc: any = await switchC(+props.info.chain);
     console.log(switc);
-    if (switc.code) return;
+    if (switc?.code) return;
     const balance = await getBalance();
     const numberBalance: number = Number(BigInt(balance)) / 1e18;
     if (numberBalance <= 0) {

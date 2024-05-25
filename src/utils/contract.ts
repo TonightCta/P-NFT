@@ -9,7 +9,6 @@ import HASHABI from "./abi/hash.json";
 import NER721ABI from "./abi/new_721.json";
 import CollectionABI from "./abi/404.json";
 import MintCollectionABI from "./abi/mint.collection.json";
-import MemeABI from "./abi/meme.json";
 import { message } from "antd";
 import { useCallback, useContext, useEffect, useState } from "react";
 import * as Address from "./source";
@@ -116,7 +115,7 @@ export const useContract = () => {
         : FilterAddress(state.chain as string).contract_market_test;
     setNFTContract(
       new filterProvider.eth.Contract(ABI721 as any, NFTAddress, {
-        gasPrice: gasPrice,
+        // gasPrice: gasPrice,
       })
     );
     setBBCContract(
@@ -124,7 +123,7 @@ export const useContract = () => {
         BBCABI as any,
         "0x8e25e5c37983f915adcf212c00b2fe12d998699c",
         {
-          gasPrice: gasPrice,
+          // gasPrice: gasPrice,
         }
       )
     );
@@ -133,13 +132,13 @@ export const useContract = () => {
         ABIERC20 as any,
         FilterAddress(state.chain as string).contract_erc20,
         {
-          gasPrice: gasPrice,
+          // gasPrice: gasPrice,
         }
       )
     );
     setMARKETContract(
       new filterProvider.eth.Contract(ABIMarket as any, MarketAddress, {
-        gasPrice: gasPrice,
+        // gasPrice: gasPrice,
       })
     );
     setSBTContract(
@@ -147,7 +146,7 @@ export const useContract = () => {
         ABISBT as any,
         Address.PlianContractSBTTest,
         {
-          gasPrice: gasPrice,
+          // gasPrice: gasPrice,
         }
       )
     );
@@ -207,7 +206,7 @@ export const useContract = () => {
         NER721ABI as any,
         MintV2ContractAddress,
         {
-          gasPrice: gasPrice,
+          // gasPrice: gasPrice,
         }
       );
       const Gas: string = FilterAddressToName(state.chain as string).gas;
@@ -243,7 +242,7 @@ export const useContract = () => {
       return;
     }
     const switc: any = await switchC(+(state.chain as string));
-    if (switc.code) return;
+    if (switc?.code) return;
     const total = await NFTContract.methods.balanceOf(send.from).call();
     const actions = [];
     const getInfo = async (index: number) => {
@@ -274,7 +273,7 @@ export const useContract = () => {
       return;
     }
     const contract = new web3V2.eth.Contract(ABIERC20 as any, _token_address, {
-      gasPrice: gasPrice,
+      // gasPrice: gasPrice,
     });
     return new Promise((resolve, reject) => {
       contract.methods
@@ -362,7 +361,7 @@ export const useContract = () => {
         ? FilterAddress(state.chain as string).contract_market
         : FilterAddress(state.chain as string).contract_market_test;
     const ContractV2 = new web3V2.eth.Contract(ABI721 as any, _nft_address, {
-      gasPrice: gasPrice,
+      // gasPrice: gasPrice,
     });
     return new Promise(async (resolve, reject) => {
       ContractV2.methods
@@ -487,7 +486,7 @@ export const useContract = () => {
       ABISBT as any,
       Address.PlianContractSBTTest,
       {
-        gasPrice: gasPrice,
+        // gasPrice: gasPrice,
       }
     );
     const total = await SBTContractInner.methods.balanceOf(send.from).call();
@@ -535,7 +534,7 @@ export const useContract = () => {
         ? FilterAddress(state.chain as string).contract_721
         : FilterAddress(state.chain as string).contract_721_test;
     const NN = new web3V2.eth.Contract(ABI721 as any, _nft_address, {
-      gasPrice: gasPrice,
+      // gasPrice: gasPrice,
     });
     const approve = await NN.methods.getApproved(_token_id).call();
     return approve;
@@ -551,7 +550,7 @@ export const useContract = () => {
       return "uninstall";
     }
     const contract = new web3V2.eth.Contract(ABIERC20 as any, _token_address, {
-      gasPrice: gasPrice,
+      // gasPrice: gasPrice,
     });
     const result = await contract.methods
       .allowance(_owner, _market_address)
@@ -745,7 +744,7 @@ export const useContract = () => {
       OPABI as any,
       "0x00000000000000ADc04C56Bf30aC9d3c0aAF14dC",
       {
-        gasPrice: gasPrice,
+        // gasPrice: gasPrice,
       }
     );
     return new Promise((resolve, reject) => {
@@ -778,7 +777,7 @@ export const useContract = () => {
       CollectionABI,
       CreateCollectionAddress,
       {
-        gasPrice: gasPrice,
+        // gasPrice: gasPrice,
       }
     );
     return new Promise((resolve, reject) => {
@@ -818,7 +817,7 @@ export const useContract = () => {
       CollectionABI,
       CreateCollectionAddress,
       {
-        gasPrice: gasPrice,
+        // gasPrice: gasPrice,
       }
     );
     return new Promise((resolve, reject) => {
@@ -874,7 +873,7 @@ export const useContract = () => {
         ethereum
     );
     const Contract = new web3.eth.Contract(MintCollectionABI as any, _address, {
-      gasPrice: gasPrice,
+      // gasPrice: gasPrice,
     });
     const result = await Contract.methods.MintLimit().call();
     return result;
@@ -893,7 +892,7 @@ export const useContract = () => {
     );
     const Gas: string = FilterAddressToName(state.chain as string).gas;
     const Contract = new web3.eth.Contract(MintCollectionABI as any, _address, {
-      gasPrice: gasPrice,
+      // gasPrice: gasPrice,
     });
     return new Promise((resolve, reject) => {
       Contract.methods

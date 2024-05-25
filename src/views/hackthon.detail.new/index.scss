@@ -11,6 +11,7 @@
             margin-right: 34px;
             img {
                 width: 100%;
+                border-radius: 16px;
             }
         }
         .right-msg {
@@ -19,6 +20,7 @@
             flex-direction: column;
             justify-content: space-between;
             text-align: left;
+            min-height: 800px;
             .back-title {
                 display: flex;
                 align-items: center;
@@ -69,9 +71,16 @@
                 color: #707070;
                 line-height: 18px;
             }
+            .chain-li {
+                margin-top: 32px;
+                img {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
             .vote-box {
-                width: 240px;
-                height: 240px;
+                width: 260px;
+                height: 260px;
                 background-color: #F7F7F7;
                 border-radius: 16px;
                 margin-top: -32px;
@@ -87,6 +96,10 @@
                     }
                     font-size: 40px;
                     color: #202025;
+                    .w-text {
+                        transform: translateY(0);
+                        margin-left: 4px;
+                    }
                 }
                 p:last-child {
                     font-size: 18px;

@@ -20,7 +20,7 @@ export interface Network {
   blockExplorerUrls: string[]
 };
 
-export const SupportID: number[] = [8007736, 10067275, 1, 314, 10, 167005]
+export const SupportID: number[] = [8007736, 10067275, 1, 314, 10, 167005,8453]
 export const SupportNetwork: Network[] = [
   //Child chain
   {
@@ -44,6 +44,17 @@ export const SupportNetwork: Network[] = [
     },
     rpcUrls: ['https://mainnet.plian.io/child_0'],
     blockExplorerUrls: ['https://piscan.plian.org/?chain=1']
+  },
+  {
+    chain_id: 8453,
+    chain_name: 'Base LlamaNodes',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18
+    },
+    rpcUrls: ['https://api.tatum.io/v3/blockchain/node/base-mainnet'],
+    blockExplorerUrls: ['https://basescan.org/']
   },
   {
     chain_id: 314,

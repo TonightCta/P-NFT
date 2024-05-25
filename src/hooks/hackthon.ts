@@ -11,7 +11,7 @@ import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import { ethereum, web3 } from "../utils/types";
 import { FilterAddressToName, calsMarks } from "../utils";
 import MemeABI from "../utils/abi/meme.json";
-import { MemeAddress, PNFTAddress } from "../utils/source";
+import { MemeAddress, PNFTAddress, SystemAddress } from "../utils/source";
 import { message } from "antd";
 import ABIERC20 from "../utils/abi/erc20.json";
 
@@ -53,14 +53,20 @@ export const useHackathon = () => {
     );
     const pi = filterProvider ? await filterProvider.eth.getGasPrice() : "0";
     const Contract = new web3.eth.Contract(MemeABI as any, MemeAddress, {
-      gasPrice: pi,
+      //   gasPrice: pi,
     });
     const Contract20 = new web3.eth.Contract(ABIERC20 as any, PNFTAddress, {
-      gasPrice: pi,
+      //   gasPrice: pi,
     });
     setContract(Contract);
     setContract20(Contract20);
   };
+  useEffect(() => {
+    setSend({
+      ...send,
+      from: state.address as string,
+    });
+  }, [state.address]);
   useEffect(() => {
     initContract();
   }, []);
@@ -70,28 +76,35 @@ export const useHackathon = () => {
     _total: number, //toWei
     _time: number,
     _contract: string,
-    _funding: number, //toWei
     _fee: number, //toWei
     _vote: number //toWei
   ) => {
-    const Price = await contract.methods.HACKTHON_CREATION_PRICE().call();
+    // const Price = await contract.methods.HACKTHON_CREATION_PRICE().call();
     // return;
+    console.log(
+      _name,
+      _symbol,
+      _total,
+      _time,
+      _contract,
+      web3.utils.toWei(String(_fee), "ether"),
+      web3.utils.toWei(String(_vote), "ether")
+    );
     return new Promise((resolve, reject) => {
       contract.methods
         .createHackthon(
           _name,
           _symbol,
-          _total,
+          web3.utils.toWei(String(_total), "ether"),
           _time,
           _contract,
-          web3.utils.toWei(String(_funding), "ether"),
           web3.utils.toWei(String(_fee), "ether"),
           web3.utils.toWei(String(_vote), "ether")
         )
         .send({
           from: send.from,
           gas: Gas,
-          value: Price,
+          // value: Price,
         })
         .on("receipt", (res: string) => {
           console.log(res);
@@ -103,6 +116,21 @@ export const useHackathon = () => {
         });
     });
   };
+  const QuertHackathonFee = async () => {
+    const web3 = new Web3(
+      (state.wallet === "metamask" && provider) ||
+        (state.wallet === "coinbase" && ethereumCoinbase) ||
+        (state.wallet === "walletconnect" && walletProvider) ||
+        ethereum
+    );
+    const Contract = new web3.eth.Contract(MemeABI as any, MemeAddress, {
+      //   gasPrice: pi,
+    });
+    const result = await Contract.methods
+      .supportedPayTokensFee(PNFTAddress)
+      .call();
+    return result;
+  };
   const QueryHackathonInfo = async () => {
     // hackthonIdCounter
     const web3 = new Web3(
@@ -111,23 +139,45 @@ export const useHackathon = () => {
         (state.wallet === "walletconnect" && walletProvider) ||
         ethereum
     );
-    const filterProvider = new Web3(
-      (state.wallet === "metamask" && provider) ||
-        (state.wallet === "coinbase" && ethereumCoinbase) ||
-        (state.wallet === "walletconnect" && walletProvider) ||
-        ethereum
-    );
-    const pi = filterProvider ? await filterProvider.eth.getGasPrice() : "0";
+    // const filterProvider = new Web3(
+    //   (state.wallet === "metamask" && provider) ||
+    //     (state.wallet === "coinbase" && ethereumCoinbase) ||
+    //     (state.wallet === "walletconnect" && walletProvider) ||
+    //     ethereum
+    // );
+    // const pi = filterProvider ? await filterProvider.eth.getGasPrice() : "0";
     const Contract = new web3.eth.Contract(MemeABI as any, MemeAddress, {
-      gasPrice: pi,
+      //   gasPrice: pi,
     });
     const result = await Contract.methods.hackthonIdCounter().call();
     const info = await Contract.methods.hackthons(result - 1).call();
     return info;
   };
   const QueryNFT = async () => {
-    const result = await contract.methods._tokenIds().call();
+    const web3 = new Web3(
+      (state.wallet === "metamask" && provider) ||
+        (state.wallet === "coinbase" && ethereumCoinbase) ||
+        (state.wallet === "walletconnect" && walletProvider) ||
+        ethereum
+    );
+    const Contract = new web3.eth.Contract(MemeABI as any, MemeAddress, {
+      //   gasPrice: pi,
+    });
+    const result = await Contract.methods._tokenIds().call();
     return result;
+  };
+  const QueryNFTInfo = async (_id: number) => {
+    const web3 = new Web3(
+      (state.wallet === "metamask" && provider) ||
+        (state.wallet === "coinbase" && ethereumCoinbase) ||
+        (state.wallet === "walletconnect" && walletProvider) ||
+        ethereum
+    );
+    const Contract = new web3.eth.Contract(MemeABI as any, MemeAddress, {
+      //   gasPrice: pi,
+    });
+    const info = await Contract.methods.tokenURI(_id).call();
+    return info;
   };
   const QueryERC20Approve = async (
     _owner: string,
@@ -163,19 +213,13 @@ export const useHackathon = () => {
     _amount: number, //toWei
     _referrer: string
   ) => {
-    console.log(
-      _id,
-      _image,
-      web3.utils.toWei(String(_amount), "ether"),
-      _referrer
-    );
     return new Promise((resolve, reject) => {
       contract.methods
         .submit(
           _id,
           _image,
           web3.utils.toWei(String(_amount), "ether"),
-          _referrer
+          _referrer ? _referrer : SystemAddress
         )
         .send({
           from: send.from,
@@ -197,13 +241,19 @@ export const useHackathon = () => {
     _amount: number, //toWei
     _referrer: string
   ) => {
+    console.log(
+      _id,
+      _nft_id,
+      web3.utils.toWei(String(_amount), "ether"),
+      _referrer ? _referrer : SystemAddress
+    );
     return new Promise((resolve, reject) => {
       contract.methods
         .vote(
           _id,
           _nft_id,
           web3.utils.toWei(String(_amount), "ether"),
-          _referrer
+          _referrer ? _referrer : SystemAddress
         )
         .send({
           from: send.from,
@@ -254,5 +304,7 @@ export const useHackathon = () => {
     QueryERC20Approve,
     ApproveToken,
     QueryNFT,
+    QuertHackathonFee,
+    QueryNFTInfo,
   };
 };
