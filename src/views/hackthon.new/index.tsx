@@ -6,19 +6,19 @@ import {
   useEffect,
   useContext,
 } from "react";
-import { Anchor, Button, message } from "antd";
+import { Anchor, Button, Spin, message } from "antd";
 import "./index.scss";
 import HackthonCardNew from "./components/card";
 import { PlusOutlined } from "@ant-design/icons";
-import { useHackathon } from "../../hooks/hackthon";
 import LaunchModal from "../hackthon/components/launch.modal";
 import SubmitWorkModal from "../hackthon.detail/components/submit.work.modal";
 import { PNft } from "../../App";
-import { GetUrlKey, addCommasToNumber } from "../../utils";
+import { FilterAddress, GetUrlKey, addCommasToNumber } from "../../utils";
 import IconFont from "../../utils/icon";
 import VoteModal from "../hackthon.detail/components/vote.modal";
 import SuccessModal from "./components/success.modal";
 import ConnectModal from "../../components/header.new/components/connect.modal";
+import { HackathonItemList, HackathonList } from "../../request/api";
 // import { useSpring,animated } from 'react-spring'
 // import CountUp from "react-countup";
 // import React from "react";
@@ -27,82 +27,17 @@ interface Data {
   key: string;
   href: string;
   title: string;
-  items: number[];
+  items: [];
+  symbol: string;
+  chain_id: string;
   coin: string[];
   sub: number;
   vote: number;
   id: number;
+  hackathon_id: number;
+  min_submission_fee: number;
+  min_voting_amount: number;
 }
-
-const data = [
-  {
-    id: 0,
-    key: "part-0",
-    href: "#part-0",
-    title: "PNFT x Test",
-    items: [1, 2, 3, 4, 5],
-    coin: [
-      require("../../assets/logo/1.png"),
-      require("../../assets/logo/137.png"),
-      require("../../assets/logo/solmain.png"),
-    ],
-    sub: 15,
-    vote: 20000,
-  },
-  {
-    id: 1,
-    key: "part-1",
-    href: "#part-1",
-    title: "PNFT x Test",
-    items: [1, 2, 3, 4, 5],
-    coin: [
-      require("../../assets/logo/1.png"),
-      require("../../assets/logo/137.png"),
-      require("../../assets/logo/solmain.png"),
-    ],
-    sub: 15,
-    vote: 20000,
-  },
-  {
-    id: 2,
-    key: "part-2",
-    href: "#part-2",
-    title: "PNFT x Test",
-    items: [1, 2, 3, 4, 5, 6, 7, 8],
-    coin: [
-      require("../../assets/logo/56.png"),
-      require("../../assets/logo/25.png"),
-    ],
-    sub: 18,
-    vote: 16738,
-  },
-  {
-    id: 3,
-    key: "part-3",
-    href: "#part-3",
-    title: "PNFT x Test",
-    items: [1, 2, 3],
-    coin: [
-      require("../../assets/logo/btcmain.png"),
-      require("../../assets/logo/43114.png"),
-    ],
-    sub: 7,
-    vote: 56093,
-  },
-  {
-    id: 4,
-    key: "part-4",
-    href: "#part-4",
-    title: "PNFT x Test",
-    items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    coin: [
-      require("../../assets/logo/1.png"),
-      require("../../assets/logo/137.png"),
-    ],
-    sub: 25,
-    vote: 6093,
-  },
-];
 
 const HackthonNewView = (): ReactElement<ReactNode> => {
   const containerRef = useRef(null);
@@ -110,44 +45,87 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   const [voteModal, setVoteModal] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [connectModalB, setConnectModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<{ left: boolean; right: boolean }>({
+    left: true,
+    right: true,
+  });
   const [success, setSuccess] = useState<{ id: number; type: number }>({
     id: 0,
     type: 1,
   });
-  const [chainData, setChainData] = useState<Data[]>(data);
   const [successModal, setSuccessModal] = useState<boolean>(false);
-  const { QueryHackathonInfo, QueryNFT, QueryNFTInfo } = useHackathon();
-  const [info, setInfo] = useState<any>();
+  const [info, setInfo] = useState<{
+    hackathon_id: number;
+    min_voting_amount: number;
+    min_submission_fee: number;
+  }>({
+    hackathon_id: 0,
+    min_voting_amount: 0,
+    min_submission_fee: 0,
+  });
   const { state } = useContext(PNft);
   const [lock, setLock] = useState<boolean>(false);
   const [share, setShare] = useState<number | string>("");
   const [shareInfo, setShareInfo] = useState<{ sub: number; vote: number }>({
-    sub: 1,
-    vote: 1,
+    sub: 0,
+    vote: 0,
   });
-
+  const [tokenID, setTokenID] = useState<number>(0);
+  const [hackathonList, setHackathonList] = useState<Data[]>([]);
   const [active, setActive] = useState<string>("#part-1");
-  const query = async () => {
-    const info = await QueryHackathonInfo();
-    const id = await QueryNFT();
-    const nft = await QueryNFTInfo(+id - 1);
-    setInfo(info);
-    data[0] = {
-      id: 0,
-      key: "part-0",
-      href: "#part-0",
-      title: `PNFT x ${info?.symbol}`,
-      items: [nft],
-      coin: [require("../../assets/logo/8007736.png")],
-      sub: 1,
-      vote: 1,
-    };
-    setChainData([...data]);
-    setShareInfo({ sub: 1, vote: 1 });
+  const getHackathonList = async () => {
+    const result = await HackathonList({
+      chain_id: "8007736",
+      page_size: 10,
+      page_num: 1,
+    });
+    const { data } = result;
+    setShare(data.data.item[0].hackathon_id);
+    setShareInfo({
+      sub: data.data.item[0].total_submit_item,
+      vote: data.data.item[0].total_contribution_amount.toFixed(2),
+    });
+    data.data.item = data.data.item.map((item: any, index: number) => {
+      return {
+        ...item,
+        key: `part-${index}`,
+        href: `#part-${index}`,
+        items: null,
+        loading: false,
+      };
+    });
+    const list: any[] = [];
+    data.data.item.forEach((e: any) => {
+      if (e.items === null) {
+        // const it = await getHackathonItems(e.hackathon_id);
+        // e.items = it ? it : [];
+        list.push(getHackathonItems(e.hackathon_id));
+      }
+    });
+    Promise.all(list).then((res) => {
+      const results = res.map((item: any) =>
+        item.data.data.item ? item.data.data.item : []
+      );
+      data.data.item.forEach((e: any, index: number) => {
+        e.items = results[index];
+      });
+      setHackathonList(data.data.item);
+      setLoading({
+        left: false,
+        right: false,
+      });
+    });
   };
-  //   const [lock, setLock] = useState<boolean>(false);
+  const getHackathonItems = async (_id: number) => {
+    return HackathonItemList({
+      chain_id: "8007736",
+      page_size: 10,
+      page_num: 1,
+      hackathon_id: _id,
+    });
+  };
   useEffect(() => {
-    query();
+    getHackathonList();
     if (containerRef.current && GetUrlKey("id", window.location.href)) {
       (containerRef.current as any).scrollTo({
         top:
@@ -183,9 +161,14 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
             Launch Hackathon
           </Button>
         ) : (
-          <Button type="primary" onClick={() => {
-            setConnectModal(true);
-          }}>Connect Wallet</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              setConnectModal(true);
+            }}
+          >
+            Connect Wallet
+          </Button>
         )}
       </div>
       <div className="share-p">
@@ -223,7 +206,8 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       </div>
       <div className="new-view-inner">
         <div className="left-name">
-          {chainData.map((item: Data, index: number) => {
+          {loading.left && <Spin size="large" style={{ marginTop: "24px" }} />}
+          {hackathonList.map((item: Data, index: number) => {
             return (
               <div
                 className={`anchor-box ${
@@ -240,19 +224,27 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                 }}
               >
                 <div className="left-msg">
-                  <p>
-                    <img src={require("../../assets/images/pnft.png")} alt="" />
-                    {item.title}
-                  </p>
-                  <div className="coin-list">
-                    {item.coin.map((item: string, index: number) => {
-                      return <img src={item} alt="" key={`${index}-coin`} />;
-                    })}
+                  <p className="active-line"></p>
+                  <div className="meme-msg">
+                    <p>
+                      <img
+                        src={require("../../assets/images/pnft.png")}
+                        alt=""
+                      />
+                      PNFT x {item.symbol}
+                    </p>
+                    <div className="coin-list">
+                      <img
+                        src={FilterAddress(item.chain_id)?.chain_logo}
+                        alt=""
+                        key={`${index}-coin`}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="right-icon">
+                {/* <div className="right-icon">
                   <IconFont type="icon-fanhuijiantou" />
-                </div>
+                </div> */}
               </div>
             );
           })}
@@ -264,16 +256,19 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
             onChange={(currentActiveLink: string) => {
               if (!currentActiveLink || lock) return;
               setActive(currentActiveLink);
-              const filter: Data = data.filter((item: Data) => {
+              const filter: any = hackathonList.filter((item: any) => {
                 return currentActiveLink === item.href;
               })[0];
-              setShare(filter.id);
+              // if (filter.items.length < 1 && filter.loading) {
+              //   getHackathonItems();
+              // }
+              setShare(filter.hackathon_id);
               setShareInfo({
-                sub: filter.sub,
-                vote: filter.vote,
+                sub: filter.total_submit_item,
+                vote: filter.total_contribution_amount.toFixed(2),
               });
             }}
-            items={data}
+            items={hackathonList}
           />
         </div>
         <div className="right-content" ref={containerRef}>
@@ -301,7 +296,12 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
               Share
             </Button>
           </div> */}
-          {chainData.map((item: Data, index: number) => {
+          {loading.right && (
+            <div className="loading-box" style={{ marginTop: "120px" }}>
+              <Spin size="large" />
+            </div>
+          )}
+          {hackathonList.map((item: Data, index: number) => {
             return (
               <div key={index} id={item.key} style={{ marginBottom: "32px" }}>
                 {/* <p
@@ -310,18 +310,25 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                   {item.title}
                 </p> */}
                 <div className="items-list">
-                  {item.items.map((item: number | string, index: number) => {
-                    return (
-                      <HackthonCardNew
-                        item={item}
-                        address={state.address || ""}
-                        key={index}
-                        backModal={(id: number) => {
-                          setVoteModal(true);
-                        }}
-                      />
-                    );
-                  })}
+                  {item.items &&
+                    item.items.map((items: any, index: number) => {
+                      return (
+                        <HackthonCardNew
+                          item={items}
+                          address={state.address || ""}
+                          key={index}
+                          backModal={(token: number) => {
+                            setTokenID(token);
+                            setInfo({
+                              hackathon_id: item.hackathon_id,
+                              min_submission_fee: item.min_submission_fee,
+                              min_voting_amount: item.min_voting_amount,
+                            });
+                            setVoteModal(true);
+                          }}
+                        />
+                      );
+                    })}
                   <div
                     className="add-work"
                     onClick={() => {
@@ -331,6 +338,11 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                         message.error("You need connect the wallet first");
                         return;
                       }
+                      setInfo({
+                        hackathon_id: item.hackathon_id,
+                        min_submission_fee: item.min_submission_fee,
+                        min_voting_amount: item.min_voting_amount,
+                      });
                       setWorkModal(true);
                     }}
                   >
@@ -346,6 +358,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         visible={visible}
         address={state.address || ""}
         openSuccess={(val: number) => {
+          getHackathonList();
           setSuccessModal(true);
           setSuccess({
             type: 1,
@@ -360,24 +373,24 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       <SubmitWorkModal
         visible={workModal}
         openSuccess={(val: number) => {
-          query();
+          getHackathonList();
           setSuccessModal(true);
           setSuccess({
             type: 2,
             id: val,
           });
-          console.log("success submit");
         }}
-        hackthon_id={+info?.hackthonId}
-        min={info?.minSubmissionFee}
+        hackthon_id={info.hackathon_id}
+        min={info.min_submission_fee}
         onClose={(val: boolean) => {
           setWorkModal(val);
         }}
       />
       <VoteModal
-        id={+info?.hackthonId}
+        id={info.hackathon_id}
+        token_id={tokenID}
         visible={voteModal}
-        min={info?.minVotingAmount}
+        min={info.min_voting_amount}
         onClose={(val: boolean) => {
           setVoteModal(val);
         }}

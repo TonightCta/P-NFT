@@ -14,7 +14,8 @@ interface Input {
 const VoteModal = (props: {
   visible: boolean;
   id: number;
-  min: string;
+  min: number;
+  token_id:number;
   onClose: (val: boolean) => void;
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -23,14 +24,14 @@ const VoteModal = (props: {
     useHackathon();
   const { state } = useContext(PNft);
   const [input, setInput] = useState<Input>({
-    amount: props.min ? +props.min / 1e18 : "",
+    amount: props.min ? props.min : "",
     address: GetUrlKey("referrer", window.location.href) || "",
   });
   useEffect(() => {
     props.min &&
       setInput({
         ...input,
-        amount: +props.min / 1e18,
+        amount: props.min,
       });
   }, [props.min]);
   const submitVote = async () => {
@@ -66,10 +67,9 @@ const VoteModal = (props: {
       submitVote();
       return;
     }
-    const id = await QueryNFT();
     const result: any = await VoteHackathon(
       props.id,
-      +id - 1,
+      props.token_id,
       +input.amount,
       input.address
     );
@@ -111,7 +111,7 @@ const VoteModal = (props: {
             <input
               type="number"
               placeholder={`Please enter the contribution amount(min:${
-                +props.min / 1e18
+                props.min
               })`}
               value={input.amount}
               onChange={(e) => {

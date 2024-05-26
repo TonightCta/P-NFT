@@ -146,13 +146,12 @@ const HackthonTheme: string[] = [
   "Dragen",
   "Christmas",
   "All Saints’ Day",
-  "All Saints’ Day",
 ];
 
 const SubmitWorkModal = (props: {
   visible: boolean;
   hackthon_id: number;
-  min: string;
+  min: number;
   openSuccess: (val: number) => void;
   onClose: (val: boolean) => void;
 }): ReactElement => {
@@ -170,7 +169,7 @@ const SubmitWorkModal = (props: {
     },
     name: "",
     desc: "",
-    amount:props.min ? +props.min / 1e18 : '',
+    amount:props.min ? props.min : '',
     address: GetUrlKey("referrer", window.location.href) || '',
   });
   const [collList, setCollList] = useState<Coll[]>(WordList[0].coll);
@@ -258,7 +257,7 @@ const SubmitWorkModal = (props: {
     setLoading(true);
     const query = await QueryERC20Approve(state.address as string, MemeAddress);
     const queryNum = +web3.utils.fromWei(String(query), "ether");
-    if (queryNum < 1) {
+    if (queryNum < 0.01) {
       const approve: any = await ApproveToken(MemeAddress);
       if (!approve || approve.message) {
         setLoading(false);

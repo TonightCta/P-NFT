@@ -4,8 +4,8 @@ import { Button, message } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const HackthonCardNew = (props: {
-  backModal: (val: number) => void;
-  item: number | string;
+  backModal: (token:number) => void;
+  item: any;
   address: string;
 }): ReactElement => {
   const navigate = useNavigate();
@@ -13,29 +13,25 @@ const HackthonCardNew = (props: {
     <div
       className="hackthon-card-new"
       onClick={() => {
-        navigate(`/hackthon/${1}`);
+        navigate(`/hackthon/${props.item.token_id}`);
       }}
     >
       <div className="nft-box">
         <img
-          src={
-            typeof props.item === "string"
-              ? props.item
-              : require("../../../assets/images/test2.png")
-          }
+          src={props.item.url}
           alt=""
         />
       </div>
-      <p className="name">NFT Name</p>
+      <p className="name">NFT Name&nbsp;#{props.item.token_id}</p>
       <div className="owner-vote">
         <p>
           <IconFont type="icon-a-zu1439" className="gr-c" />
           {/* Owner */}
-          <span>1006fb</span>
+          <span>{props.item.creator.substring(0,4)}...</span>
         </p>
         <p>
           <IconFont type="icon-a-zu1441" />
-          <span>20,000</span>
+          <span>{props.item.votes}</span>
         </p>
       </div>
       <div className="vote-btn">
@@ -49,7 +45,7 @@ const HackthonCardNew = (props: {
               return;
             }
             e.stopPropagation();
-            props.backModal(1);
+            props.backModal(props.item.token_id);
           }}
         >
           Vote

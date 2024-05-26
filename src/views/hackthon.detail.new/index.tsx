@@ -11,31 +11,37 @@ import "./index.scss";
 import FooterNew from "../screen.new/components/footer.new";
 import VoteModal from "../hackthon.detail/components/vote.modal";
 import { PNft } from "../../App";
-import { useNavigate } from "react-router-dom";
-import { useHackathon } from "../../hooks/hackthon";
+import { useNavigate, useParams } from "react-router-dom";
+import { HackathonInfo } from "../../request/api";
 
 const HackthonDetailNewView = (): ReactElement<ReactNode> => {
   const [voteModal, setVoteModal] = useState<boolean>(false);
   const { state } = useContext(PNft);
+  const searchParams = useParams();
   const navigate = useNavigate();
-  const { QueryHackathonInfo, QueryNFT, QueryNFTInfo } = useHackathon();
   const [info, setInfo] = useState<any>();
-  const [nft, setNft] = useState<string>("");
-  const query = async () => {
-    const info = await QueryHackathonInfo();
-    setInfo(info);
-    const id = await QueryNFT();
-    const nft = await QueryNFTInfo(+id - 1);
-    setNft(nft);
+  const getInfo = async () => {
+    const result = await HackathonInfo({
+      chain_id: "8007736",
+      hackathon_item_id: searchParams.id ,
+      page_size: 10,
+      page_num: 1,
+    });
+    console.log(result);
+    const { data } = result;
+    setInfo(data);
   };
   useEffect(() => {
-    query();
-  }, []);
+    getInfo();
+  },[])
   return (
     <div className="hackthon-detail-new-view">
       <div className="detail-inner">
         <div className="left-nft">
-          <img src={nft ? nft : require("../../assets/images/test2.png")} alt="" />
+          <img
+            src={require("../../assets/images/test2.png")}
+            alt=""
+          />
         </div>
         <div className="right-msg">
           <div>
@@ -71,7 +77,7 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
               pictures, copywriting, and voice.
             </p>
             <p className="chain-li">
-              <img src={require('../../assets/logo/8007736.png')} alt="" />
+              <img src={require("../../assets/logo/8007736.png")} alt="" />
             </p>
           </div>
           <div className="vote-box">
@@ -114,8 +120,9 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
         </div>
       </div>
       <VoteModal
-        id={+info?.hackthonId}
-        min={info?.minVotingAmount}
+        id={info.hackathon_id}
+        min={info.min_voting_amount}
+        token_id={info.token_id}
         visible={voteModal}
         onClose={(val: boolean) => {
           setVoteModal(val);

@@ -102,4 +102,10 @@ export const WalletNFT = (p: o) => post('/user/nft/wallet', p);
 export const CurrencyList = (p: o) => post('/currency/list', p);
 //Currency Info
 export const CurrencyInfo = (p: o) => post('/currency/info', p);
+//Hackathon List;
+export const HackathonList = (p:o) => post('/hackathon/list',p);
+//Hackathon Item List
+export const HackathonItemList = (p:o) => post('/hackathon/item/list',p);
+//Hackathon Info
+export const HackathonInfo = (p:o) => post('/hackathon/item/info',p);
 

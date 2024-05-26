@@ -74,6 +74,8 @@
         .left-name {
             width: 260px;
             padding-right: 20px;
+            height: calc(100vh - 288px);
+            overflow: auto;
             .ant-anchor {
                 display: none;
             }
@@ -82,7 +84,22 @@
                 display: flex;
                 margin-bottom: 36px;
                 justify-content: space-between;
+                transition: .3s all;
                 .left-msg {
+                    position: relative;
+                    display: flex;
+                    .active-line {
+                        width: 0;
+                        height: 100%;
+                        transition: .3s all;
+                    }
+                    .meme-msg {
+                        display: flex;
+                        flex-direction: column;
+                        margin-left: 12px;
+                        padding: 8px 0;
+                        transition: .3s all;
+                    }
                     p {
                         font-size: 16px;
                         color: #202025;
@@ -130,9 +147,15 @@
                 }
             }
             .active-anchor {
+                background-color: #FFF0F9;
                 .left-msg {
+                    .active-line {
+                        width: 4px;
+                        background-color: #FA43A8;
+                    }
                     p {
                         font-weight: bold;
+                        color: #FA43A8;
                     }
                 }
                 .right-icon {
@@ -601,6 +624,7 @@
                     margin: 16px auto 0;
                     border: 1px solid #eee;
                     border-radius: 8px;
+                    overflow: hidden;
                     .up-box {
                         width: 100%;
                         height: 100%;

@@ -158,7 +158,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     setList(filter);
   };
   const loadMoreData = () => {
-    activeTop === 0 ? saleListFN() : itemQuery();
+    activeTop === 1 && saleListFN() || activeTop === 2 && itemQuery();
   };
   const itemQuery = async () => {
     setLoading(true);
@@ -221,7 +221,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     setActiveTop(_type);
     setList([]);
     setItemList([]);
-    _type === 0 ? saleListFN() : itemQuery();
+    _type === 1 && saleListFN() || _type === 2 && itemQuery();
   };
   const calsBG = () => {
     const bol = searchParams.address === state.address;
@@ -295,7 +295,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
               <div className="tabs">
                 <ul>
                   {(searchParams.address === state.address
-                    ? ["On Sale", "Wallet"]
+                    ? ["Hackathon","On Sale", "Wallet"]
                     : ["On sale"]
                   ).map((item: string, index: number): ReactElement => {
                     return (
@@ -335,7 +335,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
               {/* <div className="search-box">
                                 <input type="text" placeholder="Search" />
                             </div> */}
-              <div className="other-filter">
+              {activeTop !== 0 && <div className="other-filter">
                 <Popover
                   placement="bottom"
                   className="select-chain-asset"
@@ -363,9 +363,14 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                     <AlignRightOutlined />
                   </div>
                 )}
-              </div>
+              </div>}
             </div>
-            <div
+            {
+              activeTop === 0 && <div className="hackathon-box">
+                d123
+              </div>
+            }
+            {activeTop !== 0 && <div
               className={`conponenst-gater ${loading ? "gater-6n" : ""}`}
               id="ownerView"
             >
@@ -476,11 +481,11 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                   <TokensList chain_id={chainInfo.value} />
                 )}
               </div>
-            </div>
-            {total === 0 && !loading && assetsType !== "Tokens" && (
+            </div>}
+            {total === 0 && !loading && assetsType !== "Tokens" && activeTop !== 0 && (
               <p className="no-more">No more</p>
             )}
-            <div className="page-oper">
+            {activeTop !== 0 && <div className="page-oper">
               <Pagination
                 hideOnSinglePage
                 defaultCurrent={1}
@@ -494,7 +499,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                   setPage(page);
                 }}
               />
-            </div>
+            </div>}
           </div>
         </div>
       </div>

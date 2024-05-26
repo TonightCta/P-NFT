@@ -81,15 +81,6 @@ export const useHackathon = () => {
   ) => {
     // const Price = await contract.methods.HACKTHON_CREATION_PRICE().call();
     // return;
-    console.log(
-      _name,
-      _symbol,
-      _total,
-      _time,
-      _contract,
-      web3.utils.toWei(String(_fee), "ether"),
-      web3.utils.toWei(String(_vote), "ether")
-    );
     return new Promise((resolve, reject) => {
       contract.methods
         .createHackthon(
@@ -214,6 +205,12 @@ export const useHackathon = () => {
     _referrer: string
   ) => {
     return new Promise((resolve, reject) => {
+      console.log(
+        _id,
+        _image,
+        web3.utils.toWei(String(_amount), "ether"),
+        _referrer ? _referrer : SystemAddress
+      );
       contract.methods
         .submit(
           _id,
