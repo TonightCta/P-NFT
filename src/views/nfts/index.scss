@@ -402,12 +402,12 @@
       align-items: center;
       ul {
         display: flex;
-        padding-right: 36px;
+        padding-right: 24px;
         border-right: 1px solid #e6e6e6;
         li {
           color: #686a6c;
           font-size: 16px;
-          width: 100px;
+          width: 126px;
           height: 40px;
           cursor: pointer;
           border-radius: 12px;
@@ -844,13 +844,13 @@
       }
       @media screen and (max-width:1660px) {
         .new-nft-card {
-          width: calc(23% - 8px)!important;
+          width: calc(23% - 8px) !important;
         }
         .new-nft-card:nth-child(4n) {
           margin-right: 0;
         }
         .new-nft-card:nth-child(5n) {
-          margin-right: 22px!important;
+          margin-right: 22px !important;
         }
       }
       @media screen and (max-width:1400px) {
@@ -1635,6 +1635,324 @@
             p {
               color: #686a6c;
             }
+          }
+        }
+      }
+    }
+  }
+}
+.hackathon-assets-card {
+  display: flex;
+  .left-tab {
+    width: 302px;
+    min-width: 302px;
+    border-right: 1px solid #E8E8E8;
+    transition: .3s all;
+    overflow: hidden;
+    .control-show {
+      width: 48px;
+      height: 48px;
+      background-color: #f6f6f6;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      span {
+        color: #202025;
+        font-size: 20px;
+        transition: .3s all;
+      }
+    }
+    ul {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      transition: .3s all;
+      min-width: 300px;
+      li {
+        padding: 0 16px;
+        text-align: center;
+        background-color: #F0F0F0;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        margin-right: 12px;
+        cursor: pointer;
+        transition: .3s all;
+        p {
+          line-height: 42px;
+          color: #202025;
+          font-size: 16px;
+          font-family: SparkSemiBold;
+          transition: .3s all;
+          white-space: nowrap;
+        }
+      }
+      .active-tab {
+        background-color: #202025;
+        p {
+          color: white;
+        }
+      }
+      li:nth-child(3) {
+        margin-right: 60px;
+      }
+    }
+  }
+  .hide-tabs {
+    width: 60px;
+    min-width: 60px;
+    .control-show {
+      span {
+        transform: scaleX(-1);
+      }
+    }
+    ul {
+      opacity: 0;
+    }
+  }
+  .right-table {
+    flex: 1;
+    background-color: #FAFAFA;
+    padding: 20px 32px;
+    .public-table {
+      width: 100%;
+      .public-title {
+        padding: 16px 20px;
+        background-color: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        p {
+          color: #000;
+          font-family: SparkBold;
+          font-size: 14px;
+          text-align: left;
+          line-height: 22px;
+        }
+        .c-p {
+          text-align: center;
+        }
+      }
+      .public-table {
+        .public-inner {
+          width: 100%;
+          padding: 28px 20px;
+          background-color: white;
+          border-radius: 12px;
+          margin-top: 12px;
+          display: flex;
+          align-items: center;
+          .public-p {
+            font-size: 16px;
+            color: #000;
+            text-align: left;
+          }
+          .c-p {
+            text-align: center;
+          }
+        }
+      }
+    }
+    .history-table,
+    .entry-table {
+      .public-title {
+        p {
+          width: 17%;
+        }
+        p:first-child {
+          width: 2%;
+        }
+        p:nth-child(2) {
+          width: 30%;
+        }
+      }
+      .public-table {
+        .public-inner {
+          div {
+            width: 17%;
+          }
+          .nft-msg {
+            display: flex;
+            align-items: center;
+            img {
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+              margin-right: 12px;
+            }
+            p {
+              font-size: 16px;
+              color: #000;
+              font-weight: 600;
+            }
+          }
+          div:first-child {
+            width: 2%;
+            p {
+              font-weight: 600;
+            }
+          }
+          div:nth-child(2) {
+            width: 30%;
+          }
+        }
+      }
+    }
+    .hackathon-table {
+      .public-title {
+        p {
+          width: 11%;
+        }
+        p:first-child {
+          width: 2%;
+        }
+        p:nth-child(2) {
+          width: 15%;
+        }
+        p:nth-child(3) {
+          width: 7%;
+        }
+        p:nth-child(4) {
+          width: 14%;
+        }
+        p:last-child {
+          width: 7%;
+        }
+      }
+      .public-table {
+        .public-inner {
+          div {
+            width: 11%;
+          }
+          .b-text {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-right: 32px;
+            line-height: 20px;
+          }
+          .l-3 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 3;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            padding-right: 48px;
+          }
+          .f-14 {
+            font-size: 14px;
+            color: #202025;
+          }
+          .symbol {
+            text-align: left;
+            img {
+              width: 20px;
+              height: 20px;
+            }
+          }
+          .y-c {
+            color: #FC8620;
+          }
+          .g-c {
+            color: #047B1F;
+          }
+          .time-line {
+            display: flex;
+            align-items: center;
+            .g-box {
+              width: 50%;
+              height: 6px;
+              background-color: rgba(197, 197, 197, .7);
+              border-radius: 4px;
+              overflow: hidden;
+              .box-i {
+                width: 50%;
+                height: 100%;
+                background-color: rgba(25, 206, 67, 0.94);
+                transition: .3s all;
+              }
+            }
+            p {
+              font-size: 14px;
+              color: #202025;
+              margin-left: 14px;
+            }
+          }
+          div:first-child {
+            width: 2%;
+          }
+          div:nth-child(2) {
+            width: 15%;
+          }
+          div:nth-child(3) {
+            width: 7%;
+          }
+          div:nth-child(4) {
+            width: 14%;
+          }
+          div:last-child {
+            width: 7%;
+          }
+        }
+      }
+    }
+    .bonus-table {
+      width: 100%;
+      .public-title {
+        width: 100%;
+        p {
+          width: 29%;
+        }
+        p:first-child {
+          width: 2%;
+        }
+        p:last-child {
+          width: 10%;
+        }
+      }
+      .public-table {
+        .public-inner {
+          width: 100%;
+          div {
+            width: 29%;
+          }
+          .o-p {
+            p {
+              width: 100%;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              font-weight: 600;
+              line-height: 20px;
+              padding-right: 64px;
+            }
+          }
+          .r-c {
+            color: #FA3370;
+          }
+          .g-c {
+            color: #047B1F;
+          }
+          button {
+            width: 120px;
+            height: 40px;
+            background-color: white !important;
+            border-color: #FA43A8;
+            border-radius: 16px;
+            color: #FA43A8;
+            font-size: 16px;
+            box-shadow: none;
+            font-weight: 600;
+          }
+          div:first-child {
+            width: 2%;
+          }
+          div:last-child {
+            width: 10%;
           }
         }
       }

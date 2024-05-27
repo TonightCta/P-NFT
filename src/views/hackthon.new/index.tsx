@@ -19,6 +19,7 @@ import VoteModal from "../hackthon.detail/components/vote.modal";
 import SuccessModal from "./components/success.modal";
 import ConnectModal from "../../components/header.new/components/connect.modal";
 import { HackathonItemList, HackathonList } from "../../request/api";
+import { Type } from "../../utils/types";
 // import { useSpring,animated } from 'react-spring'
 // import CountUp from "react-countup";
 // import React from "react";
@@ -37,6 +38,18 @@ interface Data {
   hackathon_id: number;
   min_submission_fee: number;
   min_voting_amount: number;
+  is_online: boolean;
+  total_submit_item: number;
+  total_contribution_amount: number;
+}
+
+export interface Item {
+  creator: string;
+  hackathon_id: number;
+  hackthon_item_id: number;
+  loading: boolean;
+  url: string;
+  votes: number;
 }
 
 const HackthonNewView = (): ReactElement<ReactNode> => {
@@ -58,22 +71,34 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     hackathon_id: number;
     min_voting_amount: number;
     min_submission_fee: number;
+    chain_id: string;
   }>({
     hackathon_id: 0,
     min_voting_amount: 0,
     min_submission_fee: 0,
+    chain_id: "",
   });
-  const { state } = useContext(PNft);
+  const { state, dispatch } = useContext(PNft);
   const [lock, setLock] = useState<boolean>(false);
   const [share, setShare] = useState<number | string>("");
-  const [shareInfo, setShareInfo] = useState<{ sub: number; vote: number }>({
+  const [shareInfo, setShareInfo] = useState<{
+    sub: number;
+    vote: number | string;
+  }>({
     sub: 0,
     vote: 0,
   });
   const [tokenID, setTokenID] = useState<number>(0);
   const [hackathonList, setHackathonList] = useState<Data[]>([]);
-  const [active, setActive] = useState<string>("#part-1");
+  const [active, setActive] = useState<string>("#part-0");
   const getHackathonList = async () => {
+    if (state.hackathon) {
+      setHackathonList(JSON.parse(state.hackathon));
+      setLoading({
+        left: false,
+        right: false,
+      });
+    }
     const result = await HackathonList({
       chain_id: "8007736",
       page_size: 10,
@@ -85,7 +110,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       sub: data.data.item[0].total_submit_item,
       vote: data.data.item[0].total_contribution_amount.toFixed(2),
     });
-    data.data.item = data.data.item.map((item: any, index: number) => {
+    data.data.item = data.data.item.map((item: Data, index: number) => {
       return {
         ...item,
         key: `part-${index}`,
@@ -95,7 +120,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       };
     });
     const list: any[] = [];
-    data.data.item.forEach((e: any) => {
+    data.data.item.forEach((e: Data) => {
       if (e.items === null) {
         // const it = await getHackathonItems(e.hackathon_id);
         // e.items = it ? it : [];
@@ -104,12 +129,25 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     });
     Promise.all(list).then((res) => {
       const results = res.map((item: any) =>
-        item.data.data.item ? item.data.data.item : []
+        item.data.data.item
+          ? item.data.data.item.map((item: Item) => {
+              return {
+                ...item,
+                loading: true,
+              };
+            })
+          : []
       );
-      data.data.item.forEach((e: any, index: number) => {
+      data.data.item.forEach((e: Data, index: number) => {
         e.items = results[index];
       });
       setHackathonList(data.data.item);
+      dispatch({
+        type: Type.SET_HACKATHON,
+        payload: {
+          hackathon: data.data.item,
+        },
+      });
       setLoading({
         left: false,
         right: false,
@@ -126,6 +164,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   };
   useEffect(() => {
     getHackathonList();
+    console.log(1716625800 - Date.now() / 1000);
     if (containerRef.current && GetUrlKey("id", window.location.href)) {
       (containerRef.current as any).scrollTo({
         top:
@@ -142,6 +181,21 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   const handleClick = (e: any, _href: string) => {
     e.preventDefault();
     document.querySelector(_href)?.scrollIntoView({ behavior: "smooth" });
+  };
+  const updateHackathonItems = async (_id: number) => {
+    const result = await HackathonItemList({
+      chain_id: "8007736",
+      page_size: 10,
+      page_num: 1,
+      hackathon_id: _id,
+    });
+    const { data } = result;
+    hackathonList.forEach((item: Data, index: number) => {
+      if (item.hackathon_id === _id) {
+        hackathonList[index].items = data.data.item;
+      }
+    });
+    setHackathonList(hackathonList);
   };
   return (
     <div className="hackthon-new-view">
@@ -182,7 +236,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
             submissions
           </p>
           <p>
-            total votes <span>{addCommasToNumber(shareInfo.vote)}</span>$PNFT
+            total votes <span>{addCommasToNumber(+shareInfo.vote)}</span>$PNFT
           </p>
           <Button
             type="primary"
@@ -256,7 +310,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
             onChange={(currentActiveLink: string) => {
               if (!currentActiveLink || lock) return;
               setActive(currentActiveLink);
-              const filter: any = hackathonList.filter((item: any) => {
+              const filter: Data = hackathonList.filter((item: any) => {
                 return currentActiveLink === item.href;
               })[0];
               // if (filter.items.length < 1 && filter.loading) {
@@ -311,18 +365,22 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                 </p> */}
                 <div className="items-list">
                   {item.items &&
-                    item.items.map((items: any, index: number) => {
+                    item.items.map((items: Item, index: number) => {
                       return (
                         <HackthonCardNew
                           item={items}
                           address={state.address || ""}
                           key={index}
+                          chain_id={item.chain_id}
+                          min={item.min_voting_amount}
+                          online={item.is_online}
                           backModal={(token: number) => {
                             setTokenID(token);
                             setInfo({
                               hackathon_id: item.hackathon_id,
                               min_submission_fee: item.min_submission_fee,
                               min_voting_amount: item.min_voting_amount,
+                              chain_id: item.chain_id,
                             });
                             setVoteModal(true);
                           }}
@@ -332,8 +390,6 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                   <div
                     className="add-work"
                     onClick={() => {
-                      //TODO
-                      //switch network
                       if (!state.address) {
                         message.error("You need connect the wallet first");
                         return;
@@ -342,6 +398,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                         hackathon_id: item.hackathon_id,
                         min_submission_fee: item.min_submission_fee,
                         min_voting_amount: item.min_voting_amount,
+                        chain_id: item.chain_id,
                       });
                       setWorkModal(true);
                     }}
@@ -372,12 +429,13 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       />
       <SubmitWorkModal
         visible={workModal}
-        openSuccess={(val: number) => {
-          getHackathonList();
+        chain_id={info.chain_id}
+        openSuccess={(hackathon_id: number) => {
+          updateHackathonItems(hackathon_id);
           setSuccessModal(true);
           setSuccess({
             type: 2,
-            id: val,
+            id: hackathon_id,
           });
         }}
         hackthon_id={info.hackathon_id}
@@ -387,17 +445,23 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         }}
       />
       <VoteModal
-        id={info.hackathon_id}
+        hackathon_id={info.hackathon_id}
+        chain_id={info.chain_id}
         token_id={tokenID}
         visible={voteModal}
         min={info.min_voting_amount}
         onClose={(val: boolean) => {
           setVoteModal(val);
         }}
+        onSuccess={(hackathon_id: number) => {
+          updateHackathonItems(hackathon_id);
+        }}
       />
       <SuccessModal
         visible={successModal}
         {...success}
+        min={info.min_voting_amount}
+        chain_id={info.chain_id}
         address={state.address || ""}
         onClose={(val: boolean) => {
           setSuccessModal(val);

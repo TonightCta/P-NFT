@@ -8,6 +8,7 @@ import { PNft } from "../../../App";
 import { MemeAddress } from "../../../utils/source";
 import { web3 } from "../../../utils/types";
 import IconFont from "../../../utils/icon";
+import { useSwitchChain } from "../../../hooks/chain";
 
 interface Input {
   img: {
@@ -152,6 +153,7 @@ const SubmitWorkModal = (props: {
   visible: boolean;
   hackthon_id: number;
   min: number;
+  chain_id:string;
   openSuccess: (val: number) => void;
   onClose: (val: boolean) => void;
 }): ReactElement => {
@@ -162,6 +164,7 @@ const SubmitWorkModal = (props: {
   const [wordListS, setWordList] = useState<string[]>([]);
   const [type, setType] = useState<number>(1);
   const [active, setActive] = useState<number>(0);
+  const { switchC } = useSwitchChain()
   const [input, setInput] = useState<Input>({
     img: {
       view: "",
@@ -169,13 +172,30 @@ const SubmitWorkModal = (props: {
     },
     name: "",
     desc: "",
-    amount:props.min ? props.min : '',
-    address: GetUrlKey("referrer", window.location.href) || '',
+    amount: props.min ? props.min : "",
+    address: GetUrlKey("referrer", window.location.href) || "",
   });
   const [collList, setCollList] = useState<Coll[]>(WordList[0].coll);
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
-    console.log('0xbd19c55ceaed0bf7b71cc939316971e8c640730e'.length)
+    const clear = () => {
+      setInput({
+        amount: "",
+        img: {
+          view: "",
+          source: "",
+        },
+        name: "",
+        desc: "",
+        address: GetUrlKey("referrer", window.location.href) || "",
+      });
+      setWordList([]);
+      setAiImageView({
+        ...aiImageView,
+        url: "",
+      });
+      !props.visible && clear();
+    };
   }, [props.visible]);
   const uploadFile = (e: any) => {
     const file = e.target.files[0];
@@ -202,11 +222,12 @@ const SubmitWorkModal = (props: {
     file_name: "",
   });
   useEffect(() => {
-    props.min && setInput({
-      ...input,
-      amount:+props.min / 1e18
-    })
-  },[props.min])
+    props.min &&
+      setInput({
+        ...input,
+        amount: +props.min / 1e18,
+      });
+  }, [props.min]);
   const uploadFileFN = async (_file_name: string, _file: any) => {
     if (!_file) {
       return;
@@ -242,18 +263,24 @@ const SubmitWorkModal = (props: {
       message.error("Please enter the correct contribution amount");
       return;
     }
-    if(input.address && input.address.length !== 42){
-      message.error('Please enter the correct wallet address');
+    if(+input.amount < props.min){
+      message.error(`The minimum number of submissions is ${props.min}`);
       return
     }
-    if(input.address && input.address.substring(0,2) !== '0x'){
-      message.error('Please enter the correct wallet address');
-      return
+    if (input.address && input.address.length !== 42) {
+      message.error("Please enter the correct wallet address");
+      return;
     }
-    if(input.address === state.address){
-      message.error('The same wallet address cannot be recommended');
-      return
+    if (input.address && input.address.substring(0, 2) !== "0x") {
+      message.error("Please enter the correct wallet address");
+      return;
     }
+    if (input.address === state.address) {
+      message.error("The same wallet address cannot be recommended");
+      return;
+    };
+    const chain:any = await switchC(+props.chain_id);
+    if (chain?.code) return;
     setLoading(true);
     const query = await QueryERC20Approve(state.address as string, MemeAddress);
     const queryNum = +web3.utils.fromWei(String(query), "ether");
@@ -294,7 +321,7 @@ const SubmitWorkModal = (props: {
       },
       name: "",
       desc: "",
-      address: GetUrlKey("referrer", window.location.href) || '',
+      address: GetUrlKey("referrer", window.location.href) || "",
     });
     setWordList([]);
     setAiImageView({
@@ -489,6 +516,11 @@ const SubmitWorkModal = (props: {
                     });
                   }}
                 />
+                <div className="token-box">
+                  {/* TODO */} {/* chain_id -> Token  */}
+                  <img src={require('../../../assets/images/pnft.png')} alt="" />
+                  <p>PNFT</p>
+                </div>
               </li>
               <li>
                 <p>Referrer</p>
@@ -556,6 +588,11 @@ const SubmitWorkModal = (props: {
                     });
                   }}
                 />
+                <div className="token-box">
+                  {/* TODO */} {/* chain_id -> Token  */}
+                  <img src={require('../../../assets/images/pnft.png')} alt="" />
+                  <p>PNFT</p>
+                </div>
               </li>
               <li>
                 <p>Referrer</p>

@@ -7,6 +7,8 @@ interface Props {
   type: number;
   address: string;
   id:number;
+  min:number;
+  chain_id:string;
   onClose: (val: boolean) => void;
 }
 
@@ -38,7 +40,7 @@ const SuccessModal = (props: Props): ReactElement => {
               const url_hackthon = `https://test.pizzap.io/#/?referrer=${
                 props.address
               }&id=${props.id}`;
-              const url_vote = `https://test.pizzap.io/#/hackthon/${props.id}?referrer=${
+              const url_vote = `https://test.pizzap.io/#/hackthon/${props.id}/${props.min}/${props.chain_id}?referrer=${
                 props.address
               }`;
               window.open(

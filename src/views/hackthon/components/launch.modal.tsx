@@ -172,6 +172,7 @@ const LaunchModal = (props: {
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
     !!props.visible && quertFees();
+    !props.visible && resetInp();
   }, [props.visible]);
   const selectChain = (val: string) => {
     setNet(val);

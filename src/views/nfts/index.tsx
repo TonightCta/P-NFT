@@ -24,6 +24,7 @@ import IconFont from "../../utils/icon";
 import TokensList from "./components/tokens.list";
 // import FooterNew from "../screen.new/components/footer.new";
 import { SystemAddress } from "./../../utils/source";
+import HackathonAssetsCard from "./hackathon";
 
 interface OP {
   label: string;
@@ -366,9 +367,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
               </div>}
             </div>
             {
-              activeTop === 0 && <div className="hackathon-box">
-                d123
-              </div>
+              activeTop === 0 && <HackathonAssetsCard/>
             }
             {activeTop !== 0 && <div
               className={`conponenst-gater ${loading ? "gater-6n" : ""}`}
@@ -428,12 +427,12 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         <Spin size="large" />
                       </div>
                     )}
-                    {(activeTop === 0 ? list : itemList).map(
+                    {(activeTop === 1 && list || activeTop === 2 && itemList || []).map(
                       (item: NFTItem, index: number) => {
                         // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
                         return (
                           <NewNFTCard
-                            type={activeTop === 0 ? 1 : 2}
+                            type={activeTop === 1 && 1 || activeTop === 2 && 2 || 1}
                             key={index}
                             item={item}
                             uploadTakeoff={async () => {

@@ -7,8 +7,23 @@
         .left-nft {
             width: 44%;
             border-radius: 16px;
+            max-height: 800px;
             overflow: hidden;
             margin-right: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            .loading-box{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
             img {
                 width: 100%;
                 border-radius: 16px;
@@ -79,12 +94,12 @@
                 }
             }
             .vote-box {
-                width: 260px;
-                height: 260px;
+                width: 360px;
+                padding: 48px 0;
                 background-color: #F7F7F7;
                 border-radius: 16px;
                 margin-top: -32px;
-                display: flex;
+                display: inline-flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;

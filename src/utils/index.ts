@@ -53,7 +53,7 @@ export const SupportNetwork: Network[] = [
       symbol: 'ETH',
       decimals: 18
     },
-    rpcUrls: ['https://api.tatum.io/v3/blockchain/node/base-mainnet'],
+    rpcUrls: ['https://mainnet.base.org'],
     blockExplorerUrls: ['https://basescan.org/']
   },
   {

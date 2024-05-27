@@ -41,7 +41,8 @@ export interface State {
   evm?:string,
   launchpad?:string,
   memes?:string,
-  airdrop_type?:string
+  airdrop_type?:string,
+  hackathon?:string
 }
 
 export interface IResponse {
@@ -84,7 +85,8 @@ export enum Type {
   SET_EVM = 'set_evm',
   SET_LAUNCHPAD = 'set_launchpad',
   SET_MEMES = 'set_memes',
-  SET_AIRDROP_TYPE = 'set_airdrop_type'
+  SET_AIRDROP_TYPE = 'set_airdrop_type',
+  SET_HACKATHON = 'set_hackathon'
 };
 
 export interface IAction {
