@@ -58,6 +58,7 @@ export const useHackathon = () => {
     const Contract20 = new web3.eth.Contract(ABIERC20 as any, PNFTAddress, {
       //   gasPrice: pi,
     });
+    console.log(Contract20)
     setContract(Contract);
     setContract20(Contract20);
   };
@@ -214,12 +215,6 @@ export const useHackathon = () => {
     _referrer: string
   ) => {
     return new Promise((resolve, reject) => {
-      console.log(
-        _id,
-        _image,
-        web3.utils.toWei(String(_amount), "ether"),
-        _referrer ? _referrer : SystemAddress
-      );
       contract.methods
         .submit(
           _id,
@@ -275,12 +270,23 @@ export const useHackathon = () => {
         });
     });
   };
-  const CheckHackathon = async (_hackathon_id: number) => {
-    const result = await contract.methods
+  const CheckHackathon = async (_hackathon_id: number) : Promise<{id:number,amount:number}> => {
+     const web3 = new Web3(
+      (state.wallet === "metamask" && provider) ||
+        (state.wallet === "coinbase" && ethereumCoinbase) ||
+        (state.wallet === "walletconnect" && walletProvider) ||
+        ethereum
+    );
+    const Contract = new web3.eth.Contract(MemeABI as any, MemeAddress, {
+      //   gasPrice: pi,
+    });
+    const result = await Contract.methods
       .checkClaimableAmount(_hackathon_id)
       .call();
-    console.log(result);
-    return result;
+    return {
+      id:_hackathon_id,
+      amount:+result
+    };
   };
   const ClaimHackathon = async (_id: number, _address: string) => {
     return new Promise((resolve, reject) => {
@@ -301,6 +307,7 @@ export const useHackathon = () => {
     });
   };
   return {
+    initContract,
     CreateHackathon,
     QueryHackathonInfo,
     SubmitHackathon,

@@ -225,7 +225,7 @@ const SubmitWorkModal = (props: {
     props.min &&
       setInput({
         ...input,
-        amount: +props.min / 1e18,
+        amount: props.min,
       });
   }, [props.min]);
   const uploadFileFN = async (_file_name: string, _file: any) => {
@@ -507,7 +507,7 @@ const SubmitWorkModal = (props: {
                 </p>
                 <input
                   type="number"
-                  placeholder={`Min ${+props.min / 1e18}`}
+                  placeholder={`Min ${props.min}`}
                   value={input.amount}
                   onChange={(e) => {
                     setInput({
@@ -579,7 +579,7 @@ const SubmitWorkModal = (props: {
                 </p>
                 <input
                   type="number"
-                  placeholder={`Min ${+props.min / 1e18}`}
+                  placeholder={`Min ${props.min}`}
                   value={input.amount}
                   onChange={(e) => {
                     setInput({

@@ -157,6 +157,17 @@ export const DateConvertS = (_time: number): string => {
   const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
   return `${day}/${month}/${year}`
 };
+//Date conversion
+export const DateConvertHour = (_time: number): string => {
+  const date = new Date(_time * 1000);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+  const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate();
+  const hour = date.getHours();
+  const min = date.getMinutes();
+  const sec = date.getSeconds();
+  return `${hour}:${min}:${sec}/${day}/${month}/${year}`
+};
 
 export const FilterAddress = (chain_id: string) => {
   const chain = SupportID.indexOf(+chain_id) > -1 ? chain_id : '8007736'

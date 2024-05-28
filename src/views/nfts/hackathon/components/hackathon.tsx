@@ -1,7 +1,48 @@
-import { ReactElement } from "react";
-import { addCommasToNumber } from "../../../../utils";
+import { ReactElement, useEffect, useState } from "react";
+import { DateConvertS, addCommasToNumber } from "../../../../utils";
+import { HackathonCreateList } from "../../../../request/api";
+import { Spin } from "antd";
 
-const HackathonTable = (): ReactElement => {
+interface Data {
+  chain_id: string;
+  hackathon_id: number;
+  hackathon_name: string;
+  hackathon_item_id: number;
+  is_online: boolean;
+  creator: string;
+  creat_time: number;
+  creat_trx: string;
+  name: string;
+  symbol: string;
+  new_token_address: string;
+  total_supply: number;
+  end_time: number;
+}
+
+const HackathonTable = (props: { address: string }): ReactElement => {
+  const [data, setData] = useState<Data[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [total, setTotal] = useState<number>(999);
+  const getList = async () => {
+    setLoading(true);
+    const result = await HackathonCreateList({
+      user_address: props.address,
+      page_size: 100,
+      page_num: 1,
+    });
+    const { data } = result;
+    setTotal(data.data.total);
+    if (!data.data.item) {
+      setData([]);
+      setLoading(false);
+      return;
+    };
+    setData(data.data.item);
+    setLoading(false);
+  };
+  useEffect(() => {
+    getList();
+  }, []);
   return (
     <div className="hackathon-table public-table">
       <div className="public-title">
@@ -25,41 +66,33 @@ const HackathonTable = (): ReactElement => {
         })}
       </div>
       <div className="public-table">
-        {[1, 2, 3].map((item: number, index: number) => {
+        {data.map((item: Data, index: number) => {
           return (
             <div key={index} className="public-inner">
               <div className="public-p">
-                <p>{item}</p>
+                <p>{index + 1}</p>
               </div>
               <div className="public-p">
-                <p className="b-text">
-                  NiftyIN & pizzap jointly NiftyIN & pizzap jointly NiftyIN &
-                  pizzap jointly NiftyIN & pizzap jointly
-                </p>
-              </div>
-              <div className="symbol">
-                <img
-                  src={require("../../../../assets/logo/8007736.png")}
-                  alt=""
-                />
+                <p className="b-text">{item.hackathon_name}</p>
               </div>
               <div className="public-p">
-                <p className="l-3 f-14">
-                  PAI Space is a collection of Pizzap AI Creating, co-owned and
-                  PAI Space is a collection of Pizzap AI Creating, co-owned and
-                </p>
+                <p className="b-text">{item.symbol}</p>
               </div>
               <div className="public-p">
-                <p>PI</p>
+                <p className="l-3 f-14">TODO</p>
               </div>
               <div className="public-p">
-                <p className="y-c">{addCommasToNumber(100100000)}</p>
+                <p>TODO</p>
               </div>
               <div className="public-p">
-                <p className="g-c">{addCommasToNumber(200000000)}</p>
+                <p className="y-c">{item.total_supply < 999 ? item.total_supply : addCommasToNumber(item.total_supply)}</p>
               </div>
               <div className="public-p">
-                <p>200</p>
+                {/* {addCommasToNumber(200000000)} */}
+                <p className="g-c">TODO</p>
+              </div>
+              <div className="public-p">
+                <p>TODO</p>
               </div>
               <div className="time-line">
                 <div className="g-box">
@@ -67,29 +100,33 @@ const HackathonTable = (): ReactElement => {
                     className="box-i"
                     style={{
                       width: `${Math.ceil(
-                        ((new Date().getTime() + 864000000 - Date.now()) /
-                          2626560000) *
-                          100
+                        (Date.now() / 1000 - item.creat_time) /
+                          (item.end_time - Date.now() / 1000)
                       )}%`,
                     }}
                   ></div>
                 </div>
                 <p>
                   {Math.ceil(
-                    ((new Date().getTime() + 864000000 - Date.now()) /
-                      2626560000) *
-                      100
+                    (Date.now() / 1000 - item.creat_time) /
+                      (item.end_time - Date.now() / 1000)
                   )}
                   %
                 </p>
               </div>
               <div className="public-p">
-                <p>31/05/2024</p>
+                <p>{DateConvertS(item.end_time)}</p>
               </div>
             </div>
           );
         })}
       </div>
+      {loading && (
+        <div className="loading-box">
+          <Spin size="large" />
+        </div>
+      )}
+      {!loading && total < 1 && <p className="no-more">No More</p>}
     </div>
   );
 };

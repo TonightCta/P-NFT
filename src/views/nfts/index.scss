@@ -1948,6 +1948,9 @@
             box-shadow: none;
             font-weight: 600;
           }
+          .dis-btn{
+            filter: grayscale(1);
+          }
           div:first-child {
             width: 2%;
           }
@@ -1958,4 +1961,13 @@
       }
     }
   }
+}
+.loading-box{
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+.no-more{
+  font-size: 14px;
+  margin-top: 70px;
+  color: #686a6c;
 }

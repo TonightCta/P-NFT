@@ -17,7 +17,7 @@ import BonusTable from "./components/bonus";
 //     }
 // ]
 
-const HackathonAssetsCard = (): ReactElement => {
+const HackathonAssetsCard = (props:{address:string}): ReactElement => {
   const [show, setShow] = useState<boolean>(true);
   const [active, setActive] = useState<number>(0);
   return (
@@ -47,10 +47,10 @@ const HackathonAssetsCard = (): ReactElement => {
       </div>
       <div className="right-table">
         {
-            active === 0 && <HistoryTable/> ||
-            active === 1 && <EntryTable/> ||
-            active === 2 && <HackathonTable/> ||
-            active === 3 && <BonusTable/> 
+            active === 0 && <HistoryTable address={props.address}/> ||
+            active === 1 && <EntryTable address={props.address}/> ||
+            active === 2 && <HackathonTable address={props.address}/> ||
+            active === 3 && <BonusTable address={props.address}/> 
         }
       </div>
     </div>

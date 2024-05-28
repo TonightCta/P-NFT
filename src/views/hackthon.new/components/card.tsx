@@ -34,7 +34,7 @@ const HackthonCardNew = (props: {
           })
         }}/>
       </div>
-      <p className="name">NFT Name&nbsp;#{item.hackthon_item_id}</p>
+      <p className="name">#{item.hackthon_item_id}</p>
       <div className="owner-vote">
         <p>
           <IconFont type="icon-a-zu1439" className="gr-c" />

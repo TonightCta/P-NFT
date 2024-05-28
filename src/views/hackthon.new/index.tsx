@@ -48,6 +48,7 @@ interface Data {
   total_contribution_amount: number;
   creat_time: number;
   end_time: number;
+  hackathon_name:string;
 }
 
 export interface Item {
@@ -166,14 +167,14 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   const getHackathonItems = async (_id: number) => {
     return HackathonItemList({
       chain_id: "8007736",
-      page_size: 10,
+      page_size: 100,
       page_num: 1,
       hackathon_id: _id,
     });
   };
   useEffect(() => {
+    // initContract()
     getHackathonList();
-    console.log(1716625800 - Date.now() / 1000);
     if (containerRef.current && GetUrlKey("id", window.location.href)) {
       (containerRef.current as any).scrollTo({
         top:
@@ -244,14 +245,12 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         <div className="label"></div>
         <div className="share-box">
           <p>
-            {/* <React.Fragment>
-            <CountUp start={0} end={100} decimals={0} separator="," />
-          </React.Fragment> */}
+            Submission
             <span>{shareInfo.sub}</span>
-            submissions
           </p>
           <p>
-            total votes <span>{addCommasToNumber(+shareInfo.vote)}</span>$PNFT
+            Total Supports
+            <span>{addCommasToNumber(+shareInfo.vote)}<i>$PNFT</i></span>
           </p>
           <Button
             type="primary"
@@ -328,7 +327,16 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                             }%`,
                           }}
                         >
-                          <div className="progress-text" style={{left:`calc(${item.is_online ? fixTime(item.creat_time, item.end_time) : 100}% - 19px)`}}>
+                          <div
+                            className="progress-text"
+                            style={{
+                              left: `calc(${
+                                item.is_online
+                                  ? fixTime(item.creat_time, item.end_time)
+                                  : 100
+                              }% - 19px)`,
+                            }}
+                          >
                             {item.is_online
                               ? fixTime(item.creat_time, item.end_time)
                               : 100}
@@ -401,11 +409,11 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
           {hackathonList.map((item: Data, index: number) => {
             return (
               <div key={index} id={item.key} style={{ marginBottom: "32px" }}>
-                {/* <p
-                  style={{ fontSize: "30px", color: "red", textAlign: "left" }}
+                <p
+                  style={{ fontSize: "24px", color: "#FA43A8", textAlign: "left" }}
                 >
-                  {item.title}
-                </p> */}
+                  {item.hackathon_name}
+                </p>
                 <div className="items-list">
                   {item.items &&
                     item.items.map((items: Item, index: number) => {
