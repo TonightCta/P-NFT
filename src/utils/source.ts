@@ -34,7 +34,7 @@ export const VERSION: string = process.env.REACT_APP_VERSION as string;
 export const SOLERC20: string = "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF";
 export const CreateCollectionAddress: string =
   "0xccF09e95F7578A2B5576E6C745ac12a53b3a6031";
-export const MemeAddress: string = "0xA2135Ba86d6B99Db650BC5D4F209d4b4433681ae";
+export const MemeAddress: string = "0xe4f68a76fB148014e8c08aFF3875E9544D8E0688";
 
 interface Model {
   value: string;

@@ -93,6 +93,24 @@
         "internalType": "address",
         "name": "payTokenAddress",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "minSubmissionFee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "minVotingAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "contributionAmount",
+        "type": "uint256"
       }
     ],
     "name": "HackthonCreated",
@@ -171,8 +189,20 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "hackthonId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
         "internalType": "address",
         "name": "claimer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newTokenAddress",
         "type": "address"
       },
       {
@@ -311,7 +341,13 @@
       }
     ],
     "name": "createHackthon",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "payable",
     "type": "function"
   },

@@ -108,4 +108,12 @@ export const HackathonList = (p:o) => post('/hackathon/list',p);
 export const HackathonItemList = (p:o) => post('/hackathon/item/list',p);
 //Hackathon Info
 export const HackathonInfo = (p:o) => post('/hackathon/item/info',p);
+//Hackathon Create List
+export const HackathonCreateList = (p:o) => post('/user/hackathon/create',p);
+//Hackathon Submit List
+export const HackathonSubmitList = (p:o) => post('/user/hackathon/submit',p);
+//Hackathon Vote List
+export const HackathonVoteList = (p:o) => post('/user/hackathon/vote',p);
+//Hackathon Reward List
+export const HackathonRewardList = (p:o) => post('/user/hackathon/reward',p);
 

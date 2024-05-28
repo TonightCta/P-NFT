@@ -13,7 +13,12 @@ import { PlusOutlined } from "@ant-design/icons";
 import LaunchModal from "../hackthon/components/launch.modal";
 import SubmitWorkModal from "../hackthon.detail/components/submit.work.modal";
 import { PNft } from "../../App";
-import { FilterAddress, GetUrlKey, addCommasToNumber } from "../../utils";
+import {
+  DateConvertS,
+  FilterAddress,
+  GetUrlKey,
+  addCommasToNumber,
+} from "../../utils";
 import IconFont from "../../utils/icon";
 import VoteModal from "../hackthon.detail/components/vote.modal";
 import SuccessModal from "./components/success.modal";
@@ -41,6 +46,8 @@ interface Data {
   is_online: boolean;
   total_submit_item: number;
   total_contribution_amount: number;
+  creat_time: number;
+  end_time: number;
 }
 
 export interface Item {
@@ -140,6 +147,8 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       );
       data.data.item.forEach((e: Data, index: number) => {
         e.items = results[index];
+        // if (e.hackathon_id === results[index].hackathon_id) {
+        // }
       });
       setHackathonList(data.data.item);
       dispatch({
@@ -196,6 +205,12 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       }
     });
     setHackathonList(hackathonList);
+  };
+  const fixTime = (_create: number, _end: number) => {
+    const now: number = Date.now() / 1000;
+    const progress: number = now - _create;
+    const dur = _end - _create;
+    return Number((progress / dur).toFixed(0));
   };
   return (
     <div className="hackthon-new-view">
@@ -280,7 +295,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                 <div className="left-msg">
                   <p className="active-line"></p>
                   <div className="meme-msg">
-                    <p>
+                    <p className="symbol-name">
                       <img
                         src={require("../../assets/images/pnft.png")}
                         alt=""
@@ -293,6 +308,34 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                         alt=""
                         key={`${index}-coin`}
                       />
+                    </div>
+                    <div className="date-msg">
+                      <p>{item.is_online ? "ONGOING" : "ENDED"}</p>
+                      <div className="progress-box">
+                        <div className="create-date p-date">
+                          {DateConvertS(item.creat_time)}
+                        </div>
+                        <div className="end-date p-date">
+                          {DateConvertS(item.end_time)}
+                        </div>
+                        <div
+                          className="box-i"
+                          style={{
+                            width: `${
+                              item.is_online
+                                ? fixTime(item.creat_time, item.end_time)
+                                : 100
+                            }%`,
+                          }}
+                        >
+                          <div className="progress-text" style={{left:`calc(${item.is_online ? fixTime(item.creat_time, item.end_time) : 100}% - 19px)`}}>
+                            {item.is_online
+                              ? fixTime(item.creat_time, item.end_time)
+                              : 100}
+                            %
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

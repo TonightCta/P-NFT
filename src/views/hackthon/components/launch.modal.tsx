@@ -156,17 +156,15 @@ const LaunchModal = (props: {
     if (!result || result.message) {
       message.error(result.message);
       return;
-    }
+    };
     message.success("Initiated successfully");
     resetInp();
     setVisible(false);
     props.onClose(false);
-    //TODO
-    props.openSuccess(1);
+    props.openSuccess(+result.events['HackthonCreated']?.returnValues?.hackthonId);
   };
   const quertFees = async () => {
     const result = await QuertHackathonFee();
-    console.log(result);
     setFee(result);
   };
   useEffect(() => {
