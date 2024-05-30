@@ -367,7 +367,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
               </div>}
             </div>
             {
-              activeTop === 0 && <HackathonAssetsCard address={state.address as string}/>
+              activeTop === 0 && <HackathonAssetsCard address={state.address as string} chain={state.chain as string}/>
             }
             {activeTop !== 0 && <div
               className={`conponenst-gater ${loading ? "gater-6n" : ""}`}

@@ -23,13 +23,14 @@ interface Data {
   pay_token_url:string;
 }
 
-const HackathonTable = (props: { address: string }): ReactElement => {
+const HackathonTable = (props: { address: string,chain:string }): ReactElement => {
   const [data, setData] = useState<Data[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(999);
   const getList = async () => {
     setLoading(true);
     const result = await HackathonCreateList({
+      chain_id:props.chain,
       user_address: props.address,
       page_size: 100,
       page_num: 1,
@@ -57,7 +58,7 @@ const HackathonTable = (props: { address: string }): ReactElement => {
           "Pay Token",
           "Total Supply",
           "Total Votes",
-          "Total NFT",
+          "Total Image",
           "Timeline",
           "End Time",
         ].map((item: string, index: number) => {

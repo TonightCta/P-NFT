@@ -1,13 +1,16 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { Button, Modal, Select, Spin, message } from "antd";
+import { Button, DatePicker, Modal, Select, Spin, message } from "antd";
 import { useHackathon } from "../../../hooks/hackthon";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { PNFTAddress } from "../../../utils/source";
 import { web3 } from "../../../utils/types";
 import { useSwitchChain } from "../../../hooks/chain";
-import { FilterHackathonNet } from "../../../utils";
+import { DateConvertS, FilterHackathonNet } from "../../../utils";
 import { PNft } from "../../../App";
 import { CurrencyList } from "../../../request/api";
+import { useContract } from "../../../utils/contract";
+import type { DatePickerProps } from 'antd'
+import dayjs from "dayjs";
 
 interface Input {
   name: string;
@@ -80,6 +83,7 @@ const LaunchModal = (props: {
   const { state } = useContext(PNft);
   const { switchC } = useSwitchChain();
   const [loadToken, setLoadToken] = useState<boolean>(false);
+  const { balanceErc20 } = useContract();
   const [selectToken, setSelectToken] = useState<string>(
     Network[0].token[0]?.value
   );
@@ -162,6 +166,11 @@ const LaunchModal = (props: {
     const chain: any = await switchC(+net);
     if (chain?.code) return;
     setLoading(true);
+    const balance = await balanceErc20(input.contract);
+    if (+web3.utils.fromWei(balance) < 1) {
+      message.error("Your balance is insufficient");
+      return;
+    }
     const query = await QueryERC20Approve(
       input.contract,
       props.address,
@@ -220,14 +229,22 @@ const LaunchModal = (props: {
       })[0].token[0].value
     );
   };
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+    setInput({
+      ...input,
+      end_time:new Date(dateString).getTime() / 1000
+    })
+  };
   const selectTokenFN = (val: string) => {
-    console.log(val);
     setInput({
       ...input,
       contract: val,
     });
     setSelectToken(val);
   };
+  const afterMonth = () => {
+    return DateConvertS(+(Date.now() / 1000).toFixed(0) + 2626560)
+  }
   return (
     <Modal
       title={<p className="center-modal-title">Launch Hackthon</p>}
@@ -320,9 +337,11 @@ const LaunchModal = (props: {
                 </Select>
               </div>
               <div className="token-i">
-                {loadToken && <div className="loading-b">
-                  <Spin />
-                </div>}
+                {loadToken && token.length < 1 && (
+                  <div className="loading-b">
+                    <Spin />
+                  </div>
+                )}
                 <Select value={selectToken} onChange={selectTokenFN}>
                   {token.map((item: Token, index: number) => {
                     return (
@@ -387,11 +406,11 @@ const LaunchModal = (props: {
               </div>
             </div>
           </li>
-          {/* <li>
+          <li>
             <p>End Time</p>
-            <DatePicker onChange={onChange} />
+            <DatePicker onChange={onChange} format={'DD/MM/YYYY'} defaultValue={dayjs(afterMonth(), 'DD/MM/YYYY')}/>
           </li>
-           <li>
+          {/* <li>
             <p>Min Funding Amount</p>
             <input
               type="number"

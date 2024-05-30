@@ -5,6 +5,7 @@ import { web3 } from "../../../utils/types";
 import { PNft } from "../../../App";
 import { GetUrlKey } from "../../../utils";
 import { useSwitchChain } from "../../../hooks/chain";
+import { useContract } from "../../../utils/contract";
 
 interface Input {
   amount: string | number;
@@ -29,6 +30,7 @@ const VoteModal = (props: {
   const { QueryERC20Approve, ApproveToken, VoteHackathon } = useHackathon();
   const { switchC } = useSwitchChain();
   const { state } = useContext(PNft);
+  const { balanceErc20 } = useContract();
   const [input, setInput] = useState<Input>({
     amount: props.min ? props.min : "",
     address: GetUrlKey("referrer", window.location.href) || "",
@@ -68,6 +70,11 @@ const VoteModal = (props: {
     const chain: any = await switchC(+props.chain_id);
     if (chain?.code) return;
     setLoading(true);
+    const balance = await balanceErc20(props.pay_token_address);
+    if (+web3.utils.fromWei(balance) < +input.amount) {
+      message.error("Your balance is insufficient");
+      return;
+    }
     const query = await QueryERC20Approve(
       props.pay_token_address,
       state.address as string,
@@ -98,10 +105,6 @@ const VoteModal = (props: {
       return;
     }
     message.success("Vote Successful");
-    setInput({
-      amount: "",
-      address: GetUrlKey("referrer", window.location.href) || "",
-    });
     setVisible(false);
     props.onClose(false);
     props.onSuccess(props.hackathon_id);
@@ -110,7 +113,7 @@ const VoteModal = (props: {
     !!props.visible && setVisible(props.visible);
     const clear = () => {
       setInput({
-        amount: "",
+        amount: props.min ? props.min : "",
         address: GetUrlKey("referrer", window.location.href) || "",
       });
     };

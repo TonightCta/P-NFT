@@ -16,13 +16,14 @@ interface Data {
   url:string
 }
 
-const HistoryTable = (props: { address: string }): ReactElement => {
+const HistoryTable = (props: { address: string,chain:string }): ReactElement => {
   const [data, setData] = useState<Data[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(999);
   const getList = async () => {
     setLoading(true);
     const result = await HackathonVoteList({
+      chain_id:props.chain,
       user_address: props.address,
       page_size: 100,
       page_num: 1,
@@ -68,7 +69,7 @@ const HistoryTable = (props: { address: string }): ReactElement => {
                 <p>#{item.hackathon_id}</p>
               </div>
               <div className="public-p">
-                <p>{item.voter_amount < 999 ? item.voter_amount : addCommasToNumber(item.voter_amount)}&nbsp;TODO(Token Symbol)</p>
+                <p>{item.voter_amount < 999 ? item.voter_amount : addCommasToNumber(item.voter_amount)}</p>
               </div>
               <div className="public-p">
                 <p>{DateConvertHour(item.voter_time)}</p>

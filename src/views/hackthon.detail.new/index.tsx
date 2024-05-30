@@ -26,6 +26,7 @@ interface Info {
   create_address: string;
   pay_token_symbol: string;
   pay_token_url: string;
+  rank:number
 }
 
 const HackthonDetailNewView = (): ReactElement<ReactNode> => {
@@ -45,6 +46,7 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
     create_address: "",
     pay_token_symbol: "",
     pay_token_url: "",
+    rank:0
   });
   const getInfo = async () => {
     const result = await HackathonInfo({
@@ -104,7 +106,7 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
               </p>
               <p>
                 <IconFont type="icon-a-zu1590" />
-                {info.votes < 1 ? info.votes : addCommasToNumber(info.votes)}
+                {info.rank}
               </p>
             </div>
           </div>

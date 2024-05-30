@@ -1,8 +1,10 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { addCommasToNumber } from "../../../../utils";
 import { Button, Spin, message } from "antd";
 import { HackathonRewardList } from "../../../../request/api";
 import { useHackathon } from "../../../../hooks/hackthon";
+import { PNft } from "../../../../App";
+import { useSwitchChain } from "../../../../hooks/chain";
 
 interface Data {
   chain_id: string;
@@ -18,16 +20,24 @@ interface Data {
   receive: number;
   is_online: boolean;
   pay_token_symbol: string;
+  reward_token_url: string;
+  reward_token_symbol: string;
 }
 
-const BonusTable = (props: { address: string }): ReactElement => {
+const BonusTable = (props: {
+  address: string;
+  chain: string;
+}): ReactElement => {
   const [data, setData] = useState<Data[]>([]);
+  const { state } = useContext(PNft);
   const [loading, setLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(999);
   const { CheckHackathon, ClaimHackathon } = useHackathon();
+  const { switchC } = useSwitchChain();
   const getList = async () => {
     setLoading(true);
     const result = await HackathonRewardList({
+      chain_id: props.chain,
       user_address: props.address,
       page_size: 100,
       page_num: 1,
@@ -61,7 +71,9 @@ const BonusTable = (props: { address: string }): ReactElement => {
     //   setLoading(false);
     // });
   };
-  const cliamReward = async (_id: number) => {
+  const cliamReward = async (_chain:string,_id: number) => {
+    const chain: any = await switchC(+_chain);
+    if (chain?.code) return;
     const result: any = await ClaimHackathon(_id);
     if (!result || result.message) {
       message.error(result.message);
@@ -70,21 +82,48 @@ const BonusTable = (props: { address: string }): ReactElement => {
     message.success("Successfully received");
     getList();
   };
+  const addTokenTowWallet = async (_index: number) => {
+    const win: any = window;
+    await win.ethereum.request({
+      method: "wallet_watchAsset",
+      params: {
+        type: "ERC20",
+        options: {
+          address: data[_index].reward_token_address,
+          symbol: data[_index].reward_token_symbol,
+          decimals: 18,
+          image: data[_index].reward_token_url,
+        },
+      },
+    });
+  };
+  const checkFN = async (_index: number) => {
+    const chain: any = await switchC(+data[_index].chain_id);
+    if (chain?.code) return;
+    const result = await CheckHackathon(data[_index].hackathon_id);
+    data[_index].reward_amount = result;
+    setData(data);
+  };
   useEffect(() => {
     getList();
-  }, []);
+  }, [state.chain]);
   return (
     <div className="bonus-table public-table">
       <div className="public-title">
-        {["#", "Hackathon", "Total Investments", "Total Rewards", "Apply"].map(
-          (item: string, index: number) => {
-            return (
-              <p key={index} className={`${item === "#" ? "" : ""}`}>
-                {item}
-              </p>
-            );
-          }
-        )}
+        {[
+          "#",
+          "Hackathon",
+          "Total Investments",
+          "Total Rewards",
+          "Add New Token",
+          "Apply",
+        ].map((item: string, index: number) => {
+          return (
+            <p key={index} className={`${item === "#" ? "" : ""}`}>
+              {item}
+            </p>
+          );
+        })}
       </div>
       <div className="public-table">
         {data.map((item: Data, index: number) => {
@@ -104,22 +143,46 @@ const BonusTable = (props: { address: string }): ReactElement => {
                   &nbsp;{item.pay_token_symbol}
                 </p>
               </div>
-              <div className="public-p">
+              <div className="public-p flex-b">
                 <p className="g-c">
                   {item.receive < 1000
-                    ? item.receive
-                    : addCommasToNumber(item.receive)}
+                    ? item.reward_amount
+                    : addCommasToNumber(item.reward_amount)}
                 </p>
+                <Button
+                  type="primary"
+                  disabled={item.is_online}
+                  className="check-btn"
+                  onClick={() => {
+                    checkFN(index);
+                  }}
+                >
+                  Check
+                </Button>
               </div>
               <div className="public-p">
                 <Button
                   type="primary"
-                  disabled={item.receive < 1 || !!item.reward_claim_trx}
+                  className="add-btn"
+                  disabled={item.is_online}
+                  onClick={() => {
+                    addTokenTowWallet(index);
+                  }}
+                >
+                  Add To Wallet
+                </Button>
+              </div>
+              <div className="public-p">
+                <Button
+                  type="primary"
+                  disabled={item.reward_amount < 1 || !!item.reward_claim_trx}
                   className={`${
-                    item.receive < 1 || !!item.reward_claim_trx ? "dis-btn" : ""
+                    item.reward_amount < 1 || !!item.reward_claim_trx
+                      ? "dis-btn"
+                      : ""
                   }`}
                   onClick={() => {
-                    cliamReward(item.hackathon_id);
+                    cliamReward(item.chain_id,item.hackathon_id);
                   }}
                 >
                   Receive

@@ -8,6 +8,7 @@ import { PNft } from "../../../App";
 import { web3 } from "../../../utils/types";
 import IconFont from "../../../utils/icon";
 import { useSwitchChain } from "../../../hooks/chain";
+import { useContract } from "../../../utils/contract";
 
 interface Input {
   img: {
@@ -152,11 +153,11 @@ const SubmitWorkModal = (props: {
   visible: boolean;
   hackthon_id: number;
   min: number;
-  chain_id:string;
-  pay_token_address:string;
-  create_address:string;
-  pay_token_symbol:string;
-  pay_token_url:string;
+  chain_id: string;
+  pay_token_address: string;
+  create_address: string;
+  pay_token_symbol: string;
+  pay_token_url: string;
   openSuccess: (val: number) => void;
   onClose: (val: boolean) => void;
 }): ReactElement => {
@@ -167,7 +168,8 @@ const SubmitWorkModal = (props: {
   const [wordListS, setWordList] = useState<string[]>([]);
   const [type, setType] = useState<number>(1);
   const [active, setActive] = useState<number>(0);
-  const { switchC } = useSwitchChain()
+  const { switchC } = useSwitchChain();
+  const { balanceErc20 } = useContract();
   const [input, setInput] = useState<Input>({
     img: {
       view: "",
@@ -183,7 +185,7 @@ const SubmitWorkModal = (props: {
     !!props.visible && setVisible(props.visible);
     const clear = () => {
       setInput({
-        amount: "",
+        amount: props.min ? props.min : "",
         img: {
           view: "",
           source: "",
@@ -266,9 +268,9 @@ const SubmitWorkModal = (props: {
       message.error("Please enter the correct contribution amount");
       return;
     }
-    if(+input.amount < props.min){
+    if (+input.amount < props.min) {
       message.error(`The minimum number of submissions is ${props.min}`);
-      return
+      return;
     }
     if (input.address && input.address.length !== 42) {
       message.error("Please enter the correct wallet address");
@@ -281,14 +283,26 @@ const SubmitWorkModal = (props: {
     if (input.address === state.address) {
       message.error("The same wallet address cannot be recommended");
       return;
-    };
-    const chain:any = await switchC(+props.chain_id);
+    }
+    const chain: any = await switchC(+props.chain_id);
     if (chain?.code) return;
     setLoading(true);
-    const query = await QueryERC20Approve(props.pay_token_address,state.address as string, props.create_address);
+    const balance = await balanceErc20(props.pay_token_address);
+    if (+web3.utils.fromWei(balance) < +input.amount) {
+      message.error("Your balance is insufficient");
+      return;
+    }
+    const query = await QueryERC20Approve(
+      props.pay_token_address,
+      state.address as string,
+      props.create_address
+    );
     const queryNum = +web3.utils.fromWei(String(query), "ether");
     if (queryNum < 0.01) {
-      const approve: any = await ApproveToken(props.pay_token_address,props.create_address);
+      const approve: any = await ApproveToken(
+        props.pay_token_address,
+        props.create_address
+      );
       if (!approve || approve.message) {
         setLoading(false);
         return;
@@ -316,16 +330,6 @@ const SubmitWorkModal = (props: {
     setVisible(false);
     props.onClose(false);
     props.openSuccess(props.hackthon_id);
-    setInput({
-      amount: "",
-      img: {
-        view: "",
-        source: "",
-      },
-      name: "",
-      desc: "",
-      address: GetUrlKey("referrer", window.location.href) || "",
-    });
     setWordList([]);
     setAiImageView({
       ...aiImageView,

@@ -15,13 +15,14 @@ interface Data{
     votes:number
 }
 
-const EntryTable = (props: { address: string }): ReactElement => {
+const EntryTable = (props: { address: string,chain:string }): ReactElement => {
   const [data, setData] = useState<Data[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(999);
   const getList = async () => {
     setLoading(true);
     const result = await HackathonSubmitList({
+      chain_id:props.chain,
       user_address: props.address,
       page_size: 100,
       page_num: 1,
