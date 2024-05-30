@@ -486,7 +486,17 @@ export const NetworkConfig: Config[] = [
   },
   {
     chain_id:'8453',
-    chain_name:'Base',
+    chain_name:'Base ',
+    chain_logo:require('../assets/images/base.logo.png'),
+    contract_721:'',
+    contract_721_test:'',
+    contract_market:'',
+    contract_market_test:'',
+    contract_erc20:''
+  },
+  {
+    chain_id:'84532',
+    chain_name:'Base Sepolia',
     chain_logo:require('../assets/images/base.logo.png'),
     contract_721:'',
     contract_721_test:'',
@@ -568,6 +578,21 @@ export const NetworkConfigName: ConfigName[] = [
   },
   {
     chain_id: "8453",
+    chain_name: "base",
+    chain_logo: require("../assets/images/base.logo.png"),
+    fee: "0.4",
+    token: [
+      {
+        symbol: "PI",
+        icon: require("../assets/images/plian.logo.png"),
+        address: SystemAddress,
+        fee: "0.4",
+      },
+    ],
+    gas: "4200000",
+  },
+  {
+    chain_id: "84532",
     chain_name: "base",
     chain_logo: require("../assets/images/base.logo.png"),
     fee: "0.4",

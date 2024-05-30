@@ -78,7 +78,7 @@ const ConnectModal = (props: Props) => {
   const { connectPhantom } = usePhantom();
   const { connectTrustWallet } = useTrustWallet();
   const { open } = useWeb3Modal();
-  const [active, setActive] = useState<number>(1);
+  const [active, setActive] = useState<number>(2);
   // const { connectLedger } = useLedger();
   const close = () => {
     props.close(false);

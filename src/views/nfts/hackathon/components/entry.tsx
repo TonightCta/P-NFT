@@ -42,7 +42,7 @@ const EntryTable = (props: { address: string }): ReactElement => {
   return (
     <div className="entry-table public-table">
       <div className="public-title">
-        {["#", "NFT", "Total", "Submit Date", "Hackthon", "End Time"].map(
+        {["#", "NFT", "Total", "Submit Date", "Hackthon", "Transaction"].map(
           (item: string, index: number) => {
             return (
               <p key={index} className={`${item === "#" ? "" : ""}`}>
@@ -61,13 +61,13 @@ const EntryTable = (props: { address: string }): ReactElement => {
               </div>
               <div className="nft-msg">
                 <img
-                  src={require("../../../../assets/images/test2.png")}
+                  src={item.url}
                   alt=""
                 />
-                <p>TODO</p>
+                <p>#{item.hackathon_id}</p>
               </div>
               <div className="public-p">
-                <p>{addCommasToNumber(20000)}&nbsp;TODO(Token Symbol)</p>
+                <p>{item.votes < 999 ? item.votes : addCommasToNumber(item.votes)}</p>
               </div>
               <div className="public-p">
                 <p>{DateConvertHour(item.creat_time)}</p>
@@ -76,7 +76,9 @@ const EntryTable = (props: { address: string }): ReactElement => {
                 <p>{item.hackathon_name}</p>
               </div>
               <div className="public-p">
-                <p>TODO</p>
+                <p className="click" onClick={() => {
+                    window.open(`https://piscan.plian.org/tx/${item.creat_trx}?chain=1`)
+                }}>{item.creat_trx.substring(0,8)}...{item.creat_trx.substring(item.creat_trx.length - 8,item.creat_trx.length)}</p>
               </div>
             </div>
           );

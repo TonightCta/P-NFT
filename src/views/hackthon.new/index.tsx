@@ -6,7 +6,7 @@ import {
   useEffect,
   useContext,
 } from "react";
-import { Anchor, Button, Spin, message } from "antd";
+import { Anchor, Button, Popover, Spin, message } from "antd";
 import "./index.scss";
 import HackthonCardNew from "./components/card";
 import { PlusOutlined } from "@ant-design/icons";
@@ -15,8 +15,10 @@ import SubmitWorkModal from "../hackthon.detail/components/submit.work.modal";
 import { PNft } from "../../App";
 import {
   DateConvertS,
-  FilterAddress,
+  FilterHackathonNet,
   GetUrlKey,
+  HackathonNet,
+  HackathonNetInt,
   addCommasToNumber,
 } from "../../utils";
 import IconFont from "../../utils/icon";
@@ -25,6 +27,7 @@ import SuccessModal from "./components/success.modal";
 import ConnectModal from "../../components/header.new/components/connect.modal";
 import { HackathonItemList, HackathonList } from "../../request/api";
 import { Type } from "../../utils/types";
+import { HackathonSupport } from "../../hooks/hackthon";
 // import { useSpring,animated } from 'react-spring'
 // import CountUp from "react-countup";
 // import React from "react";
@@ -48,7 +51,11 @@ interface Data {
   total_contribution_amount: number;
   creat_time: number;
   end_time: number;
-  hackathon_name:string;
+  hackathon_name: string;
+  pay_token_address: string;
+  create_address: string;
+  pay_token_symbol: string;
+  pay_token_url: string;
 }
 
 export interface Item {
@@ -66,6 +73,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   const [voteModal, setVoteModal] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [connectModalB, setConnectModal] = useState<boolean>(false);
+  const [reload, setReload] = useState<boolean>(false);
   const [loading, setLoading] = useState<{ left: boolean; right: boolean }>({
     left: true,
     right: true,
@@ -80,11 +88,19 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     min_voting_amount: number;
     min_submission_fee: number;
     chain_id: string;
+    pay_token_address: string;
+    create_address: string;
+    pay_token_symbol: string;
+    pay_token_url: string;
   }>({
     hackathon_id: 0,
     min_voting_amount: 0,
     min_submission_fee: 0,
     chain_id: "",
+    pay_token_address: "",
+    create_address: "",
+    pay_token_symbol: "",
+    pay_token_url: "",
   });
   const { state, dispatch } = useContext(PNft);
   const [lock, setLock] = useState<boolean>(false);
@@ -92,23 +108,29 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   const [shareInfo, setShareInfo] = useState<{
     sub: number;
     vote: number | string;
+    symbol: String;
   }>({
     sub: 0,
     vote: 0,
+    symbol: "",
   });
   const [tokenID, setTokenID] = useState<number>(0);
   const [hackathonList, setHackathonList] = useState<Data[]>([]);
   const [active, setActive] = useState<string>("#part-0");
   const getHackathonList = async () => {
-    if (state.hackathon) {
-      setHackathonList(JSON.parse(state.hackathon));
+    if (state.hackathon !== "") {
+      setHackathonList(JSON.parse(state.hackathon as string));
       setLoading({
         left: false,
         right: false,
       });
     }
     const result = await HackathonList({
-      chain_id: "8007736",
+      chain_id: !state.address
+        ? ""
+        : HackathonSupport.indexOf(state.chain as string) < 0
+        ? ""
+        : (state.chain as string),
       page_size: 10,
       page_num: 1,
     });
@@ -117,6 +139,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     setShareInfo({
       sub: data.data.item[0].total_submit_item,
       vote: data.data.item[0].total_contribution_amount.toFixed(2),
+      symbol: data.data.item[0].pay_token_symbol,
     });
     data.data.item = data.data.item.map((item: Data, index: number) => {
       return {
@@ -132,7 +155,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       if (e.items === null) {
         // const it = await getHackathonItems(e.hackathon_id);
         // e.items = it ? it : [];
-        list.push(getHackathonItems(e.hackathon_id));
+        list.push(getHackathonItems(e.hackathon_id, e.chain_id));
       }
     });
     Promise.all(list).then((res) => {
@@ -162,25 +185,30 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         left: false,
         right: false,
       });
+      setReload(false);
     });
   };
-  const getHackathonItems = async (_id: number) => {
+  const getHackathonItems = async (_id: number, _chain_id: string) => {
     return HackathonItemList({
-      chain_id: "8007736",
+      chain_id: _chain_id,
       page_size: 100,
       page_num: 1,
       hackathon_id: _id,
     });
   };
   useEffect(() => {
-    // initContract()
+    if (!loading.left && !loading.right) {
+      setReload(true);
+    }
     getHackathonList();
+  }, [state.address, state.chain]);
+  useEffect(() => {
     if (containerRef.current && GetUrlKey("id", window.location.href)) {
       (containerRef.current as any).scrollTo({
         top:
           (document.getElementById(
             `part-${GetUrlKey("id", window.location.href)}`
-          )?.offsetTop as number) - 288,
+          )?.offsetTop as number) - 256,
         behavior: "smooth",
       });
     }
@@ -194,7 +222,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   };
   const updateHackathonItems = async (_id: number) => {
     const result = await HackathonItemList({
-      chain_id: "8007736",
+      chain_id: state.chain,
       page_size: 10,
       page_num: 1,
       hackathon_id: _id,
@@ -213,33 +241,80 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     const dur = _end - _create;
     return Number((progress / dur).toFixed(0));
   };
+  const [chainPop, setChainPop] = useState<boolean>(false);
+  const chainContent = (
+    <div
+      className="connect-menu connect-menu-chain"
+      onClick={() => {
+        setChainPop(false);
+      }}
+    >
+      <ul>
+        {HackathonNet.map((item: HackathonNetInt, index: number) => {
+          return (
+            <li
+              key={index}
+              onClick={() => {
+                // setChain(item.chain_id);
+              }}
+            >
+              <img src={item.chain_logo} alt="" />
+              <p>{item.chain_name}</p>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
   return (
     <div className="hackthon-new-view">
       <div className="title-oper">
         <p>Meme Hackathon</p>
-        {state.address ? (
-          <Button
-            type="primary"
-            onClick={() => {
-              if (!state.address) {
-                message.error("You need connect the wallet first");
-                return;
-              }
-              setVisible(true);
-            }}
-          >
-            Launch Hackathon
-          </Button>
-        ) : (
-          <Button
-            type="primary"
-            onClick={() => {
-              setConnectModal(true);
-            }}
-          >
-            Connect Wallet
-          </Button>
-        )}
+        <div className="chain-btn">
+          {false && (
+            <Popover
+              open={chainPop}
+              onOpenChange={(e: boolean) => {
+                setChainPop(e);
+              }}
+              content={chainContent}
+              title={null}
+              trigger="click"
+            >
+              <div className="chain-box">
+                {/* {!chain ? (
+                  "Not supported"
+                ) : (
+                  <img src={FilterHackathonNet(chain).chain_logo} alt="" />
+                )} */}
+                <IconFont type="icon-xiangxia" />
+              </div>
+            </Popover>
+          )}
+          {state.address ? (
+            <Button
+              type="primary"
+              onClick={() => {
+                if (!state.address) {
+                  message.error("You need connect the wallet first");
+                  return;
+                }
+                setVisible(true);
+              }}
+            >
+              Launch Hackathon
+            </Button>
+          ) : (
+            <Button
+              type="primary"
+              onClick={() => {
+                setConnectModal(true);
+              }}
+            >
+              Connect Wallet
+            </Button>
+          )}
+        </div>
       </div>
       <div className="share-p">
         <div className="label"></div>
@@ -250,7 +325,10 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
           </p>
           <p>
             Total Supports
-            <span>{addCommasToNumber(+shareInfo.vote)}<i>$PNFT</i></span>
+            <span>
+              {addCommasToNumber(+shareInfo.vote)}
+              <i>${shareInfo.symbol}</i>
+            </span>
           </p>
           <Button
             type="primary"
@@ -273,6 +351,11 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         </div>
       </div>
       <div className="new-view-inner">
+        {reload && (
+          <div className="loading-big">
+            <Spin size="large" />
+          </div>
+        )}
         <div className="left-name">
           {loading.left && <Spin size="large" style={{ marginTop: "24px" }} />}
           {hackathonList.map((item: Data, index: number) => {
@@ -295,17 +378,14 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                   <p className="active-line"></p>
                   <div className="meme-msg">
                     <p className="symbol-name">
-                      <img
-                        src={require("../../assets/images/pnft.png")}
-                        alt=""
-                      />
-                      PNFT x {item.symbol}
+                      <img src={item.pay_token_url} alt="" />
+                      {FilterHackathonNet(item.chain_id).token[0].symbol} x{" "}
+                      {item.symbol}
                     </p>
                     <div className="coin-list">
                       <img
-                        src={FilterAddress(item.chain_id)?.chain_logo}
+                        src={FilterHackathonNet(item.chain_id).chain_logo}
                         alt=""
-                        key={`${index}-coin`}
                       />
                     </div>
                     <div className="date-msg">
@@ -371,6 +451,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
               setShareInfo({
                 sub: filter.total_submit_item,
                 vote: filter.total_contribution_amount.toFixed(2),
+                symbol: filter.pay_token_symbol,
               });
             }}
             items={hackathonList}
@@ -410,7 +491,11 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
             return (
               <div key={index} id={item.key} style={{ marginBottom: "32px" }}>
                 <p
-                  style={{ fontSize: "24px", color: "#FA43A8", textAlign: "left" }}
+                  style={{
+                    fontSize: "24px",
+                    color: "#FA43A8",
+                    textAlign: "left",
+                  }}
                 >
                   {item.hackathon_name}
                 </p>
@@ -432,6 +517,10 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                               min_submission_fee: item.min_submission_fee,
                               min_voting_amount: item.min_voting_amount,
                               chain_id: item.chain_id,
+                              pay_token_address: item.pay_token_address,
+                              create_address: item.create_address,
+                              pay_token_symbol: item.pay_token_symbol,
+                              pay_token_url: item.pay_token_url,
                             });
                             setVoteModal(true);
                           }}
@@ -450,6 +539,10 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                         min_submission_fee: item.min_submission_fee,
                         min_voting_amount: item.min_voting_amount,
                         chain_id: item.chain_id,
+                        pay_token_address: item.pay_token_address,
+                        create_address: item.create_address,
+                        pay_token_symbol: item.pay_token_symbol,
+                        pay_token_url: item.pay_token_url,
                       });
                       setWorkModal(true);
                     }}
@@ -479,8 +572,8 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         }}
       />
       <SubmitWorkModal
+        {...info}
         visible={workModal}
-        chain_id={info.chain_id}
         openSuccess={(hackathon_id: number) => {
           updateHackathonItems(hackathon_id);
           setSuccessModal(true);
@@ -496,8 +589,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         }}
       />
       <VoteModal
-        hackathon_id={info.hackathon_id}
-        chain_id={info.chain_id}
+        {...info}
         token_id={tokenID}
         visible={voteModal}
         min={info.min_voting_amount}

@@ -9,7 +9,7 @@ import {
 } from "../utils/connect/coinbase";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import { ethereum, web3 } from "../utils/types";
-import { FilterAddressToName, calsMarks } from "../utils";
+import { FilterAddressToName, FilterHackathonNet, calsMarks } from "../utils";
 import MemeABI from "../utils/abi/meme.json";
 import { MemeAddress, PNFTAddress, SystemAddress } from "../utils/source";
 import { message } from "antd";
@@ -20,6 +20,8 @@ interface Send {
   gas: string;
   gasLimit: string;
 }
+
+export const HackathonSupport: string[] = ["8007736", "8453", "84532"];
 
 const ethereumCoinbase = coinbaseWallet.makeWeb3Provider(
   DEFAULT_ETH_JSONRPC_URL,
@@ -52,15 +54,15 @@ export const useHackathon = () => {
         ethereum
     );
     const pi = filterProvider ? await filterProvider.eth.getGasPrice() : "0";
-    const Contract = new web3.eth.Contract(MemeABI as any, MemeAddress, {
-      //   gasPrice: pi,
+    const chain = FilterHackathonNet(state.chain as string);
+    const Contract = new web3.eth.Contract(MemeABI as any, chain.contract, {
+        gasPrice: state.chain === '8007736' ? '' : pi,
     });
-    const Contract20 = new web3.eth.Contract(ABIERC20 as any, PNFTAddress, {
-      //   gasPrice: pi,
-    });
-    console.log(Contract20)
+    // const Contract20 = new web3.eth.Contract(ABIERC20 as any,chain.token[0].contract, {
+    //   gasPrice: pi,
+    // });
     setContract(Contract);
-    setContract20(Contract20);
+    // setContract20(Contract20);
   };
   useEffect(() => {
     setSend({
@@ -69,8 +71,12 @@ export const useHackathon = () => {
     });
   }, [state.address]);
   useEffect(() => {
+    if (HackathonSupport.indexOf(state.chain as string) < 0) {
+      message.warning("Please switch to a supported network to use");
+      return;
+    }
     initContract();
-  }, []);
+  }, [state.chain]);
   const CreateHackathon = async (
     _name: string,
     _symbol: string,
@@ -117,14 +123,14 @@ export const useHackathon = () => {
         });
     });
   };
-  const QuertHackathonFee = async () => {
+  const QueryHackathonFee = async () => {
     const web3 = new Web3(
       (state.wallet === "metamask" && provider) ||
         (state.wallet === "coinbase" && ethereumCoinbase) ||
         (state.wallet === "walletconnect" && walletProvider) ||
         ethereum
     );
-    const Contract = new web3.eth.Contract(MemeABI as any, MemeAddress, {
+    const Contract = new web3.eth.Contract(MemeABI as any, FilterHackathonNet(state.chain as string).contract, {
       //   gasPrice: pi,
     });
     const result = await Contract.methods
@@ -181,20 +187,35 @@ export const useHackathon = () => {
     return info;
   };
   const QueryERC20Approve = async (
+    _token_address:string,
     _owner: string,
-    _market_address: string
+    _for_address: string
   ): Promise<string | number> => {
-    const result = await contract20.methods
-      .allowance(_owner, _market_address)
+     const web3 = new Web3(
+      (state.wallet === "metamask" && provider) ||
+        (state.wallet === "coinbase" && ethereumCoinbase) ||
+        (state.wallet === "walletconnect" && walletProvider) ||
+        ethereum
+    );
+    const Contract = new web3.eth.Contract(ABIERC20 as any, _token_address);
+    const result = await Contract.methods
+      .allowance(_owner, _for_address)
       .call();
     return result;
   };
-  const ApproveToken = async (_approve_for_address: string) => {
+  const ApproveToken = async (_token_address:string,_approve_for_address: string) => {
+    const web3 = new Web3(
+      (state.wallet === "metamask" && provider) ||
+        (state.wallet === "coinbase" && ethereumCoinbase) ||
+        (state.wallet === "walletconnect" && walletProvider) ||
+        ethereum
+    );
+    const Contract = new web3.eth.Contract(ABIERC20 as any, _token_address);
     return new Promise((resolve, reject) => {
-      contract20.methods
+      Contract.methods
         .approve(
           calsMarks(_approve_for_address),
-          "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          "0xffffffffffffffffffffffffffffffffffffffffff"
         )
         .send(send)
         .on("receipt", (res: any) => {
@@ -270,28 +291,18 @@ export const useHackathon = () => {
         });
     });
   };
-  const CheckHackathon = async (_hackathon_id: number) : Promise<{id:number,amount:number}> => {
-     const web3 = new Web3(
-      (state.wallet === "metamask" && provider) ||
-        (state.wallet === "coinbase" && ethereumCoinbase) ||
-        (state.wallet === "walletconnect" && walletProvider) ||
-        ethereum
-    );
-    const Contract = new web3.eth.Contract(MemeABI as any, MemeAddress, {
-      //   gasPrice: pi,
-    });
-    const result = await Contract.methods
+  const CheckHackathon = async (
+    _hackathon_id: number
+  ) => {
+    const result = await contract.methods
       .checkClaimableAmount(_hackathon_id)
       .call();
-    return {
-      id:_hackathon_id,
-      amount:+result
-    };
+    return +result
   };
-  const ClaimHackathon = async (_id: number, _address: string) => {
+  const ClaimHackathon = async (_id: number) => {
     return new Promise((resolve, reject) => {
       contract.methods
-        .claimTokens(_address)
+        .claim(_id)
         .send({
           from: send.from,
           gas: Gas,
@@ -317,7 +328,7 @@ export const useHackathon = () => {
     QueryERC20Approve,
     ApproveToken,
     QueryNFT,
-    QuertHackathonFee,
+    QueryHackathonFee,
     QueryNFTInfo,
   };
 };

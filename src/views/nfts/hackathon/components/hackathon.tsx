@@ -17,6 +17,10 @@ interface Data {
   new_token_address: string;
   total_supply: number;
   end_time: number;
+  total_contribution_amount:number,
+  total_submit_item:number;
+  pay_token_symbol:string;
+  pay_token_url:string;
 }
 
 const HackathonTable = (props: { address: string }): ReactElement => {
@@ -50,7 +54,6 @@ const HackathonTable = (props: { address: string }): ReactElement => {
           "#",
           "Hackathon",
           "Symbol",
-          "Descrption",
           "Pay Token",
           "Total Supply",
           "Total Votes",
@@ -78,21 +81,19 @@ const HackathonTable = (props: { address: string }): ReactElement => {
               <div className="public-p">
                 <p className="b-text">{item.symbol}</p>
               </div>
-              <div className="public-p">
-                <p className="l-3 f-14">TODO</p>
-              </div>
-              <div className="public-p">
-                <p>TODO</p>
+              <div className="public-p p-icon">
+                <img src={item.pay_token_url} alt="" />
+                <p>{item.pay_token_symbol}</p>
               </div>
               <div className="public-p">
                 <p className="y-c">{item.total_supply < 999 ? item.total_supply : addCommasToNumber(item.total_supply)}</p>
               </div>
               <div className="public-p">
                 {/* {addCommasToNumber(200000000)} */}
-                <p className="g-c">TODO</p>
+                <p className="g-c">{item.total_contribution_amount < 999 ? item.total_contribution_amount : addCommasToNumber(item.total_contribution_amount)}</p>
               </div>
               <div className="public-p">
-                <p>TODO</p>
+                <p>{item.total_submit_item}</p>
               </div>
               <div className="time-line">
                 <div className="g-box">
@@ -101,7 +102,7 @@ const HackathonTable = (props: { address: string }): ReactElement => {
                     style={{
                       width: `${Math.ceil(
                         (Date.now() / 1000 - item.creat_time) /
-                          (item.end_time - Date.now() / 1000)
+                          (item.end_time - item.creat_time)
                       )}%`,
                     }}
                   ></div>
@@ -109,7 +110,7 @@ const HackathonTable = (props: { address: string }): ReactElement => {
                 <p>
                   {Math.ceil(
                     (Date.now() / 1000 - item.creat_time) /
-                      (item.end_time - Date.now() / 1000)
+                      (item.end_time - item.creat_time)
                   )}
                   %
                 </p>

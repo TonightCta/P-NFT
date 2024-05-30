@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Popover, message } from "antd";
 import IconFont from "../../utils/icon";
 import { PNft } from "../../App";
-import { FilterAddress, calsAddress } from "../../utils";
+import { FilterAddress, SupportID, calsAddress } from "../../utils";
 import { Type } from "../../utils/types";
 import { Config, NetworkConfig, flag } from "../../utils/source";
 import { DownOutlined, MenuOutlined } from "@ant-design/icons";
@@ -77,7 +77,7 @@ export const MenuList: Menu[] = [
   //   name: 'Collections',
   //   url: '/collections',
   // },
-  
+
   // {
   //   name: "Memes",
   //   url: "",
@@ -540,13 +540,17 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
           >
             <div
               className="connect-box select-chain"
-              style={{ paddingLeft: "24px" }}
+              style={{ padding: "0 24px" }}
             >
               <div className="connected-box">
-                <img
-                  src={FilterAddress(state.chain as string)?.chain_logo}
-                  alt=""
-                />
+                {SupportID.indexOf(+(state.chain as string)) < 0 ? (
+                  "Not supported "
+                ) : (
+                  <img
+                    src={FilterAddress(state.chain as string)?.chain_logo}
+                    alt=""
+                  />
+                )}
                 <IconFont type="icon-xiangxia" />
               </div>
             </div>

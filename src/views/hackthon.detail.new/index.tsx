@@ -13,14 +13,19 @@ import VoteModal from "../hackthon.detail/components/vote.modal";
 import { PNft } from "../../App";
 import { useNavigate, useParams } from "react-router-dom";
 import { HackathonInfo } from "../../request/api";
-import { addCommasToNumber } from "../../utils";
+import { FilterHackathonNet, addCommasToNumber } from "../../utils";
 
 interface Info {
+  chain_id: string;
   hackathon_id: number;
   hackthon_item_id: number;
   creator: string;
   url: string;
   votes: number;
+  pay_token_address: string;
+  create_address: string;
+  pay_token_symbol: string;
+  pay_token_url: string;
 }
 
 const HackthonDetailNewView = (): ReactElement<ReactNode> => {
@@ -28,22 +33,26 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
   const { state } = useContext(PNft);
   const searchParams = useParams();
   const navigate = useNavigate();
-  const [loading,setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [info, setInfo] = useState<Info>({
+    chain_id: "",
     hackathon_id: 0,
     hackthon_item_id: 0,
     creator: "",
     url: "",
     votes: 0,
+    pay_token_address: "",
+    create_address: "",
+    pay_token_symbol: "",
+    pay_token_url: "",
   });
   const getInfo = async () => {
     const result = await HackathonInfo({
-      chain_id: "8007736",
+      chain_id: searchParams.chain,
       hackathon_item_id: +(searchParams.id as string),
       page_size: 10,
       page_num: 1,
     });
-    console.log(result);
     const { data } = result;
     setInfo(data);
   };
@@ -52,59 +61,52 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
   }, []);
   return (
     <div className="hackthon-detail-new-view">
+      <p className="back-title">
+        <IconFont
+          type="icon-fanhuijiantou"
+          onClick={() => {
+            navigate("/hackathon");
+          }}
+        />
+        Meme Hackathon
+      </p>
       <div className="detail-inner">
         <div className="left-nft">
-          {
-            loading && <div className="loading-box">
-              <Spin size="large"/>
+          {loading && (
+            <div className="loading-box">
+              <Spin size="large" />
             </div>
-          }
-          <img src={info.url} alt="" onLoad={() => {
-            setLoading(false);
-          }}/>
+          )}
+          <img
+            src={info.url}
+            alt=""
+            onLoad={() => {
+              setLoading(false);
+            }}
+          />
         </div>
         <div className="right-msg">
           <div>
-            <p className="back-title">
-              <IconFont
-                type="icon-fanhuijiantou"
-                onClick={() => {
-                  navigate("/hackathon");
-                }}
-              />
-              Meme Hackathon
-            </p>
-            <p className="nft-name">NFT Name</p>
-            <div className="owner-msg">
-              <IconFont type="icon-a-zu1439" className="gr-c" />
-              <p>Owner</p>
-              <p className="bold">1006fb</p>
-              <p className="address">{info.creator}</p>
+            <div className="id-token">
+              <p>#{info.hackathon_id}</p>
+              <p className="chain-li">
+                <img
+                  src={FilterHackathonNet(String(info.chain_id))?.chain_logo}
+                  alt=""
+                />
+              </p>
             </div>
-            <p className="desc">
-              PAI Space is a collection of Pizzap AI Creating, co-owned and
-              managed by PizzapDAO Members. Creators should use Pizzap AI
-              creating tools to create, which currently support the creation of
-              pictures, copywriting, and voice. PAI Space is a collection of
-              Pizzap AI Creating, co-owned and managed by PizzapDAO Members.
-              Creators should use Pizzap AI creating tools to create, which
-              currently support the creation of pictures, copywriting, and
-              voice. PAI Space is a collection of Pizzap AI Creating, co-owned
-              and managed by PizzapDAO Members. Creators should use Pizzap AI
-              creating tools to create, which currently support the creation of
-              pictures, copywriting, and voice.
-            </p>
-            <p className="chain-li">
-              <img src={require("../../assets/logo/8007736.png")} alt="" />
-            </p>
-          </div>
-          <div className="vote-box">
-            <p>
-              <IconFont type="icon-a-zu1441" />
-              {info.votes < 1 ? info.votes : addCommasToNumber(info.votes)}
-              <span className="w-text">PNFT</span>
-            </p>
-            <p>Total Votes</p>
+            <div className="vote-box">
+              <p>
+                <IconFont type="icon-a-zu1441" />
+                {info.votes < 1 ? info.votes : addCommasToNumber(info.votes)}
+                <span className="w-text">&nbsp;{info.pay_token_symbol}</span>
+              </p>
+              <p>
+                <IconFont type="icon-a-zu1590" />
+                {info.votes < 1 ? info.votes : addCommasToNumber(info.votes)}
+              </p>
+            </div>
           </div>
           <div className="oper-box">
             <Button
@@ -120,9 +122,7 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
               onClick={() => {
                 const windowName = "newWindow";
                 const windowFeatures = "width=800,height=600,top=100,left=100";
-                const url = `https://test.pizzap.io/#/hackthon/${searchParams.id}/${searchParams.min}/${searchParams.chain}?referrer=${
-                  state.address
-                }`;
+                const url = `https://test.pizzap.io/#/hackthon/${searchParams.id}/${searchParams.min}/${searchParams.chain}?referrer=${state.address}`;
                 window.open(
                   `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                     "Alex share"
@@ -138,8 +138,29 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
           </div>
         </div>
       </div>
+      <div className="msg-card">
+        {/* <div className="text">
+          <p>Description:</p>
+          <p>
+            This time, the theme will focus on the relaxed freedom and boundless
+            creativity of the Web3 working environment, allowing your
+            imagination to flourish in an unrestricted space!Many Web3
+            professionals share their working meals in their spare time because
+            in this shared and open environment, creativity and cuisine have
+            become an inseparable part.
+          </p>
+        </div> */}
+        <div className="text">
+          <p>Owner:</p>
+          <p>{info.creator}</p>
+        </div>
+        <div className="text">
+          <p>Address:</p>
+          <p>{info.create_address}</p>
+        </div>
+      </div>
       <VoteModal
-        hackathon_id={info.hackathon_id}
+        {...info}
         chain_id={searchParams.chain as string}
         min={+(searchParams.min as string)}
         token_id={info.hackthon_item_id}

@@ -62,6 +62,7 @@ export const useSwitchChain = () => {
                         }
                     })
                 } catch (addError) {
+                    console.log(addError)
                     // handle "add" error
                 }
             }

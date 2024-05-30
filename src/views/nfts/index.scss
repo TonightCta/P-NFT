@@ -1695,7 +1695,7 @@
         }
       }
       li:nth-child(3) {
-        margin-right: 60px;
+        margin-right: 160px;
       }
     }
   }
@@ -1751,6 +1751,24 @@
           .c-p {
             text-align: center;
           }
+          .p-icon {
+            display: flex;
+            align-items: center;
+            img {
+              width: 24px;
+              height: 24px;
+              margin-right: 4px;
+            }
+            p {
+              font-size: 16px;
+              color: #000;
+            }
+          }
+          .click {
+            text-decoration: underline;
+            cursor: pointer;
+            color: #FA43A8;
+          }
         }
       }
     }
@@ -1802,7 +1820,7 @@
     .hackathon-table {
       .public-title {
         p {
-          width: 11%;
+          width: 13%;
         }
         p:first-child {
           width: 2%;
@@ -1813,9 +1831,6 @@
         p:nth-child(3) {
           width: 7%;
         }
-        p:nth-child(4) {
-          width: 14%;
-        }
         p:last-child {
           width: 7%;
         }
@@ -1823,7 +1838,7 @@
       .public-table {
         .public-inner {
           div {
-            width: 11%;
+            width: 13%;
           }
           .b-text {
             font-weight: 600;
@@ -1889,9 +1904,6 @@
           div:nth-child(3) {
             width: 7%;
           }
-          div:nth-child(4) {
-            width: 14%;
-          }
           div:last-child {
             width: 7%;
           }
@@ -1948,8 +1960,10 @@
             box-shadow: none;
             font-weight: 600;
           }
-          .dis-btn{
-            filter: grayscale(1);
+          .dis-btn {
+            background-color:#F0F0F0!important;
+            border: 0;
+            color: #686A6C;
           }
           div:first-child {
             width: 2%;
@@ -1962,11 +1976,11 @@
     }
   }
 }
-.loading-box{
+.loading-box {
   padding-top: 100px;
   padding-bottom: 100px;
 }
-.no-more{
+.no-more {
   font-size: 14px;
   margin-top: 70px;
   color: #686a6c;

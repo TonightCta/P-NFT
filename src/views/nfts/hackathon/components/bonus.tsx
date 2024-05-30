@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import { addCommasToNumber } from "../../../../utils";
-import { Button, Spin } from "antd";
+import { Button, Spin, message } from "antd";
 import { HackathonRewardList } from "../../../../request/api";
 import { useHackathon } from "../../../../hooks/hackthon";
 
@@ -17,13 +17,14 @@ interface Data {
   user: string;
   receive: number;
   is_online: boolean;
+  pay_token_symbol: string;
 }
 
 const BonusTable = (props: { address: string }): ReactElement => {
   const [data, setData] = useState<Data[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(999);
-  const { CheckHackathon } = useHackathon();
+  const { CheckHackathon, ClaimHackathon } = useHackathon();
   const getList = async () => {
     setLoading(true);
     const result = await HackathonRewardList({
@@ -38,25 +39,36 @@ const BonusTable = (props: { address: string }): ReactElement => {
       setLoading(false);
       return;
     }
-    const list: Promise<{ id: number; amount: number }>[] = [];
-    data.data.item = data.data.item.map((item: Data) => {
-      if (item.is_online) {
-        list.push(CheckHackathon(item.hackathon_id));
-      }
-      return {
-        ...item,
-        receive: 0,
-      };
-    });
-    Promise.all(list).then((res) => {
-      res.forEach((e: { id: number; amount: number }, index: number) => {
-        if (e.id === data.data.item[index].hackathon_id) {
-          data.data.item[index].receive = e.amount;
-        }
-      });
-      setData(data.data.item);
-      setLoading(false);
-    });
+    setData(data.data.item);
+    setLoading(false);
+    // const list: Promise<{ id: number; amount: number }>[] = [];
+    // data.data.item = data.data.item.map((item: Data) => {
+    //   if (!item.is_online) {
+    //     list.push(CheckHackathon(item.hackathon_id));
+    //   }
+    //   return {
+    //     ...item,
+    //     receive: 0,
+    //   };
+    // });
+    // Promise.all(list).then((res) => {
+    //   res.forEach((e: { id: number; amount: number }, index: number) => {
+    //     if (e.id === data.data.item[index].hackathon_id) {
+    //       data.data.item[index].receive = e.amount;
+    //     }
+    //   });
+    //   setData(data.data.item);
+    //   setLoading(false);
+    // });
+  };
+  const cliamReward = async (_id: number) => {
+    const result: any = await ClaimHackathon(_id);
+    if (!result || result.message) {
+      message.error(result.message);
+      return;
+    }
+    message.success("Successfully received");
+    getList();
   };
   useEffect(() => {
     getList();
@@ -89,7 +101,7 @@ const BonusTable = (props: { address: string }): ReactElement => {
                   {item.pay_amount < 1000
                     ? item.pay_amount
                     : addCommasToNumber(item.pay_amount)}
-                  &nbsp;TODO(Token Symbol)
+                  &nbsp;{item.pay_token_symbol}
                 </p>
               </div>
               <div className="public-p">
@@ -104,8 +116,11 @@ const BonusTable = (props: { address: string }): ReactElement => {
                   type="primary"
                   disabled={item.receive < 1 || !!item.reward_claim_trx}
                   className={`${
-                    (item.receive < 1 || !!item.reward_claim_trx) ? "dis-btn" : ""
+                    item.receive < 1 || !!item.reward_claim_trx ? "dis-btn" : ""
                   }`}
+                  onClick={() => {
+                    cliamReward(item.hackathon_id);
+                  }}
                 >
                   Receive
                 </Button>

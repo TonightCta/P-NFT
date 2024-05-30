@@ -1,6 +1,5 @@
 import { Button, Modal, message } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { MemeAddress } from "../../../utils/source";
 import { useHackathon } from "../../../hooks/hackthon";
 import { web3 } from "../../../utils/types";
 import { PNft } from "../../../App";
@@ -18,6 +17,10 @@ const VoteModal = (props: {
   min: number;
   token_id: number;
   chain_id: string;
+  pay_token_address: string;
+  create_address: string;
+  pay_token_symbol:string;
+  pay_token_url:string;
   onClose: (val: boolean) => void;
   onSuccess: (hackathon_id: number) => void;
 }): ReactElement => {
@@ -65,10 +68,17 @@ const VoteModal = (props: {
     const chain: any = await switchC(+props.chain_id);
     if (chain?.code) return;
     setLoading(true);
-    const query = await QueryERC20Approve(state.address as string, MemeAddress);
+    const query = await QueryERC20Approve(
+      props.pay_token_address,
+      state.address as string,
+      props.create_address
+    );
     const queryNum = +web3.utils.fromWei(String(query), "ether");
     if (queryNum < 1) {
-      const approve: any = await ApproveToken(MemeAddress);
+      const approve: any = await ApproveToken(
+        props.pay_token_address,
+        props.create_address
+      );
       if (!approve || approve.message) {
         setLoading(false);
         return;
@@ -136,9 +146,8 @@ const VoteModal = (props: {
               }}
             />
             <div className="token-box">
-              {/* TODO */} {/* chain_id -> Token  */}
-              <img src={require("../../../assets/images/pnft.png")} alt="" />
-              <p>PNFT</p>
+              <img src={props.pay_token_url} alt="" />
+              <p>{props.pay_token_symbol}</p>
             </div>
           </li>
           <li>

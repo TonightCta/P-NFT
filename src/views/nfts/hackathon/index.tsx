@@ -32,7 +32,7 @@ const HackathonAssetsCard = (props:{address:string}): ReactElement => {
           <IconFont type="icon-a-lujing219" />
         </div>
         <ul>
-          {["Vote History", "Entry", "Hackathon", "Bonuscenter"].map(
+          {["Hackathon","Vote History", "Entry", "Bonuscenter"].map(
             (item: string, index: number) => {
               return (
                 <li key={index} className={`${index === active ? 'active-tab' : ''}`} onClick={() => {
@@ -47,9 +47,9 @@ const HackathonAssetsCard = (props:{address:string}): ReactElement => {
       </div>
       <div className="right-table">
         {
-            active === 0 && <HistoryTable address={props.address}/> ||
+            active === 0 && <HackathonTable address={props.address}/>  ||
             active === 1 && <EntryTable address={props.address}/> ||
-            active === 2 && <HackathonTable address={props.address}/> ||
+            active === 2 && <HistoryTable address={props.address}/> ||
             active === 3 && <BonusTable address={props.address}/> 
         }
       </div>

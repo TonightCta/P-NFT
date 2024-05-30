@@ -5,7 +5,6 @@ import { Base64ToFile, CompressImage, GetUrlKey } from "../../../utils";
 import axios from "axios";
 import { useHackathon } from "../../../hooks/hackthon";
 import { PNft } from "../../../App";
-import { MemeAddress } from "../../../utils/source";
 import { web3 } from "../../../utils/types";
 import IconFont from "../../../utils/icon";
 import { useSwitchChain } from "../../../hooks/chain";
@@ -154,6 +153,10 @@ const SubmitWorkModal = (props: {
   hackthon_id: number;
   min: number;
   chain_id:string;
+  pay_token_address:string;
+  create_address:string;
+  pay_token_symbol:string;
+  pay_token_url:string;
   openSuccess: (val: number) => void;
   onClose: (val: boolean) => void;
 }): ReactElement => {
@@ -282,10 +285,10 @@ const SubmitWorkModal = (props: {
     const chain:any = await switchC(+props.chain_id);
     if (chain?.code) return;
     setLoading(true);
-    const query = await QueryERC20Approve(state.address as string, MemeAddress);
+    const query = await QueryERC20Approve(props.pay_token_address,state.address as string, props.create_address);
     const queryNum = +web3.utils.fromWei(String(query), "ether");
     if (queryNum < 0.01) {
-      const approve: any = await ApproveToken(MemeAddress);
+      const approve: any = await ApproveToken(props.pay_token_address,props.create_address);
       if (!approve || approve.message) {
         setLoading(false);
         return;
@@ -517,9 +520,8 @@ const SubmitWorkModal = (props: {
                   }}
                 />
                 <div className="token-box">
-                  {/* TODO */} {/* chain_id -> Token  */}
-                  <img src={require('../../../assets/images/pnft.png')} alt="" />
-                  <p>PNFT</p>
+                  <img src={props.pay_token_url} alt="" />
+                  <p>{props.pay_token_symbol}</p>
                 </div>
               </li>
               <li>
@@ -541,7 +543,7 @@ const SubmitWorkModal = (props: {
         ) : (
           <div>
             <ul className="inp-ul">
-              <li>
+              {/* <li>
                 <p>
                   <sup>*</sup>Name
                 </p>
@@ -572,7 +574,7 @@ const SubmitWorkModal = (props: {
                     });
                   }}
                 ></textarea>
-              </li>
+              </li> */}
               <li>
                 <p>
                   <sup>*</sup>Contribution Amount
@@ -589,9 +591,8 @@ const SubmitWorkModal = (props: {
                   }}
                 />
                 <div className="token-box">
-                  {/* TODO */} {/* chain_id -> Token  */}
-                  <img src={require('../../../assets/images/pnft.png')} alt="" />
-                  <p>PNFT</p>
+                  <img src={props.pay_token_url} alt="" />
+                  <p>{props.pay_token_symbol}</p>
                 </div>
               </li>
               <li>

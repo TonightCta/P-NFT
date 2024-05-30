@@ -1,10 +1,13 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { Button, DatePicker, Modal, Select, message } from "antd";
-import type { DatePickerProps } from "antd";
+import { Button, Modal, Select, Spin, message } from "antd";
 import { useHackathon } from "../../../hooks/hackthon";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import { MemeAddress, PNFTAddress } from "../../../utils/source";
+import { PNFTAddress } from "../../../utils/source";
 import { web3 } from "../../../utils/types";
+import { useSwitchChain } from "../../../hooks/chain";
+import { FilterHackathonNet } from "../../../utils";
+import { PNft } from "../../../App";
+import { CurrencyList } from "../../../request/api";
 
 interface Input {
   name: string;
@@ -23,6 +26,7 @@ interface Token {
   logo: string;
   fee: string;
   value: string;
+  hackathon_create_fee: number;
 }
 
 interface Net {
@@ -36,29 +40,19 @@ const Network: Net[] = [
     label: "Plian Subchain 1",
     chain_logo: require("../../../assets/images/plian.logo.png"),
     value: "8007736",
-    token: [
-      {
-        name: "PNFT",
-        label: "PNFT",
-        logo: require("../../../assets/images/pnft.png"),
-        value: PNFTAddress,
-        fee: "0.01",
-      },
-    ],
+    token: [],
   },
   {
     value: "8453",
     label: "Base LlamaNodes",
     chain_logo: require("../../../assets/images/base.logo.png"),
-    token: [
-      {
-        name: "TRUMP",
-        label: "TRUMP",
-        logo: require("../../../assets/images/test2.png"),
-        value: "123",
-        fee: "1",
-      },
-    ],
+    token: [],
+  },
+  {
+    value: "84532",
+    label: "Base Sepolia Testnet",
+    chain_logo: require("../../../assets/images/base.logo.png"),
+    token: [],
   },
 ];
 
@@ -69,29 +63,69 @@ const LaunchModal = (props: {
   openSuccess: (val: number) => void;
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
-  const [fee, setFee] = useState<number>(0);
+  const [netService, setNetService] = useState<Net[]>(Network);
   const [input, setInput] = useState<Input>({
     name: "",
     symbol: "",
     desc: "",
     total_supply: 1000,
     end_time: +(Date.now() / 1000).toFixed(0) + 2626560,
-    contract: "0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08",
+    contract: PNFTAddress,
     fee: 1,
     vote: 1,
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [net, setNet] = useState<string>("8007736");
   const [token, setToken] = useState<Token[]>(Network[0].token);
+  const { state } = useContext(PNft);
+  const { switchC } = useSwitchChain();
+  const [loadToken, setLoadToken] = useState<boolean>(false);
   const [selectToken, setSelectToken] = useState<string>(
-    Network[0].token[0].value
+    Network[0].token[0]?.value
   );
-  const {
-    CreateHackathon,
-    QueryERC20Approve,
-    ApproveToken,
-    QuertHackathonFee,
-  } = useHackathon();
+  const { CreateHackathon, QueryERC20Approve, ApproveToken } = useHackathon();
+  const queryTokenList = () => {
+    const list: any = [];
+    setLoadToken(true);
+    Network.forEach((e: Net) => {
+      list.push(
+        CurrencyList({
+          chain_id: e.value,
+          is_support_hackathon: true,
+          page_size: 30,
+          page_num: 1,
+        })
+      );
+    });
+    Promise.all(list).then((res) => {
+      const results = res.map((item: any) =>
+        item.data.data.item
+          ? item.data.data.item.map(
+              (item: {
+                currency_address: string;
+                currency_name: string;
+                logo_url: string;
+              }) => {
+                return {
+                  ...item,
+                  value: item.currency_address,
+                  label: item.currency_name,
+                  logo: item.logo_url,
+                  fee: "0.01",
+                };
+              }
+            )
+          : []
+      );
+      Network.forEach((e: Net, index: number) => {
+        e.token = results[index];
+      });
+      setLoadToken(false);
+      setNetService(Network);
+      setToken(results[0]);
+      setSelectToken(results[0][0].value);
+    });
+  };
   const resetInp = () => {
     setInput({
       name: "",
@@ -99,15 +133,9 @@ const LaunchModal = (props: {
       desc: "",
       total_supply: 1000,
       end_time: +(Date.now() / 1000).toFixed(0) + 2626560,
-      contract: "0x10401b9A7E93E10aC92E7bB55Ae87433B9E01e08",
+      contract: PNFTAddress,
       fee: 1,
       vote: 1,
-    });
-  };
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    setInput({
-      ...input,
-      end_time: new Date(dateString).getTime() / 1000,
     });
   };
   const submitLaunch = async () => {
@@ -131,11 +159,20 @@ const LaunchModal = (props: {
       message.error("Please enter the contract address");
       return;
     }
+    const chain: any = await switchC(+net);
+    if (chain?.code) return;
     setLoading(true);
-    const query = await QueryERC20Approve(props.address, MemeAddress);
+    const query = await QueryERC20Approve(
+      input.contract,
+      props.address,
+      FilterHackathonNet(state.chain as string).contract
+    );
     const queryNum = +web3.utils.fromWei(String(query), "ether");
     if (queryNum < 1) {
-      const approve: any = await ApproveToken(MemeAddress);
+      const approve: any = await ApproveToken(
+        input.contract,
+        FilterHackathonNet(state.chain as string).contract
+      );
       if (!approve || approve.message) {
         setLoading(false);
         return;
@@ -156,21 +193,19 @@ const LaunchModal = (props: {
     if (!result || result.message) {
       message.error(result.message);
       return;
-    };
+    }
     message.success("Initiated successfully");
     resetInp();
     setVisible(false);
     props.onClose(false);
-    props.openSuccess(+result.events['HackthonCreated']?.returnValues?.hackthonId);
-  };
-  const quertFees = async () => {
-    const result = await QuertHackathonFee();
-    setFee(result);
+    props.openSuccess(
+      +result.events["HackthonCreated"]?.returnValues?.hackthonId
+    );
   };
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
-    !!props.visible && quertFees();
     !props.visible && resetInp();
+    !!props.visible && queryTokenList();
   }, [props.visible]);
   const selectChain = (val: string) => {
     setNet(val);
@@ -179,9 +214,6 @@ const LaunchModal = (props: {
         return item.value === val;
       })[0].token
     );
-    console.log(Network.filter((item: Net) => {
-        return item.value === val;
-      })[0].token[0].value)
     setSelectToken(
       Network.filter((item: Net) => {
         return item.value === val;
@@ -189,6 +221,11 @@ const LaunchModal = (props: {
     );
   };
   const selectTokenFN = (val: string) => {
+    console.log(val);
+    setInput({
+      ...input,
+      contract: val,
+    });
     setSelectToken(val);
   };
   return (
@@ -237,7 +274,7 @@ const LaunchModal = (props: {
               }}
             />
           </li>
-          <li>
+          {/* <li>
             <p>
               <sup>*</sup>Description
             </p>
@@ -251,7 +288,7 @@ const LaunchModal = (props: {
                 });
               }}
             ></textarea>
-          </li>
+          </li> */}
           <li>
             <p>
               <sup>*</sup>Pay Token
@@ -270,7 +307,7 @@ const LaunchModal = (props: {
             <div className="token-box">
               <div className="select-chain">
                 <Select value={net} onChange={selectChain}>
-                  {Network.map((item: Net, index: number) => {
+                  {netService.map((item: Net, index: number) => {
                     return (
                       <Select.Option key={index} value={item.value}>
                         <div className="select-custom-option">
@@ -283,6 +320,9 @@ const LaunchModal = (props: {
                 </Select>
               </div>
               <div className="token-i">
+                {loadToken && <div className="loading-b">
+                  <Spin />
+                </div>}
                 <Select value={selectToken} onChange={selectTokenFN}>
                   {token.map((item: Token, index: number) => {
                     return (
@@ -290,7 +330,9 @@ const LaunchModal = (props: {
                         <div className="select-custom-option">
                           <img src={item.logo} alt="" />
                           <p>{item.label}</p>
-                          <p>(Fees:<span>{item.fee}</span>)</p>
+                          <p>
+                            (Fees:<span>{item.hackathon_create_fee}</span>)
+                          </p>
                         </div>
                       </Select.Option>
                     );

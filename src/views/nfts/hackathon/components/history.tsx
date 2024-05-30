@@ -13,6 +13,7 @@ interface Data {
   voter_amount: number;
   voter_time: number;
   voter_trx: string;
+  url:string
 }
 
 const HistoryTable = (props: { address: string }): ReactElement => {
@@ -42,7 +43,7 @@ const HistoryTable = (props: { address: string }): ReactElement => {
   return (
     <div className="history-table public-table">
       <div className="public-title">
-        {["#", "NFT", "Total", "Vote Date", "Hackthon", "End Time"].map(
+        {["#", "NFT", "Total", "Vote Date", "Hackthon", "Transaction"].map(
           (item: string, index: number) => {
             return (
               <p key={index} className={`${item === "#" ? "" : ""}`}>
@@ -61,10 +62,10 @@ const HistoryTable = (props: { address: string }): ReactElement => {
               </div>
               <div className="nft-msg">
                 <img
-                  src={require("../../../../assets/images/test2.png")}
+                  src={item.url}
                   alt=""
                 />
-                <p>TODO</p>
+                <p>#{item.hackathon_id}</p>
               </div>
               <div className="public-p">
                 <p>{item.voter_amount < 999 ? item.voter_amount : addCommasToNumber(item.voter_amount)}&nbsp;TODO(Token Symbol)</p>
@@ -75,8 +76,10 @@ const HistoryTable = (props: { address: string }): ReactElement => {
               <div className="public-p">
                 <p>{item.hackathon_name}</p>
               </div>
-              <div className="public-p">
-                <p>TODO</p>
+               <div className="public-p">
+                <p className="click" onClick={() => {
+                    window.open(`https://piscan.plian.org/tx/${item.voter_trx}?chain=1`)
+                }}>{item.voter_trx.substring(0,8)}...{item.voter_trx.substring(item.voter_trx.length - 8,item.voter_trx.length)}</p>
               </div>
             </div>
           );

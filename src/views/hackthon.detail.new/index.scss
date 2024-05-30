@@ -1,12 +1,29 @@
 .hackthon-detail-new-view {
-    padding-top: 160px;
+    padding-top: 110px;
+    background-color: #FAFAFA;
+    .back-title {
+        text-align: left;
+        color: rgba(0, 0, 0, .6);
+        width: 1400px;
+        margin: 0 auto 8px;
+        font-size: 20px;
+        span {
+            margin-right: 24px;
+            color: #000;
+            transform: translateY(2px);
+        }
+    }
     .detail-inner {
-        width: calc(100% - 120px);
+        width: 1400px;
         display: flex;
         margin: 0 auto;
+        padding: 40px 36px;
+        background-color: white;
+        box-shadow: 0px 3px 24px 1px rgba(0, 0, 0, 0.12);
+        margin-bottom: 32px;
         .left-nft {
-            width: 44%;
-            border-radius: 16px;
+            width: 240px;
+            height: 240px;
             max-height: 800px;
             overflow: hidden;
             margin-right: 34px;
@@ -14,7 +31,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            .loading-box{
+            .loading-box {
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -35,102 +52,45 @@
             flex-direction: column;
             justify-content: space-between;
             text-align: left;
-            min-height: 800px;
-            .back-title {
+            .id-token {
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
-                span {
-                    color: #202025;
-                    font-size: 16px;
-                    margin-right: 24px;
-                    cursor: pointer;
-                }
-                font-size: 20px;
-                color: rgba(0, 0, 0, .6);
-            }
-            .nft-name {
-                margin-top: 16px;
-                font-size: 48px;
-                font-family: SparkSemiBold;
-                color: #000;
-            }
-            .owner-msg {
-                display: flex;
-                margin-top: 30px;
-                align-items: center;
-                .gr-c {
-                    font-size: 16px;
-                    color: #6A40FB;
-                    margin-right: 6px;
-                }
                 p {
-                    font-size: 12px;
-                    color: #686A6C;
-                    margin-right: 6px;
+                    font-size: 28px;
+                    color: #000;
+                    font-weight: bold;
                 }
-                .bold {
-                    font-size: 16px;
-                    color: #0D0D0D;
-                    font-family: SparkBold;
-                    margin-right: 26px;
-                }
-                .address {
-                    font-family: SparkSemiBold;
-                    font-size: 16px;
-                    color: #0D0D0D;
-                }
-            }
-            .desc {
-                margin-top: 20px;
-                font-size: 14px;
-                color: #707070;
-                line-height: 18px;
-            }
-            .chain-li {
-                margin-top: 32px;
-                img {
-                    width: 30px;
-                    height: 30px;
+                .chain-li {
+                    img {
+                        width: 30px;
+                        height: 30px;
+                    }
                 }
             }
             .vote-box {
-                width: 360px;
-                padding: 48px 0;
-                background-color: #F7F7F7;
-                border-radius: 16px;
-                margin-top: -32px;
-                display: inline-flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
+                margin-top: 24px;
                 p {
-                    span {
-                        font-size: 28px;
-                        margin-right: 8px;
-                        transform: translateY(-2px);
-                    }
-                    font-size: 40px;
+                    font-size: 24px;
                     color: #202025;
-                    .w-text {
-                        transform: translateY(0);
-                        margin-left: 4px;
-                    }
+                }
+                .anticon {
+                    font-size: 20px;
+                    margin-right: 10px;
                 }
                 p:last-child {
-                    font-size: 18px;
-                    color: #686A6C;
-                    margin-top: 14px;
+                    margin-top: 30px;
                 }
             }
             .oper-box {
                 display: flex;
                 button {
-                    height: 84px;
+                    height: 68px;
                     border-radius: 16px;
                     font-size: 24px;
                 }
                 button:first-child {
-                    width: 560px;
+                    width: 668px;
                     background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
                     margin-right: 20px;
                     border: 0;
@@ -141,6 +101,40 @@
                     background-color: white;
                     border-color: #FA43A8;
                 }
+            }
+        }
+    }
+    .msg-card {
+        width: 1400px;
+        height: 400px;
+        margin: 0 auto 44px;
+        padding: 40px 36px;
+        background-color: white;
+        box-shadow: 0px 3px 24px 1px rgba(0, 0, 0, 0.12);
+        .text {
+            display: flex;
+            margin-top: 22px;
+            p{
+                font-size: 16px;
+            }
+            p:first-child {
+                color: #202025;
+                margin-right: 24px;
+                min-width: 90px;
+                text-align: right;
+            }
+            p:last-child {
+                color: #0D0D0D;
+                text-align: left;
+                flex: 1;
+            }
+        }
+        .text:first-child {
+            margin-top: 0;
+            p:last-child {
+                color: #707070;
+                font-size: 14px;
+                line-height: 18px;
             }
         }
     }

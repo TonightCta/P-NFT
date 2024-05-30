@@ -25,10 +25,6 @@ const HackthonDetailView = (): ReactElement<ReactNode> => {
     const result = await CheckHackathon(+info?.hackthonId);
     console.log(result);
   };
-  const claimReward = async () => {
-    const result = await ClaimHackathon(+info?.hackthonId, PNFTAddress);
-    console.log(result);
-  };
   return (
     <div className="hackthon-detail-view">
       <div className="bg-box">
