@@ -14,7 +14,7 @@ import LaunchModal from "../hackthon/components/launch.modal";
 import SubmitWorkModal from "../hackthon.detail/components/submit.work.modal";
 import { PNft } from "../../App";
 import {
-  DateConvertS,
+  DateConvertMin,
   FilterHackathonNet,
   GetUrlKey,
   HackathonNet,
@@ -117,6 +117,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   const [tokenID, setTokenID] = useState<number>(0);
   const [hackathonList, setHackathonList] = useState<Data[]>([]);
   const [active, setActive] = useState<string>("#part-0");
+  const [noData, setNodata] = useState<boolean>(false);
   const getHackathonList = async () => {
     if (state.hackathon !== "") {
       setHackathonList(JSON.parse(state.hackathon as string));
@@ -135,6 +136,17 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       page_num: 1,
     });
     const { data } = result;
+    if (!data.data.item) {
+      setNodata(true);
+      setReload(false);
+      setLoading({
+        left: false,
+        right: false,
+      });
+      return;
+    } else {
+      setNodata(false);
+    }
     setShare(data.data.item[0].hackathon_id);
     setShareInfo({
       sub: data.data.item[0].total_submit_item,
@@ -208,7 +220,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         top:
           (document.getElementById(
             `part-${GetUrlKey("id", window.location.href)}`
-          )?.offsetTop as number) - 256,
+          )?.offsetTop as number) - 210,
         behavior: "smooth",
       });
     }
@@ -239,7 +251,9 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     const now: number = Date.now() / 1000;
     const progress: number = now - _create;
     const dur = _end - _create;
-    return Number((progress / dur).toFixed(0));
+    return Number(((progress / dur) * 100).toFixed(0)) >= 100
+      ? 100
+      : Number(((progress / dur) * 100).toFixed(0));
   };
   const [chainPop, setChainPop] = useState<boolean>(false);
   const chainContent = (
@@ -316,40 +330,6 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
           )}
         </div>
       </div>
-      <div className="share-p">
-        <div className="label"></div>
-        <div className="share-box">
-          <p>
-            Submission
-            <span>{shareInfo.sub}</span>
-          </p>
-          <p>
-            Total Supports
-            <span>
-              {addCommasToNumber(+shareInfo.vote)}
-              <i>${shareInfo.symbol}</i>
-            </span>
-          </p>
-          <Button
-            type="primary"
-            onClick={() => {
-              const windowName = "newWindow";
-              const windowFeatures = "width=800,height=600,top=100,left=100";
-              const url = `https://test.pizzap.io/#/?referrer=${state.address}&id=${share}`;
-              window.open(
-                `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                  "Alex share"
-                )}&url=${encodeURIComponent(url)}`,
-                windowName,
-                windowFeatures
-              );
-            }}
-          >
-            Share
-            <IconFont type="icon-arrow-up-right" />
-          </Button>
-        </div>
-      </div>
       <div className="new-view-inner">
         {reload && (
           <div className="loading-big">
@@ -357,6 +337,12 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
           </div>
         )}
         <div className="left-name">
+          {noData && (
+            <div className="no-more-g">
+              <img src={require("../../assets/images/no_more.gif")} alt="" />
+              <p>No more</p>
+            </div>
+          )}
           {loading.left && <Spin size="large" style={{ marginTop: "24px" }} />}
           {hackathonList.map((item: Data, index: number) => {
             return (
@@ -387,43 +373,6 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                         src={FilterHackathonNet(item.chain_id).chain_logo}
                         alt=""
                       />
-                    </div>
-                    <div className="date-msg">
-                      <p>{item.is_online ? "ONGOING" : "ENDED"}</p>
-                      <div className="progress-box">
-                        <div className="create-date p-date">
-                          {DateConvertS(item.creat_time)}
-                        </div>
-                        <div className="end-date p-date">
-                          {DateConvertS(item.end_time)}
-                        </div>
-                        <div
-                          className="box-i"
-                          style={{
-                            width: `${
-                              item.is_online
-                                ? fixTime(item.creat_time, item.end_time)
-                                : 100
-                            }%`,
-                          }}
-                        >
-                          <div
-                            className="progress-text"
-                            style={{
-                              left: `calc(${
-                                item.is_online
-                                  ? fixTime(item.creat_time, item.end_time)
-                                  : 100
-                              }% - 19px)`,
-                            }}
-                          >
-                            {item.is_online
-                              ? fixTime(item.creat_time, item.end_time)
-                              : 100}
-                            %
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -482,6 +431,12 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
               Share
             </Button>
           </div> */}
+          {noData && (
+            <div className="no-more-g g-big">
+              <img src={require("../../assets/images/no_more.gif")} alt="" />
+              <p>No more</p>
+            </div>
+          )}
           {loading.right && (
             <div className="loading-box" style={{ marginTop: "120px" }}>
               <Spin size="large" />
@@ -489,16 +444,86 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
           )}
           {hackathonList.map((item: Data, index: number) => {
             return (
-              <div key={index} id={item.key} style={{ marginBottom: "32px" }}>
-                <p
-                  style={{
-                    fontSize: "24px",
-                    color: "#FA43A8",
-                    textAlign: "left",
-                  }}
-                >
+              <div
+                key={index}
+                id={item.key}
+                className={`right-list-slide ${
+                  active === item.href ? "active-anchor" : ""
+                }`}
+              >
+                <p className="slide-title">
+                  <span></span>
                   {item.hackathon_name}
                 </p>
+                <div className="date-msg">
+                  <p>{item.is_online ? "ONGOING" : "ENDED"}</p>
+                  <div className="progress-box">
+                    <div className="create-date p-date">
+                      {DateConvertMin(item.creat_time)}
+                    </div>
+                    <div className="end-date p-date">
+                      {DateConvertMin(item.end_time)}
+                    </div>
+                    <div
+                      className="box-i"
+                      style={{
+                        width: `${
+                          item.is_online
+                            ? fixTime(item.creat_time, item.end_time)
+                            : 100
+                        }%`,
+                      }}
+                    >
+                      <div
+                        className="progress-text"
+                        style={{
+                          left: `calc(${
+                            item.is_online
+                              ? fixTime(item.creat_time, item.end_time)
+                              : 100
+                          }% - 22px)`,
+                        }}
+                      >
+                        {item.is_online
+                          ? fixTime(item.creat_time, item.end_time)
+                          : 100}
+                        %
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="share-box">
+                  <p>
+                    Submission
+                    <span>{item.total_submit_item}</span>
+                  </p>
+                  <p>
+                    Total Supports
+                    <span>
+                      {addCommasToNumber(+item.total_contribution_amount.toFixed(2))}
+                      <i>${item.pay_token_symbol}</i>
+                    </span>
+                  </p>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      const windowName = "newWindow";
+                      const windowFeatures =
+                        "width=800,height=600,top=100,left=100";
+                      const url = `https://test.pizzap.io/#/?referrer=${state.address}&id=${item.hackathon_id}`;
+                      window.open(
+                        `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                          "Alex share"
+                        )}&url=${encodeURIComponent(url)}`,
+                        windowName,
+                        windowFeatures
+                      );
+                    }}
+                  >
+                    Share
+                    <IconFont type="icon-arrow-up-right" />
+                  </Button>
+                </div>
                 <div className="items-list">
                   {item.items &&
                     item.items.map((items: Item, index: number) => {

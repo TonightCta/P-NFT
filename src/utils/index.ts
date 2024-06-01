@@ -167,7 +167,7 @@ export const HackathonNet: HackathonNetInt[] = [
   {
     chain_name: "Plian Subchain 1",
     chain_id: "8007736",
-    contract: "0x272331ed65b3f5c8df4cbec8e092cf32a97ae3ed",
+    contract: "0xA61Cb98fc9a5EE98fEba3d9B579bd444C27e172D",
     chain_logo: require("../assets/logo/8007736.png"),
     token: [
       {
@@ -191,7 +191,7 @@ export const HackathonNet: HackathonNetInt[] = [
   {
     chain_name: "Base Sepolia Testnet",
     chain_id: "84532",
-    contract: "0x71de936b55bF9486634bb16E8a0484DD42260469",
+    contract: "0x85fc82c6f6ffd05652eab60e6f1779d8817ea69b",
     chain_logo: require("../assets/images/base.logo.png"),
     token: [
       {
@@ -250,6 +250,18 @@ export const DateConvertS = (_time: number): string => {
   const day = date.getDate() >= 10 ? date.getDate() : "0" + date.getDate();
   return `${day}/${month}/${year}`;
 };
+export const DateConvertMin = (_time: number): string => {
+  const date = new Date(_time * 1000);
+  const year = date.getFullYear();
+  const month =
+    date.getMonth() + 1 >= 10
+      ? date.getMonth() + 1
+      : "0" + (date.getMonth() + 1);
+  const day = date.getDate() >= 10 ? date.getDate() : "0" + date.getDate();
+  const hour = date.getHours();
+  const min = date.getMinutes();
+  return `${hour}:${min} ${day}/${month}/${year}`;
+};
 //Date conversion
 export const DateConvertHour = (_time: number): string => {
   const date = new Date(_time * 1000);
@@ -262,7 +274,7 @@ export const DateConvertHour = (_time: number): string => {
   const hour = date.getHours();
   const min = date.getMinutes();
   const sec = date.getSeconds();
-  return `${hour}:${min}:${sec}/${day}/${month}/${year}`;
+  return `${hour}:${min}:${sec} ${day}/${month}/${year}`;
 };
 
 export const FilterAddress = (chain_id: string) => {

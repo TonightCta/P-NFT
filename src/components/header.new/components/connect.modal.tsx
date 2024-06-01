@@ -82,7 +82,7 @@ const ConnectModal = (props: Props) => {
   // const { connectLedger } = useLedger();
   const close = () => {
     props.close(false);
-    setActive(1);
+    setActive(2);
     setVisible(false);
   };
   useEffect(() => {

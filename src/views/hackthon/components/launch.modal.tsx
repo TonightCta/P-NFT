@@ -5,7 +5,7 @@ import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { PNFTAddress } from "../../../utils/source";
 import { web3 } from "../../../utils/types";
 import { useSwitchChain } from "../../../hooks/chain";
-import { DateConvertS, FilterHackathonNet } from "../../../utils";
+import { DateConvertMin, FilterHackathonNet } from "../../../utils";
 import { PNft } from "../../../App";
 import { CurrencyList } from "../../../request/api";
 import { useContract } from "../../../utils/contract";
@@ -230,9 +230,10 @@ const LaunchModal = (props: {
     );
   };
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+    console.log((date as any).$d.getTime())
     setInput({
       ...input,
-      end_time:new Date(dateString).getTime() / 1000
+      end_time:Math.ceil((date as any).$d.getTime() / 1000)
     })
   };
   const selectTokenFN = (val: string) => {
@@ -243,7 +244,7 @@ const LaunchModal = (props: {
     setSelectToken(val);
   };
   const afterMonth = () => {
-    return DateConvertS(+(Date.now() / 1000).toFixed(0) + 2626560)
+    return DateConvertMin(+(Date.now() / 1000).toFixed(0) + 2626560)
   }
   return (
     <Modal
@@ -408,7 +409,7 @@ const LaunchModal = (props: {
           </li>
           <li>
             <p>End Time</p>
-            <DatePicker onChange={onChange} format={'DD/MM/YYYY'} defaultValue={dayjs(afterMonth(), 'DD/MM/YYYY')}/>
+            <DatePicker onChange={onChange} showTime={{ format: 'HH:mm' }} format={'HH:mm DD/MM/YYYY'} defaultValue={dayjs(afterMonth(), 'HH:mm DD/MM/YYYY')}/>
           </li>
           {/* <li>
             <p>Min Funding Amount</p>

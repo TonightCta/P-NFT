@@ -199,8 +199,8 @@ const SubmitWorkModal = (props: {
         ...aiImageView,
         url: "",
       });
-      !props.visible && clear();
     };
+      !props.visible && clear();
   }, [props.visible]);
   const uploadFile = (e: any) => {
     const file = e.target.files[0];

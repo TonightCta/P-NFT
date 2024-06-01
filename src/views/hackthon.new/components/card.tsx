@@ -26,56 +26,57 @@ const HackthonCardNew = (props: {
         );
       }}
     >
-      <div className="nft-box">
-        {item.loading && (
-          <div className="load-box">
-            <Spin />
-          </div>
-        )}
-        <img
-          src={item.url}
-          alt=""
-          onLoad={() => {
-            setItem({
-              ...item,
-              loading: false,
-            });
-          }}
-        />
-      </div>
+      <img className="first-icon" src={require('../../../assets/images/first.hackathon.png')} alt="" />
       <p className="name">#{item.hackthon_item_id}</p>
-      <div className="right-msg">
-        <div className="owner-vote">
-          <p>
-            <IconFont type="icon-a-zu1439" className="gr-c" />
-            {/* Owner */}
-            <span>
-              {item.creator.substring(0, 4)}...
-            </span>
-          </p>
-          <p>
-            <IconFont type="icon-a-zu1441" />
-            <span>{item.votes}</span>
-          </p>
-        </div>
-        <div className="vote-btn">
-          <Button
-            type="primary"
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!props.address) {
-                message.error("You need connect the wallet first");
-                return;
-              }
-              if (!props.online) {
-                message.error("The current hackathon has ended");
-                return;
-              }
-              props.backModal(item.hackthon_item_id);
+      <div style={{display:'flex'}}>
+        <div className="nft-box">
+          {item.loading && (
+            <div className="load-box">
+              <Spin />
+            </div>
+          )}
+          <img
+            src={item.url}
+            alt=""
+            onLoad={() => {
+              setItem({
+                ...item,
+                loading: false,
+              });
             }}
-          >
-            Vote
-          </Button>
+          />
+        </div>
+        <div className="right-msg">
+          <div className="owner-vote">
+            <p>
+              <IconFont type="icon-a-zu1439" className="gr-c" />
+              {/* Owner */}
+              <span>{item.creator.substring(0, 4)}...</span>
+            </p>
+            <p>
+              <IconFont type="icon-a-zu1441" />
+              <span>{item.votes}</span>
+            </p>
+          </div>
+          <div className="vote-btn">
+            <Button
+              type="primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (!props.address) {
+                  message.error("You need connect the wallet first");
+                  return;
+                }
+                if (!props.online) {
+                  message.error("The current hackathon has ended");
+                  return;
+                }
+                props.backModal(item.hackthon_item_id);
+              }}
+            >
+              Vote
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -1699,11 +1699,11 @@
       }
     }
   }
-  @media screen and (max-width:1440px){
-    .left-tab{
+  @media screen and (max-width:1440px) {
+    .left-tab {
       width: 180px;
       min-width: 180px;
-      ul{
+      ul {
         min-width: 180px;
       }
     }
@@ -1756,6 +1756,17 @@
             font-size: 16px;
             color: #000;
             text-align: left;
+          }
+          .b-text {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-right: 32px;
+            line-height: 20px;
+            color: #202025;
+            text-align: left;
+            font-size: 16px;
           }
           .c-p {
             text-align: center;
@@ -1829,7 +1840,7 @@
     .hackathon-table {
       .public-title {
         p {
-          width: 13%;
+          width: 12%;
         }
         p:first-child {
           width: 2%;
@@ -1841,21 +1852,13 @@
           width: 7%;
         }
         p:last-child {
-          width: 7%;
+          width: 14%;
         }
       }
       .public-table {
         .public-inner {
           div {
-            width: 13%;
-          }
-          .b-text {
-            font-weight: 600;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding-right: 32px;
-            line-height: 20px;
+            width: 12%;
           }
           .l-3 {
             overflow: hidden;
@@ -1914,7 +1917,7 @@
             width: 7%;
           }
           div:last-child {
-            width: 7%;
+            width: 14%;
           }
         }
       }
@@ -1958,7 +1961,7 @@
           .g-c {
             color: #047B1F;
           }
-          .flex-b{
+          .flex-b {
             display: flex;
             align-items: center;
           }
@@ -1985,8 +1988,8 @@
             width: auto;
             height: 36px;
           }
-          .check-btn{
-             border-color: #74F792;
+          .check-btn {
+            border-color: #74F792;
             color: #047B1F;
             background-color: #D9FFE2 !important;
             width: 94px;
@@ -2002,6 +2005,31 @@
         }
       }
     }
+    .record-table {
+      width: 100%;
+      .public-title {
+        width: 100%;
+        p {
+          width: 24%;
+        }
+        p:first-child {
+          width: 2%;
+        }
+      }
+      .public-table {
+        .public-inner {
+          div {
+            width: 24%;
+          }
+          .p-c {
+            color: #FA3370;
+          }
+          div:first-child {
+            width: 2%;
+          }
+        }
+      }
+    }
   }
 }
 .loading-box {
@@ -2012,4 +2040,39 @@
   font-size: 14px;
   margin-top: 70px;
   color: #686a6c;
+}
+.custom-modal-check {
+  text-align: center;
+  padding: 32px;
+  .icon-box {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .name {
+    font-size: 16px;
+    font-family: SparkTitleNew;
+    color: #FA43A8;
+    text-align: left;
+    margin-top: 12px;
+  }
+  .amount {
+    width: 100%;
+    height: 46px;
+    text-align: center;
+    background-color: #FDF0F7;
+    margin-top: 16px;
+    line-height: 46px;
+    font-size: 14px;
+    span{
+      font-weight: bold;
+      font-size: 16px;
+      color: #FA43A8;
+      margin-left: 6px;
+    }
+  }
 }

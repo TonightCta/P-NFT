@@ -4,6 +4,7 @@ import HistoryTable from "./components/history";
 import EntryTable from "./components/entry";
 import HackathonTable from "./components/hackathon";
 import BonusTable from "./components/bonus";
+import RecordTable from "./components/record";
 
 // interface Tab{
 //     label:'Vote History' | 'Entry' | 'Hackathon' | 'Bonuscenter',
@@ -32,7 +33,7 @@ const HackathonAssetsCard = (props:{address:string,chain:string}): ReactElement 
           <IconFont type="icon-a-lujing219" />
         </div>
         <ul>
-          {["Hackathon","Vote History", "Entry", "Bonuscenter"].map(
+          {["Hackathon","Vote History", "Entry", "Bonuscenter","Invitation Record"].map(
             (item: string, index: number) => {
               return (
                 <li key={index} className={`${index === active ? 'active-tab' : ''}`} onClick={() => {
@@ -50,7 +51,8 @@ const HackathonAssetsCard = (props:{address:string,chain:string}): ReactElement 
             active === 0 && <HackathonTable {...props}/>  ||
             active === 1 && <HistoryTable {...props}/> ||
             active === 2 && <EntryTable {...props}/> ||
-            active === 3 && <BonusTable {...props}/> 
+            active === 3 && <BonusTable {...props}/> ||
+            active === 4 && <RecordTable {...props}/>
         }
       </div>
     </div>

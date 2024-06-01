@@ -116,4 +116,5 @@ export const HackathonSubmitList = (p:o) => post('/user/hackathon/submit',p);
 export const HackathonVoteList = (p:o) => post('/user/hackathon/vote',p);
 //Hackathon Reward List
 export const HackathonRewardList = (p:o) => post('/user/hackathon/reward',p);
-
+//Hackathon Refer List
+export const HackathonReferList = (p:o) => post('/user/hackathon/refer',p);

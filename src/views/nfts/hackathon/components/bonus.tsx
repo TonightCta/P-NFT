@@ -1,10 +1,11 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { addCommasToNumber } from "../../../../utils";
+import { DateConvertMin, addCommasToNumber } from "../../../../utils";
 import { Button, Spin, message } from "antd";
 import { HackathonRewardList } from "../../../../request/api";
 import { useHackathon } from "../../../../hooks/hackthon";
 import { PNft } from "../../../../App";
 import { useSwitchChain } from "../../../../hooks/chain";
+import RewardModal from "./reward.modal";
 
 interface Data {
   chain_id: string;
@@ -34,6 +35,11 @@ const BonusTable = (props: {
   const [total, setTotal] = useState<number>(999);
   const { CheckHackathon, ClaimHackathon } = useHackathon();
   const { switchC } = useSwitchChain();
+  const [visible,setVisible] = useState<boolean>(false);
+  const [info,setInfo] = useState<{name:string,amount:number}>({
+    name:'',
+    amount:0
+  })
   const getList = async () => {
     setLoading(true);
     const result = await HackathonRewardList({
@@ -71,7 +77,7 @@ const BonusTable = (props: {
     //   setLoading(false);
     // });
   };
-  const cliamReward = async (_chain:string,_id: number) => {
+  const cliamReward = async (_chain: string, _id: number) => {
     const chain: any = await switchC(+_chain);
     if (chain?.code) return;
     const result: any = await ClaimHackathon(_id);
@@ -84,23 +90,32 @@ const BonusTable = (props: {
   };
   const addTokenTowWallet = async (_index: number) => {
     const win: any = window;
-    await win.ethereum.request({
-      method: "wallet_watchAsset",
-      params: {
-        type: "ERC20",
-        options: {
-          address: data[_index].reward_token_address,
-          symbol: data[_index].reward_token_symbol,
-          decimals: 18,
-          image: data[_index].reward_token_url,
+    try {
+      await win.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20",
+          options: {
+            address: data[_index].reward_token_address,
+            symbol: data[_index].reward_token_symbol,
+            decimals: 18,
+            image: data[_index].reward_token_url,
+          },
         },
-      },
-    });
+      });
+    } catch (err: any) {
+      message.error(err.message)
+    }
   };
   const checkFN = async (_index: number) => {
     const chain: any = await switchC(+data[_index].chain_id);
     if (chain?.code) return;
     const result = await CheckHackathon(data[_index].hackathon_id);
+    setInfo({
+      name:data[_index].hackathon_name,
+      amount:result
+    })
+    setVisible(true);
     data[_index].reward_amount = result;
     setData(data);
   };
@@ -116,6 +131,7 @@ const BonusTable = (props: {
           "Total Investments",
           "Total Rewards",
           "Add New Token",
+          "Claim Time",
           "Apply",
         ].map((item: string, index: number) => {
           return (
@@ -173,20 +189,36 @@ const BonusTable = (props: {
                 </Button>
               </div>
               <div className="public-p">
-                <Button
-                  type="primary"
-                  disabled={item.reward_amount < 1 || !!item.reward_claim_trx}
-                  className={`${
-                    item.reward_amount < 1 || !!item.reward_claim_trx
-                      ? "dis-btn"
-                      : ""
-                  }`}
-                  onClick={() => {
-                    cliamReward(item.chain_id,item.hackathon_id);
-                  }}
-                >
-                  Receive
-                </Button>
+                {item.reward_claim_time === 0 ? (
+                  "-"
+                ) : (
+                  <p>{DateConvertMin(item.reward_claim_time)}</p>
+                )}
+              </div>
+              <div className="public-p">
+                {item.reward_claim_trx !== "" ? (
+                  <p
+                    className="click"
+                    onClick={() => {
+                      window.open(
+                        `https://piscan.plian.org/tx/${item.reward_claim_trx}?chain=1`
+                      );
+                    }}
+                  >
+                    {item.reward_claim_trx.substring(0, 8)}...
+                  </p>
+                ) : (
+                  <Button
+                    type="primary"
+                    disabled={item.reward_amount < 1}
+                    className={`${item.reward_amount < 1 ? "dis-btn" : ""}`}
+                    onClick={() => {
+                      cliamReward(item.chain_id, item.hackathon_id);
+                    }}
+                  >
+                    Receive
+                  </Button>
+                )}
               </div>
             </div>
           );
@@ -198,6 +230,9 @@ const BonusTable = (props: {
         </div>
       )}
       {!loading && total < 1 && <p className="no-more">No More</p>}
+      <RewardModal visible={visible} onClose={(val:boolean) => {
+        setVisible(val)
+      }} name={info.name} amount={info.amount}/>
     </div>
   );
 };

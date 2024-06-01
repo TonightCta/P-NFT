@@ -135,7 +135,7 @@ const VoteModal = (props: {
           <li>
             <p>
               <sup>*</sup>Contribution Amount
-              <span>(1PNFT equals one vote)</span>
+              <span>(1{props.pay_token_symbol} equals one vote)</span>
             </p>
             <input
               type="number"
