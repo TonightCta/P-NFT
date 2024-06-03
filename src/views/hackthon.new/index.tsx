@@ -136,6 +136,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       page_num: 1,
     });
     const { data } = result;
+    console.log(data.data.item);
     if (!data.data.item) {
       setNodata(true);
       setReload(false);
@@ -209,6 +210,12 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     });
   };
   useEffect(() => {
+    dispatch({
+      type: Type.SET_HACKATHON,
+      payload: {
+        hackathon: "",
+      },
+    });
     if (!loading.left && !loading.right) {
       setReload(true);
     }
@@ -500,7 +507,9 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                   <p>
                     Total Supports
                     <span>
-                      {addCommasToNumber(+item.total_contribution_amount.toFixed(2))}
+                      {addCommasToNumber(
+                        +item.total_contribution_amount.toFixed(2)
+                      )}
                       <i>${item.pay_token_symbol}</i>
                     </span>
                   </p>
@@ -513,7 +522,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                       const url = `https://test.pizzap.io/#/?referrer=${state.address}&id=${item.hackathon_id}`;
                       window.open(
                         `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                          "Alex share"
+                          "Memehack is a fair and community-governed platform for launching Memecoins. It also supports the secondary creation based on popular Memes. Everyone is welcome to launch their Memecoins in Memehack. Join us in shaping the future of meme-based culture."
                         )}&url=${encodeURIComponent(url)}`,
                         windowName,
                         windowFeatures

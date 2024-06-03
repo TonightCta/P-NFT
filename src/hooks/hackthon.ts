@@ -215,7 +215,7 @@ export const useHackathon = () => {
       Contract.methods
         .approve(
           calsMarks(_approve_for_address),
-          "0xffffffffffffffffffffffffffffffffffffffffff"
+          "0x1f4"
         )
         .send(send)
         .on("receipt", (res: any) => {

@@ -163,7 +163,18 @@ const SubmitWorkModal = (props: {
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
   const { QueryERC20Approve, SubmitHackathon, ApproveToken } = useHackathon();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<{ approve: boolean; submit: boolean }>(
+    {
+      approve: false,
+      submit: false,
+    }
+  );
+  const [disable, setDisable] = useState<{ approve: boolean; submit: boolean }>(
+    {
+      approve: true,
+      submit: true,
+    }
+  );
   const { state } = useContext(PNft);
   const [wordListS, setWordList] = useState<string[]>([]);
   const [type, setType] = useState<number>(1);
@@ -181,26 +192,71 @@ const SubmitWorkModal = (props: {
     address: GetUrlKey("referrer", window.location.href) || "",
   });
   const [collList, setCollList] = useState<Coll[]>(WordList[0].coll);
+  const queryToken = async () => {
+    const query = await QueryERC20Approve(
+      props.pay_token_address,
+      state.address as string,
+      props.create_address
+    );
+    const queryNum = +web3.utils.fromWei(String(query), "ether");
+    if (queryNum < 1) {
+      setDisable({
+        ...disable,
+        approve: false,
+      });
+    } else {
+      setDisable({
+        ...disable,
+        submit: false,
+      });
+    }
+  };
+  const approveTokenInn = async () => {
+    setLoading({
+      ...loading,
+      approve: true,
+    });
+    const approve: any = await ApproveToken(
+      props.pay_token_address,
+      props.create_address
+    );
+    setLoading({
+      ...loading,
+      approve: false,
+    });
+    if (!approve || approve.message) {
+      message.error(approve.message);
+      return;
+    }
+    queryToken();
+  };
+  const clear = () => {
+    setInput({
+      amount: props.min ? props.min : "",
+      img: {
+        view: "",
+        source: "",
+      },
+      name: "",
+      desc: "",
+      address: GetUrlKey("referrer", window.location.href) || "",
+    });
+    setWordList([]);
+    setAiImageView({
+      ...aiImageView,
+      url: "",
+    });
+    setDisable({
+      approve: true,
+      submit: true,
+    });
+    setType(1);
+  };
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
-    const clear = () => {
-      setInput({
-        amount: props.min ? props.min : "",
-        img: {
-          view: "",
-          source: "",
-        },
-        name: "",
-        desc: "",
-        address: GetUrlKey("referrer", window.location.href) || "",
-      });
-      setWordList([]);
-      setAiImageView({
-        ...aiImageView,
-        url: "",
-      });
-    };
-      !props.visible && clear();
+    !!props.visible && queryToken();
+
+    !props.visible && clear();
   }, [props.visible]);
   const uploadFile = (e: any) => {
     const file = e.target.files[0];
@@ -286,30 +342,16 @@ const SubmitWorkModal = (props: {
     }
     const chain: any = await switchC(+props.chain_id);
     if (chain?.code) return;
-    setLoading(true);
+    setLoading({
+      ...loading,
+      submit: true,
+    });
     const balance = await balanceErc20(props.pay_token_address);
     if (+web3.utils.fromWei(balance) < +input.amount) {
       message.error("Your balance is insufficient");
       return;
     }
-    const query = await QueryERC20Approve(
-      props.pay_token_address,
-      state.address as string,
-      props.create_address
-    );
-    const queryNum = +web3.utils.fromWei(String(query), "ether");
-    if (queryNum < 0.01) {
-      const approve: any = await ApproveToken(
-        props.pay_token_address,
-        props.create_address
-      );
-      if (!approve || approve.message) {
-        setLoading(false);
-        return;
-      }
-      submitWork();
-      return;
-    }
+
     const ipfs =
       type === 2
         ? await uploadFileFN(`${Date.now()}.png`, input.img.source)
@@ -321,7 +363,10 @@ const SubmitWorkModal = (props: {
       +input.amount,
       input.address
     );
-    setLoading(false);
+    setLoading({
+      ...loading,
+      submit: false,
+    });
     if (!result || result.message) {
       message.error(result.message);
       return;
@@ -330,14 +375,9 @@ const SubmitWorkModal = (props: {
     setVisible(false);
     props.onClose(false);
     props.openSuccess(props.hackthon_id);
-    setWordList([]);
-    setAiImageView({
-      ...aiImageView,
-      url: "",
-    });
+    clear();
   };
   const [imageWait, setImageWait] = useState<boolean>(false);
-
   const uploadFileImageAi = async () => {
     if (wordListS.length < 1) {
       message.error("Please select keywords");
@@ -659,9 +699,27 @@ const SubmitWorkModal = (props: {
           </div>
         )}
         <p className="submit" onClick={submitWork}>
-          <Button type="primary" loading={loading} disabled={loading}>
+          <Button
+            type="primary"
+            loading={loading.approve}
+            className={`${disable.approve ? "dis-btn" : ""}`}
+            disabled={loading.approve || disable.approve}
+            onClick={approveTokenInn}
+          >
+            Approve
+          </Button>
+          <Button
+            type="primary"
+            loading={loading.submit}
+            disabled={loading.submit || disable.submit}
+            className={`${disable.submit ? "dis-btn" : ""}`}
+          >
             Submit
           </Button>
+        </p>
+        <p className={`line ${!disable.submit ? "c-line" : ""}`}>
+          <span></span>
+          <span></span>
         </p>
       </div>
     </Modal>

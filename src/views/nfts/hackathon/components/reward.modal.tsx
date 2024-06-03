@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 interface Props{
     visible:boolean,
@@ -10,6 +10,9 @@ interface Props{
 
 const RewardModal = (props:Props): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
+  useEffect(() => {
+    props.visible && setVisible(props.visible);
+  },[props.visible])
   return (
     <Modal
       title={null}

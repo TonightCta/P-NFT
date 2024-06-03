@@ -20,13 +20,24 @@ const VoteModal = (props: {
   chain_id: string;
   pay_token_address: string;
   create_address: string;
-  pay_token_symbol:string;
-  pay_token_url:string;
+  pay_token_symbol: string;
+  pay_token_url: string;
   onClose: (val: boolean) => void;
   onSuccess: (hackathon_id: number) => void;
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<{ approve: boolean; submit: boolean }>(
+    {
+      approve: false,
+      submit: false,
+    }
+  );
+  const [disable, setDisable] = useState<{ approve: boolean; submit: boolean }>(
+    {
+      approve: true,
+      submit: true,
+    }
+  );
   const { QueryERC20Approve, ApproveToken, VoteHackathon } = useHackathon();
   const { switchC } = useSwitchChain();
   const { state } = useContext(PNft);
@@ -35,6 +46,44 @@ const VoteModal = (props: {
     amount: props.min ? props.min : "",
     address: GetUrlKey("referrer", window.location.href) || "",
   });
+  const queryToken = async () => {
+    const query = await QueryERC20Approve(
+      props.pay_token_address,
+      state.address as string,
+      props.create_address
+    );
+    const queryNum = +web3.utils.fromWei(String(query), "ether");
+    if (queryNum < 1) {
+      setDisable({
+        ...disable,
+        approve: false,
+      });
+    } else {
+      setDisable({
+        ...disable,
+        submit: false,
+      });
+    }
+  };
+  const approveTokenInn = async () => {
+    setLoading({
+      ...loading,
+      approve: true,
+    });
+    const approve: any = await ApproveToken(
+      props.pay_token_address,
+      props.create_address
+    );
+    setLoading({
+      ...loading,
+      approve: false,
+    });
+    if (!approve || approve.message) {
+      message.error(approve.message);
+      return;
+    }
+    queryToken();
+  };
   useEffect(() => {
     props.min &&
       setInput({
@@ -69,28 +118,13 @@ const VoteModal = (props: {
     }
     const chain: any = await switchC(+props.chain_id);
     if (chain?.code) return;
-    setLoading(true);
+    setLoading({
+      ...loading,
+      submit: true,
+    });
     const balance = await balanceErc20(props.pay_token_address);
     if (+web3.utils.fromWei(balance) < +input.amount) {
       message.error("Your balance is insufficient");
-      return;
-    }
-    const query = await QueryERC20Approve(
-      props.pay_token_address,
-      state.address as string,
-      props.create_address
-    );
-    const queryNum = +web3.utils.fromWei(String(query), "ether");
-    if (queryNum < 1) {
-      const approve: any = await ApproveToken(
-        props.pay_token_address,
-        props.create_address
-      );
-      if (!approve || approve.message) {
-        setLoading(false);
-        return;
-      }
-      submitVote();
       return;
     }
     const result: any = await VoteHackathon(
@@ -99,22 +133,34 @@ const VoteModal = (props: {
       +input.amount,
       input.address
     );
-    setLoading(false);
+    setLoading({
+      ...loading,
+      submit: false,
+    });
     if (!result || result.message) {
       message.error(result.message);
       return;
     }
     message.success("Vote Successful");
+    setDisable({
+      approve: true,
+      submit: true,
+    });
     setVisible(false);
     props.onClose(false);
     props.onSuccess(props.hackathon_id);
   };
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
+    !!props.visible && queryToken();
     const clear = () => {
       setInput({
         amount: props.min ? props.min : "",
         address: GetUrlKey("referrer", window.location.href) || "",
+      });
+      setDisable({
+        approve: true,
+        submit: true,
       });
     };
     !props.visible && clear();
@@ -171,12 +217,26 @@ const VoteModal = (props: {
         <p className="submit">
           <Button
             type="primary"
-            loading={loading}
-            disabled={loading}
+            loading={loading.approve}
+            className={`${disable.approve ? "dis-btn" : ""}`}
+            disabled={loading.approve || disable.approve}
+            onClick={approveTokenInn}
+          >
+            Approve
+          </Button>
+          <Button
+            type="primary"
+            loading={loading.submit}
+            disabled={loading.submit || disable.submit}
+            className={`${disable.submit ? "dis-btn" : ""}`}
             onClick={submitVote}
           >
             Vote
           </Button>
+        </p>
+        <p className={`line ${!disable.submit ? "c-line" : ""}`}>
+          <span></span>
+          <span></span>
         </p>
       </div>
     </Modal>

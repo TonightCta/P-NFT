@@ -279,7 +279,7 @@ export const useContract = () => {
       contract.methods
         .approve(
           calsMarks(_approve_for_address),
-          "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          "0x1f4"
         )
         .send(send)
         .on("receipt", (res: any) => {

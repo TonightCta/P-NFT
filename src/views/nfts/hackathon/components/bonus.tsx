@@ -168,7 +168,7 @@ const BonusTable = (props: {
                 <Button
                   type="primary"
                   disabled={item.is_online}
-                  className="check-btn"
+                  className={`check-btn ${item.is_online ? "dis-btn" : ""}`}
                   onClick={() => {
                     checkFN(index);
                   }}

@@ -258,8 +258,8 @@ export const DateConvertMin = (_time: number): string => {
       ? date.getMonth() + 1
       : "0" + (date.getMonth() + 1);
   const day = date.getDate() >= 10 ? date.getDate() : "0" + date.getDate();
-  const hour = date.getHours();
-  const min = date.getMinutes();
+  const hour = date.getHours() >= 10 ? date.getHours() : "0" + date.getHours();
+  const min = date.getMinutes() >= 10 ? date.getMinutes() : "0" + date.getMinutes();
   return `${hour}:${min} ${day}/${month}/${year}`;
 };
 //Date conversion
@@ -271,9 +271,9 @@ export const DateConvertHour = (_time: number): string => {
       ? date.getMonth() + 1
       : "0" + (date.getMonth() + 1);
   const day = date.getDate() >= 10 ? date.getDate() : "0" + date.getDate();
-  const hour = date.getHours();
-  const min = date.getMinutes();
-  const sec = date.getSeconds();
+  const hour = date.getHours() >= 10 ? date.getHours() : "0" + date.getHours();
+  const min = date.getMinutes() >= 10 ? date.getMinutes() : "0" + date.getMinutes();
+  const sec = date.getSeconds() >= 10 ? date.getSeconds() : "0" + date.getSeconds();
   return `${hour}:${min}:${sec} ${day}/${month}/${year}`;
 };
 

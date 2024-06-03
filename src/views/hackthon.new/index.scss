@@ -233,7 +233,7 @@
                 margin-bottom: 32px;
                 position: relative;
                 overflow: hidden;
-                .share-box{
+                .share-box {
                     position: absolute;
                     top: 0;
                     right: 0;
@@ -242,35 +242,35 @@
                     display: flex;
                     align-items: center;
                     padding: 0 22px 0 115px;
-                    p{
+                    p {
                         margin-right: 48px;
                         font-size: 12px;
                         color: #202025;
-                        span{
+                        span {
                             font-size: 16px;
                             font-weight: 600;
                             margin-left: 10px;
-                            i{
+                            i {
                                 font-size: 12px;
                                 font-weight: 400;
                                 margin-left: 10px;
                             }
                         }
                     }
-                    button{
+                    button {
                         width: 88px;
-                        background-color: white!important;
+                        background-color: white !important;
                         color: #FA43A8;
                         border-color: #FA43A8;
                         box-shadow: none;
                         border-radius: 12px;
                     }
                 }
-                .share-box::before{
+                .share-box::before {
                     content: '';
                     width: 0;
                     height: 0;
-                    border:40px solid;
+                    border: 40px solid;
                     position: absolute;
                     transform: rotate(-45deg);
                     left: -40px;
@@ -353,9 +353,9 @@
                             }
                         }
                     }
-                    .progress-box:hover{
-                        .box-i{
-                            .progress-text{
+                    .progress-box:hover {
+                        .box-i {
+                            .progress-text {
                                 opacity: 1;
                             }
                         }
@@ -378,9 +378,9 @@
                 flex-wrap: wrap;
                 text-align: left;
                 margin-top: 100px;
-                .hackthon-card-new:first-child{
-                    background: linear-gradient( 89deg, #FDF6FB 0%, #F9DBFB 74%, #F4F4FF 100%);
-                    .first-icon{
+                .hackthon-card-new:first-child {
+                    background: linear-gradient(89deg, #FDF6FB 0%, #F9DBFB 74%, #F4F4FF 100%);
+                    .first-icon {
                         display: block;
                         position: absolute;
                         width: 150px;
@@ -398,7 +398,7 @@
                     padding-bottom: 24px;
                     cursor: pointer;
                     padding: 24px;
-                    .first-icon{
+                    .first-icon {
                         display: none;
                     }
                     .nft-box {
@@ -671,15 +671,54 @@
         }
         .submit {
             text-align: center;
-            margin-top: 24px;
+            margin-top: 32px;
             padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
             button {
-                width: 100%;
+                width: 200px;
                 height: 48px;
-                border-radius: 12px;
+                border-radius: 32px;
                 font-size: 16px;
                 background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
                 border: 0;
+                transition: .3s all;
+            }
+            button:last-child {
+                margin-right: 0;
+            }
+            .dis-btn {
+                background: #F0F0F0 !important;
+                color: #686A6C;
+            }
+        }
+        .line {
+            display: inline-block;
+            margin: 0 auto;
+            margin-bottom: 24px;
+            width: 55%;
+            height: 3px;
+            background: #F0F0F0;
+            transition: .3s all;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            span {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: #f0f0f0;
+            }
+        }
+        .c-line {
+            background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+            span:first-child {
+                background-color: #F23176;
+            }
+            span:last-child {
+                background-color: #6A40FB;
             }
         }
     }
@@ -957,13 +996,53 @@
         .submit {
             text-align: center;
             margin-top: 32px;
+            padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
             button {
-                width: 100%;
+                width: 200px;
                 height: 48px;
-                border-radius: 12px;
+                border-radius: 32px;
                 font-size: 16px;
-                border: 0;
                 background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+                border: 0;
+                transition: .3s all;
+            }
+            button:last-child {
+                margin-right: 0;
+            }
+            .dis-btn {
+                background: #F0F0F0 !important;
+                color: #686A6C;
+            }
+        }
+        .line {
+            display: inline-block;
+            margin: 0 auto;
+            margin-bottom: 24px;
+            width: 55%;
+            height: 3px;
+            background: #F0F0F0;
+            transition: .3s all;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            span {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: #f0f0f0;
+            }
+        }
+        .c-line {
+            background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+            span:first-child {
+                background-color: #F23176;
+            }
+            span:last-child {
+                background-color: #6A40FB;
             }
         }
     }
@@ -1023,15 +1102,54 @@
         }
         .submit {
             text-align: center;
-            margin-top: 24px;
+            margin-top: 32px;
             padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
             button {
-                width: 100%;
+                width: 200px;
                 height: 48px;
-                border-radius: 12px;
+                border-radius: 32px;
                 font-size: 16px;
                 background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
                 border: 0;
+                transition: .3s all;
+            }
+            button:last-child {
+                margin-right: 0;
+            }
+            .dis-btn {
+                background: #F0F0F0 !important;
+                color: #686A6C;
+            }
+        }
+        .line {
+            display: inline-block;
+            margin: 0 auto;
+            margin-bottom: 24px;
+            width: 55%;
+            height: 3px;
+            background: #F0F0F0;
+            transition: .3s all;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            span {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background-color: #f0f0f0;
+            }
+        }
+        .c-line {
+            background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+            span:first-child {
+                background-color: #F23176;
+            }
+            span:last-child {
+                background-color: #6A40FB;
             }
         }
     }

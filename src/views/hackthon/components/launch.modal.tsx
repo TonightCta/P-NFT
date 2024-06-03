@@ -9,7 +9,7 @@ import { DateConvertMin, FilterHackathonNet } from "../../../utils";
 import { PNft } from "../../../App";
 import { CurrencyList } from "../../../request/api";
 import { useContract } from "../../../utils/contract";
-import type { DatePickerProps } from 'antd'
+import type { DatePickerProps } from "antd";
 import dayjs from "dayjs";
 
 interface Input {
@@ -77,7 +77,18 @@ const LaunchModal = (props: {
     fee: 1,
     vote: 1,
   });
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<{ approve: boolean; submit: boolean }>(
+    {
+      approve: false,
+      submit: false,
+    }
+  );
+  const [disable, setDisable] = useState<{ approve: boolean; submit: boolean }>(
+    {
+      approve: true,
+      submit: true,
+    }
+  );
   const [net, setNet] = useState<string>("8007736");
   const [token, setToken] = useState<Token[]>(Network[0].token);
   const { state } = useContext(PNft);
@@ -141,6 +152,10 @@ const LaunchModal = (props: {
       fee: 1,
       vote: 1,
     });
+    setDisable({
+      approve: true,
+      submit: true,
+    });
   };
   const submitLaunch = async () => {
     if (!input.name) {
@@ -165,28 +180,13 @@ const LaunchModal = (props: {
     }
     const chain: any = await switchC(+net);
     if (chain?.code) return;
-    setLoading(true);
+    setLoading({
+      ...loading,
+      submit: true,
+    });
     const balance = await balanceErc20(input.contract);
     if (+web3.utils.fromWei(balance) < 1) {
       message.error("Your balance is insufficient");
-      return;
-    }
-    const query = await QueryERC20Approve(
-      input.contract,
-      props.address,
-      FilterHackathonNet(state.chain as string).contract
-    );
-    const queryNum = +web3.utils.fromWei(String(query), "ether");
-    if (queryNum < 1) {
-      const approve: any = await ApproveToken(
-        input.contract,
-        FilterHackathonNet(state.chain as string).contract
-      );
-      if (!approve || approve.message) {
-        setLoading(false);
-        return;
-      }
-      submitLaunch();
       return;
     }
     const result: any = await CreateHackathon(
@@ -198,7 +198,10 @@ const LaunchModal = (props: {
       +input.fee,
       +input.vote
     );
-    setLoading(false);
+    setLoading({
+      ...loading,
+      submit: false,
+    });
     if (!result || result.message) {
       message.error(result.message);
       return;
@@ -211,10 +214,49 @@ const LaunchModal = (props: {
       +result.events["HackthonCreated"]?.returnValues?.hackthonId
     );
   };
+  const queryToken = async () => {
+    const query = await QueryERC20Approve(
+      input.contract,
+      props.address,
+      FilterHackathonNet(state.chain as string).contract
+    );
+    const queryNum = +web3.utils.fromWei(String(query), "ether");
+    if (queryNum < 1) {
+      setDisable({
+        ...disable,
+        approve: false,
+      });
+    } else {
+      setDisable({
+        ...disable,
+        submit: false,
+      });
+    }
+  };
+  const approveTokenInn = async () => {
+    setLoading({
+      ...loading,
+      approve: true,
+    });
+    const approve: any = await ApproveToken(
+      input.contract,
+      FilterHackathonNet(state.chain as string).contract
+    );
+    setLoading({
+      ...loading,
+      approve: false,
+    });
+    if (!approve || approve.message) {
+      message.error(approve.message);
+      return;
+    }
+    queryToken();
+  };
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
     !props.visible && resetInp();
     !!props.visible && queryTokenList();
+    !!props.visible && queryToken();
   }, [props.visible]);
   const selectChain = (val: string) => {
     setNet(val);
@@ -230,11 +272,11 @@ const LaunchModal = (props: {
     );
   };
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log((date as any).$d.getTime())
+    console.log((date as any).$d.getTime());
     setInput({
       ...input,
-      end_time:Math.ceil((date as any).$d.getTime() / 1000)
-    })
+      end_time: Math.ceil((date as any).$d.getTime() / 1000),
+    });
   };
   const selectTokenFN = (val: string) => {
     setInput({
@@ -244,8 +286,8 @@ const LaunchModal = (props: {
     setSelectToken(val);
   };
   const afterMonth = () => {
-    return DateConvertMin(+(Date.now() / 1000).toFixed(0) + 2626560)
-  }
+    return DateConvertMin(+(Date.now() / 1000).toFixed(0) + 2626560);
+  };
   return (
     <Modal
       title={<p className="center-modal-title">Launch Hackthon</p>}
@@ -409,7 +451,12 @@ const LaunchModal = (props: {
           </li>
           <li>
             <p>End Time</p>
-            <DatePicker onChange={onChange} showTime={{ format: 'HH:mm' }} format={'HH:mm DD/MM/YYYY'} defaultValue={dayjs(afterMonth(), 'HH:mm DD/MM/YYYY')}/>
+            <DatePicker
+              onChange={onChange}
+              showTime={{ format: "HH:mm" }}
+              format={"HH:mm DD/MM/YYYY"}
+              defaultValue={dayjs(afterMonth(), "HH:mm DD/MM/YYYY")}
+            />
           </li>
           {/* <li>
             <p>Min Funding Amount</p>
@@ -454,16 +501,32 @@ const LaunchModal = (props: {
             />
           </li> */}
         </ul>
-        <p className="submit">
-          <Button
-            type="primary"
-            loading={loading}
-            disabled={loading}
-            onClick={submitLaunch}
-          >
-            Submit
-          </Button>
-        </p>
+        <div>
+          <p className="submit">
+            <Button
+              type="primary"
+              loading={loading.approve}
+              className={`${disable.approve ? "dis-btn" : ""}`}
+              disabled={loading.approve || disable.approve}
+              onClick={approveTokenInn}
+            >
+              Approve
+            </Button>
+            <Button
+              type="primary"
+              loading={loading.submit}
+              disabled={loading.submit || disable.submit}
+              className={`${disable.submit ? "dis-btn" : ""}`}
+              onClick={submitLaunch}
+            >
+              Submit
+            </Button>
+          </p>
+          <p className={`line ${!disable.submit ? "c-line" : ""}`}>
+            <span></span>
+            <span></span>
+          </p>
+        </div>
       </div>
     </Modal>
   );

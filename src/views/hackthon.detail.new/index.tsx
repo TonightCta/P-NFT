@@ -127,7 +127,7 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
                 const url = `https://test.pizzap.io/#/hackthon/${searchParams.id}/${searchParams.min}/${searchParams.chain}?referrer=${state.address}`;
                 window.open(
                   `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                    "Alex share"
+                    "Memehack is a fair and community-governed platform for launching Memecoins. It also supports the secondary creation based on popular Memes. Everyone is welcome to launch their Memecoins in Memehack. Join us in shaping the future of meme-based culture."
                   )}&url=${encodeURIComponent(url)}`,
                   windowName,
                   windowFeatures
