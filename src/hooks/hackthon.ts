@@ -32,7 +32,7 @@ export const useHackathon = () => {
   const { state } = useContext(PNft);
   const { provider } = useSDK();
   const [contract, setContract] = useState<any>();
-  const [contract20, setContract20] = useState<any>();
+  // const [contract20, setContract20] = useState<any>();
   const { walletProvider } = useWeb3ModalProvider();
   const Gas: string = FilterAddressToName(state.chain as string).gas;
   const [send, setSend] = useState<Send>({
@@ -263,12 +263,6 @@ export const useHackathon = () => {
     _amount: number, //toWei
     _referrer: string
   ) => {
-    console.log(
-      _id,
-      _nft_id,
-      web3.utils.toWei(String(_amount), "ether"),
-      _referrer ? _referrer : SystemAddress
-    );
     return new Promise((resolve, reject) => {
       contract.methods
         .vote(
@@ -296,8 +290,8 @@ export const useHackathon = () => {
   ) => {
     const result = await contract.methods
       .checkClaimableAmount(_hackathon_id)
-      .call();
-    return +result
+      .call({from:send.from});
+    return +web3.utils.fromWei(result)
   };
   const ClaimHackathon = async (_id: number) => {
     return new Promise((resolve, reject) => {
@@ -307,7 +301,7 @@ export const useHackathon = () => {
           from: send.from,
           gas: Gas,
         })
-        .on("receipt", (res: string) => {
+        .on("transactionHash", (res: string) => {
           resolve(res);
           console.log(res);
         })

@@ -528,11 +528,17 @@
         }
     }
 }
+@media screen and (max-width:1280px) {
+        .center-modal-title{
+            font-size: 1.6rem!important;
+        }
+    }
 .launch-modal-custom {
     .center-modal-title {
         text-align: center;
         font-size: 24px;
     }
+    
     .launch-inner {
         width: 95%;
         margin: 0 auto;
@@ -630,6 +636,22 @@
                         }
                     }
                 }
+                @media screen and (max-width:1280px) {
+                    p{
+                        font-size: 1.4rem;
+                    }
+                    .token-box{
+                        flex-wrap: wrap;
+                        height: auto;
+                        .select-chain{
+                            width: 100%;
+                            margin-bottom: 2.4rem;
+                        }
+                        .token-i{
+                            margin-left: 0;
+                        }
+                    }
+                }
                 input::placeholder {
                     color: #999;
                 }
@@ -691,6 +713,18 @@
             .dis-btn {
                 background: #F0F0F0 !important;
                 color: #686A6C;
+            }
+        }
+        @media screen and (max-width:1280px) {
+            p{
+                font-size: 1.4rem;
+            }
+            .submit{
+                justify-content: space-between;
+                button{
+                    width: 14rem;
+                    font-size: 1.4rem;
+                }
             }
         }
         .line {
@@ -1017,6 +1051,15 @@
                 color: #686A6C;
             }
         }
+        @media screen and (max-width:1280px) {
+            .submit{
+                justify-content: space-between;
+                button{
+                    width: 14rem;
+                    font-size: 1.4rem;
+                }
+            }
+        }
         .line {
             display: inline-block;
             margin: 0 auto;
@@ -1043,6 +1086,39 @@
             }
             span:last-child {
                 background-color: #6A40FB;
+            }
+        }
+    }
+    @media screen and (max-width:1280px) {
+        .work-inner{
+            padding: 0;
+            .tabs{
+                ul{
+                    li{
+                        width: 14rem;
+                        height: 4.8rem;
+                        font-size: 1.6rem;
+                        line-height: 4.8rem;
+                    }
+                }
+            }
+            .design-box{
+                .title{
+                    font-size: 1.6rem;
+                }
+                .word-title{
+                    width: 100%;
+                    ul{
+                        width: 100%;
+                        overflow: auto;
+                        li{
+                            white-space: nowrap;
+                        }
+                    }
+                }
+                .review-box{
+                    flex-wrap: wrap;
+                }
             }
         }
     }
@@ -1124,6 +1200,15 @@
                 color: #686A6C;
             }
         }
+        @media screen and (max-width:1280px) {
+            .submit{
+                justify-content: space-between;
+                button{
+                    width: 14rem;
+                    font-size: 1.4rem;
+                }
+            }
+        }
         .line {
             display: inline-block;
             margin: 0 auto;
@@ -1194,5 +1279,153 @@
         width: 20px;
         height: 20px;
         margin-right: 8px;
+    }
+}
+@media screen and (max-width:1280px) {
+    .hackthon-new-view {
+        padding-top: 12rem;
+        .title-oper {
+            width: 100%;
+            padding-left: 2.5%;
+            padding-right: 2.5%;
+            p {
+                font-size: 24px;
+            }
+            button {
+                width: auto;
+                font-size: 12px;
+                height: 32px;
+                border-radius: 8px;
+                font-weight: 600;
+            }
+        }
+        .new-view-inner {
+            width: 100%;
+            flex-direction: column;
+            display: block;
+            position: relative;
+            padding-top: 9rem;
+            .left-name {
+                display: flex;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                z-index: 200;
+                height: 7.5rem;
+                overflow: auto;
+                .anchor-box {
+                    margin-bottom: 0;
+                    .left-msg {
+                        padding: 1.6rem 2rem;
+                        position: relative;
+                        .active-line {
+                            position: absolute;
+                            width: 100%;
+                            height: 4px;
+                            bottom: 0;
+                            left: 0;
+                        }
+                        .meme-msg {
+                            margin: 0;
+                            padding: 0;
+                            .symbol-name {
+                                white-space: nowrap;
+                                img {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .right-content {
+                padding: 0 8px;
+                height: calc(100vh - 26rem);
+                margin-top: 0;
+                .right-list-slide {
+                    padding: 1.2rem .8rem;
+                    .slide-title {
+                        font-size: 1.6rem;
+                    }
+                    .date-msg {
+                        position: relative;
+                        z-index: 200;
+                        .progress-box {
+                            height: .8rem;
+                            .p-date {
+                                top: 1.2rem;
+                            }
+                        }
+                    }
+                    .share-box {
+                        flex-direction: column;
+                        height: auto;
+                        padding-left: 5rem;
+                        p {
+                            margin-right: 0;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            margin-top: .4rem;
+                            span {
+                                margin-top: .4rem;
+                                font-size: 1.4rem;
+                            }
+                        }
+                        button {
+                            width: auto;
+                            font-size: 12px;
+                            height: 2.4rem;
+                            border-radius: 8px;
+                            margin-top: .4rem;
+                            margin-bottom: .8rem;
+                        }
+                    }
+                    .share-box::before {
+                        border: 80px solid;
+                        left: -140px;
+                        top: 10px;
+                        transform: rotate(-15deg);
+                        border-color: transparent white transparent transparent;
+                    }
+                    .items-list {
+                        margin-top: 6rem;
+                        .add-work {
+                            width: calc(50% - 12px);
+                            height: 12.8rem;
+                        }
+                        .hackthon-card-new {
+                            width: calc(50% - 12px);
+                            margin-right: 2.4rem;
+                            padding: .8rem 1.2rem;
+                            .first-icon {
+                                width: 7.6rem;
+                                height: 7.6rem;
+                                right: -3.8rem;
+                                top: -3.8rem;
+                            }
+                            .nft-box {
+                                width: 5.6rem;
+                                height: 5.6rem;
+                                min-width: 5.6rem;
+                            }
+                            .right-msg {
+                                .vote-btn {
+                                    height: 2.4rem;
+                                    button {
+                                        font-size: 1.2rem;
+                                        border-radius: 6px;
+                                    }
+                                }
+                            }
+                        }
+                        .hackthon-card-new:nth-child(2n) {
+                            margin-right: 0;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

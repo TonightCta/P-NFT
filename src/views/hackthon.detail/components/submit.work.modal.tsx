@@ -201,12 +201,12 @@ const SubmitWorkModal = (props: {
     const queryNum = +web3.utils.fromWei(String(query), "ether");
     if (queryNum < 1) {
       setDisable({
-        ...disable,
         approve: false,
+        submit:true,
       });
     } else {
       setDisable({
-        ...disable,
+        approve:true,
         submit: false,
       });
     }

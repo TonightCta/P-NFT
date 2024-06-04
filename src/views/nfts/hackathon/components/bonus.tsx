@@ -85,7 +85,7 @@ const BonusTable = (props: {
       message.error(result.message);
       return;
     }
-    message.success("Successfully received");
+    message.success("The claim request has been sent, please pay attention to the wallet balance after adding the token.");
     getList();
   };
   const addTokenTowWallet = async (_index: number) => {
@@ -161,11 +161,11 @@ const BonusTable = (props: {
               </div>
               <div className="public-p flex-b">
                 <p className="g-c">
-                  {item.receive < 1000
+                  {item.reward_amount < 1000
                     ? item.reward_amount
                     : addCommasToNumber(item.reward_amount)}
                 </p>
-                <Button
+                {item.reward_amount <= 0 && <Button
                   type="primary"
                   disabled={item.is_online}
                   className={`check-btn ${item.is_online ? "dis-btn" : ""}`}
@@ -174,7 +174,7 @@ const BonusTable = (props: {
                   }}
                 >
                   Check
-                </Button>
+                </Button>}
               </div>
               <div className="public-p">
                 <Button

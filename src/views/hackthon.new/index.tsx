@@ -28,6 +28,7 @@ import ConnectModal from "../../components/header.new/components/connect.modal";
 import { HackathonItemList, HackathonList } from "../../request/api";
 import { Type } from "../../utils/types";
 import { HackathonSupport } from "../../hooks/hackthon";
+import { flag } from "../../utils/source";
 // import { useSpring,animated } from 'react-spring'
 // import CountUp from "react-countup";
 // import React from "react";

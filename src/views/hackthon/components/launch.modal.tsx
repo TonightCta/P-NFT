@@ -221,18 +221,20 @@ const LaunchModal = (props: {
       FilterHackathonNet(state.chain as string).contract
     );
     const queryNum = +web3.utils.fromWei(String(query), "ether");
+    console.log(queryNum);
     if (queryNum < 1) {
       setDisable({
-        ...disable,
+        submit:true,
         approve: false,
       });
     } else {
       setDisable({
-        ...disable,
+        approve:true,
         submit: false,
       });
     }
   };
+
   const approveTokenInn = async () => {
     setLoading({
       ...loading,
@@ -258,7 +260,17 @@ const LaunchModal = (props: {
     !!props.visible && queryTokenList();
     !!props.visible && queryToken();
   }, [props.visible]);
-  const selectChain = (val: string) => {
+  useEffect(() => {
+    console.log(input.contract);
+    setDisable({
+      approve:true,
+      submit:true
+    });
+    queryToken()
+  },[input.contract])
+  const selectChain = async (val: string) => {
+    const chain: any = await switchC(+val);
+    if (chain?.code) return;
     setNet(val);
     setToken(
       Network.filter((item: Net) => {
@@ -270,6 +282,12 @@ const LaunchModal = (props: {
         return item.value === val;
       })[0].token[0].value
     );
+    setInput({
+      ...input,
+      contract: Network.filter((item: Net) => {
+        return item.value === val;
+      })[0].token[0].value,
+    });
   };
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log((date as any).$d.getTime());

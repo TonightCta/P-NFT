@@ -43,7 +43,6 @@
             }
             img {
                 width: 100%;
-                border-radius: 16px;
             }
         }
         .right-msg {
@@ -203,6 +202,80 @@
                 font-size: 16px;
                 background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
                 border: 0;
+            }
+        }
+    }
+}
+@media screen and (max-width:1280px) {
+    .hackthon-detail-new-view {
+        padding-top: 8rem;
+        .back-title {
+            width: 95%;
+            margin: 0 auto;
+            margin-bottom: 2rem;
+        }
+        .detail-inner {
+            width: 95%;
+            margin: 0 auto;
+            padding: 2rem 1.8rem;
+            .left-nft {
+                width: 12rem;
+                height: 12rem;
+                margin-right: 1.6rem;
+            }
+            .right-msg{
+                .id-token{
+                    p{
+                        font-size: 1.8rem;
+                    }
+                    .chain-li{
+                        img{
+                            width: 2rem;
+                            height: 2rem;
+                        }
+                    }
+                }
+                .vote-box{
+                    margin-top: 1.2rem;
+                    p{
+                        font-size: 1.6rem;
+                    }
+                    .anticon{
+                        font-size: 1.6rem;
+                    }
+                    p:last-child{
+                        margin-top: 1.8rem;
+                    }
+                }
+                .oper-box{
+                    button{
+                        font-size: 1.2rem;
+                        height: 2.4rem;
+                        border-radius: .8rem;
+                    }
+                    button:first-child{
+                        width: 60%;
+                    }
+                }
+            }
+        }
+        .msg-card{
+            width: 95%;
+            margin: 0 auto;
+            margin-top: 2.4rem;
+            padding: 1.8rem 1.6rem;
+            height: 20rem;
+            margin-bottom: 2.4rem;
+            .text{
+                p{
+                    font-size: 1.4rem;
+                }
+                p:first-child{
+                    min-width: 6rem;
+                }
+                p:last-child{
+                    font-size: 1.2rem!important;
+                }
             }
         }
     }
