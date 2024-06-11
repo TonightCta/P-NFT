@@ -76,6 +76,14 @@ const RouteConfig = (): ReactElement<ReactNode> => {
           }
         ></Route>
         <Route
+          path="/swap"
+          element={
+            <React.Suspense fallback={<Loading />}>
+              <View.SwapIndex />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
           path="/hackathon"
           element={
             <React.Suspense fallback={<Loading />}>

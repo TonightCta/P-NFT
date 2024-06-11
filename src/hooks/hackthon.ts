@@ -99,7 +99,7 @@ export const useHackathon = () => {
         web3.utils.toWei(String(_vote), "ether")
       );
       contract.methods
-        .createHackthon(
+        .createHackathon(
           _name,
           _symbol,
           web3.utils.toWei(String(_total), "ether"),
@@ -215,7 +215,7 @@ export const useHackathon = () => {
       Contract.methods
         .approve(
           calsMarks(_approve_for_address),
-          "0x1f4"
+          "0xfffffffffffffffff"
         )
         .send(send)
         .on("receipt", (res: any) => {

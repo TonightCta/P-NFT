@@ -62,17 +62,21 @@ const RecordTable = (props: { address: string,chain:string }): ReactElement => {
                 <p>{index + 1}</p>
               </div>
               <div className="nft-msg">
+                <p className="mobile-title">Hackathon</p>
                 <p className="b-text">{item.hackathon_name}</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Rebate</p>
                 <p className="p-c">{item.refer_reward_amount < 999 ? item.refer_reward_amount : addCommasToNumber(200120)}&nbsp;{item.refer_reward_token_symbol}</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Transaction</p>
                 <p className="click" onClick={() => {
                     window.open(`https://piscan.plian.org/tx/${item.refer_reward_trx}?chain=1`)
                 }}>{item.refer_reward_trx.substring(0,12)}...{item.refer_reward_trx.substring(item.refer_reward_trx.length - 12,item.refer_reward_trx.length)}</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Time</p>
                 <p>{DateConvertHour(item.refer_reward_time)}</p>
               </div>
             </div>

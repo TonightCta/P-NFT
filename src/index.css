@@ -5,13 +5,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
+  color: #150F0D;
   font-family: Kanit;
   /* min-width: 1440px; */
 }
 
 html {
   font-size: 62.5%;
+  background-color: #150F0D;
 }
 
 /* @media screen and (max-width: 1280px) {

@@ -6,6 +6,7 @@ import { useHackathon } from "../../../../hooks/hackthon";
 import { PNft } from "../../../../App";
 import { useSwitchChain } from "../../../../hooks/chain";
 import RewardModal from "./reward.modal";
+import { flag } from '../../../../utils/source';
 
 interface Data {
   chain_id: string;
@@ -35,11 +36,11 @@ const BonusTable = (props: {
   const [total, setTotal] = useState<number>(999);
   const { CheckHackathon, ClaimHackathon } = useHackathon();
   const { switchC } = useSwitchChain();
-  const [visible,setVisible] = useState<boolean>(false);
-  const [info,setInfo] = useState<{name:string,amount:number}>({
-    name:'',
-    amount:0
-  })
+  const [visible, setVisible] = useState<boolean>(false);
+  const [info, setInfo] = useState<{ name: string; amount: number }>({
+    name: "",
+    amount: 0,
+  });
   const getList = async () => {
     setLoading(true);
     const result = await HackathonRewardList({
@@ -85,7 +86,9 @@ const BonusTable = (props: {
       message.error(result.message);
       return;
     }
-    message.success("The claim request has been sent, please pay attention to the wallet balance after adding the token.");
+    message.success(
+      "The claim request has been sent, please pay attention to the wallet balance after adding the token."
+    );
     getList();
   };
   const addTokenTowWallet = async (_index: number) => {
@@ -104,7 +107,7 @@ const BonusTable = (props: {
         },
       });
     } catch (err: any) {
-      message.error(err.message)
+      message.error(err.message);
     }
   };
   const checkFN = async (_index: number) => {
@@ -112,9 +115,9 @@ const BonusTable = (props: {
     if (chain?.code) return;
     const result = await CheckHackathon(data[_index].hackathon_id);
     setInfo({
-      name:data[_index].hackathon_name,
-      amount:result
-    })
+      name: data[_index].hackathon_name,
+      amount: result,
+    });
     setVisible(true);
     data[_index].reward_amount = result;
     setData(data);
@@ -152,6 +155,7 @@ const BonusTable = (props: {
                 <p>{item.hackathon_name}</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Total Investments</p>
                 <p className="r-c">
                   {item.pay_amount < 1000
                     ? item.pay_amount
@@ -160,23 +164,27 @@ const BonusTable = (props: {
                 </p>
               </div>
               <div className="public-p flex-b">
+                <p className="mobile-title">Total Rewards</p>
                 <p className="g-c">
                   {item.reward_amount < 1000
                     ? item.reward_amount
                     : addCommasToNumber(item.reward_amount)}
                 </p>
-                {item.reward_amount <= 0 && <Button
-                  type="primary"
-                  disabled={item.is_online}
-                  className={`check-btn ${item.is_online ? "dis-btn" : ""}`}
-                  onClick={() => {
-                    checkFN(index);
-                  }}
-                >
-                  Check
-                </Button>}
+                {item.reward_amount <= 0 && (
+                  <Button
+                    type="primary"
+                    disabled={item.is_online}
+                    className={`check-btn ${item.is_online ? "dis-btn" : ""}`}
+                    onClick={() => {
+                      checkFN(index);
+                    }}
+                  >
+                    Check
+                  </Button>
+                )}
               </div>
               <div className="public-p">
+                <p className="mobile-title">Add New Token</p>
                 <Button
                   type="primary"
                   className="add-btn"
@@ -189,6 +197,7 @@ const BonusTable = (props: {
                 </Button>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Claim Time</p>
                 {item.reward_claim_time === 0 ? (
                   "-"
                 ) : (
@@ -196,6 +205,7 @@ const BonusTable = (props: {
                 )}
               </div>
               <div className="public-p">
+                <p className="mobile-title">Apply</p>
                 {item.reward_claim_trx !== "" ? (
                   <p
                     className="click"
@@ -205,7 +215,7 @@ const BonusTable = (props: {
                       );
                     }}
                   >
-                    {item.reward_claim_trx.substring(0, 8)}...
+                    {item.reward_claim_trx.substring(0, 8)}...{flag && item.reward_claim_trx.substring(item.reward_claim_trx.length - 8, item.reward_claim_trx.length)}
                   </p>
                 ) : (
                   <Button
@@ -230,9 +240,14 @@ const BonusTable = (props: {
         </div>
       )}
       {!loading && total < 1 && <p className="no-more">No More</p>}
-      <RewardModal visible={visible} onClose={(val:boolean) => {
-        setVisible(val)
-      }} name={info.name} amount={info.amount}/>
+      <RewardModal
+        visible={visible}
+        onClose={(val: boolean) => {
+          setVisible(val);
+        }}
+        name={info.name}
+        amount={info.amount}
+      />
     </div>
   );
 };

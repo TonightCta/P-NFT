@@ -201,7 +201,7 @@
       width: 230px;
       border-radius: 34px;
       height: 44px;
-      background-color: #df0885;
+      background-color: #FC6542;
       font-size: 16px;
       color: white;
       margin-top: 40px;
@@ -231,12 +231,10 @@
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 50%;
           cursor: pointer;
-          background: linear-gradient(
-            180deg,
-            rgba(250, 51, 112, 0.12) 0%,
-            rgba(172, 34, 177, 0.08) 49%,
-            rgba(102, 65, 255, 0.04) 100%
-          );
+          background: linear-gradient(180deg,
+              rgba(250, 51, 112, 0.12) 0%,
+              rgba(172, 34, 177, 0.08) 49%,
+              rgba(102, 65, 255, 0.04) 100%);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -330,7 +328,7 @@
     text-align: center;
     button {
       border: 0;
-      background: linear-gradient(90deg, #fa3370 0%, #ac22b1 49%, #6641ff 100%);
+      background: linear-gradient(90deg, rgb(251, 220, 64) 0%, #fcb242 41%, #FC6542 80%, #FC6542 100%);
       box-shadow: 0px 0px 20px #ac22b1;
     }
   }
@@ -356,7 +354,7 @@
         padding-bottom: 16px;
         border-bottom: 1px solid #ddd;
         margin-bottom: 48px;
-        color: #202025;
+        color: white;
       }
       .new-setting-inner {
         display: flex;
@@ -422,12 +420,11 @@
           }
         }
         .inp-label {
-          color: #202025;
+          color: white;
         }
         input {
-          background-color: rgba(0, 0, 0, 0);
-          border: 1px solid #ddd;
-          color: #202025;
+          background-color: #221C1A;
+          color: white;
         }
         input::placeholder {
           color: #686a6c;
@@ -454,7 +451,8 @@
         .record-box {
           .record-btn {
             .btn-start {
-              background: linear-gradient(180deg, #fa3370 0%, #fa89cb 100%);
+              // background: linear-gradient(180deg, #fa3370 0%, #fa89cb 100%);
+              background: linear-gradient(180deg, rgb(251, 220, 64) 0%, #fcb242 41%, #FC6542 80%, #FC6542 100%);
               border: 0;
             }
           }

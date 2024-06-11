@@ -167,7 +167,7 @@ export const HackathonNet: HackathonNetInt[] = [
   {
     chain_name: "Plian Subchain 1",
     chain_id: "8007736",
-    contract: "0xA61Cb98fc9a5EE98fEba3d9B579bd444C27e172D",
+    contract: "0xb110f3a512d4469d3c8c0af36cadf336c880abd2",
     chain_logo: require("../assets/logo/8007736.png"),
     token: [
       {
@@ -191,7 +191,7 @@ export const HackathonNet: HackathonNetInt[] = [
   {
     chain_name: "Base Sepolia Testnet",
     chain_id: "84532",
-    contract: "0x85fc82c6f6ffd05652eab60e6f1779d8817ea69b",
+    contract: "0xf4a4c94392e8e4b63ee36ef0b00a8244330ac281",
     chain_logo: require("../assets/images/base.logo.png"),
     token: [
       {

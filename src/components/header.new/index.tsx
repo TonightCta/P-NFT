@@ -52,23 +52,27 @@ export const MenuList: Menu[] = [
     url: "/memes",
   },
   {
-    name: "NFTs",
-    url: "",
-    children: [
-      {
-        name: "Create",
-        url: "/create",
-      },
-      {
-        name: "Collections",
-        url: "/collections",
-      },
-      {
-        name: "Launchpad",
-        url: "/launchpad",
-      },
-    ],
+    name: "Swap",
+    url: "/swap",
   },
+  // {
+  //   name: "NFTs",
+  //   url: "",
+  //   children: [
+  //     {
+  //       name: "Create",
+  //       url: "/create",
+  //     },
+  //     {
+  //       name: "Collections",
+  //       url: "/collections",
+  //     },
+  //     {
+  //       name: "Launchpad",
+  //       url: "/launchpad",
+  //     },
+  //   ],
+  // },
   // {
   //   name: 'Create',
   //   url: '/create',
@@ -96,32 +100,32 @@ export const MenuList: Menu[] = [
   //   name: "AI Campaigns",
   //   url: "/campaigns",
   // },
-  {
-    name: "Airdrops",
-    url: "/airdrop",
-    children: [
-      {
-        name: "Daily Bonus",
-        url: "/airdrop",
-      },
-      {
-        name: "Invite",
-        url: "/airdrop",
-      },
-      {
-        name: "Rank",
-        url: "/airdrop",
-      },
-      {
-        name: "AIGC Campaigns",
-        url: "/airdrop",
-      },
-    ],
-  },
-  {
-    name: "FAQ",
-    url: "https://forms.gle/LDzXJgQhQ3Ety4kT8",
-  },
+  // {
+  //   name: "Airdrops",
+  //   url: "/airdrop",
+  //   children: [
+  //     {
+  //       name: "Daily Bonus",
+  //       url: "/airdrop",
+  //     },
+  //     {
+  //       name: "Invite",
+  //       url: "/airdrop",
+  //     },
+  //     {
+  //       name: "Rank",
+  //       url: "/airdrop",
+  //     },
+  //     {
+  //       name: "AIGC Campaigns",
+  //       url: "/airdrop",
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: "FAQ",
+  //   url: "https://forms.gle/LDzXJgQhQ3Ety4kT8",
+  // },
 ];
 
 const HeaderWapperNew = (): ReactElement<ReactNode> => {
@@ -251,21 +255,24 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       case "/memes":
         setActive(0);
         break;
-      case "/create":
+      case "/swap":
         setActive(1);
         break;
-      case "/collections":
-        setActive(1);
-        break;
-      case "/launchpad":
-        setActive(1);
-        break;
+      // case "/create":
+      //   setActive(1);
+      //   break;
+      // case "/collections":
+      //   setActive(1);
+      //   break;
+      // case "/launchpad":
+      //   setActive(1);
+      //   break;
       // case "/hackathon":
       //   setActive(2);
       //   break;
-      case "/airdrop":
-        setActive(2);
-        break;
+      // case "/airdrop":
+      //   setActive(2);
+      //   break;
       default:
         setActive(99);
     }
@@ -464,7 +471,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
   return (
     <div className="header-wapper-new">
       <img
-        src={require("../../assets/new/logo.png")}
+        src={require("../../assets/images/logo.new.png")}
         alt=""
         className="left-logo"
         onClick={() => {
@@ -551,7 +558,8 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                     alt=""
                   />
                 )}
-                <IconFont type="icon-xiangxia" />
+                {/* <IconFont type="icon-xiangxia" /> */}
+                <DownOutlined />
               </div>
             </div>
           </Popover>
@@ -603,7 +611,8 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                 <img src={state.account.avatar_url} alt="" />
                 <p>{calsAddress(state.address)}</p>
                 <div className="arrow-box">
-                  <IconFont type="icon-xiangxia" />
+                  <DownOutlined />
+                  {/* <IconFont type="icon-xiangxia" /> */}
                 </div>
               </div>
             </Popover>

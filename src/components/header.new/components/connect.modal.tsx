@@ -117,7 +117,7 @@ const ConnectModal = (props: Props) => {
     }
   }
   return (
-    <Modal open={visible} title={<p style={{ fontSize: '24px' }}>Welcome to Pizzap</p>} footer={null} onCancel={close}>
+    <Modal open={visible} title={<p style={{ fontSize: '24px' }}>Welcome to Meme Hack</p>} footer={null} onCancel={close}>
       <div className="connect-wallet-box">
         <p className="wel-title">Please select sign-in method</p>
         <div className="select-wallet-tabs">

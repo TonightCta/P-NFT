@@ -69,14 +69,18 @@ const EntryTable = (props: { address: string,chain:string }): ReactElement => {
               </div>
               <div className="public-p">
                 <p>{item.votes < 999 ? item.votes : addCommasToNumber(item.votes)}</p>
+                <p className="mobile-title">Total Votes</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">End Time</p>
                 <p>{DateConvertHour(item.creat_time)}</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Hackathon</p>
                 <p>{item.hackathon_name}</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Transaction</p>
                 <p className="click" onClick={() => {
                     window.open(`https://piscan.plian.org/tx/${item.creat_trx}?chain=1`)
                 }}>{item.creat_trx.substring(0,8)}...{item.creat_trx.substring(item.creat_trx.length - 8,item.creat_trx.length)}</p>

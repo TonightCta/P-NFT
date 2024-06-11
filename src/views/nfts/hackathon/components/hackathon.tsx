@@ -83,13 +83,16 @@ const HackathonTable = (props: {
                 <p className="b-text">{item.hackathon_name}</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Symbol</p>
                 <p className="b-text">{item.symbol}</p>
               </div>
               <div className="public-p p-icon">
+                <p className="mobile-title">Pay Token</p>
                 <img src={item.pay_token_url} alt="" />
                 <p>{item.pay_token_symbol}</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Total Supply</p>
                 <p className="y-c">
                   {item.total_supply < 999
                     ? item.total_supply
@@ -97,14 +100,15 @@ const HackathonTable = (props: {
                 </p>
               </div>
               <div className="public-p">
-                {/* {addCommasToNumber(200000000)} */}
                 <p className="g-c">
                   {item.total_contribution_amount < 999
                     ? item.total_contribution_amount
                     : addCommasToNumber(item.total_contribution_amount)}
                 </p>
+                <p className="mobile-title">Total Votes</p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">Total Image</p>
                 <p>{item.total_submit_item}</p>
               </div>
               <div className="time-line">
@@ -136,6 +140,7 @@ const HackathonTable = (props: {
                 </p>
               </div>
               <div className="public-p">
+                <p className="mobile-title">End Time</p>
                 <p>{DateConvertHour(item.end_time)}</p>
               </div>
             </div>

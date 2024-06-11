@@ -5,6 +5,7 @@ import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 import { ConfigProvider } from 'antd';
 import { MetaMaskProvider } from '@metamask/sdk-react';
+import { theme } from 'antd';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,8 +20,9 @@ root.render(
   }}>
     <ConfigProvider theme={{
       token: {
-        colorPrimary: '#E10185',
+        colorPrimary: '#FC6542',
       },
+      algorithm:theme.darkAlgorithm
     }}>
       <App />
     </ConfigProvider>
