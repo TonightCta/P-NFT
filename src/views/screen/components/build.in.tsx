@@ -13,19 +13,19 @@ const BuildIN = (): ReactElement<ReactNode> => {
             title: 'AI',
             color: '',
             text: 'AI-generated creations will soon become the primary production mode of Web3,and the creation trends in Pizzap will gradually shift towards AIGC.',
-            bg: require('../../../assets/images/build_card_bg_1.png'),
+            bg: '',
         },
         {
             title: 'AIGC',
             color: '',
             text: 'Pizzap supports the listing of any AIGC work, including but not limited to land, PFP,and domain names.',
-            bg: require('../../../assets/images/build_card_bg_2.png'),
+            bg: '',
         },
         {
             title: 'AIRDROPS',
             color: '',
             text: 'Holders of $PI will receive regular AIGC NFT airdrops from Pizzap Official.',
-            bg: require('../../../assets/images/build_card_bg_3.png'),
+            bg: '',
         }
     ]
     return (

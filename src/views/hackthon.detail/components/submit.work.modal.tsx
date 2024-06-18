@@ -181,6 +181,7 @@ const SubmitWorkModal = (props: {
   const [active, setActive] = useState<number>(0);
   const { switchC } = useSwitchChain();
   const { balanceErc20 } = useContract();
+  const [prompts, setPrompts] = useState<string>("");
   const [input, setInput] = useState<Input>({
     img: {
       view: "",
@@ -202,11 +203,11 @@ const SubmitWorkModal = (props: {
     if (queryNum < 1) {
       setDisable({
         approve: false,
-        submit:true,
+        submit: true,
       });
     } else {
       setDisable({
-        approve:true,
+        approve: true,
         submit: false,
       });
     }
@@ -524,7 +525,15 @@ const SubmitWorkModal = (props: {
                   <sup>*</sup>Prompts
                 </p>
                 <div className="word-review">
-                  <p>{wordListS.join(",")}</p>
+                  <textarea
+                    placeholder="Type in the inscriber or customize the input, split by,"
+                    value={`${wordListS.join(",")}${prompts}`}
+                    onChange={(e) => {
+                      setPrompts(
+                        e.target.value.substring(wordListS.join(",").length)
+                      );
+                    }}
+                  />
                 </div>
               </div>
               <div className="view-box">

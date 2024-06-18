@@ -29,7 +29,7 @@ const CardLan = (props: Col): ReactElement => {
         {/* {!load && <div className="load-box">
           <Spin size="large"/>
         </div>} */}
-        <img src={require("../../../assets/images/drop_bg.png")} alt="" />
+        {/* <img src={require("../../../assets/images/drop_bg.png")} alt="" /> */}
       </div>
       <div className="msg-box">
         <p className="adv-remark">{info?.name}({info?.symbol})</p>

@@ -28,10 +28,10 @@ export interface Cate {
 
 const cateList: Cate[] = [
     {
-        img: require('../../assets/nfts/s_1.png'),
-        img_1: require('../../assets/nfts/s_2.png'),
-        img_2: require('../../assets/nfts/s_3.png'),
-        img_3: require('../../assets/nfts/s_4.png'),
+        img: '',
+        img_1: '',
+        img_2: '',
+        img_3: '',
         name: 'PAI SPACE',
         name_p: 'Pizzap Offical',
         rank_icon: require('../../assets/images/fire.gif'),

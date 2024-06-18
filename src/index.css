@@ -5,14 +5,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #150F0D;
+  color: #150f0d;
   font-family: Kanit;
   /* min-width: 1440px; */
 }
 
 html {
   font-size: 62.5%;
-  background-color: #150F0D;
+  background-color: #150f0d;
 }
 
 /* @media screen and (max-width: 1280px) {
@@ -113,6 +113,9 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
 }
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 
 .ant-popover {
   z-index: 3000;
@@ -124,7 +127,7 @@ button {
 
 .ant-btn-primary:disabled {
   border-color: rgba(0, 0, 0, 0);
-  background-color: #e10185;
+  background-color: #b05845;
   color: white;
 }
 

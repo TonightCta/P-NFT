@@ -3,9 +3,8 @@ import './index.css';
 import './polyfills'
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider,theme } from 'antd';
 import { MetaMaskProvider } from '@metamask/sdk-react';
-import { theme } from 'antd';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,7 +21,7 @@ root.render(
       token: {
         colorPrimary: '#FC6542',
       },
-      algorithm:theme.darkAlgorithm
+      algorithm:theme.darkAlgorithm,
     }}>
       <App />
     </ConfigProvider>

@@ -59,7 +59,7 @@
         }
       }
       .active-menu {
-        color: #df0885;
+        color: #FC6542;
       }
     }
     .connect-box {
@@ -298,13 +298,12 @@
   }
   .select-wallet-tabs {
     width: 100%;
-    background-color: #f8f8fa;
+    background-color: #150F0D;
     border-radius: 8px;
     margin-top: 24px;
     margin-bottom: 16px;
     .tabs {
       display: flex;
-      border-bottom: 1px solid #eee;
       padding: 16px;
       display: none;
       li {
@@ -326,7 +325,7 @@
         .line {
           width: 0;
           height: 2px;
-          background-color: #df0885;
+          background-color: #FC6542;
           position: absolute;
           left: 30%;
           border-radius: 2px;
@@ -341,7 +340,7 @@
       }
       .active-tab {
         p {
-          color: #df0885;
+          color: #FC6542;
         }
         .line {
           width: 100px;
@@ -362,7 +361,7 @@
       margin-top: 24px;
       cursor: pointer;
       transition: 0.2s all;
-      border: 1px solid #eee;
+      background-color: #221C1A;
       img {
         width: 26px;
       }
@@ -374,8 +373,9 @@
       }
     }
     li:hover {
-      background-color: #eee;
-      border-color: #e0dddd;
+      p{
+        color: #FC6542;
+      }
     }
   }
 }

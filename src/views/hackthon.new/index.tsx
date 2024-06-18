@@ -373,7 +373,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                   <div className="meme-msg">
                     <p className="symbol-name">
                       <img src={item.pay_token_url} alt="" />
-                      {FilterHackathonNet(item.chain_id).token[0].symbol} x{" "}
+                      {item.pay_token_symbol} x{" "}
                       {item.symbol}
                     </p>
                     <div className="coin-list">

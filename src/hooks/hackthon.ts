@@ -56,7 +56,7 @@ export const useHackathon = () => {
     const pi = filterProvider ? await filterProvider.eth.getGasPrice() : "0";
     const chain = FilterHackathonNet(state.chain as string);
     const Contract = new web3.eth.Contract(MemeABI as any, chain.contract, {
-        gasPrice: state.chain === '8007736' ? '' : pi,
+      gasPrice: state.chain === "8007736" ? "" : pi,
     });
     // const Contract20 = new web3.eth.Contract(ABIERC20 as any,chain.token[0].contract, {
     //   gasPrice: pi,
@@ -88,16 +88,16 @@ export const useHackathon = () => {
   ) => {
     // const Price = await contract.methods.HACKTHON_CREATION_PRICE().call();
     // return;
+    console.log(
+      _name,
+      _symbol,
+      web3.utils.toWei(String(_total), "ether"),
+      _time,
+      _contract,
+      web3.utils.toWei(String(_fee), "ether"),
+      web3.utils.toWei(String(_vote), "ether")
+    );
     return new Promise((resolve, reject) => {
-      console.log(
-        _name,
-        _symbol,
-        web3.utils.toWei(String(_total), "ether"),
-        _time,
-        _contract,
-        web3.utils.toWei(String(_fee), "ether"),
-        web3.utils.toWei(String(_vote), "ether")
-      );
       contract.methods
         .createHackathon(
           _name,
@@ -130,9 +130,13 @@ export const useHackathon = () => {
         (state.wallet === "walletconnect" && walletProvider) ||
         ethereum
     );
-    const Contract = new web3.eth.Contract(MemeABI as any, FilterHackathonNet(state.chain as string).contract, {
-      //   gasPrice: pi,
-    });
+    const Contract = new web3.eth.Contract(
+      MemeABI as any,
+      FilterHackathonNet(state.chain as string).contract,
+      {
+        //   gasPrice: pi,
+      }
+    );
     const result = await Contract.methods
       .supportedPayTokensFee(PNFTAddress)
       .call();
@@ -187,11 +191,11 @@ export const useHackathon = () => {
     return info;
   };
   const QueryERC20Approve = async (
-    _token_address:string,
+    _token_address: string,
     _owner: string,
     _for_address: string
   ): Promise<string | number> => {
-     const web3 = new Web3(
+    const web3 = new Web3(
       (state.wallet === "metamask" && provider) ||
         (state.wallet === "coinbase" && ethereumCoinbase) ||
         (state.wallet === "walletconnect" && walletProvider) ||
@@ -203,7 +207,10 @@ export const useHackathon = () => {
       .call();
     return result;
   };
-  const ApproveToken = async (_token_address:string,_approve_for_address: string) => {
+  const ApproveToken = async (
+    _token_address: string,
+    _approve_for_address: string
+  ) => {
     const web3 = new Web3(
       (state.wallet === "metamask" && provider) ||
         (state.wallet === "coinbase" && ethereumCoinbase) ||
@@ -213,10 +220,7 @@ export const useHackathon = () => {
     const Contract = new web3.eth.Contract(ABIERC20 as any, _token_address);
     return new Promise((resolve, reject) => {
       Contract.methods
-        .approve(
-          calsMarks(_approve_for_address),
-          "0xfffffffffffffffff"
-        )
+        .approve(calsMarks(_approve_for_address), "0xfffffffffffffffff")
         .send(send)
         .on("receipt", (res: any) => {
           resolve(res);
@@ -285,13 +289,11 @@ export const useHackathon = () => {
         });
     });
   };
-  const CheckHackathon = async (
-    _hackathon_id: number
-  ) => {
+  const CheckHackathon = async (_hackathon_id: number) => {
     const result = await contract.methods
       .checkClaimableAmount(_hackathon_id)
-      .call({from:send.from});
-    return +web3.utils.fromWei(result)
+      .call({ from: send.from });
+    return +web3.utils.fromWei(result);
   };
   const ClaimHackathon = async (_id: number) => {
     return new Promise((resolve, reject) => {

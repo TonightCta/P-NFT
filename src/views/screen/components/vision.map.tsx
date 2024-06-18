@@ -84,12 +84,12 @@ const VisionMap = (): ReactElement<ReactNode> => {
                         <p className="public-title">PIZZAP</p>
                     </div>
                     <div className="img-box">
-                        <img src={require('../../../assets/images/map_icon_1.png')} alt="" />
+                        {/* <img src={require('../../../assets/images/map_icon_1.png')} alt="" /> */}
                     </div>
                 </div>
             </div>
             <div className="text-bg">
-                <img src={require('../../../assets/images/screen_3_text.png')} alt="" />
+                {/* <img src={require('../../../assets/images/screen_3_text.png')} alt="" /> */}
             </div>
         </div>
     )

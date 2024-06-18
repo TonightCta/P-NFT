@@ -20,7 +20,7 @@ const AirdropView = (): ReactElement<ReactNode> => {
         <div className={`airdrop-view ${VERSION === 'new' ? 'airdrop-view-new' : ''}`}>
             {VERSION !== 'new'
                 ? <div className="bg-box">
-                    <img src={require('../../assets/images/drop_bg.png')} alt="" />
+                    {/* <img src={require('../../assets/images/drop_bg.png')} alt="" /> */}
                 </div>
                 : <div className="bg-box-new">
                     <p>

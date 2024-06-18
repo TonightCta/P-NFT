@@ -78,16 +78,16 @@
           z-index: 100;
         }
       }
-      .select-card-li:first-child {
-        background-image: url("../../assets/images/drop_tabs_1.png");
-      }
-      .select-card-li:nth-child(2) {
-        background-image: url("../../assets/images/drop_tabs_2.png");
-      }
-      .select-card-li:last-child {
-        background-image: url("../../assets/images/drop_tabs_3.png");
-        margin-right: 0;
-      }
+      // .select-card-li:first-child {
+      //   background-image: url("../../assets/images/drop_tabs_1.png");
+      // }
+      // .select-card-li:nth-child(2) {
+      //   background-image: url("../../assets/images/drop_tabs_2.png");
+      // }
+      // .select-card-li:last-child {
+      //   background-image: url("../../assets/images/drop_tabs_3.png");
+      //   margin-right: 0;
+      // }
       .select-card-li:hover {
         transform: translateY(-5px);
         filter: grayscale(0);
@@ -201,7 +201,7 @@
         .card-msg {
           filter: grayscale(1);
           transition: 1.3s all;
-          background-image: url("../../assets/images/drop_card_1.png");
+          // background-image: url("../../assets/images/drop_card_1.png");
         }
       }
       .check-box {
@@ -455,7 +455,7 @@
         .card-msg {
           filter: grayscale(1);
           transition: 1.3s all;
-          background-image: url("../../assets/images/drop_card_2.png");
+          // background-image: url("../../assets/images/drop_card_2.png");
         }
       }
       .public-bg {
@@ -600,7 +600,7 @@
         .card-msg {
           filter: grayscale(1);
           transition: 1.3s all;
-          background-image: url("../../assets/images/drop_card_3.png");
+          // background-image: url("../../assets/images/drop_card_3.png");
         }
         ul {
           border: 0;

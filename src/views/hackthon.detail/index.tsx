@@ -32,7 +32,7 @@ const HackthonDetailView = (): ReactElement<ReactNode> => {
       </div>
       <div className="hackthon-msg-card">
         <div className="poster-box">
-          <img src={require("../../assets/images/drop_bg.png")} alt="" />
+          {/* <img src={require("../../assets/images/drop_bg.png")} alt="" /> */}
         </div>
         <div className="info-box">
           <p className="name">{info?.name}</p>

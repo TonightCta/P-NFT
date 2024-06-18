@@ -561,7 +561,7 @@ export const useContract = () => {
     const result = await web3V2.eth.getBalance(send.from);
     return result;
   };
-  const balanceErc20 = async (_token_address: string): Promise<string> => {
+  const balanceErc20 = async (_token_address: string,_owner?:string): Promise<string> => {
     const web3 = new Web3(
       (state.wallet === "metamask" && provider) ||
         (state.wallet === "coinbase" && ethereumCoinbase) ||
@@ -572,7 +572,7 @@ export const useContract = () => {
       NormalABIERC20 as any,
       _token_address
     );
-    const balance = await contract.methods.balanceOf(send.from).call();
+    const balance = await contract.methods.balanceOf(_owner || send.from).call();
     return balance;
   };
   const transHash = async (

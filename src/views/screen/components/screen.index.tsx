@@ -22,7 +22,7 @@ const ScreenIndex = (): ReactElement<ReactNode> => {
             }}>
                 <ul>
                     {
-                        [require('../../../assets/images/air_drop_1.png'),require('../../../assets/images/air_drop_2.png'),require('../../../assets/images/air_drop_3.png')].map((item:string,index:number) => {
+                        [''].map((item:string,index:number) => {
                             return (
                                 <li key={index}>
                                     <img src={item} alt="" />

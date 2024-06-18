@@ -1,8 +1,428 @@
 .swap-index {
     padding-top: 120px;
-    p {
-        font-size: 68px;
-        color: black;
-        font-weight: bold;
+    .swap-inner {
+        width: 100%;
+        display: flex;
+        padding: 0 60px;
+        .token-list-swap {
+            width: 260px;
+            background-color: #221C1A;
+            margin-right: 32px;
+            .list-name {
+                color: #FC6542;
+                font-family: SparkTitleNew;
+                font-size: 16px;
+                padding: 24px;
+                text-align: left;
+            }
+            ul {
+                li {
+                    display: flex;
+                    padding: 24px;
+                    cursor: pointer;
+                    transition: .3s all;
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                    }
+                    .token-info {
+                        margin-left: 8px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        padding-bottom: 4px;
+                        p {
+                            color: white;
+                            text-align: left;
+                            font-size: 15px;
+                        }
+                        p:last-child {
+                            font-size: 14px;
+                            color: rgba(255, 255, 255, .8);
+                        }
+                    }
+                }
+                li:hover {
+                    background-color: #333;
+                }
+            }
+        }
+        .k-map {
+            flex: 1;
+            background-color: #131313;
+            position: relative;
+            .loading {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                top: 0;
+                left: 0;
+                background-color: rgba(0, 0, 0, .6);
+                padding-bottom: 100px;
+            }
+            .token-tabs {
+                display: flex;
+                justify-content: space-between;
+                padding: 24px;
+                padding-bottom: 0;
+                .token-info {
+                    display: flex;
+                    align-items: center;
+                    img {
+                        width: 56px;
+                        height: 56px;
+                        border-radius: 50%;
+                    }
+                    p {
+                        margin-left: 8px;
+                        font-size: 16px;
+                        color: rgba(255, 255, 255, .6);
+                        text-align: left;
+                    }
+                    .msg {
+                        p {
+                            margin-top: 8px;
+                        }
+                        p:first-child {
+                            margin-top: 0;
+                            font-family: SparkBold;
+                            color: white;
+                            text-decoration: none;
+                        }
+                        p:last-child {
+                            color: white;
+                            font-size: 15px;
+                            span{
+                                color: rgba(255, 255, 255, .7);
+                            }
+                        }
+                        // p:last-child:hover {
+                        //     color: #FC6542;
+                        // }
+                    }
+                }
+                .tabs {
+                    padding-top: 12px;
+                    ul {
+                        display: flex;
+                        li {
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 4px;
+                            border: 1px solid #FC6542;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin-left: 16px;
+                            cursor: pointer;
+                            transition: .3s all;
+                            p {
+                                color: white;
+                                font-size: 14px;
+                            }
+                        }
+                        .active-t {
+                            background-color: #FC6542;
+                            p {
+                                color: white;
+                            }
+                        }
+                    }
+                }
+            }
+            .k-map-card {
+                width: 100%;
+                height: 100%;
+                .echarts-box {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+        .swap {
+            width: 400px;
+            margin-left: 32px;
+            position: relative;
+            background-color: #221C1A;
+            .swap-card {
+                padding: 24px;
+                .title-set {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .title {
+                        font-size: 16px;
+                        color: white;
+                        font-family: SparkTitleNew;
+                    }
+                    .right-s{
+                        display: flex;
+                        align-items: center;
+                        .tol{
+                            margin-right: 6px;
+                            color: rgba(255, 255, 255, .7);
+                        }
+                    }
+                    .set {
+                        height: 32px;
+                        background-color: #141414;
+                        border-radius: 4px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        padding: 0 12px;
+                        span {
+                            font-size: 14px;
+                            color: #FC6542;
+                        }
+                        .la{
+                            margin-left: 6px;
+                            font-size: 12px;
+                            color: rgba(255, 255, 255, .7);
+                        }
+                        p {
+                            font-size: 14px;
+                            color: white;
+                            margin-left: 8px;
+                        }
+                    }
+                }
+                .token-public {
+                    padding: 24px 16px;
+                    background-color: #141414;
+                    margin-top: 24px;
+                    border-radius: 4px;
+                    .net {
+                        font-size: 14px;
+                        color: rgba(255, 255, 255, .7);
+                        text-align: left;
+                        margin-bottom: 12px;
+                        span {
+                            font-weight: 600;
+                            color: white;
+                        }
+                    }
+                    .top-token {
+                        display: flex;
+                        width: 100%;
+                        .select {
+                            padding: 8px 12px;
+                            background-color: #221C1A;
+                            cursor: pointer;
+                            height: 40px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            border-radius: 4px;
+                            min-width: 126px;
+                            p {
+                                color: white;
+                                font-size: 14px;
+                                white-space: nowrap;
+                                font-weight: 500;
+                            }
+                            .m-l {
+                                margin-right: 6px;
+                            }
+                            .anticon {
+                                font-size: 12px;
+                                color: white;
+                                transform: translateY(1px);
+                            }
+                            .token-msg {
+                                display: flex;
+                                width: 100%;
+                                img {
+                                    width: 24px;
+                                    height: 24px;
+                                    align-items: center;
+                                }
+                                span {
+                                    font-size: 16px;
+                                    font-weight: bold;
+                                    flex: 1;
+                                    text-align: center;
+                                    display: inline-block;
+                                    line-height: 22px;
+                                }
+                            }
+                        }
+                        input {
+                            flex: 1;
+                            text-align: right;
+                            font-size: 18px;
+                            font-weight: bold;
+                            background-color: rgba(0, 0, 0, 0);
+                            color: white;
+                            min-width: 0;
+                        }
+                    }
+                    .balance {
+                        font-size: 14px;
+                        color: rgba(255, 255, 255, .7);
+                        text-align: left;
+                        margin-top: 16px;
+                        display: flex;
+                        align-items: center;
+                        span {
+                            font-size: 13px;
+                            margin-left: 8px;
+                            transform: translateY(-1px);
+                        }
+                        .anticon {
+                            margin-right: 8px;
+                        }
+                    }
+                }
+                .arrow-box {
+                    width: 44px;
+                    height: 44px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #141414;
+                    margin: 24px auto 0;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    span {
+                        font-size: 16px;
+                        color: #FC6542;
+                        transform: rotate(90deg);
+                    }
+                }
+                .price-text {
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: white;
+                    margin-top: 12px;
+                    text-align: left;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0 4px;
+                    p:first-child {
+                        font-weight: 400;
+                        color: rgba(255, 255, 255, .8);
+                    }
+                }
+                .submit {
+                    width: 100%;
+                    margin-top: 32px;
+                    button {
+                        height: 48px;
+                        width: 100%;
+                        font-size: 16px;
+                    }
+                }
+                .select-token {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #141414;
+                    padding: 24px;
+                    display: flex;
+                    flex-direction: column;
+                    padding-bottom: 0;
+                    transition: .3s all;
+                    transform: translateY(100%);
+                    .title {
+                        color: white;
+                        font-size: 18px;
+                        text-align: left;
+                        font-family: SparkTitleNew;
+                        margin-bottom: 16px;
+                        span {
+                            cursor: pointer;
+                            margin-right: 16px;
+                            transform: translateY(1px);
+                        }
+                    }
+                    ul {
+                        flex: 1;
+                        overflow: auto;
+                        li {
+                            display: flex;
+                            padding: 16px;
+                            background-color: #221C1A;
+                            margin-bottom: 24px;
+                            border-radius: 4px;
+                            transition: .3s all;
+                            cursor: pointer;
+                            position: relative;
+                            button {
+                                position: absolute;
+                                right: 16px;
+                                top: 26px;
+                                font-size: 12px;
+                            }
+                            img {
+                                width: 44px;
+                                height: 44px;
+                                border-radius: 50%;
+                                margin-right: 8px;
+                            }
+                            .token-info {
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                padding-bottom: 4px;
+                                p {
+                                    color: white;
+                                    text-align: left;
+                                    font-size: 15px;
+                                }
+                                p:last-child {
+                                    font-size: 14px;
+                                    color: rgba(255, 255, 255, .8);
+                                }
+                            }
+                        }
+                        li:hover {
+                            background-color: #333;
+                        }
+                        .dis-token {
+                            cursor: no-drop;
+                            filter: grayscale(1);
+                        }
+                    }
+                    .loading-box {
+                        flex: 1;
+                        transform: translateY(-100px);
+                    }
+                }
+                .show-select {
+                    transform: translateY(0);
+                }
+            }
+        }
+    }
+}
+.slip-list {
+    display: flex;
+    li {
+        padding: 2px 8px;
+        border: 1px solid #FC6542;
+        border-radius: 4px;
+        margin-right: 12px;
+        transition: .3s all;
+        cursor: pointer;
+        p {
+            font-size: 14px;
+        }
+    }
+    li:last-child {
+        margin-right: 0;
+    }
+    .active-slip {
+        background-color: #FC6542;
+        p {
+            color: white;
+        }
     }
 }

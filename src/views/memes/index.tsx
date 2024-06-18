@@ -41,7 +41,7 @@ interface Chain {
   chain_id: string;
   logo_url: string;
 }
-const toNormalNumber = (number: number): string => {
+export const toNormalNumber = (number: number): string => {
   const e = String(number);
   let rex = /^([0-9])\.?([0-9]*)e-([0-9])/;
   if (!rex.test(e)) return String(number);
@@ -50,14 +50,14 @@ const toNormalNumber = (number: number): string => {
   const num = "0." + String(Math.pow(10, Number(numArr![3]) - 1)).substr(1) + n;
   return num.replace(/0*$/, "");
 };
-const countTrailingZeros = (numberString: string) => {
+export const countTrailingZeros = (numberString: string,unit:boolean) => {
   const decimalIndex = numberString.indexOf(".");
   const decimalPart = numberString.substring(decimalIndex + 1);
   const match = decimalPart.match(/^(0*)[1-9]/);
   if (match) {
-    const last = decimalPart.substring(match[1].length, match[1].length + 2);
+    const last = decimalPart.substring(match[1].length, match[1].length + 3);
     // console.log(decimalPart.substring(match[1].length, match[1].length + 2));
-    return `$0.0{${match[1].length}}${last}`;
+    return `${unit ? '$' : ''}0.0{${match[1].length}}${last}`;
   }
 };
 const MoreChainPop = (props: { chains: Chain[] }) => {
@@ -143,7 +143,7 @@ const columns: TableProps<DataType>["columns"] = [
         {text > 0.01 ? (
           <p>${text.toFixed(4)}</p>
         ) : (
-          <p>{countTrailingZeros(toNormalNumber(text))}</p>
+          <p>{countTrailingZeros(toNormalNumber(text),true)}</p>
         )}
       </>
     ),
@@ -188,7 +188,7 @@ const columns: TableProps<DataType>["columns"] = [
     render: (text) => <p>${addCommasToNumber(text.toFixed(0))}</p>,
   },
   {
-    title: "Market Cap Rank",
+    title: "Rank",
     key: "market_cap_rank",
     dataIndex: "market_cap_rank",
     align: "center",

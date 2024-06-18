@@ -109,7 +109,7 @@ const MarketIndex = (): ReactElement<ReactNode> => {
             <MaskCard />
             <div className="up-mask">
                 <div className="top-bg">
-                    <img src={require('../../assets/images/babay_bg.png')} alt="" />
+                    {/* <img src={require('../../assets/images/babay_bg.png')} alt="" /> */}
                 </div>
                 <div className="com-msg">
                     <div className="com-icon">

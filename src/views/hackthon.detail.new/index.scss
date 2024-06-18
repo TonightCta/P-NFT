@@ -1,15 +1,15 @@
 .hackthon-detail-new-view {
     padding-top: 110px;
-    background-color: #FAFAFA;
+    background-color: #150F0D;
     .back-title {
         text-align: left;
-        color: rgba(0, 0, 0, .6);
+        color: white;
         width: 1400px;
         margin: 0 auto 8px;
         font-size: 20px;
         span {
             margin-right: 24px;
-            color: #000;
+            color: white;
             transform: translateY(2px);
         }
     }
@@ -18,8 +18,7 @@
         display: flex;
         margin: 0 auto;
         padding: 40px 36px;
-        background-color: white;
-        box-shadow: 0px 3px 24px 1px rgba(0, 0, 0, 0.12);
+        background-color: #221C1A;
         margin-bottom: 32px;
         .left-nft {
             width: 240px;
@@ -57,7 +56,7 @@
                 align-items: center;
                 p {
                     font-size: 28px;
-                    color: #000;
+                    color: white;
                     font-weight: bold;
                 }
                 .chain-li {
@@ -71,7 +70,7 @@
                 margin-top: 24px;
                 p {
                     font-size: 24px;
-                    color: #202025;
+                    color: white;
                 }
                 .anticon {
                     font-size: 20px;
@@ -90,15 +89,15 @@
                 }
                 button:first-child {
                     width: 668px;
-                    background: linear-gradient(258deg, #6A40FB 0%, #AD38B9 41%, #EC307C 80%, #F23176 100%);
+                    background: #FC6542;
                     margin-right: 20px;
                     border: 0;
                 }
                 button:last-child {
                     flex: 1;
-                    color: #FA43A8;
-                    background-color: white;
-                    border-color: #FA43A8;
+                    color: #FC6542;
+                    background-color:#2C2523;
+                    border-color: #FC6542;
                 }
             }
         }
@@ -108,8 +107,7 @@
         height: 400px;
         margin: 0 auto 44px;
         padding: 40px 36px;
-        background-color: white;
-        box-shadow: 0px 3px 24px 1px rgba(0, 0, 0, 0.12);
+        background-color: #221C1A;
         .text {
             display: flex;
             margin-top: 22px;
@@ -117,13 +115,13 @@
                 font-size: 16px;
             }
             p:first-child {
-                color: #202025;
+                color: white;
                 margin-right: 24px;
                 min-width: 90px;
                 text-align: right;
             }
             p:last-child {
-                color: #0D0D0D;
+                color: white;
                 text-align: left;
                 flex: 1;
             }
@@ -131,7 +129,7 @@
         .text:first-child {
             margin-top: 0;
             p:last-child {
-                color: #707070;
+                color: white;
                 font-size: 14px;
                 line-height: 18px;
             }
@@ -223,58 +221,58 @@
                 height: 12rem;
                 margin-right: 1.6rem;
             }
-            .right-msg{
-                .id-token{
-                    p{
+            .right-msg {
+                .id-token {
+                    p {
                         font-size: 1.8rem;
                     }
-                    .chain-li{
-                        img{
+                    .chain-li {
+                        img {
                             width: 2rem;
                             height: 2rem;
                         }
                     }
                 }
-                .vote-box{
+                .vote-box {
                     margin-top: 1.2rem;
-                    p{
+                    p {
                         font-size: 1.6rem;
                     }
-                    .anticon{
+                    .anticon {
                         font-size: 1.6rem;
                     }
-                    p:last-child{
+                    p:last-child {
                         margin-top: 1.8rem;
                     }
                 }
-                .oper-box{
-                    button{
+                .oper-box {
+                    button {
                         font-size: 1.2rem;
                         height: 2.4rem;
                         border-radius: .8rem;
                     }
-                    button:first-child{
+                    button:first-child {
                         width: 60%;
                     }
                 }
             }
         }
-        .msg-card{
+        .msg-card {
             width: 95%;
             margin: 0 auto;
             margin-top: 2.4rem;
             padding: 1.8rem 1.6rem;
             height: 20rem;
             margin-bottom: 2.4rem;
-            .text{
-                p{
+            .text {
+                p {
                     font-size: 1.4rem;
                 }
-                p:first-child{
+                p:first-child {
                     min-width: 6rem;
                 }
-                p:last-child{
-                    font-size: 1.2rem!important;
+                p:last-child {
+                    font-size: 1.2rem !important;
                 }
             }
         }

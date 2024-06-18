@@ -5,7 +5,7 @@ import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { PNFTAddress } from "../../../utils/source";
 import { web3 } from "../../../utils/types";
 import { useSwitchChain } from "../../../hooks/chain";
-import { DateConvertMin, FilterHackathonNet } from "../../../utils";
+import { DateConvertMin, FilterHackathonNet, addCommasToNumber } from "../../../utils";
 import { PNft } from "../../../App";
 import { CurrencyList } from "../../../request/api";
 import { useContract } from "../../../utils/contract";
@@ -261,7 +261,7 @@ const LaunchModal = (props: {
     !!props.visible && queryToken();
   }, [props.visible]);
   useEffect(() => {
-    console.log(input.contract);
+    if(!state.address) return
     setDisable({
       approve:true,
       submit:true
@@ -290,7 +290,6 @@ const LaunchModal = (props: {
     });
   };
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log((date as any).$d.getTime());
     setInput({
       ...input,
       end_time: Math.ceil((date as any).$d.getTime() / 1000),
@@ -428,7 +427,7 @@ const LaunchModal = (props: {
           </li>
           <li>
             <p>
-              <sup>*</sup>Total Supply<span>(Unit: million)</span>
+              <sup>*</sup>Total Supply<span>({addCommasToNumber(+input.total_supply * 1e6)})</span>
             </p>
             <div className="with-oper">
               <div
@@ -454,6 +453,7 @@ const LaunchModal = (props: {
                   });
                 }}
               />
+              <span className="unit">(Unit: million)</span>
               <div
                 className="oper-btn"
                 onClick={() => {
