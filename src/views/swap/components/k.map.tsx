@@ -5,6 +5,9 @@ import { Token } from "..";
 import { countTrailingZeros, toNormalNumber } from "../../memes";
 import { DateConvertMin } from "../../../utils";
 import { Spin } from "antd";
+import { addCommasToNumber } from "../../../utils/index";
+import { flag } from "../../../utils/source";
+import Decimal from "decimal.js";
 
 function calculateMA(dayCount: number, data: number[][]) {
   let result = [];
@@ -48,9 +51,11 @@ const KMapCard = (props: { item: Token }): ReactElement => {
   const [type, setType] = useState<string>("1hour");
   const [loading, setLoading] = useState<boolean>(true);
   const zoom = JSON.parse(
-    sessionStorage.getItem("dataZoom") || '{"start":0,"end":100}'
+    sessionStorage.getItem("dataZoom") ||
+      `{"start":${flag ? "50" : "0"},"end":100}`
   );
   const getData = async () => {
+    setData([[]]);
     setLoading(true);
     const result = await HackathonKmap({
       chain_id: props.item.chain_id,
@@ -71,7 +76,7 @@ const KMapCard = (props: { item: Token }): ReactElement => {
     getData();
   }, [props.item.currency_address, type]);
   const option: any = {
-    height: 370,
+    height: flag ? 300 : 370,
     legend: {
       show: false,
     },
@@ -88,6 +93,7 @@ const KMapCard = (props: { item: Token }): ReactElement => {
         bottom: 40,
         right: 72,
         height: 60,
+        top: flag ? 370 : "auto",
       },
     ],
     xAxis: [
@@ -137,27 +143,38 @@ const KMapCard = (props: { item: Token }): ReactElement => {
         },
       },
       formatter: function (param: any) {
-        param = param[0];
-        return [
-          `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Time:</p>` +
-            `<p>${param.name}</p></div>`,
-          `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Open:</p>` +
-            `<p>${countTrailingZeros(toNormalNumber(param.data[4]), false)} ${
-              props.item.dex_pair_token_name
-            }</p></div>`,
-          `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>High:</p>` +
-            `<p>${countTrailingZeros(toNormalNumber(param.data[2]), false)} ${
-              props.item.dex_pair_token_name
-            }</p></div>`,
-          `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Recive:</p>` +
-            `<p>${countTrailingZeros(toNormalNumber(param.data[1]), false)} ${
-              props.item.dex_pair_token_name
-            }</p></div>`,
-          `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Low:</p>` +
-            `<p>${countTrailingZeros(toNormalNumber(param.data[3]), false)} ${
-              props.item.dex_pair_token_name
-            }</p></div>`,
-        ].join("");
+        const params = param[0];
+        return param.length < 2
+          ? [
+              `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Time:</p>` +
+                `<p>${params.name}</p></div>`,
+              `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Volume:</p>` +
+                `<p>${addCommasToNumber(params.data[1].toFixed(0))}</p></div>`,
+            ].join("")
+          : [
+              `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Time:</p>` +
+                `<p>${params.name}</p></div>`,
+              `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Open:</p>` +
+                `<p>${countTrailingZeros(
+                  new Decimal(params.data[4]).toFixed(),
+                  false
+                )} ${props.item.dex_pair_token_name}</p></div>`,
+              `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>High:</p>` +
+                `<p>${countTrailingZeros(
+                  new Decimal(params.data[2]).toFixed(),
+                  false
+                )} ${props.item.dex_pair_token_name}</p></div>`,
+              `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Recive:</p>` +
+                `<p>${countTrailingZeros(
+                  new Decimal(params.data[1]).toFixed(),
+                  false
+                )} ${props.item.dex_pair_token_name}</p></div>`,
+              `<div style='display:flex;justify-content:space-between;'><p style='width:60px;text-align:left;'>Low:</p>` +
+                `<p>${countTrailingZeros(
+                  new Decimal(params.data[3]).toFixed(),
+                  false
+                )} ${props.item.dex_pair_token_name}</p></div>`,
+            ].join("");
       },
     },
     yAxis: [
@@ -245,7 +262,16 @@ const KMapCard = (props: { item: Token }): ReactElement => {
         name: "K",
         type: "candlestick",
         barMaxWidth: "10px",
-        data: data,
+        data: data.map((item) => {
+          // 保留最后一个数值
+          const lastValue = item[item.length - 1];
+          // 处理前面数值的精度
+          const modifiedValues = item
+            .slice(0, -1)
+            .map((value) => new Decimal(value).toFixed());
+          // 合并处理后的数值和最后一个数值
+          return [...modifiedValues, lastValue];
+        }),
         itemStyle: {
           color: "#00c087",
           color0: "rgb(226,5,4)",
@@ -366,7 +392,8 @@ const KMapCard = (props: { item: Token }): ReactElement => {
                 );
               }}
             >
-              {props.item.currency_name}<span>/{props.item.dex_pair_token_name}</span>
+              {props.item.currency_name}
+              <span>/{props.item.dex_pair_token_name}</span>
             </p>
           </div>
         </div>

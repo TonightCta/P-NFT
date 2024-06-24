@@ -6,6 +6,8 @@ import KMapCard from "./components/k.map";
 import { ethereum } from "../../utils/types";
 import { CurrencyList } from "../../request/api";
 import { Spin } from "antd";
+import { AlignLeftOutlined } from "@ant-design/icons";
+import MobilePoolDrawer from "./components/mobile.pool";
 
 export interface Token {
   chain_id: string;
@@ -17,12 +19,13 @@ export interface Token {
   dex_router_v2_contract_address: string;
   logo_url: string;
   total_supply: number;
-  dex_pair_token_name:string
+  dex_pair_token_name: string;
 }
 
 const SwapIndex = (): ReactElement<ReactNode> => {
   const [tokenList, setTokenList] = useState<Token[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const [token, setToken] = useState<Token>({
     chain_id: "",
     currency_address: "",
@@ -33,7 +36,7 @@ const SwapIndex = (): ReactElement<ReactNode> => {
     dex_router_v2_contract_address: "",
     logo_url: "",
     total_supply: 0,
-    dex_pair_token_name:''
+    dex_pair_token_name: "",
   });
   const getTokenList = async () => {
     setLoading(true);
@@ -52,16 +55,23 @@ const SwapIndex = (): ReactElement<ReactNode> => {
   }, []);
   return (
     <div className="swap-index">
+      <div className="mobile-menu" onClick={() => {
+        setVisible(true);
+      }}>
+        <AlignLeftOutlined />
+      </div>
       <div className="swap-inner">
         <div className="token-list-swap">
           <p className="list-name">New Memes Pool</p>
-
           <ul>
             {tokenList.map((item: Token, index: number) => {
               return (
-                <li key={index} onClick={() => {
-                  setToken(item);
-                }}>
+                <li
+                  key={index}
+                  onClick={() => {
+                    setToken(item);
+                  }}
+                >
                   <img src={item.logo_url} alt="" />
                   <div className="token-info">
                     <p>{item.currency_name}</p>
@@ -84,12 +94,23 @@ const SwapIndex = (): ReactElement<ReactNode> => {
           )}
         </div>
         <div className="k-map">
-          <KMapCard item={token}/>
+          <KMapCard item={token} />
         </div>
         <div className="swap">
           <SwapCard />
         </div>
       </div>
+      <MobilePoolDrawer
+        visible={visible}
+        loading={loading}
+        tokenList={tokenList}
+        onClose={(val: boolean) => {
+          setVisible(val);
+        }}
+        upToken={(token: Token) => {
+          setToken(token);
+        }}
+      />
     </div>
   );
 };

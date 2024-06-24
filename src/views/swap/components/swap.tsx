@@ -18,6 +18,7 @@ import { useContract } from "../../../utils/contract";
 import { FilterAddress } from "../../../utils";
 import { useSwitchChain } from "../../../hooks/chain";
 import ConnectModal from "../../../components/header.new/components/connect.modal";
+import { toNormalNumber } from "../../memes";
 
 type Amount = string | number;
 
@@ -73,7 +74,7 @@ const SwapCard = (): ReactElement => {
     });
     setWait(false);
     const { data } = result;
-    if(!data.data.item) return
+    if (!data.data.item) return;
     setTokenList(data.data.item);
     getTokenBList(data.data.item[0].currency_address);
   };
@@ -88,7 +89,6 @@ const SwapCard = (): ReactElement => {
     });
     setWait(false);
     const { data } = result;
-    setTokenList(data.data.item);
     setTokenBList(data.data.item[0].dex_pair_infos);
   };
   const getRatio = async () => {
@@ -108,13 +108,13 @@ const SwapCard = (): ReactElement => {
     let result: string = "";
     switch (state.chain) {
       case "8007736":
-        result = await QueryPair(tokena, tokenb, +amount.in, slippage, eth);
+        result = await QueryPair(tokena, tokenb, toNormalNumber(+amount.in), slippage, eth);
         break;
       case "84532":
-        result = await QueryPairBase(tokena, tokenb, +amount.in, slippage, eth);
+        result = await QueryPairBase(tokena, tokenb, toNormalNumber(+amount.in), slippage, eth);
         break;
       default:
-        result = await QueryPair(tokena, tokenb, +amount.in, slippage, eth);
+        result = await QueryPair(tokena, tokenb, toNormalNumber(+amount.in), slippage, eth);
     }
     setRatio(+result);
     setAmount({
@@ -189,7 +189,7 @@ const SwapCard = (): ReactElement => {
         result = await SendTrade(
           tokena,
           tokenb,
-          +amount.in,
+          toNormalNumber(+amount.in),
           slippage,
           eth,
           address
@@ -199,7 +199,7 @@ const SwapCard = (): ReactElement => {
         result = await SendTradeBase(
           tokena,
           tokenb,
-          +amount.in,
+          toNormalNumber(+amount.in),
           slippage,
           eth,
           address
@@ -209,7 +209,7 @@ const SwapCard = (): ReactElement => {
         result = await SendTrade(
           tokena,
           tokenb,
-          +amount.in,
+          toNormalNumber(+amount.in),
           slippage,
           eth,
           address
@@ -295,14 +295,18 @@ const SwapCard = (): ReactElement => {
       </ul>
     );
   };
+  const toFixedFloor = (value: number, decimals: number) => {
+    const factor = Math.pow(10, decimals);
+    return Math.floor(value * factor) / factor;
+  };
   const getBalance = async (_type: number, _address: string) => {
     if (!state.address) return;
     const chain: any = await switchC(+tokenA.chain_id);
     if (chain?.code) return;
     const result = await balanceErc20(_address, state.address);
     _type === 1
-      ? setBalanceA(+Number(web3.utils.fromWei(result)).toFixed(6))
-      : setBalanceB(+Number(web3.utils.fromWei(result)).toFixed(6));
+      ? setBalanceA(toFixedFloor(+Number(web3.utils.fromWei(result)),6))
+      : setBalanceB(toFixedFloor(+Number(web3.utils.fromWei(result)),6));
   };
   useEffect(() => {
     const query = async () => {
@@ -410,7 +414,8 @@ const SwapCard = (): ReactElement => {
         onClick={() => {
           setTokenA({
             ...tokenB,
-            dex_router_v2_contract_address:tokenA.dex_router_v2_contract_address
+            dex_router_v2_contract_address:
+              tokenA.dex_router_v2_contract_address,
           });
           setTokenB(tokenA);
           setAmount({

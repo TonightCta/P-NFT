@@ -48,16 +48,17 @@ export const toNormalNumber = (number: number): string => {
   const numArr = e.match(rex);
   const n = Number("" + numArr![1] + (numArr![2] || ""));
   const num = "0." + String(Math.pow(10, Number(numArr![3]) - 1)).substr(1) + n;
+  console.log(num.replace(/0*$/, ""));
   return num.replace(/0*$/, "");
 };
-export const countTrailingZeros = (numberString: string,unit:boolean) => {
+export const countTrailingZeros = (numberString: string, unit: boolean) => {
   const decimalIndex = numberString.indexOf(".");
   const decimalPart = numberString.substring(decimalIndex + 1);
   const match = decimalPart.match(/^(0*)[1-9]/);
   if (match) {
     const last = decimalPart.substring(match[1].length, match[1].length + 3);
     // console.log(decimalPart.substring(match[1].length, match[1].length + 2));
-    return `${unit ? '$' : ''}0.0{${match[1].length}}${last}`;
+    return `${unit ? "$" : ""}0.0{${match[1].length}}${last}`;
   }
 };
 const MoreChainPop = (props: { chains: Chain[] }) => {
@@ -143,7 +144,7 @@ const columns: TableProps<DataType>["columns"] = [
         {text > 0.01 ? (
           <p>${text.toFixed(4)}</p>
         ) : (
-          <p>{countTrailingZeros(toNormalNumber(text),true)}</p>
+          <p>{countTrailingZeros(toNormalNumber(text), true)}</p>
         )}
       </>
     ),

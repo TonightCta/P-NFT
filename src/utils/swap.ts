@@ -41,7 +41,7 @@ export const QueryPrice = async (
 export const QueryPair = async (
   _token_a: TokenParams,
   _token_b: TokenParams,
-  _amount: number,
+  _amount: string,
   _slippage_tolerance: number,
   _provider: any
 ) => {
@@ -66,7 +66,7 @@ export const QueryPair = async (
 export const SendTrade = async (
   _token_a: TokenParams,
   _token_b: TokenParams,
-  _amount: number,
+  _amount: string,
   _slippage_tolerance: number,
   _provider: any,
   _router_address: string

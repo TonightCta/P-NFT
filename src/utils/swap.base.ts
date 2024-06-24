@@ -41,7 +41,7 @@ export const QueryPriceBase = async (
 export const QueryPairBase = async (
   _token_a: TokenParams,
   _token_b: TokenParams,
-  _amount: number,
+  _amount: string,
   _slippage_tolerance: number,
   _provider: any
 ) => {
@@ -66,19 +66,11 @@ export const QueryPairBase = async (
 export const SendTradeBase = async (
   _token_a: TokenParams,
   _token_b: TokenParams,
-  _amount: number,
+  _amount: string,
   _slippage_tolerance: number,
   _provider: any,
   _router_address: string
 ) => {
-  console.log(
-    _token_a,
-    _token_b,
-    _amount,
-    _slippage_tolerance,
-    _provider,
-    _router_address
-  );
   const TokenA = getToken(_token_a);
   const TokenB = getToken(_token_b);
   const pair = await Fetcher.fetchPairData(TokenA, TokenB, _provider);
