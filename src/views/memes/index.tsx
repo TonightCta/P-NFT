@@ -48,7 +48,6 @@ export const toNormalNumber = (number: number): string => {
   const numArr = e.match(rex);
   const n = Number("" + numArr![1] + (numArr![2] || ""));
   const num = "0." + String(Math.pow(10, Number(numArr![3]) - 1)).substr(1) + n;
-  console.log(num.replace(/0*$/, ""));
   return num.replace(/0*$/, "");
 };
 export const countTrailingZeros = (numberString: string, unit: boolean) => {

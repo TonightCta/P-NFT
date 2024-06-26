@@ -26,7 +26,7 @@ interface Info {
   create_address: string;
   pay_token_symbol: string;
   pay_token_url: string;
-  rank:number
+  rank: number;
 }
 
 const HackthonDetailNewView = (): ReactElement<ReactNode> => {
@@ -46,7 +46,7 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
     create_address: "",
     pay_token_symbol: "",
     pay_token_url: "",
-    rank:0
+    rank: 0,
   });
   const getInfo = async () => {
     const result = await HackathonInfo({
@@ -73,19 +73,27 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
         Meme Hackathon
       </p>
       <div className="detail-inner">
-        <div className="left-nft">
-          {loading && (
-            <div className="loading-box">
-              <Spin size="large" />
-            </div>
-          )}
+        <div className="left-pr">
           <img
-            src={info.url}
+            className="dog"
+            src={require("../../assets/images/sit.dog.png")}
             alt=""
-            onLoad={() => {
-              setLoading(false);
-            }}
           />
+          <div className="bg-y"></div>
+          <div className="left-nft">
+            {loading && (
+              <div className="loading-box">
+                <Spin size="large" />
+              </div>
+            )}
+            <img
+              src={info.url}
+              alt=""
+              onLoad={() => {
+                setLoading(false);
+              }}
+            />
+          </div>
         </div>
         <div className="right-msg">
           <div>
@@ -108,6 +116,10 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
                 <IconFont type="icon-a-zu1590" />
                 {info.rank}
               </p>
+              <p>
+                <IconFont type="icon-a-zu1439" className="gr-c" />
+                {info.create_address}
+              </p>
             </div>
           </div>
           <div className="oper-box">
@@ -118,6 +130,7 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
               }}
             >
               Vote
+              <img src={require('../../assets/images/dog.fot.png')} alt="" />
             </Button>
             <Button
               type="default"
@@ -135,7 +148,7 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
               }}
             >
               Share&Earn
-              <IconFont type="icon-arrow-up-right" />
+              <IconFont type="icon-a-lujing555" />
             </Button>
           </div>
         </div>

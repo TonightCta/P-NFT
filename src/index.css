@@ -5,14 +5,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #150f0d;
+  color: #222129;
   font-family: Kanit;
   /* min-width: 1440px; */
 }
 
 html {
   font-size: 62.5%;
-  background-color: #150f0d;
+  background-color: #222129;
 }
 
 /* @media screen and (max-width: 1280px) {
@@ -159,4 +159,8 @@ textarea {
 }
 .ant-image-preview-operations-wrapper {
   z-index: 6000;
+}
+.ant-modal-mask{
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* 兼容老版本 Safari */
 }

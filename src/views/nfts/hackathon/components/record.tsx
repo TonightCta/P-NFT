@@ -3,26 +3,29 @@ import { DateConvertHour, addCommasToNumber } from "../../../../utils";
 import { HackathonReferList } from "../../../../request/api";
 import { Spin } from "antd";
 
-interface Data{
-    chain_id:string,
-    hackathon_id:number,
-    hackathon_name:string,
-    referrer:number,
-    refer_reward_token_symbol:string;
-    refer_reward_token_url:string;
-    refer_reward_amount:number;
-    refer_reward_time:number;
-    refer_reward_trx:string
+interface Data {
+  chain_id: string;
+  hackathon_id: number;
+  hackathon_name: string;
+  referrer: number;
+  refer_reward_token_symbol: string;
+  refer_reward_token_url: string;
+  refer_reward_amount: number;
+  refer_reward_time: number;
+  refer_reward_trx: string;
 }
 
-const RecordTable = (props: { address: string,chain:string }): ReactElement => {
+const RecordTable = (props: {
+  address: string;
+  chain: string;
+}): ReactElement => {
   const [data, setData] = useState<Data[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(999);
   const getList = async () => {
     setLoading(true);
     const result = await HackathonReferList({
-      chain_id:props.chain,
+      chain_id: props.chain,
       user_address: props.address,
       page_size: 100,
       page_num: 1,
@@ -33,7 +36,7 @@ const RecordTable = (props: { address: string,chain:string }): ReactElement => {
       setData([]);
       setLoading(false);
       return;
-    };
+    }
     console.log(data);
     setData(data.data.item);
     setLoading(false);
@@ -67,13 +70,29 @@ const RecordTable = (props: { address: string,chain:string }): ReactElement => {
               </div>
               <div className="public-p">
                 <p className="mobile-title">Rebate</p>
-                <p className="p-c">{item.refer_reward_amount < 999 ? item.refer_reward_amount : addCommasToNumber(200120)}&nbsp;{item.refer_reward_token_symbol}</p>
+                <p className="p-c">
+                  {item.refer_reward_amount < 999
+                    ? item.refer_reward_amount
+                    : addCommasToNumber(200120)}
+                  &nbsp;{item.refer_reward_token_symbol}
+                </p>
               </div>
               <div className="public-p">
                 <p className="mobile-title">Transaction</p>
-                <p className="click" onClick={() => {
-                    window.open(`https://piscan.plian.org/tx/${item.refer_reward_trx}?chain=1`)
-                }}>{item.refer_reward_trx.substring(0,12)}...{item.refer_reward_trx.substring(item.refer_reward_trx.length - 12,item.refer_reward_trx.length)}</p>
+                <p
+                  className="click"
+                  onClick={() => {
+                    window.open(
+                      `https://piscan.plian.org/tx/${item.refer_reward_trx}?chain=1`
+                    );
+                  }}
+                >
+                  {item.refer_reward_trx.substring(0, 12)}...
+                  {item.refer_reward_trx.substring(
+                    item.refer_reward_trx.length - 12,
+                    item.refer_reward_trx.length
+                  )}
+                </p>
               </div>
               <div className="public-p">
                 <p className="mobile-title">Time</p>
@@ -88,7 +107,15 @@ const RecordTable = (props: { address: string,chain:string }): ReactElement => {
           <Spin size="large" />
         </div>
       )}
-      {!loading && total < 1 && <p className="no-more">No More</p>}
+      {!loading && total < 1 && (
+        <div className="no-more-new">
+          <img
+            src={require("../../../../assets/images/no.more.new.png")}
+            alt=""
+          />
+          <p>No Data</p>
+        </div>
+      )}
     </div>
   );
 };

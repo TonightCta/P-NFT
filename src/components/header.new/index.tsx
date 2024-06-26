@@ -470,6 +470,14 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
   };
   return (
     <div className="header-wapper-new">
+      <div
+        className="mobile-btn"
+        onClick={() => {
+          setMobileMenu(true);
+        }}
+      >
+        <IconFont type="icon-a-Maskgroup" />
+      </div>
       <img
         src={require("../../assets/images/logo.new.png")}
         alt=""
@@ -478,60 +486,48 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
           navigate("/");
         }}
       />
-      <div className="right-menu">
-        <ul>
-          {MenuList.map((item: Menu, index: number) => {
-            return (
-              <li
-                className={`${index === active ? "active-menu" : ""}`}
-                key={index}
-                onClick={() => {
-                  if (item.name === "FAQ") {
-                    window.open(item.url);
-                    return;
-                  }
-                  if (item.children) return;
-                  // if (item.url === '/create' && state.evm === '1') {
-                  //   message.warning('This network is not supported yet');
-                  //   return
-                  // }
-                  // if (item.url === '/create') {
-                  //   dispatch({
-                  //     type: Type.SET_CREATE,
-                  //     payload: {
-                  //       create: '0'
-                  //     }
-                  //   })
-                  // }
-                  setActive(index);
-                  navigate(item.url);
-                }}
-              >
-                {!item.children ? (
-                  <p>{item.name}</p>
-                ) : (
-                  //TODO  open={levelPop} onOpenChange={handleLevel}
-                  <Popover
-                    placement="bottom"
-                    rootClassName="custom-level-menu"
-                    title={null}
-                    content={<ContentLevelMenu item={item} />}
-                  >
-                    <p className="with-arrow">
-                      {item.name}
-                      <DownOutlined />
-                    </p>
-                  </Popover>
-                )}
+      <ul className="menu-list">
+        {MenuList.map((item: Menu, index: number) => {
+          return (
+            <li
+              className={`${index === active ? "active-menu" : ""}`}
+              key={index}
+              onClick={() => {
+                if (item.name === "FAQ") {
+                  window.open(item.url);
+                  return;
+                }
+                if (item.children) return;
+                setActive(index);
+                navigate(item.url);
+              }}
+            >
+              {!item.children ? (
+                <p>{item.name}</p>
+              ) : (
+                //TODO  open={levelPop} onOpenChange={handleLevel}
+                <Popover
+                  placement="bottom"
+                  rootClassName="custom-level-menu"
+                  title={null}
+                  content={<ContentLevelMenu item={item} />}
+                >
+                  <p className="with-arrow">
+                    {item.name}
+                    <DownOutlined />
+                  </p>
+                </Popover>
+              )}
 
-                {item.url === "/memes" && (
-                  <img src={require("../../assets/images/fire.gif")} alt="" />
-                )}
-                {/* {item.url === '/create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i" />} */}
-              </li>
-            );
-          })}
-        </ul>
+              {item.url === "/memes" && (
+                <img src={require("../../assets/images/fire.gif")} alt="" />
+              )}
+              {/* {item.url === '/create' && <img src={require('../../assets/images/ai.gif')} alt="" className="ai-i" />} */}
+            </li>
+          );
+        })}
+      </ul>
+      <div className="right-menu">
         {state.wallet && state.evm === "0" && (
           <Popover
             open={chainPop}
@@ -596,8 +592,8 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
                 setVisible(true);
               }}
             >
-              <IconFont type="icon-wallet" />
-              Connect Wallet
+              <IconFont type="icon-a-qianbao11" />
+              {flag ? "" : "Connect Wallet"}
             </Button>
           ) : (
             <Popover

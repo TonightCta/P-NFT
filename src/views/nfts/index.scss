@@ -31,14 +31,39 @@
     padding: 0 60px;
     .owner-card {
       width: 100%;
-      transform: translateY(-200px);
+      transform: translateY(-60px);
       .account-msg {
-        display: flex;
-        flex-direction: column;
+        .new-avatar-box {
+          display: flex;
+          align-items: center;
+          .address-msg-new {
+            margin-left: 44px;
+            padding-top: 20px;
+            p {
+              color: white;
+              text-align: left;
+            }
+            .name {
+              font-size: 36px;
+              font-family: SparkSemiBold;
+            }
+            p:last-child {
+              margin-top: 6px;
+              color: rgba(255, 255, 255, .8);
+              font-size: 12px;
+              span {
+                margin-left: 8px;
+                cursor: pointer;
+                font-size: 14px;
+                transform: translateY(1px);
+              }
+            }
+          }
+        }
         .avatar-box {
-          height: 288px;
-          width: 288px;
-          border-radius: 24px;
+          height: 182px;
+          width: 182px;
+          border-radius: 50%;
           border: 4px solid white;
           background-color: #f0f0f0;
           overflow: hidden;
@@ -339,16 +364,11 @@
         }
       }
     }
-    @media screen and (max-width: 1440px) {
-      .owner-card {
-        transform: translateY(-150px);
-      }
-    }
     .inner-data {
       position: relative;
       padding-top: 32px;
-      transform: translateY(-160px);
       .set-btn {
+        display: none;
         position: absolute;
         width: 112px;
         height: 40px;
@@ -398,7 +418,6 @@
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #e8e8e8;
     .tabs {
       border-radius: 12px;
       display: flex;
@@ -406,7 +425,6 @@
       ul {
         display: flex;
         padding-right: 24px;
-        border-right: 1px solid #4B4746;
         li {
           color: #686a6c;
           font-size: 16px;
@@ -419,41 +437,53 @@
           line-height: 40px;
         }
         .active-top {
-          background-color: #312D2B;
-          color: #FC6542;
+          background-color: rgba(0, 0, 0, 0);
+          color: white;
+          font-size: 24px;
+          text-decoration: underline;
+          text-decoration-color: #5EB552;
+          font-weight: bold;
         }
       }
       .balance-box {
-        padding: 12px 30px;
-        border: 1px solid #FC6542;
         border-radius: 8px;
         display: flex;
-        align-items: center;
-        margin-left: 34px;
-        background-color: #4B4746;
+        flex-direction: column;
+        position: absolute;
+        right: 0;
+        top: -50px;
+        p:first-child {
+          font-size: 16px;
+          color: rgba(255, 255, 255, 0.7);
+          margin-bottom: 8px;
+        }
         p {
           font-size: 16px;
           font-weight: 600;
           color: white;
-          transform: translateY(1px);
+          text-align: left;
           img {
-            width: 20px;
+            width: 28px;
             margin: 0 4px;
             vertical-align: middle;
             display: inline-block;
-            transform: translateY(-2px);
+            transform: translateY(-5px);
           }
           span {
-            font-size: 20px;
+            font-size: 42px;
             display: inline-block;
+            color: #5EB552;
+          }
+          i {
+            display: none;
           }
         }
         .balance-by-u {
-          font-size: 12px;
-          color: rgba(255, 255, 255, .8);
-          margin-left: 12px;
+          font-size: 14px;
+          color: rgba(255, 255, 255, .5);
           font-weight: 400;
-          transform: translateY(3px);
+          text-align: left;
+          margin-top: 8px;
         }
       }
     }
@@ -1254,9 +1284,8 @@
   .owner-view {
     width: 100%;
     padding: 0;
-    padding-top: 6rem;
     .owner-bg {
-      height: 12.8rem;
+      height: 15.8rem;
       transform: translateY(0);
     }
     .owner-inner {
@@ -1266,7 +1295,6 @@
       .owner-card {
         margin-right: 0;
         width: 100%;
-        padding: 0 2rem;
         transform: translateY(0);
         height: auto;
         border-radius: 0.8rem;
@@ -1274,7 +1302,27 @@
         border-top-right-radius: 0;
         .account-msg {
           display: flex;
-          flex-direction: row;
+          width: 100%;
+          justify-content: center;
+          .new-avatar-box {
+            flex-direction: column;
+            .avatar-box {
+              width: 8rem;
+              height: 8rem;
+              border-radius: 50%;
+              border-width: 2px;
+            }
+            .address-msg-new {
+              margin-left: 0;
+              padding-top: 0;
+              p {
+                text-align: center;
+              }
+              .name {
+                font-size: 2.4rem;
+              }
+            }
+          }
           .address-msg-2 {
             display: none;
           }
@@ -1426,27 +1474,42 @@
               li {
                 width: 9rem;
                 height: 3rem;
-                font-size: 1.4rem;
+                font-size: 2.2rem;
                 line-height: 3rem;
                 border-radius: .8rem;
               }
             }
             .balance-box {
               margin-left: 0;
-              padding: 1rem 2rem;
+              padding: 2.4rem 2rem;
               margin-bottom: 2.4rem;
               align-items: center;
+              position: relative;
+              top: auto;
+              width: 100%;
+              background-color: #5EB552;
+              border-radius: .4rem;
+              align-items: flex-start;
               p {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
                 white-space: nowrap;
+                color: rgba(255, 255, 255, .8);
                 img {
-                  width: 1.6rem;
+                  width: 2.8rem;
+                  height: 2.8rem;
                 }
                 span {
-                  font-size: 1.4rem;
+                  font-size: 3.8rem;
+                  color: white;
+                }
+                i {
+                  display: inline-block;
+                  margin-left: 1rem;
+                  font-weight: 400;
                 }
               }
               .balance-by-u {
+                display: none;
                 width: 100%;
                 text-align: right;
                 transform: translateY(0);
@@ -1653,21 +1716,21 @@
   }
 }
 .hackathon-assets-card {
-  display: flex;
+  padding-bottom: 32px;
   .left-tab {
-    width: 302px;
-    min-width: 302px;
     transition: .3s all;
-    overflow: hidden;
+    display: flex;
     .control-show {
-      width: 48px;
-      height: 48px;
+      width: 42px;
+      height: 42px;
       background-color: #312D2B;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      margin-right: 16px;
+      display: none;
       span {
         color: white;
         font-size: 20px;
@@ -1675,46 +1738,31 @@
       }
     }
     ul {
-      margin-top: 24px;
       display: flex;
       flex-wrap: wrap;
       transition: .3s all;
-      min-width: 300px;
       li {
         padding: 0 16px;
         text-align: center;
-        background-color: #2C2523;
+        background-color: #36353F;
         border-radius: 12px;
-        margin-bottom: 16px;
         margin-right: 12px;
         cursor: pointer;
         transition: .3s all;
         p {
           line-height: 42px;
-          color: rgba(255, 255, 255, .5);
-          font-size: 16px;
-          font-family: SparkSemiBold;
+          color: rgba(246, 246, 246, .8);
+          font-size: 14px;
           transition: .3s all;
           white-space: nowrap;
         }
       }
       .active-tab {
-        background-color: #4B4746;
+        background-color: #EC6445;
         p {
-          color: white;
+          color: #111;
+          font-weight: bold;
         }
-      }
-      li:nth-child(3) {
-        margin-right: 160px;
-      }
-    }
-  }
-  @media screen and (max-width:1440px) {
-    .left-tab {
-      width: 180px;
-      min-width: 180px;
-      ul {
-        min-width: 180px;
       }
     }
   }
@@ -1731,9 +1779,8 @@
     }
   }
   .right-table {
-    flex: 1;
-    background-color: #221C1A;
-    padding: 20px 32px;
+    background-color: #36353F;
+    margin-top: 20px;
     .public-table {
       width: 100%;
       .public-title {
@@ -1742,7 +1789,7 @@
         display: flex;
         align-items: center;
         p {
-          color: white;
+          color: rgba(255, 255, 255, .6);
           font-family: SparkBold;
           font-size: 14px;
           text-align: left;
@@ -1755,15 +1802,14 @@
       .public-inner {
         width: 100%;
         padding: 28px 20px;
-        background-color: #3B3838;
-        border-radius: 12px;
-        margin-top: 12px;
+        background-color: #111111;
         display: flex;
         align-items: center;
+        border-bottom: 1px solid #424148;
         .public-p {
           font-size: 16px;
-          color: white;
           text-align: left;
+          color: white;
         }
         .mobile-title {
           display: none;
@@ -1788,11 +1834,12 @@
           img {
             width: 24px;
             height: 24px;
-            margin-right: 4px;
+            border-radius: 50%;
           }
           p {
             font-size: 16px;
             color: white;
+            margin-left: 8px;
           }
         }
         .click {
@@ -1800,6 +1847,9 @@
           cursor: pointer;
           color: #FC6542;
         }
+      }
+      .public-inner:last-child {
+        border: 0;
       }
     }
     .history-table,
@@ -1831,7 +1881,7 @@
             }
             p {
               font-size: 16px;
-              color: #000;
+              color: white;
               font-weight: 600;
             }
           }
@@ -1966,7 +2016,7 @@
             }
           }
           .r-c {
-            color: #FA3370;
+            color: #EC6445;
           }
           .g-c {
             color: #047B1F;
@@ -1980,23 +2030,22 @@
             height: 40px;
             background-color: white !important;
             border-color: #FC6542;
-            border-radius: 16px;
+            border-radius: 4px;
             color: #FC6542;
-            font-size: 16px;
+            font-size: 14px;
             box-shadow: none;
             font-weight: 600;
+            border: 0;
           }
           .add-btn {
-            border-color: #B7A2FF;
-            color: #6A40FB;
-            background-color: #EBDFFA !important;
+            color: #EC6445;
+            background-color: #424148 !important;
             width: auto;
             height: 36px;
           }
           .check-btn {
-            border-color: #74F792;
-            color: #047B1F;
-            background-color: #D9FFE2 !important;
+            color: #EC6445;
+            background-color: #424148 !important;
             width: 94px;
             height: 36px;
             margin-left: 12px;
@@ -2051,6 +2100,20 @@
   margin-top: 70px;
   color: #686a6c;
 }
+.no-more-new {
+  padding-top: 120px;
+  padding-bottom: 120px;
+  img {
+    width: 140px;
+    height: 170px;
+  }
+  p {
+    margin-top: 32px;
+    font-size: 32px;
+    color: rgba(255, 255, 255, .2);
+    font-weight: bold;
+  }
+}
 .custom-modal-check {
   text-align: center;
   padding: 32px;
@@ -2098,16 +2161,15 @@
         display: none;
       }
       ul {
-        min-width: auto;
         flex-direction: row;
-        flex-wrap: nowrap;
         margin-top: 0;
         width: 100%;
         overflow: auto;
-        margin-bottom: 2rem;
+        margin-bottom: 1.6rem;
         li {
           margin-bottom: 0;
           margin-right: 1.2rem !important;
+          margin-bottom: 1.2rem;
           p {
             font-size: 1.4rem;
             line-height: 3.6rem;
@@ -2117,17 +2179,19 @@
     }
     .right-table {
       padding: 0;
-      background-color: white;
+      background-color: rgba(0, 0, 0, 0);
+      margin-top: 0;
       .public-table {
         .public-title {
           display: none;
         }
         .public-inner {
-          background-color: #FAFAFA;
+          background-color: #111111;
           flex-wrap: wrap;
           position: relative;
           padding: 1.6rem;
           border-radius: 4px;
+          border-bottom-color: #282730;
           .mobile-title {
             display: block;
             font-size: 1.4rem !important;

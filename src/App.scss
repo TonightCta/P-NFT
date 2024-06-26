@@ -1,10 +1,10 @@
 .App {
   text-align: center;
-  background-color: #141416;
+  background-color: #222129;
   overflow: hidden;
 }
 .new-app {
-  background-color: #150F0D;
+  background-color: #222129;
 }
 .old-app {
   .ant-pagination {
@@ -387,7 +387,6 @@
     text-align: center;
     margin-top: 40px;
     padding-bottom: 10px;
-
     .btns-oper {
       display: flex;
       align-items: center;
@@ -396,7 +395,7 @@
     button {
       width: 160px;
       height: 40px;
-      background-color: #df0885!important;
+      background-color: #df0885 !important;
       border-radius: 20px;
       font-size: 16px;
       color: white !important;
@@ -406,10 +405,10 @@
       }
     }
     .disable-btn {
-      background-color: #ccc!important;
+      background-color: #ccc !important;
     }
-    .disable-btn:hover{
-      background-color: #ccc!important;
+    .disable-btn:hover {
+      background-color: #ccc !important;
     }
     .p-line {
       width: 60%;
@@ -621,40 +620,38 @@
 }
 .footer-wapper-new {
   padding: 80px 60px;
-  background-color: #150F0D;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  .left-msg {
-    text-align: left;
-    img {
-      width: 124px;
-      height: 32px;
-    }
-    p {
-      margin-top: 24px;
-      font-size: 16px;
-      color: white;
-    }
+  background-color: #2A2932;
+  img{
+    width: 175px;
+    height: 50px;
   }
-  .right-account {
-    ul {
+  p{
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 28px;
+    li {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      margin-left: 16px;
       display: flex;
       align-items: center;
-      li {
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        border-radius: 16px;
-        border: 2px solid rgba(255, 255, 255, 0.4);
-        margin-left: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        span {
-          font-size: 20px;
-          color: white;
-        }
+      justify-content: center;
+      span {
+        font-size: 20px;
+        color: white;
+      }
+    }
+    li:nth-child(3){
+      span{
+        font-size: 30px;
       }
     }
   }
@@ -724,7 +721,8 @@
     padding: 40px 0;
     flex-direction: column;
     justify-content: center;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #282730;
+    background-color: rgba(0,0,0,0);
     .left-msg {
       text-align: center;
       img {

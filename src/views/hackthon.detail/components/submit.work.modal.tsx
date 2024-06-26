@@ -1,4 +1,4 @@
-import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Modal, message, Image } from "antd";
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { Base64ToFile, CompressImage, GetUrlKey } from "../../../utils";
@@ -427,6 +427,7 @@ const SubmitWorkModal = (props: {
               }}
             >
               Design
+              <p className="line"></p>
             </li>
             <li
               className={`${type === 2 ? "active-type" : ""}`}
@@ -435,6 +436,7 @@ const SubmitWorkModal = (props: {
               }}
             >
               Upload
+              <p className="line"></p>
             </li>
           </ul>
         </div>
@@ -669,10 +671,7 @@ const SubmitWorkModal = (props: {
                 <div className="upload-nft-box">
                   {!input.img.view ? (
                     <div className="up-box">
-                      <img
-                        src={require("../../../assets/images/up_file.png")}
-                        alt=""
-                      />
+                      <PlusOutlined />
                       <input
                         type="file"
                         accept="image/*"

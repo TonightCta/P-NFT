@@ -28,7 +28,9 @@ import ConnectModal from "../../components/header.new/components/connect.modal";
 import { HackathonItemList, HackathonList } from "../../request/api";
 import { Type } from "../../utils/types";
 import { HackathonSupport } from "../../hooks/hackthon";
+import QACard from "./components/qa";
 import { flag } from "../../utils/source";
+
 // import { useSpring,animated } from 'react-spring'
 // import CountUp from "react-countup";
 // import React from "react";
@@ -57,6 +59,7 @@ interface Data {
   create_address: string;
   pay_token_symbol: string;
   pay_token_url: string;
+  name:string
 }
 
 export interface Item {
@@ -67,6 +70,8 @@ export interface Item {
   url: string;
   votes: number;
 }
+
+const DDList: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
 const HackthonNewView = (): ReactElement<ReactNode> => {
   const containerRef = useRef(null);
@@ -137,7 +142,6 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
       page_num: 1,
     });
     const { data } = result;
-    console.log(data.data.item);
     if (!data.data.item) {
       setNodata(true);
       setReload(false);
@@ -228,7 +232,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
         top:
           (document.getElementById(
             `part-${GetUrlKey("id", window.location.href)}`
-          )?.offsetTop as number) - 210,
+          )?.offsetTop as number) - 375,
         behavior: "smooth",
       });
     }
@@ -290,8 +294,24 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
   );
   return (
     <div className="hackthon-new-view">
+      <div className="title-box">
+        <p className="name">Meme Hackathon</p>
+        <p className="remark">
+          Exploring the Future of AIGC Derivative Platform For Hot Meme Coins
+        </p>
+        <ul>
+          {DDList.map((item: number, index: number) => {
+            return <li key={index}>Meme Hackathon</li>;
+          })}
+        </ul>
+        <ul>
+          {DDList.map((item: number, index: number) => {
+            return <li key={index}>Meme Hackathon</li>;
+          })}
+        </ul>
+      </div>
       <div className="title-oper">
-        <p>Meme Hackathon</p>
+        <p></p>
         <div className="chain-btn">
           {false && (
             <Popover
@@ -336,6 +356,9 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
               Connect Wallet
             </Button>
           )}
+          <div className="sit-dog">
+            <img src={require("../../assets/images/sit.dog.png")} alt="" />
+          </div>
         </div>
       </div>
       <div className="new-view-inner">
@@ -371,16 +394,18 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                 <div className="left-msg">
                   <p className="active-line"></p>
                   <div className="meme-msg">
-                    <p className="symbol-name">
+                    <div className="symbol-name">
                       <img src={item.pay_token_url} alt="" />
-                      {item.pay_token_symbol} x{" "}
-                      {item.symbol}
-                    </p>
-                    <div className="coin-list">
                       <img
                         src={FilterHackathonNet(item.chain_id).chain_logo}
                         alt=""
                       />
+                    </div>
+                    <div className="name-total">
+                      <p>
+                        {item.pay_token_symbol} x {item.symbol}
+                      </p>
+                      <p>{item.total_contribution_amount}&nbsp;${item.pay_token_symbol}</p>
                     </div>
                   </div>
                 </div>
@@ -459,81 +484,134 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                   active === item.href ? "active-anchor" : ""
                 }`}
               >
-                <p className="slide-title">
-                  <span></span>
-                  {item.hackathon_name}
-                </p>
-                <div className="date-msg">
-                  <p>{item.is_online ? "ONGOING" : "ENDED"}</p>
-                  <div className="progress-box">
-                    <div className="create-date p-date">
-                      {DateConvertMin(item.creat_time)}
+                <div className="name-msg">
+                  <div className="left">
+                    <div className="symbol-name">
+                      <img src={item.pay_token_url} alt="" />
+                      <img
+                        src={FilterHackathonNet(item.chain_id).chain_logo}
+                        alt=""
+                      />
                     </div>
-                    <div className="end-date p-date">
-                      {DateConvertMin(item.end_time)}
-                    </div>
-                    <div
-                      className="box-i"
-                      style={{
-                        width: `${
-                          item.is_online
-                            ? fixTime(item.creat_time, item.end_time)
-                            : 100
-                        }%`,
+                    <p className="slide-title">{item.hackathon_name}</p>
+                  </div>
+                  <div className="right">
+                    <p
+                      className="share"
+                      onClick={() => {
+                        const windowName = "newWindow";
+                        const windowFeatures =
+                          "width=800,height=600,top=100,left=100";
+                        const url = `https://test.pizzap.io/#/?referrer=${state.address}&id=${item.hackathon_id}`;
+                        window.open(
+                          `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                            "Memehack is a fair and community-governed platform for launching Memecoins. It also supports the secondary creation based on popular Memes. Everyone is welcome to launch their Memecoins in Memehack. Join us in shaping the future of meme-based culture."
+                          )}&url=${encodeURIComponent(url)}`,
+                          windowName,
+                          windowFeatures
+                        );
                       }}
                     >
-                      <div
-                        className="progress-text"
-                        style={{
-                          left: `calc(${
-                            item.is_online
-                              ? fixTime(item.creat_time, item.end_time)
-                              : 100
-                          }% - 22px)`,
-                        }}
-                      >
+                      <IconFont type="icon-a-fenxiang51" />
+                      {flag ? '' : 'Share'}
+                    </p>
+                    <div
+                      className="create-logo"
+                      onClick={() => {
+                        if (!state.address) {
+                          message.error("You need connect the wallet first");
+                          return;
+                        }
+                        setInfo({
+                          hackathon_id: item.hackathon_id,
+                          min_submission_fee: item.min_submission_fee,
+                          min_voting_amount: item.min_voting_amount,
+                          chain_id: item.chain_id,
+                          pay_token_address: item.pay_token_address,
+                          create_address: item.create_address,
+                          pay_token_symbol: item.pay_token_symbol,
+                          pay_token_url: item.pay_token_url,
+                        });
+                        setWorkModal(true);
+                      }}
+                    >
+                      <p>
+                        <PlusOutlined />
+                      </p>
+                      <p>{flag ? 'Submit' : 'Submit A Logo'}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="date-share">
+                  <div className="date-msg">
+                    <p>
+                      <span>{item.is_online ? "ONGOING" : "ENDED"}</span>
+                      <span>
                         {item.is_online
                           ? fixTime(item.creat_time, item.end_time)
                           : 100}
                         %
+                      </span>
+                    </p>
+                    <div className="progress-box">
+                      <div className="create-date p-date">
+                        {DateConvertMin(item.creat_time)}
+                      </div>
+                      <div className="end-date p-date">
+                        {DateConvertMin(item.end_time)}
+                      </div>
+                      <div
+                        className="box-i"
+                        style={{
+                          width: `${
+                            item.is_online
+                              ? fixTime(item.creat_time, item.end_time)
+                              : 100
+                          }%`,
+                        }}
+                      >
+                        <div
+                          className="progress-text"
+                          style={{
+                            left: `calc(${
+                              item.is_online
+                                ? fixTime(item.creat_time, item.end_time)
+                                : 100
+                            }% - 22px)`,
+                          }}
+                        >
+                          {item.is_online
+                            ? fixTime(item.creat_time, item.end_time)
+                            : 100}
+                          %
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <div className="share-box">
+                    <div>
+                      <IconFont type="icon-nft-fill" />
+                      <p>
+                        <span>{item.total_submit_item}</span>
+                        <span>Logo Submissions</span>
+                      </p>
+                    </div>
+                    <div>
+                      <IconFont type="icon-toupiao" />
+                      <p>
+                        <span>
+                          {addCommasToNumber(
+                            +item.total_contribution_amount.toFixed(2)
+                          )}
+                          &nbsp;
+                          <i>${item.pay_token_symbol}</i>
+                        </span>
+                        <span>Total Supports</span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="share-box">
-                  <p>
-                    Submission
-                    <span>{item.total_submit_item}</span>
-                  </p>
-                  <p>
-                    Total Supports
-                    <span>
-                      {addCommasToNumber(
-                        +item.total_contribution_amount.toFixed(2)
-                      )}
-                      <i>${item.pay_token_symbol}</i>
-                    </span>
-                  </p>
-                  <Button
-                    type="primary"
-                    onClick={() => {
-                      const windowName = "newWindow";
-                      const windowFeatures =
-                        "width=800,height=600,top=100,left=100";
-                      const url = `https://test.pizzap.io/#/?referrer=${state.address}&id=${item.hackathon_id}`;
-                      window.open(
-                        `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-                          "Memehack is a fair and community-governed platform for launching Memecoins. It also supports the secondary creation based on popular Memes. Everyone is welcome to launch their Memecoins in Memehack. Join us in shaping the future of meme-based culture."
-                        )}&url=${encodeURIComponent(url)}`,
-                        windowName,
-                        windowFeatures
-                      );
-                    }}
-                  >
-                    Share
-                    <IconFont type="icon-arrow-up-right" />
-                  </Button>
-                </div>
+                <p className="unk-text">Logos Rank for {item.name}</p>
                 <div className="items-list">
                   {item.items &&
                     item.items.map((items: Item, index: number) => {
@@ -562,34 +640,13 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                         />
                       );
                     })}
-                  <div
-                    className="add-work"
-                    onClick={() => {
-                      if (!state.address) {
-                        message.error("You need connect the wallet first");
-                        return;
-                      }
-                      setInfo({
-                        hackathon_id: item.hackathon_id,
-                        min_submission_fee: item.min_submission_fee,
-                        min_voting_amount: item.min_voting_amount,
-                        chain_id: item.chain_id,
-                        pay_token_address: item.pay_token_address,
-                        create_address: item.create_address,
-                        pay_token_symbol: item.pay_token_symbol,
-                        pay_token_url: item.pay_token_url,
-                      });
-                      setWorkModal(true);
-                    }}
-                  >
-                    <PlusOutlined />
-                  </div>
                 </div>
               </div>
             );
           })}
         </div>
       </div>
+      <QACard />
       <LaunchModal
         visible={visible}
         address={state.address || ""}

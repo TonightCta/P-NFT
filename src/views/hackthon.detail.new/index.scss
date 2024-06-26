@@ -1,16 +1,17 @@
 .hackthon-detail-new-view {
     padding-top: 110px;
-    background-color: #150F0D;
+    background-color: #222129;
     .back-title {
         text-align: left;
         color: white;
         width: 1400px;
         margin: 0 auto 8px;
-        font-size: 20px;
+        font-size: 32px;
         span {
             margin-right: 24px;
             color: white;
-            transform: translateY(2px);
+            transform: translateY(-1px);
+            font-size: 24px;
         }
     }
     .detail-inner {
@@ -18,18 +19,38 @@
         display: flex;
         margin: 0 auto;
         padding: 40px 36px;
-        background-color: #221C1A;
         margin-bottom: 32px;
+        padding-top: 90px;
+        .left-pr {
+            position: relative;
+            .dog {
+                width: 92px;
+                height: 130px;
+                position: absolute;
+                left: 26px;
+                z-index: 90;
+                top: -65px;
+            }
+            .bg-y {
+                width: 277px;
+                height: 318px;
+                background-color: #EC6445;
+                position: absolute;
+                z-index: 90;
+                left: 118px;
+                top: -14px;
+            }
+        }
         .left-nft {
-            width: 240px;
-            height: 240px;
-            max-height: 800px;
+            width: 376px;
+            height: 365px;
+            margin-right: 146px;
             overflow: hidden;
-            margin-right: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            z-index: 100;
             .loading-box {
                 position: absolute;
                 width: 100%;
@@ -50,19 +71,21 @@
             flex-direction: column;
             justify-content: space-between;
             text-align: left;
+            padding-top: 24px;
             .id-token {
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
                 p {
-                    font-size: 28px;
+                    font-size: 42px;
                     color: white;
                     font-weight: bold;
                 }
                 .chain-li {
+                    margin-left: 22px;
                     img {
-                        width: 30px;
-                        height: 30px;
+                        width: 36px;
+                        height: 36px;
+                        transform: translateY(5px);
                     }
                 }
             }
@@ -71,38 +94,42 @@
                 p {
                     font-size: 24px;
                     color: white;
+                    margin-top: 30px;
                 }
                 .anticon {
                     font-size: 20px;
                     margin-right: 10px;
                 }
-                p:last-child {
-                    margin-top: 30px;
-                }
             }
             .oper-box {
                 display: flex;
                 button {
-                    height: 68px;
-                    border-radius: 16px;
-                    font-size: 24px;
+                    height: 58px;
+                    border-radius: 4px;
+                    font-size: 18px;
+                    color: #222129;
+                    img {
+                        width: 18px;
+                        height: 18px;
+                        margin-left: 12px;
+                    }
                 }
                 button:first-child {
-                    width: 668px;
+                    flex: 1;
                     background: #FC6542;
                     margin-right: 20px;
                     border: 0;
                 }
                 button:last-child {
-                    flex: 1;
-                    color: #FC6542;
-                    background-color:#2C2523;
-                    border-color: #FC6542;
+                    width: 220px;
+                    color: #5EB552;
+                    background-color: white;
                 }
             }
         }
     }
     .msg-card {
+        display: none;
         width: 1400px;
         height: 400px;
         margin: 0 auto 44px;
@@ -208,28 +235,48 @@
     .hackthon-detail-new-view {
         padding-top: 8rem;
         .back-title {
-            width: 95%;
+            width: calc(100% - 60px);
             margin: 0 auto;
             margin-bottom: 2rem;
+            font-size: 2.4rem;
+            span {
+                height: 3rem;
+                width: 3rem;
+                border: 1px solid rgba(217, 217, 217, .2);
+                font-size: 1.6rem;
+                padding-left: .6rem;
+            }
         }
         .detail-inner {
-            width: 95%;
+            width: calc(100% - 36px);
             margin: 0 auto;
-            padding: 2rem 1.8rem;
-            .left-nft {
-                width: 12rem;
-                height: 12rem;
-                margin-right: 1.6rem;
+            padding: 0;
+            flex-direction: column;
+            .left-pr {
+                .dog {
+                    display: none;
+                }
+                .bg-y{
+                    width: 100%;
+                    left: 0;
+                    top: auto;
+                    bottom: -1.4rem;
+                }
+                .left-nft {
+                    width: 100%;
+                    height: 40rem;
+                    margin-right: 0;
+                }
             }
             .right-msg {
                 .id-token {
                     p {
-                        font-size: 1.8rem;
+                        font-size: 3.2rem;
                     }
                     .chain-li {
                         img {
-                            width: 2rem;
-                            height: 2rem;
+                            width: 2.8rem;
+                            height: 2.8rem;
                         }
                     }
                 }
@@ -237,6 +284,7 @@
                     margin-top: 1.2rem;
                     p {
                         font-size: 1.6rem;
+                        color: rgba(255,255,255,.7);
                     }
                     .anticon {
                         font-size: 1.6rem;
@@ -246,13 +294,21 @@
                     }
                 }
                 .oper-box {
+                    flex-direction: column;
+                    margin-top: 2.2rem;
+                    margin-bottom: 7.4rem;
                     button {
-                        font-size: 1.2rem;
-                        height: 2.4rem;
-                        border-radius: .8rem;
+                        width: 100%;
+                        font-size: 1.6rem;
+                        height: 4.8rem;
+                        border-radius: .4rem;
+                        margin-bottom: 1.6rem;
                     }
-                    button:first-child {
-                        width: 60%;
+                    button:first-child{
+                        flex: none;
+                    }
+                    button:last-child{
+                        width: 100%;
                     }
                 }
             }

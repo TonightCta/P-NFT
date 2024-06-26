@@ -26,10 +26,13 @@ const HackthonCardNew = (props: {
         );
       }}
     >
-      <img className="first-icon" src={require('../../../assets/images/first.hackathon.png')} alt="" />
-      <p className="name">#{item.hackthon_item_id}</p>
-      <div style={{display:'flex'}}>
+      <div className="first-icon">
+        <img src={require('../../../assets/images/dog.fot.png')} alt="" />
+        <p>Best</p>
+      </div>
+      <div className="mobile-use">
         <div className="nft-box">
+          <p className="name">#{item.hackthon_item_id}</p>
           {item.loading && (
             <div className="load-box">
               <Spin />
@@ -50,8 +53,8 @@ const HackthonCardNew = (props: {
           <div className="owner-vote">
             <p>
               <IconFont type="icon-a-zu1439" className="gr-c" />
-              {/* Owner */}
-              <span>{item.creator.substring(0, 4)}...</span>
+              <span>Owner</span>
+              <span>{item.creator.substring(0, 6)}...</span>
             </p>
             <p>
               <IconFont type="icon-a-zu1441" />
@@ -75,6 +78,7 @@ const HackthonCardNew = (props: {
               }}
             >
               Vote
+              <IconFont type="icon-a-lujing555"/>
             </Button>
           </div>
         </div>

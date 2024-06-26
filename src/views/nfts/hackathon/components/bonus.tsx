@@ -239,7 +239,10 @@ const BonusTable = (props: {
           <Spin size="large" />
         </div>
       )}
-      {!loading && total < 1 && <p className="no-more">No More</p>}
+      {!loading && total < 1 && <div className="no-more-new">
+          <img src={require('../../../../assets/images/no.more.new.png')} alt="" />
+          <p>No Data</p>
+        </div>}
       <RewardModal
         visible={visible}
         onClose={(val: boolean) => {

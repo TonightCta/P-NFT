@@ -3,26 +3,29 @@ import { DateConvertHour, addCommasToNumber } from "../../../../utils";
 import { HackathonSubmitList } from "../../../../request/api";
 import { Spin } from "antd";
 
-interface Data{
-    chain_id:string,
-    hackathon_id:number,
-    hackathon_name:string,
-    hackathon_item_id:number,
-    creator:string,
-    creat_time:number,
-    creat_trx:string,
-    url:string,
-    votes:number
+interface Data {
+  chain_id: string;
+  hackathon_id: number;
+  hackathon_name: string;
+  hackathon_item_id: number;
+  creator: string;
+  creat_time: number;
+  creat_trx: string;
+  url: string;
+  votes: number;
 }
 
-const EntryTable = (props: { address: string,chain:string }): ReactElement => {
+const EntryTable = (props: {
+  address: string;
+  chain: string;
+}): ReactElement => {
   const [data, setData] = useState<Data[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(999);
   const getList = async () => {
     setLoading(true);
     const result = await HackathonSubmitList({
-      chain_id:props.chain,
+      chain_id: props.chain,
       user_address: props.address,
       page_size: 100,
       page_num: 1,
@@ -33,7 +36,7 @@ const EntryTable = (props: { address: string,chain:string }): ReactElement => {
       setData([]);
       setLoading(false);
       return;
-    };
+    }
     setData(data.data.item);
     setLoading(false);
   };
@@ -61,14 +64,15 @@ const EntryTable = (props: { address: string,chain:string }): ReactElement => {
                 <p>{index + 1}</p>
               </div>
               <div className="nft-msg">
-                <img
-                  src={item.url}
-                  alt=""
-                />
+                <img src={item.url} alt="" />
                 <p>#{item.hackathon_id}</p>
               </div>
               <div className="public-p">
-                <p>{item.votes < 999 ? item.votes : addCommasToNumber(item.votes)}</p>
+                <p>
+                  {item.votes < 999
+                    ? item.votes
+                    : addCommasToNumber(item.votes)}
+                </p>
                 <p className="mobile-title">Total Votes</p>
               </div>
               <div className="public-p">
@@ -81,9 +85,20 @@ const EntryTable = (props: { address: string,chain:string }): ReactElement => {
               </div>
               <div className="public-p">
                 <p className="mobile-title">Transaction</p>
-                <p className="click" onClick={() => {
-                    window.open(`https://piscan.plian.org/tx/${item.creat_trx}?chain=1`)
-                }}>{item.creat_trx.substring(0,8)}...{item.creat_trx.substring(item.creat_trx.length - 8,item.creat_trx.length)}</p>
+                <p
+                  className="click"
+                  onClick={() => {
+                    window.open(
+                      `https://piscan.plian.org/tx/${item.creat_trx}?chain=1`
+                    );
+                  }}
+                >
+                  {item.creat_trx.substring(0, 8)}...
+                  {item.creat_trx.substring(
+                    item.creat_trx.length - 8,
+                    item.creat_trx.length
+                  )}
+                </p>
               </div>
             </div>
           );
@@ -94,7 +109,15 @@ const EntryTable = (props: { address: string,chain:string }): ReactElement => {
           <Spin size="large" />
         </div>
       )}
-      {!loading && total < 1 && <p className="no-more">No More</p>}
+      {!loading && total < 1 && (
+        <div className="no-more-new">
+          <img
+            src={require("../../../../assets/images/no.more.new.png")}
+            alt=""
+          />
+          <p>No Data</p>
+        </div>
+      )}
     </div>
   );
 };

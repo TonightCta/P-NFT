@@ -12,48 +12,52 @@ interface Props {
 }
 const TokenMenu: Menu[] = [
   {
-    name: "My NFTs",
+    name: "Profile",
     url: "/user/:address",
   },
-  {
-    name: "Setting",
-    url: "/profile",
-  },
+  // {
+  //   name: "Setting",
+  //   url: "/profile",
+  // },
 ];
 
 const MobileMenu: Menu[] = [
-  {
-    name: "Inscribe",
-    url: "/inscribe",
-  },
+  // {
+  //   name: "Inscribe",
+  //   url: "/inscribe",
+  // },
   // {
   //   name: 'Collection',
   //   url: '/ins-collection'
   // },
   {
-    name: "Create",
-    url: "/create",
+    name: "Swap",
+    url: "/swap",
   },
   {
-    name: "Collections",
-    url: "/collections",
-  },
-  {
-    name: "Memes",
+    name: "Hot Memes",
     url: "/memes",
   },
+  // {
+  //   name: "Collections",
+  //   url: "/collections",
+  // },
+  // {
+  //   name: "Memes",
+  //   url: "/memes",
+  // },
   // {
   //   name: "AI Campaigns",
   //   url: "/campaigns",
   // },
-  {
-    name: "Airdrops",
-    url: "/airdrop",
-  },
-  {
-    name: "FAQ",
-    url: "https://forms.gle/LDzXJgQhQ3Ety4kT8",
-  },
+  // {
+  //   name: "Airdrops",
+  //   url: "/airdrop",
+  // },
+  // {
+  //   name: "FAQ",
+  //   url: "https://forms.gle/LDzXJgQhQ3Ety4kT8",
+  // },
 ];
 
 const MobileMenuDraw = (props: Props): ReactElement => {

@@ -221,7 +221,7 @@ const LaunchModal = (props: {
       FilterHackathonNet(state.chain as string).contract
     );
     const queryNum = +web3.utils.fromWei(String(query), "ether");
-    console.log(queryNum);
+    
     if (queryNum < 1) {
       setDisable({
         submit:true,

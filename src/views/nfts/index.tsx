@@ -159,7 +159,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     setList(filter);
   };
   const loadMoreData = () => {
-    activeTop === 1 && saleListFN() || activeTop === 2 && itemQuery();
+    (activeTop === 1 && saleListFN()) || (activeTop === 2 && itemQuery());
   };
   const itemQuery = async () => {
     setLoading(true);
@@ -222,7 +222,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
     setActiveTop(_type);
     setList([]);
     setItemList([]);
-    _type === 1 && saleListFN() || _type === 2 && itemQuery();
+    (_type === 1 && saleListFN()) || (_type === 2 && itemQuery());
   };
   const calsBG = () => {
     const bol = searchParams.address === state.address;
@@ -296,7 +296,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
               <div className="tabs">
                 <ul>
                   {(searchParams.address === state.address
-                    ? ["Hackathon","On Sale", "Wallet"]
+                    ? ["Hackathon"]
                     : ["On sale"]
                   ).map((item: string, index: number): ReactElement => {
                     return (
@@ -314,8 +314,8 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                 </ul>
                 {searchParams.address === state.address && (
                   <div className="balance-box">
+                    <p>Balance</p>
                     <p>
-                      Balance:
                       <img
                         src={
                           state.evm === "1"
@@ -325,6 +325,10 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                         alt=""
                       />
                       <span>{state.balance}</span>
+                      <i>
+                        $&nbsp;
+                        {balanceUSDT ? balanceUSDT : <Spin size="small" />}
+                      </i>
                     </p>
                     <div className="balance-by-u">
                       Price&nbsp;($&nbsp;
@@ -336,103 +340,120 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
               {/* <div className="search-box">
                                 <input type="text" placeholder="Search" />
                             </div> */}
-              {activeTop !== 0 && <div className="other-filter">
-                <Popover
-                  placement="bottom"
-                  className="select-chain-asset"
-                  open={open}
-                  onOpenChange={handleOpenChange}
-                  trigger={["click"]}
-                  title={null}
-                  content={content}
-                >
-                  <div className="ss-i">
-                    <div>
-                      {chainInfo.icon && <img src={chainInfo.icon} alt="" />}
-                      <p>{chainInfo.label}</p>
+              {activeTop !== 0 && (
+                <div className="other-filter">
+                  <Popover
+                    placement="bottom"
+                    className="select-chain-asset"
+                    open={open}
+                    onOpenChange={handleOpenChange}
+                    trigger={["click"]}
+                    title={null}
+                    content={content}
+                  >
+                    <div className="ss-i">
+                      <div>
+                        {chainInfo.icon && <img src={chainInfo.icon} alt="" />}
+                        <p>{chainInfo.label}</p>
+                      </div>
+                      <DownOutlined />
                     </div>
-                    <DownOutlined />
-                  </div>
-                </Popover>
-                {activeTop === 1 && (
-                  <div
-                    className="mobile-filter-btn"
-                    onClick={() => {
-                      setMobileFilter(true);
-                    }}
-                  >
-                    <AlignRightOutlined />
-                  </div>
-                )}
-              </div>}
-            </div>
-            {
-              activeTop === 0 && <HackathonAssetsCard address={state.address as string} chain={state.chain as string}/>
-            }
-            {activeTop !== 0 && <div
-              className={`conponenst-gater ${loading ? "gater-6n" : ""}`}
-              id="ownerView"
-            >
-              <div className={`list-item ${!filter ? "filter-condition" : ""}`}>
-                {activeTop === 1 && (
-                  <div
-                    className={`wallet-assets-filter ${
-                      filter ? "close-condition" : ""
-                    }`}
-                  >
+                  </Popover>
+                  {activeTop === 1 && (
                     <div
-                      className="control-filter"
+                      className="mobile-filter-btn"
                       onClick={() => {
-                        setFilter(!filter);
+                        setMobileFilter(true);
                       }}
                     >
-                      <IconFont
-                        type="icon-a-lujing219"
-                        className={`${!filter ? "close-filter" : ""}`}
-                      />
+                      <AlignRightOutlined />
                     </div>
-                    <div className="condition-list">
-                      <ul>
-                        {["All", "Tokens", "NFTs", "Inscriptions"].map(
-                          (item: string, index: number) => {
-                            return (
-                              <li
-                                key={index}
-                                className={`${
-                                  item === "NFTs" || item === "Tokens"
-                                    ? ""
-                                    : "dis-c"
-                                } ${
-                                  assetsType === item ? "active-condition" : ""
-                                }`}
-                                onClick={() => {
-                                  if (item !== "NFTs" && item !== "Tokens")
-                                    return;
-                                  setAssetsType(item);
-                                }}
-                              >
-                                <p>{item}</p>
-                              </li>
-                            );
-                          }
-                        )}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-                {assetsType === "NFTs" ? (
-                  <div className="item-inner-list">
-                    {loading && (
-                      <div className="load-data-box">
-                        <Spin size="large" />
+                  )}
+                </div>
+              )}
+            </div>
+            {activeTop === 0 && (
+              <HackathonAssetsCard
+                address={state.address as string}
+                chain={state.chain as string}
+              />
+            )}
+            {activeTop !== 0 && (
+              <div
+                className={`conponenst-gater ${loading ? "gater-6n" : ""}`}
+                id="ownerView"
+              >
+                <div
+                  className={`list-item ${!filter ? "filter-condition" : ""}`}
+                >
+                  {activeTop === 1 && (
+                    <div
+                      className={`wallet-assets-filter ${
+                        filter ? "close-condition" : ""
+                      }`}
+                    >
+                      <div
+                        className="control-filter"
+                        onClick={() => {
+                          setFilter(!filter);
+                        }}
+                      >
+                        <IconFont
+                          type="icon-a-lujing219"
+                          className={`${!filter ? "close-filter" : ""}`}
+                        />
                       </div>
-                    )}
-                    {(activeTop === 1 && list || activeTop === 2 && itemList || []).map(
-                      (item: NFTItem, index: number) => {
+                      <div className="condition-list">
+                        <ul>
+                          {["All", "Tokens", "NFTs", "Inscriptions"].map(
+                            (item: string, index: number) => {
+                              return (
+                                <li
+                                  key={index}
+                                  className={`${
+                                    item === "NFTs" || item === "Tokens"
+                                      ? ""
+                                      : "dis-c"
+                                  } ${
+                                    assetsType === item
+                                      ? "active-condition"
+                                      : ""
+                                  }`}
+                                  onClick={() => {
+                                    if (item !== "NFTs" && item !== "Tokens")
+                                      return;
+                                    setAssetsType(item);
+                                  }}
+                                >
+                                  <p>{item}</p>
+                                </li>
+                              );
+                            }
+                          )}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                  {assetsType === "NFTs" ? (
+                    <div className="item-inner-list">
+                      {loading && (
+                        <div className="load-data-box">
+                          <Spin size="large" />
+                        </div>
+                      )}
+                      {(
+                        (activeTop === 1 && list) ||
+                        (activeTop === 2 && itemList) ||
+                        []
+                      ).map((item: NFTItem, index: number) => {
                         // [1,2,3,4,5,6,7,8].map((item: any, index: number) => {
                         return (
                           <NewNFTCard
-                            type={activeTop === 1 && 1 || activeTop === 2 && 2 || 1}
+                            type={
+                              (activeTop === 1 && 1) ||
+                              (activeTop === 2 && 2) ||
+                              1
+                            }
                             key={index}
                             item={item}
                             uploadTakeoff={async () => {
@@ -473,32 +494,35 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             }}
                           />
                         );
-                      }
-                    )}
-                  </div>
-                ) : (
-                  <TokensList chain_id={chainInfo.value} />
-                )}
+                      })}
+                    </div>
+                  ) : (
+                    <TokensList chain_id={chainInfo.value} />
+                  )}
+                </div>
               </div>
-            </div>}
-            {total === 0 && !loading && assetsType !== "Tokens" && activeTop !== 0 && (
-              <p className="no-more">No more</p>
             )}
-            {activeTop !== 0 && <div className="page-oper">
-              <Pagination
-                hideOnSinglePage
-                defaultCurrent={1}
-                pageSize={12}
-                total={total}
-                onChange={(page) => {
-                  window.scrollTo({
-                    top: 220,
-                    behavior: "smooth",
-                  });
-                  setPage(page);
-                }}
-              />
-            </div>}
+            {total === 0 &&
+              !loading &&
+              assetsType !== "Tokens" &&
+              activeTop !== 0 && <p className="no-more">No more</p>}
+            {activeTop !== 0 && (
+              <div className="page-oper">
+                <Pagination
+                  hideOnSinglePage
+                  defaultCurrent={1}
+                  pageSize={12}
+                  total={total}
+                  onChange={(page) => {
+                    window.scrollTo({
+                      top: 220,
+                      behavior: "smooth",
+                    });
+                    setPage(page);
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
