@@ -103,16 +103,16 @@ export const useContract = () => {
           ? Address.TaikoContractAddress721Main
           : Address.TaikoContractAddress721Test
         : MODE === "production"
-        ? FilterAddress(state.chain as string).contract_721
-        : FilterAddress(state.chain as string).contract_721_test;
+        ? FilterAddress(state.chain as string)?.contract_721
+        : FilterAddress(state.chain as string)?.contract_721_test;
     const MarketAddress: string =
       LAND === "taiko"
         ? MODE === "taikomain"
           ? Address.TaikoContractAddressMarketMain
           : Address.TaikoContractAddressMarketTest
         : MODE === "production"
-        ? FilterAddress(state.chain as string).contract_market
-        : FilterAddress(state.chain as string).contract_market_test;
+        ? FilterAddress(state.chain as string)?.contract_market
+        : FilterAddress(state.chain as string)?.contract_market_test;
     setNFTContract(
       new filterProvider.eth.Contract(ABI721 as any, NFTAddress, {
         // gasPrice: gasPrice,
@@ -130,7 +130,7 @@ export const useContract = () => {
     setERC20Contract(
       new filterProvider.eth.Contract(
         ABIERC20 as any,
-        FilterAddress(state.chain as string).contract_erc20,
+        FilterAddress(state.chain as string)?.contract_erc20,
         {
           // gasPrice: gasPrice,
         }
@@ -152,7 +152,7 @@ export const useContract = () => {
     );
   }, [state.chain]);
   useEffect(() => {
-    init();
+    // init();
   }, [state.chain, state.wallet]);
   useEffect(() => {
     setSend({

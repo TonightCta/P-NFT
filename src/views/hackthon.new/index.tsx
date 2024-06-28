@@ -215,6 +215,9 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
     });
   };
   useEffect(() => {
+    if (HackathonSupport.indexOf(state.chain as string) < 0) {
+      message.warning("Please switch to a supported network to use");
+    }
     dispatch({
       type: Type.SET_HACKATHON,
       payload: {

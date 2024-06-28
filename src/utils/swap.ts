@@ -88,7 +88,6 @@ export const SendTrade = async (
   ); // 0.5% slippage tolerance
   const amountOutMin = trade.minimumAmountOut(slippageTolerancePercent).raw; // Minimum amount of DAI received
   const reserves = pair.reserveOf(TokenB);
-  console.log(+reserves.toSignificant(6));
   if (
     +web3.utils.fromWei(amountOutMin.toString()) >
     +reserves.toSignificant(6) / 2

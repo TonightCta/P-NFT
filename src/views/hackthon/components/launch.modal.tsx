@@ -2,10 +2,13 @@ import { ReactElement, useContext, useEffect, useState } from "react";
 import { Button, DatePicker, Modal, Select, Spin, message } from "antd";
 import { useHackathon } from "../../../hooks/hackthon";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import { PNFTAddress } from "../../../utils/source";
 import { web3 } from "../../../utils/types";
 import { useSwitchChain } from "../../../hooks/chain";
-import { DateConvertMin, FilterHackathonNet, addCommasToNumber } from "../../../utils";
+import {
+  DateConvertMin,
+  FilterHackathonNet,
+  addCommasToNumber,
+} from "../../../utils";
 import { PNft } from "../../../App";
 import { CurrencyList } from "../../../request/api";
 import { useContract } from "../../../utils/contract";
@@ -26,6 +29,7 @@ interface Input {
 interface Token {
   name: string;
   label: string;
+  decimals: number;
   logo: string;
   fee: string;
   value: string;
@@ -39,24 +43,24 @@ interface Net {
   token: Token[];
 }
 const Network: Net[] = [
-  {
-    label: "Plian Subchain 1",
-    chain_logo: require("../../../assets/images/plian.logo.png"),
-    value: "8007736",
-    token: [],
-  },
+  // {
+  //   label: "Plian Subchain 1",
+  //   chain_logo: require("../../../assets/images/plian.logo.png"),
+  //   value: "8007736",
+  //   token: [],
+  // },
   {
     value: "8453",
     label: "Base LlamaNodes",
     chain_logo: require("../../../assets/images/base.logo.png"),
     token: [],
   },
-  {
-    value: "84532",
-    label: "Base Sepolia Testnet",
-    chain_logo: require("../../../assets/images/base.logo.png"),
-    token: [],
-  },
+  // {
+  //   value: "84532",
+  //   label: "Base Sepolia Testnet",
+  //   chain_logo: require("../../../assets/images/base.logo.png"),
+  //   token: [],
+  // },
 ];
 
 const LaunchModal = (props: {
@@ -73,7 +77,7 @@ const LaunchModal = (props: {
     desc: "",
     total_supply: 1000,
     end_time: +(Date.now() / 1000).toFixed(0) + 2626560,
-    contract: PNFTAddress,
+    contract: "",
     fee: 1,
     vote: 1,
   });
@@ -89,7 +93,7 @@ const LaunchModal = (props: {
       submit: true,
     }
   );
-  const [net, setNet] = useState<string>("8007736");
+  const [net, setNet] = useState<string>("8453");
   const [token, setToken] = useState<Token[]>(Network[0].token);
   const { state } = useContext(PNft);
   const { switchC } = useSwitchChain();
@@ -98,6 +102,7 @@ const LaunchModal = (props: {
   const [selectToken, setSelectToken] = useState<string>(
     Network[0].token[0]?.value
   );
+  const [tokenName, setTokenName] = useState<string>("");
   const { CreateHackathon, QueryERC20Approve, ApproveToken } = useHackathon();
   const queryTokenList = () => {
     const list: any = [];
@@ -139,6 +144,11 @@ const LaunchModal = (props: {
       setNetService(Network);
       setToken(results[0]);
       setSelectToken(results[0][0].value);
+      setTokenName(results[0][0].label);
+      setInput({
+        ...input,
+        contract: results[0][0].value,
+      });
     });
   };
   const resetInp = () => {
@@ -148,7 +158,7 @@ const LaunchModal = (props: {
       desc: "",
       total_supply: 1000,
       end_time: +(Date.now() / 1000).toFixed(0) + 2626560,
-      contract: PNFTAddress,
+      contract: "",
       fee: 1,
       vote: 1,
     });
@@ -185,7 +195,7 @@ const LaunchModal = (props: {
       submit: true,
     });
     const balance = await balanceErc20(input.contract);
-    if (+web3.utils.fromWei(balance) < 1) {
+    if (+web3.utils.fromWei(balance,tokenName === 'TRUMP' ? 'Gwei' : 'ether') < 1) {
       message.error("Your balance is insufficient");
       return;
     }
@@ -215,21 +225,21 @@ const LaunchModal = (props: {
     );
   };
   const queryToken = async () => {
+    if (!input.contract) return;
     const query = await QueryERC20Approve(
       input.contract,
       props.address,
       FilterHackathonNet(state.chain as string).contract
     );
-    const queryNum = +web3.utils.fromWei(String(query), "ether");
-    
+    const queryNum = +web3.utils.fromWei(String(query), tokenName === 'TRUMP' ? 'Gwei' : "ether");
     if (queryNum < 1) {
       setDisable({
-        submit:true,
+        submit: true,
         approve: false,
       });
     } else {
       setDisable({
-        approve:true,
+        approve: true,
         submit: false,
       });
     }
@@ -249,7 +259,6 @@ const LaunchModal = (props: {
       approve: false,
     });
     if (!approve || approve.message) {
-      message.error(approve.message);
       return;
     }
     queryToken();
@@ -261,13 +270,13 @@ const LaunchModal = (props: {
     !!props.visible && queryToken();
   }, [props.visible]);
   useEffect(() => {
-    if(!state.address) return
+    if (!state.address) return;
     setDisable({
-      approve:true,
-      submit:true
+      approve: true,
+      submit: true,
     });
-    queryToken()
-  },[input.contract])
+    !!props.visible && queryToken();
+  }, [input.contract]);
   const selectChain = async (val: string) => {
     const chain: any = await switchC(+val);
     if (chain?.code) return;
@@ -295,7 +304,12 @@ const LaunchModal = (props: {
       end_time: Math.ceil((date as any).$d.getTime() / 1000),
     });
   };
-  const selectTokenFN = (val: string) => {
+  const selectTokenFN = (val: string, op: unknown) => {
+    setTokenName(
+      token.filter((item: Token) => {
+        return item.value === val;
+      })[0].label
+    );
     setInput({
       ...input,
       contract: val,
@@ -408,9 +422,13 @@ const LaunchModal = (props: {
                       <Select.Option key={index} value={item.value}>
                         <div className="select-custom-option">
                           <img src={item.logo} alt="" />
-                          <p>{item.label}</p>
+                          <p>{item.label}</p>&nbsp;
                           <p>
-                            (Fees:<span>{item.hackathon_create_fee}</span>)
+                            (Fees:
+                            <span>
+                              {addCommasToNumber(item.hackathon_create_fee)}
+                            </span>
+                            )
                           </p>
                         </div>
                       </Select.Option>
@@ -427,7 +445,8 @@ const LaunchModal = (props: {
           </li>
           <li>
             <p>
-              <sup>*</sup>Total Supply<span>({addCommasToNumber(+input.total_supply * 1e6)})</span>
+              <sup>*</sup>Total Supply
+              <span>({addCommasToNumber(+input.total_supply * 1e6)})</span>
             </p>
             <div className="with-oper">
               <div

@@ -47,6 +47,7 @@ const SwapIndex = (): ReactElement<ReactNode> => {
     });
     const { data } = result;
     setLoading(false);
+    if(!data.data.item) return
     setTokenList(data.data.item);
     setToken(data.data.item[0]);
   };
@@ -92,6 +93,10 @@ const SwapIndex = (): ReactElement<ReactNode> => {
               <Spin size="large" />
             </div>
           )}
+          {!loading && tokenList.length < 1 && <div className="no-m">
+              <img src={require('../../assets/images/no.more.new.png')} alt="" />
+              <p>No Data</p>
+            </div>}
         </div>
         <div className="k-map">
           <KMapCard item={token} />

@@ -2,29 +2,12 @@ import { ReactElement, ReactNode, useEffect, useState } from "react";
 import "./index.scss";
 import { Button } from "antd";
 import HackthonCardD from "./components/card";
-import SubmitWorkModal from "./components/submit.work.modal";
-import VoteModal from "./components/vote.modal";
-import { useHackathon } from "../../hooks/hackthon";
 import { DateConvertS } from "../../utils";
-import { PNFTAddress } from "../../utils/source";
 
 const HackthonDetailView = (): ReactElement<ReactNode> => {
   const [workModal, setWorkModal] = useState<boolean>(false);
   const [voteModal, setVoteModal] = useState<boolean>(false);
-  const { QueryHackathonInfo, CheckHackathon, ClaimHackathon } = useHackathon();
   const [info, setInfo] = useState<any>();
-  const query = async () => {
-    const info = await QueryHackathonInfo();
-    console.log(info);
-    setInfo(info);
-  };
-  useEffect(() => {
-    query();
-  }, []);
-  const checkClaim = async () => {
-    const result = await CheckHackathon(+info?.hackthonId);
-    console.log(result);
-  };
   return (
     <div className="hackthon-detail-view">
       <div className="bg-box">
@@ -53,7 +36,7 @@ const HackthonDetailView = (): ReactElement<ReactNode> => {
                 Submit Your Work
               </Button>
               <p>(Dev:Shown when not attending)</p>
-              <Button type="primary" onClick={checkClaim}>
+              <Button type="primary" onClick={() => {}}>
                 Check / Claim
               </Button>
               <p>(Dev:Shown when participating)</p>

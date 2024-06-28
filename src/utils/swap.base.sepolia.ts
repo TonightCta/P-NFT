@@ -6,7 +6,7 @@ import {
   TokenAmount,
   TradeType,
   Percent,
-} from "@alex_7/sdk-swap-base-llama";
+} from "@alex_7/sdk-swap-base";
 import { ethers } from "ethers";
 import UniswapV2SwapABI from "./abi/swap-v2.json";
 import { ethereum, web3 } from "./types";
@@ -27,7 +27,7 @@ const getToken = (_token: TokenParams) => {
     _token.symbol
   );
 };
-export const QueryPriceBase = async (
+export const QueryPriceBaseTest = async (
   _token_a: TokenParams,
   _token_b: TokenParams,
   _provider: any
@@ -38,7 +38,7 @@ export const QueryPriceBase = async (
   const route = new Route([pair], TokenA);
   return route.midPrice.toSignificant(6);
 };
-export const QueryPairBase = async (
+export const QueryPairBaseTest = async (
   _token_a: TokenParams,
   _token_b: TokenParams,
   _amount: string,
@@ -63,7 +63,7 @@ export const QueryPairBase = async (
   return Number(web3.utils.fromWei(amountOutMin.toString())).toFixed(6);
 };
 
-export const SendTradeBase = async (
+export const SendTradeBaseTest = async (
   _token_a: TokenParams,
   _token_b: TokenParams,
   _amount: string,

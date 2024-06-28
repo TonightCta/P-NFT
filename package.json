@@ -6,6 +6,7 @@
   "dependencies": {
     "@alex_7/sdk-swap": "^1.0.0",
     "@alex_7/sdk-swap-base": "^1.0.0",
+    "@alex_7/sdk-swap-base-llama": "^1.0.0",
     "@ant-design/icons": "^5.1.4",
     "@babel/core": "^7.16.0",
     "@coinbase/wallet-sdk": "^3.7.2",

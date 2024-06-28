@@ -40,22 +40,25 @@ export interface HackathonNetInt {
   }[];
 }
 
+// export const SupportID: number[] = [
+//   8007736, 10067275, 1, 314, 10, 167005, 8453, 84532,
+// ];
 export const SupportID: number[] = [
-  8007736, 10067275, 1, 314, 10, 167005, 8453, 84532,
+  8453
 ];
 export const SupportNetwork: Network[] = [
   //Child chain
-  {
-    chain_id: 1,
-    chain_name: "Ethereum",
-    nativeCurrency: {
-      name: "ETH",
-      symbol: "ETH",
-      decimals: 18,
-    },
-    rpcUrls: ["https://ethereum.publicnode.com"],
-    blockExplorerUrls: ["https://etherscan.io"],
-  },
+  // {
+  //   chain_id: 1,
+  //   chain_name: "Ethereum",
+  //   nativeCurrency: {
+  //     name: "ETH",
+  //     symbol: "ETH",
+  //     decimals: 18,
+  //   },
+  //   rpcUrls: ["https://ethereum.publicnode.com"],
+  //   blockExplorerUrls: ["https://etherscan.io"],
+  // },
   {
     chain_id: 8007736,
     chain_name: "Plian Mainnet Subchain 1",
@@ -67,50 +70,50 @@ export const SupportNetwork: Network[] = [
     rpcUrls: ["https://mainnet.plian.io/child_0"],
     blockExplorerUrls: ["https://piscan.plian.org/?chain=1"],
   },
-  {
-    chain_id: 8453,
-    chain_name: "Base LlamaNodes",
-    nativeCurrency: {
-      name: "ETH",
-      symbol: "ETH",
-      decimals: 18,
-    },
-    rpcUrls: ["https://mainnet.base.org"],
-    blockExplorerUrls: ["https://basescan.org/"],
-  },
-  {
-    chain_id: 84532,
-    chain_name: "Base Sepolia Testnet",
-    nativeCurrency: {
-      name: "ETH",
-      symbol: "ETH",
-      decimals: 18,
-    },
-    rpcUrls: ["https://public.stackup.sh/api/v1/node/base-sepolia"],
-    blockExplorerUrls: ["https://sepolia.basescan.org/"],
-  },
-  {
-    chain_id: 314,
-    chain_name: "Filecoin",
-    nativeCurrency: {
-      name: "FIL",
-      symbol: "FIL",
-      decimals: 18,
-    },
-    rpcUrls: ["https://api.node.glif.io/"],
-    blockExplorerUrls: ["https://explorer.glif.io/"],
-  },
-  {
-    chain_id: 10,
-    chain_name: "OP Mainnet",
-    nativeCurrency: {
-      name: "ETH",
-      symbol: "ETH",
-      decimals: 18,
-    },
-    rpcUrls: ["https://optimism.publicnode.com"],
-    blockExplorerUrls: ["https://optimistic.etherscan.io"],
-  },
+  // {
+  //   chain_id: 8453,
+  //   chain_name: "Base LlamaNodes",
+  //   nativeCurrency: {
+  //     name: "ETH",
+  //     symbol: "ETH",
+  //     decimals: 18,
+  //   },
+  //   rpcUrls: ["https://mainnet.base.org"],
+  //   blockExplorerUrls: ["https://basescan.org/"],
+  // },
+  // {
+  //   chain_id: 84532,
+  //   chain_name: "Base Sepolia Testnet",
+  //   nativeCurrency: {
+  //     name: "ETH",
+  //     symbol: "ETH",
+  //     decimals: 18,
+  //   },
+  //   rpcUrls: ["https://public.stackup.sh/api/v1/node/base-sepolia"],
+  //   blockExplorerUrls: ["https://sepolia.basescan.org/"],
+  // },
+  // {
+  //   chain_id: 314,
+  //   chain_name: "Filecoin",
+  //   nativeCurrency: {
+  //     name: "FIL",
+  //     symbol: "FIL",
+  //     decimals: 18,
+  //   },
+  //   rpcUrls: ["https://api.node.glif.io/"],
+  //   blockExplorerUrls: ["https://explorer.glif.io/"],
+  // },
+  // {
+  //   chain_id: 10,
+  //   chain_name: "OP Mainnet",
+  //   nativeCurrency: {
+  //     name: "ETH",
+  //     symbol: "ETH",
+  //     decimals: 18,
+  //   },
+  //   rpcUrls: ["https://optimism.publicnode.com"],
+  //   blockExplorerUrls: ["https://optimistic.etherscan.io"],
+  // },
   // {
   //     chain_id: 10067275,
   //     chain_name: 'Plian Testnet Subchain 1',
@@ -122,28 +125,28 @@ export const SupportNetwork: Network[] = [
   //     rpcUrls: ['https://testnet.plian.io/child_test'],
   //     blockExplorerUrls: ['https://piscan.plian.org/index.html']
   // },
-  {
-    chain_id: 210425,
-    chain_name: "PlatON Mainnet",
-    nativeCurrency: {
-      name: "lat",
-      symbol: "LAT",
-      decimals: 18,
-    },
-    rpcUrls: ["https://openapi2.platon.network/rpc"],
-    blockExplorerUrls: ["https://scan.platon.network"],
-  },
-  {
-    chain_id: 167005,
-    chain_name: "Taiko Testnet",
-    nativeCurrency: {
-      name: "ETH",
-      symbol: "ETH",
-      decimals: 18,
-    },
-    rpcUrls: ["https://rpc.test.taiko.xyz"],
-    blockExplorerUrls: ["https://explorer.test.taiko.xyz"],
-  },
+  // {
+  //   chain_id: 210425,
+  //   chain_name: "PlatON Mainnet",
+  //   nativeCurrency: {
+  //     name: "lat",
+  //     symbol: "LAT",
+  //     decimals: 18,
+  //   },
+  //   rpcUrls: ["https://openapi2.platon.network/rpc"],
+  //   blockExplorerUrls: ["https://scan.platon.network"],
+  // },
+  // {
+  //   chain_id: 167005,
+  //   chain_name: "Taiko Testnet",
+  //   nativeCurrency: {
+  //     name: "ETH",
+  //     symbol: "ETH",
+  //     decimals: 18,
+  //   },
+  //   rpcUrls: ["https://rpc.test.taiko.xyz"],
+  //   blockExplorerUrls: ["https://explorer.test.taiko.xyz"],
+  // },
 ];
 type AddressCall = {
   8007736: Address;
@@ -179,12 +182,12 @@ export const HackathonNet: HackathonNetInt[] = [
   {
     chain_name: "Base LlamaNodes",
     chain_id: "8453",
-    contract: "",
+    contract: "0x65542e27d37056738b0416280f3f2d71567486A0",
     chain_logo: require("../assets/images/base.logo.png"),
     token: [
       {
         symbol: "TRUMP",
-        contract: PNFTAddress,
+        contract: '',
       },
     ],
   },

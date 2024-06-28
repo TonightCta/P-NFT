@@ -457,6 +457,27 @@
           color: rgba(255, 255, 255, 0.7);
           margin-bottom: 8px;
         }
+        .bal-t {
+          display: flex;
+          align-items: center;
+          img {
+            width: 28px;
+            margin: 0 4px;
+            vertical-align: middle;
+            display: inline-block;
+            transform: translateY(0);
+          }
+          .pr {
+            display: none;
+          }
+          p {
+            font-size: 42px;
+            color: #5EB552;
+          }
+        }
+        .op-dog {
+          display: none;
+        }
         p {
           font-size: 16px;
           font-weight: 600;
@@ -1490,29 +1511,46 @@
               background-color: #5EB552;
               border-radius: .4rem;
               align-items: flex-start;
+              position: relative;
+              .bal-t {
+                display: flex;
+                font-size: 1.6rem;
+                align-items: center;
+                position: relative;
+                z-index: 10;
+                img {
+                  width: 2.8rem;
+                  height: 2.8rem;
+                  margin-right: 1.2rem;
+                }
+                p {
+                  font-size: 3.8rem;
+                }
+                .pr {
+                  display: block;
+                  color: rgba(255, 255, 255, .8);
+                  margin-left: .8rem;
+                  transform: translateY(6px);
+                }
+              }
               p {
                 font-size: 1.6rem;
                 white-space: nowrap;
                 color: rgba(255, 255, 255, .8);
-                img {
-                  width: 2.8rem;
-                  height: 2.8rem;
-                }
-                span {
-                  font-size: 3.8rem;
-                  color: white;
-                }
-                i {
-                  display: inline-block;
-                  margin-left: 1rem;
-                  font-weight: 400;
-                }
               }
               .balance-by-u {
                 display: none;
                 width: 100%;
                 text-align: right;
                 transform: translateY(0);
+              }
+              .op-dog {
+                position: absolute;
+                width: 12rem;
+                height: 100%;
+                display: block;
+                right: 1rem;
+                top: 0;
               }
             }
           }

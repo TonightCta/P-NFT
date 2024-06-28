@@ -113,7 +113,7 @@ const BonusTable = (props: {
   const checkFN = async (_index: number) => {
     const chain: any = await switchC(+data[_index].chain_id);
     if (chain?.code) return;
-    const result = await CheckHackathon(data[_index].hackathon_id);
+    const result = await CheckHackathon(data[_index].hackathon_id,data[_index].pay_token_symbol);
     setInfo({
       name: data[_index].hackathon_name,
       amount: result,

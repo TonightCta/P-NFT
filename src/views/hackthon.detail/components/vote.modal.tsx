@@ -52,15 +52,18 @@ const VoteModal = (props: {
       state.address as string,
       props.create_address
     );
-    const queryNum = +web3.utils.fromWei(String(query), "ether");
+    const queryNum = +web3.utils.fromWei(
+      String(query),
+      props.pay_token_symbol === "TRUMP" ? "Gwei" : "ether"
+    );
     if (queryNum < 1) {
       setDisable({
         approve: false,
-        submit:true,
+        submit: true,
       });
     } else {
       setDisable({
-        approve:true,
+        approve: true,
         submit: false,
       });
     }
@@ -123,7 +126,7 @@ const VoteModal = (props: {
       submit: true,
     });
     const balance = await balanceErc20(props.pay_token_address);
-    if (+web3.utils.fromWei(balance) < +input.amount) {
+    if (+web3.utils.fromWei(balance, props.pay_token_symbol === "TRUMP" ? "Gwei" : "ether") < +input.amount) {
       message.error("Your balance is insufficient");
       return;
     }
@@ -131,7 +134,8 @@ const VoteModal = (props: {
       props.hackathon_id,
       props.token_id,
       +input.amount,
-      input.address
+      input.address,
+      props.pay_token_symbol
     );
     setLoading({
       ...loading,

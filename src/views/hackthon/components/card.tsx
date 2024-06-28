@@ -2,21 +2,10 @@ import { ReactElement, useEffect, useState } from "react";
 import { DateConvertS, addCommasToNumber } from "../../../utils";
 import { useNavigate } from "react-router-dom";
 import { Col } from "..";
-import { useHackathon } from "../../../hooks/hackthon";
 
 const CardLan = (props: Col): ReactElement => {
   const navigate = useNavigate();
-  //   const [load, setLoad] = useState<boolean>(props.loading);
   const [info, setInfo] = useState<any>();
-  const { QueryHackathonInfo } = useHackathon();
-  const queryInfo = async () => {
-    const info = await QueryHackathonInfo();
-    console.log(info);
-    setInfo(info)
-  };
-  useEffect(() => {
-    queryInfo();
-  }, []);
   return (
     <div
       className="card-lan"

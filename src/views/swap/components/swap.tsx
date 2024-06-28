@@ -6,6 +6,11 @@ import IconFont from "../../../utils/icon";
 import { CurrencyList } from "../../../request/api";
 import { QueryPair, QueryPrice, SendTrade } from "../../../utils/swap";
 import {
+  QueryPairBaseTest,
+  QueryPriceBaseTest,
+  SendTradeBaseTest,
+} from "../../../utils/swap.base.sepolia";
+import {
   QueryPairBase,
   QueryPriceBase,
   SendTradeBase,
@@ -108,13 +113,40 @@ const SwapCard = (): ReactElement => {
     let result: string = "";
     switch (state.chain) {
       case "8007736":
-        result = await QueryPair(tokena, tokenb, toNormalNumber(+amount.in), slippage, eth);
+        result = await QueryPair(
+          tokena,
+          tokenb,
+          toNormalNumber(+amount.in),
+          slippage,
+          eth
+        );
+        break;
+      case "8453":
+        result = await QueryPairBase(
+          tokena,
+          tokenb,
+          toNormalNumber(+amount.in),
+          slippage,
+          eth
+        );
         break;
       case "84532":
-        result = await QueryPairBase(tokena, tokenb, toNormalNumber(+amount.in), slippage, eth);
+        result = await QueryPairBaseTest(
+          tokena,
+          tokenb,
+          toNormalNumber(+amount.in),
+          slippage,
+          eth
+        );
         break;
       default:
-        result = await QueryPair(tokena, tokenb, toNormalNumber(+amount.in), slippage, eth);
+        result = await QueryPair(
+          tokena,
+          tokenb,
+          toNormalNumber(+amount.in),
+          slippage,
+          eth
+        );
     }
     setRatio(+result);
     setAmount({
@@ -195,8 +227,18 @@ const SwapCard = (): ReactElement => {
           address
         );
         break;
-      case "84532":
+      case "8453":
         result = await SendTradeBase(
+          tokena,
+          tokenb,
+          toNormalNumber(+amount.in),
+          slippage,
+          eth,
+          address
+        );
+        break;
+      case "84532":
+        result = await SendTradeBaseTest(
           tokena,
           tokenb,
           toNormalNumber(+amount.in),
@@ -248,8 +290,11 @@ const SwapCard = (): ReactElement => {
       case "8007736":
         result = await QueryPrice(tokena, tokenb, eth);
         break;
-      case "84532":
+      case "8453":
         result = await QueryPriceBase(tokena, tokenb, eth);
+        break;
+      case "84532":
+        result = await QueryPriceBaseTest(tokena, tokenb, eth);
         break;
       default:
         result = await QueryPrice(tokena, tokenb, eth);
@@ -305,8 +350,8 @@ const SwapCard = (): ReactElement => {
     if (chain?.code) return;
     const result = await balanceErc20(_address, state.address);
     _type === 1
-      ? setBalanceA(toFixedFloor(+Number(web3.utils.fromWei(result)),6))
-      : setBalanceB(toFixedFloor(+Number(web3.utils.fromWei(result)),6));
+      ? setBalanceA(toFixedFloor(+Number(web3.utils.fromWei(result)), 6))
+      : setBalanceB(toFixedFloor(+Number(web3.utils.fromWei(result)), 6));
   };
   useEffect(() => {
     const query = async () => {

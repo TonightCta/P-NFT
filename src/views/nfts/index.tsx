@@ -6,8 +6,8 @@ import {
   useState,
 } from "react";
 import "./index.scss";
-import { Pagination, Spin, Popover, message, Drawer } from "antd";
-import { MFTOffService, WalletNFT, CurrencyInfo } from "../../request/api";
+import { Pagination, Spin, Popover, Drawer } from "antd";
+import { WalletNFT, CurrencyInfo } from "../../request/api";
 import { NFTItem } from "../../utils/types";
 import OwnerCard from "./components/owner.card";
 import { useParams } from "react-router-dom";
@@ -17,9 +17,8 @@ import { VERSION } from "../../utils/source";
 import NewNFTCard from "./components/new.card";
 import { AlignRightOutlined, DownOutlined } from "@ant-design/icons";
 import FixedModal from "../detail/components/fixed.price";
-import { useContract } from "../../utils/contract";
 import { useSwitchChain } from "../../hooks/chain";
-import { FilterAddress, FilterChainsToken } from "../../utils";
+import { FilterAddress, FilterChainsToken, SupportID } from "../../utils";
 import IconFont from "../../utils/icon";
 import TokensList from "./components/tokens.list";
 // import FooterNew from "../screen.new/components/footer.new";
@@ -92,7 +91,7 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
   const [itemList, setItemList] = useState<NFTItem[]>([]);
-  const { takeOff } = useContract();
+  // const { takeOff } = useContract();
   const { state } = useContext(PNft);
   const [otherBg, setOtherBG] = useState<string>("1");
   const [loadingBg, setLoadingBg] = useState<boolean>(true);
@@ -312,28 +311,29 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                     );
                   })}
                 </ul>
-                {searchParams.address === state.address && (
+                {searchParams.address === state.address && SupportID.indexOf(+(state.chain as string)) > -1 && (
                   <div className="balance-box">
                     <p>Balance</p>
-                    <p>
+                    <div className="bal-t">
                       <img
                         src={
                           state.evm === "1"
                             ? FilterChainsToken(state.wallet as string).logo
-                            : FilterAddress(state.chain as string).chain_logo
+                            : FilterAddress(state.chain as string)?.chain_logo
                         }
                         alt=""
                       />
-                      <span>{state.balance}</span>
-                      <i>
+                      <p>{state.balance}</p>
+                      <div className="pr">
                         $&nbsp;
-                        {balanceUSDT ? balanceUSDT : <Spin size="small" />}
-                      </i>
-                    </p>
+                        {balanceUSDT ? balanceUSDT : <Spin />}
+                      </div>
+                    </div>
                     <div className="balance-by-u">
                       Price&nbsp;($&nbsp;
                       {balanceUSDT ? balanceUSDT : <Spin size="small" />})
                     </div>
+                    <img src={require('../../assets/images/op.dog.png')} className="op-dog" alt="" />
                   </div>
                 )}
               </div>
@@ -459,23 +459,23 @@ const OwnerNFTSView = (): ReactElement<ReactNode> => {
                             uploadTakeoff={async () => {
                               const switc: any = await switchC(+item.chain_id);
                               if (switc?.code) return;
-                              const hash: any = await takeOff(+item.order_id);
-                              if (!hash || hash.message) {
-                                return;
-                              }
-                              const maker = await MFTOffService({
-                                chain_id: item.chain_id,
-                                sender: state.address,
-                                tx_hash: hash["transactionHash"],
-                              });
-                              const { status } = maker;
-                              if (status !== 200) {
-                                message.error(maker.message);
-                                return;
-                              }
-                              message.success(
-                                "Take off the shelves Successfully!"
-                              );
+                              // const hash: any = await takeOff(+item.order_id);
+                              // if (!hash || hash.message) {
+                              //   return;
+                              // }
+                              // const maker = await MFTOffService({
+                              //   chain_id: item.chain_id,
+                              //   sender: state.address,
+                              //   tx_hash: hash["transactionHash"],
+                              // });
+                              // const { status } = maker;
+                              // if (status !== 200) {
+                              //   message.error(maker.message);
+                              //   return;
+                              // }
+                              // message.success(
+                              //   "Take off the shelves Successfully!"
+                              // );
                               setList([]);
                               setPage(1);
                               setLoading(true);

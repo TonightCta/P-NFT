@@ -21,7 +21,8 @@ interface Send {
   gasLimit: string;
 }
 
-export const HackathonSupport: string[] = ["8007736", "8453", "84532"];
+export const HackathonSupport: string[] = ["8453"];
+// export const HackathonSupport: string[] = ["8007736", "8453", "84532"];
 
 const ethereumCoinbase = coinbaseWallet.makeWeb3Provider(
   DEFAULT_ETH_JSONRPC_URL,
@@ -71,8 +72,8 @@ export const useHackathon = () => {
     });
   }, [state.address]);
   useEffect(() => {
+    if (!state.chain) return;
     if (HackathonSupport.indexOf(state.chain as string) < 0) {
-      message.warning("Please switch to a supported network to use");
       return;
     }
     initContract();
@@ -94,8 +95,8 @@ export const useHackathon = () => {
       web3.utils.toWei(String(_total), "ether"),
       _time,
       _contract,
-      web3.utils.toWei(String(_fee), "ether"),
-      web3.utils.toWei(String(_vote), "ether")
+      web3.utils.toWei(String(_fee), _symbol === "TRUMP" ? "Gwei" : "ether"),
+      web3.utils.toWei(String(_vote), _symbol === "TRUMP" ? "Gwei" : "ether")
     );
     return new Promise((resolve, reject) => {
       contract.methods
@@ -218,9 +219,10 @@ export const useHackathon = () => {
         ethereum
     );
     const Contract = new web3.eth.Contract(ABIERC20 as any, _token_address);
+    const balance = await Contract.methods.balanceOf(state.address).call();
     return new Promise((resolve, reject) => {
       Contract.methods
-        .approve(calsMarks(_approve_for_address), "0xfffffffffffffffff")
+        .approve(calsMarks(_approve_for_address), balance)
         .send(send)
         .on("receipt", (res: any) => {
           resolve(res);
@@ -237,14 +239,18 @@ export const useHackathon = () => {
     _id: number,
     _image: string,
     _amount: number, //toWei
-    _referrer: string
+    _referrer: string,
+    _symbol: string
   ) => {
     return new Promise((resolve, reject) => {
       contract.methods
         .submit(
           _id,
           _image,
-          web3.utils.toWei(String(_amount), "ether"),
+          web3.utils.toWei(
+            String(_amount),
+            _symbol === "TRUMP" ? "Gwei" : "ether"
+          ),
           _referrer ? _referrer : SystemAddress
         )
         .send({
@@ -265,14 +271,15 @@ export const useHackathon = () => {
     _id: number,
     _nft_id: number,
     _amount: number, //toWei
-    _referrer: string
+    _referrer: string,
+    _symbol: string
   ) => {
     return new Promise((resolve, reject) => {
       contract.methods
         .vote(
           _id,
           _nft_id,
-          web3.utils.toWei(String(_amount), "ether"),
+          web3.utils.toWei(String(_amount), _symbol ? 'Gwei' : "ether"),
           _referrer ? _referrer : SystemAddress
         )
         .send({
@@ -289,11 +296,11 @@ export const useHackathon = () => {
         });
     });
   };
-  const CheckHackathon = async (_hackathon_id: number) => {
+  const CheckHackathon = async (_hackathon_id: number, _symbol: string) => {
     const result = await contract.methods
       .checkClaimableAmount(_hackathon_id)
       .call({ from: send.from });
-    return +web3.utils.fromWei(result);
+    return +web3.utils.fromWei(result,_symbol === 'TRUMP' ? 'Gwei' : 'ether');
   };
   const ClaimHackathon = async (_id: number) => {
     return new Promise((resolve, reject) => {

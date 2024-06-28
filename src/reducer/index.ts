@@ -4,7 +4,7 @@ import { web3 } from "../utils/types";
 export const defaultState: State = {
   ethereum: window?.ethereum,
   web3: web3, //Global web3 object
-  chain: sessionStorage.getItem("chain") || "8007736",
+  chain: sessionStorage.getItem("chain") || "8453",
   address: sessionStorage.getItem("address") || null, //Current connection address
   screen_index: Number(sessionStorage.getItem("screen_index")) || 0,
   card: JSON.parse(sessionStorage.getItem("card") || "{}"),

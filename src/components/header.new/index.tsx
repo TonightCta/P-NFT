@@ -13,7 +13,11 @@ import { PNft } from "../../App";
 import { FilterAddress, SupportID, calsAddress } from "../../utils";
 import { Type } from "../../utils/types";
 import { Config, NetworkConfig, flag } from "../../utils/source";
-import { DownOutlined, MenuOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  MenuOutlined,
+  PoweroffOutlined,
+} from "@ant-design/icons";
 import MobileMenuDraw from "./components/mobile.menu";
 import { useSwitchChain } from "../../hooks/chain";
 import ConnectModal from "./components/connect.modal";
@@ -126,6 +130,21 @@ export const MenuList: Menu[] = [
   //   name: "FAQ",
   //   url: "https://forms.gle/LDzXJgQhQ3Ety4kT8",
   // },
+];
+
+const MenuLoginList: Menu[] = [
+  {
+    name: "Hot Memes",
+    url: "/memes",
+  },
+  {
+    name: "Swap",
+    url: "/swap",
+  },
+  {
+    name: "Profile",
+    url: "/user",
+  },
 ];
 
 const HeaderWapperNew = (): ReactElement<ReactNode> => {
@@ -258,6 +277,9 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
       case "/swap":
         setActive(1);
         break;
+      case `/user/${state.address}`:
+        setActive(2);
+        break;
       // case "/create":
       //   setActive(1);
       //   break;
@@ -290,24 +312,44 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
   }, [chainId]);
   const [active, setActive] = useState<number>(99);
   const { open } = useWeb3Modal();
+  const disconnect = () => {
+    dispatch({
+      type: Type.SET_ADDRESS,
+      payload: {
+        address: "",
+      },
+    });
+    dispatch({
+      type: Type.SET_WALLET,
+      payload: {
+        wallet: "",
+      },
+    });
+    dispatch({
+      type: Type.SET_EVM,
+      payload: {
+        evm: "0",
+      },
+    });
+    dispatch({
+      type: Type.SET_CHAIN,
+      payload: {
+        chain: "8453",
+      },
+    });
+    navigate("/");
+  };
   const content = (
     <div className="connect-menu" onClick={hide}>
       <ul>
-        <li
+        {/* <li
           onClick={() => {
-            // dispatch({
-            //     type: Type.SET_OWNER_ADDRESS,
-            //     payload: {
-            //         owner_address: state.address as string
-            //     }
-            // })
-            // navigate('/owner');
             navigate(`/user/${state.address}`);
           }}
         >
           <img src={require("../../assets/images/user.icon.png")} alt="" />
           Profile
-        </li>
+        </li> */}
         <li
           onClick={() => {
             navigate("/profile");
@@ -318,35 +360,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
         </li>
         <li
           onClick={() => {
-            const disconnect = () => {
-              dispatch({
-                type: Type.SET_ADDRESS,
-                payload: {
-                  address: "",
-                },
-              });
-              dispatch({
-                type: Type.SET_WALLET,
-                payload: {
-                  wallet: "",
-                },
-              });
-              dispatch({
-                type: Type.SET_EVM,
-                payload: {
-                  evm: "0",
-                },
-              });
-              dispatch({
-                type: Type.SET_CHAIN,
-                payload: {
-                  chain: "8007736",
-                },
-              });
-              navigate("/");
-            };
             // disconnect();
-            state.is_connect === 1 ? open({ view: "Account" }) : disconnect();
           }}
         >
           <img
@@ -390,34 +404,38 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
             <li
               key={index}
               onClick={() => {
-                if (item.url === "/create" && state.evm === "1") {
-                  message.warning("This network is not supported yet");
+                // if (item.url === "/create" && state.evm === "1") {
+                //   message.warning("This network is not supported yet");
+                //   return;
+                // }
+                // if (item.url === "/ins-collection") {
+                //   message.warning("Coming Soon");
+                //   return;
+                // }
+                // if (item.url === "/create") {
+                //   dispatch({
+                //     type: Type.SET_CREATE,
+                //     payload: {
+                //       create: "0",
+                //     },
+                //   });
+                // }
+                // if (item.url === "/airdrop") {
+                //   dispatch({
+                //     type: Type.SET_AIRDROP_TYPE,
+                //     payload: {
+                //       airdrop_type:
+                //         (item.name === "Daily Bonus" && "0") ||
+                //         (item.name === "Invite" && "1") ||
+                //         (item.name === "Rank" && "2") ||
+                //         (item.name === "AIGC Campaigns" && "3") ||
+                //         "0",
+                //     },
+                //   });
+                // }
+                if (item.url === "/user") {
+                  navigate(`/user/${state.address}`);
                   return;
-                }
-                if (item.url === "/ins-collection") {
-                  message.warning("Coming Soon");
-                  return;
-                }
-                if (item.url === "/create") {
-                  dispatch({
-                    type: Type.SET_CREATE,
-                    payload: {
-                      create: "0",
-                    },
-                  });
-                }
-                if (item.url === "/airdrop") {
-                  dispatch({
-                    type: Type.SET_AIRDROP_TYPE,
-                    payload: {
-                      airdrop_type:
-                        (item.name === "Daily Bonus" && "0") ||
-                        (item.name === "Invite" && "1") ||
-                        (item.name === "Rank" && "2") ||
-                        (item.name === "AIGC Campaigns" && "3") ||
-                        "0",
-                    },
-                  });
                 }
                 navigate(item.url);
                 // setLevelPop(false);
@@ -487,7 +505,7 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
         }}
       />
       <ul className="menu-list">
-        {MenuList.map((item: Menu, index: number) => {
+        {(state.address ? MenuLoginList : MenuList).map((item: Menu, index: number) => {
           return (
             <li
               className={`${index === active ? "active-menu" : ""}`}
@@ -495,6 +513,10 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
               onClick={() => {
                 if (item.name === "FAQ") {
                   window.open(item.url);
+                  return;
+                }
+                if (item.url === "/user") {
+                  navigate(`/user/${state.address}`);
                   return;
                 }
                 if (item.children) return;
@@ -547,13 +569,14 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
             >
               <div className="connected-box">
                 {SupportID.indexOf(+(state.chain as string)) < 0 ? (
-                  "Not supported "
+                  "Not supported"
                 ) : (
                   <img
                     src={FilterAddress(state.chain as string)?.chain_logo}
                     alt=""
                   />
                 )}
+                &nbsp;
                 {/* <IconFont type="icon-xiangxia" /> */}
                 <DownOutlined />
               </div>
@@ -596,22 +619,36 @@ const HeaderWapperNew = (): ReactElement<ReactNode> => {
               {flag ? "" : "Connect Wallet"}
             </Button>
           ) : (
-            <Popover
-              open={openPop}
-              onOpenChange={handleOpenChange}
-              content={content}
-              title={null}
-              trigger="click"
-            >
-              <div className="connected-box-i">
-                <img src={state.account.avatar_url} alt="" />
-                <p>{calsAddress(state.address)}</p>
-                <div className="arrow-box">
-                  <DownOutlined />
-                  {/* <IconFont type="icon-xiangxia" /> */}
-                </div>
+            // <Popover
+            //   open={openPop}
+            //   onOpenChange={handleOpenChange}
+            //   content={content}
+            //   title={null}
+            //   trigger="click"
+            // >
+            //   <div className="connected-box-i">
+            //     <img src={state.account.avatar_url} alt="" />
+            //     <p>{calsAddress(state.address)}</p>
+            //     <div className="arrow-box">
+            //       <DownOutlined />
+            //       {/* <IconFont type="icon-xiangxia" /> */}
+            //     </div>
+            //   </div>
+            // </Popover>
+            <div className="connected-box-i">
+              <img src={state.account.avatar_url} alt="" />
+              <p>{calsAddress(state.address)}</p>
+              <div
+                className="arrow-box"
+                onClick={() => {
+                  state.is_connect === 1
+                    ? open({ view: "Account" })
+                    : disconnect();
+                }}
+              >
+                <PoweroffOutlined />
               </div>
-            </Popover>
+            </div>
           )}
         </div>
         <div className="mobile-menu">

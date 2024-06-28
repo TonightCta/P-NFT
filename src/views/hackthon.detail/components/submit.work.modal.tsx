@@ -199,7 +199,7 @@ const SubmitWorkModal = (props: {
       state.address as string,
       props.create_address
     );
-    const queryNum = +web3.utils.fromWei(String(query), "ether");
+    const queryNum = +web3.utils.fromWei(String(query), props.pay_token_symbol === 'TRUMP' ? 'Gwei' : "ether");
     if (queryNum < 1) {
       setDisable({
         approve: false,
@@ -256,7 +256,6 @@ const SubmitWorkModal = (props: {
   useEffect(() => {
     !!props.visible && setVisible(props.visible);
     !!props.visible && queryToken();
-
     !props.visible && clear();
   }, [props.visible]);
   const uploadFile = (e: any) => {
@@ -348,11 +347,10 @@ const SubmitWorkModal = (props: {
       submit: true,
     });
     const balance = await balanceErc20(props.pay_token_address);
-    if (+web3.utils.fromWei(balance) < +input.amount) {
+    if (+web3.utils.fromWei(balance,props.pay_token_symbol === 'TRUMP' ? 'Gwei' : 'ether') < +input.amount) {
       message.error("Your balance is insufficient");
       return;
     }
-
     const ipfs =
       type === 2
         ? await uploadFileFN(`${Date.now()}.png`, input.img.source)
@@ -362,7 +360,8 @@ const SubmitWorkModal = (props: {
       props.hackthon_id,
       ipfshash,
       +input.amount,
-      input.address
+      input.address,
+      props.pay_token_symbol
     );
     setLoading({
       ...loading,
