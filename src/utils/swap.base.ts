@@ -60,7 +60,7 @@ export const QueryPairBase = async (
     "10000"
   ); // 0.5% slippage tolerance
   const amountOutMin = trade.minimumAmountOut(slippageTolerancePercent).raw;
-  return Number(web3.utils.fromWei(amountOutMin.toString())).toFixed(6);
+  return Number(web3.utils.fromWei(amountOutMin.toString(),_token_b.symbol === 'TRUMP' ? 'Gwei' : 'ether')).toFixed(6);
 };
 
 export const SendTradeBase = async (
@@ -89,7 +89,7 @@ export const SendTradeBase = async (
   const amountOutMin = trade.minimumAmountOut(slippageTolerancePercent).raw; // Minimum amount of DAI received
   const reserves = pair.reserveOf(TokenB);
   if (
-    +web3.utils.fromWei(amountOutMin.toString()) >
+    +web3.utils.fromWei(amountOutMin.toString(),_token_b.symbol === 'TRUMP' ? 'Gwei' : 'ether') >
     +reserves.toSignificant(6) / 2
   ) {
     return {

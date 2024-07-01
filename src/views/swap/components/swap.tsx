@@ -187,7 +187,7 @@ const SwapCard = (): ReactElement => {
       state.address as string,
       tokenA.dex_router_v2_contract_address
     );
-    const queryNum = +web3.utils.fromWei(String(query), "ether");
+    const queryNum = +web3.utils.fromWei(String(query),tokenA.currency_name === 'TRUMP' ? 'Gwei' : "ether");
     if (queryNum < +amount.in) {
       const approve: any = await ApproveToken(
         tokenA.currency_address,
@@ -350,8 +350,8 @@ const SwapCard = (): ReactElement => {
     if (chain?.code) return;
     const result = await balanceErc20(_address, state.address);
     _type === 1
-      ? setBalanceA(toFixedFloor(+Number(web3.utils.fromWei(result)), 6))
-      : setBalanceB(toFixedFloor(+Number(web3.utils.fromWei(result)), 6));
+      ? setBalanceA(toFixedFloor(+Number(web3.utils.fromWei(result,tokenA.currency_name === 'TRUMP' ? 'Gwei' : 'ether')), 6))
+      : setBalanceB(toFixedFloor(+Number(web3.utils.fromWei(result,tokenB.currency_name === 'TRUMP' ? 'Gwei' : 'ether')), 6));
   };
   useEffect(() => {
     const query = async () => {

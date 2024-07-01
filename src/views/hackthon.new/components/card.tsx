@@ -58,7 +58,7 @@ const HackthonCardNew = (props: {
             </p>
             <p>
               <IconFont type="icon-a-zu1441" />
-              <span>{item.votes}</span>
+              <span>{item.votes.toFixed(2)}</span>
             </p>
           </div>
           <div className="vote-btn">

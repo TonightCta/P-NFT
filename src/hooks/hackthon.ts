@@ -85,20 +85,20 @@ export const useHackathon = () => {
     _time: number,
     _contract: string,
     _fee: number, //toWei
-    _vote: number //toWei
+    _vote: number, //toWei
+    _token_symbol:string,
   ) => {
-    // const Price = await contract.methods.HACKTHON_CREATION_PRICE().call();
-    // return;
-    console.log(
-      _name,
-      _symbol,
-      web3.utils.toWei(String(_total), "ether"),
-      _time,
-      _contract,
-      web3.utils.toWei(String(_fee), _symbol === "TRUMP" ? "Gwei" : "ether"),
-      web3.utils.toWei(String(_vote), _symbol === "TRUMP" ? "Gwei" : "ether")
-    );
     return new Promise((resolve, reject) => {
+      console.log(
+        _name,
+        _symbol,
+        web3.utils.toWei(String(_total), "ether"),
+        _time,
+        _contract,
+        web3.utils.toWei(String(_fee), _token_symbol === "TRUMP" ? "Gwei" : "ether"),
+        web3.utils.toWei(String(_vote), _token_symbol === "TRUMP" ? "Gwei" : "ether"),
+        _token_symbol
+      );
       contract.methods
         .createHackathon(
           _name,
@@ -106,8 +106,14 @@ export const useHackathon = () => {
           web3.utils.toWei(String(_total), "ether"),
           _time,
           _contract,
-          web3.utils.toWei(String(_fee), "ether"),
-          web3.utils.toWei(String(_vote), "ether")
+          web3.utils.toWei(
+            String(_fee),
+            _token_symbol === "TRUMP" ? "Gwei" : "ether"
+          ),
+          web3.utils.toWei(
+            String(_vote),
+            _token_symbol === "TRUMP" ? "Gwei" : "ether"
+          )
         )
         .send({
           from: send.from,
@@ -279,7 +285,10 @@ export const useHackathon = () => {
         .vote(
           _id,
           _nft_id,
-          web3.utils.toWei(String(_amount), _symbol ? 'Gwei' : "ether"),
+          web3.utils.toWei(
+            String(_amount),
+            _symbol === "TRUMP" ? "Gwei" : "ether"
+          ),
           _referrer ? _referrer : SystemAddress
         )
         .send({
@@ -300,7 +309,7 @@ export const useHackathon = () => {
     const result = await contract.methods
       .checkClaimableAmount(_hackathon_id)
       .call({ from: send.from });
-    return +web3.utils.fromWei(result,_symbol === 'TRUMP' ? 'Gwei' : 'ether');
+    return +web3.utils.fromWei(result, "ether");
   };
   const ClaimHackathon = async (_id: number) => {
     return new Promise((resolve, reject) => {

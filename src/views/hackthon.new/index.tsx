@@ -408,7 +408,7 @@ const HackthonNewView = (): ReactElement<ReactNode> => {
                       <p>
                         {item.pay_token_symbol} x {item.symbol}
                       </p>
-                      <p>{item.total_contribution_amount}&nbsp;${item.pay_token_symbol}</p>
+                      <p>{item.total_contribution_amount.toFixed(2)}&nbsp;${item.pay_token_symbol}</p>
                     </div>
                   </div>
                 </div>

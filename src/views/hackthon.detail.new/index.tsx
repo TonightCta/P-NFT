@@ -109,7 +109,7 @@ const HackthonDetailNewView = (): ReactElement<ReactNode> => {
             <div className="vote-box">
               <p>
                 <IconFont type="icon-a-zu1441" />
-                {info.votes < 1 ? info.votes : addCommasToNumber(info.votes)}
+                {info.votes < 10000 ? info.votes.toFixed(2) : addCommasToNumber(+info.votes.toFixed(2))}
                 <span className="w-text">&nbsp;{info.pay_token_symbol}</span>
               </p>
               <p>

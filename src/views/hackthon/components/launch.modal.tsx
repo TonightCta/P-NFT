@@ -71,6 +71,7 @@ const LaunchModal = (props: {
 }): ReactElement => {
   const [visible, setVisible] = useState<boolean>(false);
   const [netService, setNetService] = useState<Net[]>(Network);
+  const [fee, setFee] = useState<number>(0);
   const [input, setInput] = useState<Input>({
     name: "",
     symbol: "",
@@ -145,6 +146,7 @@ const LaunchModal = (props: {
       setToken(results[0]);
       setSelectToken(results[0][0].value);
       setTokenName(results[0][0].label);
+      setFee(results[0][0].hackathon_create_fee);
       setInput({
         ...input,
         contract: results[0][0].value,
@@ -195,7 +197,9 @@ const LaunchModal = (props: {
       submit: true,
     });
     const balance = await balanceErc20(input.contract);
-    if (+web3.utils.fromWei(balance,tokenName === 'TRUMP' ? 'Gwei' : 'ether') < 1) {
+    if (
+      +web3.utils.fromWei(balance, tokenName === "TRUMP" ? "Gwei" : "ether") < 1
+    ) {
       message.error("Your balance is insufficient");
       return;
     }
@@ -206,7 +210,8 @@ const LaunchModal = (props: {
       +input.end_time,
       input.contract,
       +input.fee,
-      +input.vote
+      +input.vote,
+      tokenName
     );
     setLoading({
       ...loading,
@@ -231,8 +236,11 @@ const LaunchModal = (props: {
       props.address,
       FilterHackathonNet(state.chain as string).contract
     );
-    const queryNum = +web3.utils.fromWei(String(query), tokenName === 'TRUMP' ? 'Gwei' : "ether");
-    if (queryNum < 1) {
+    const queryNum = +web3.utils.fromWei(
+      String(query),
+      tokenName === "TRUMP" ? "Gwei" : "ether"
+    );
+    if (queryNum < fee) {
       setDisable({
         submit: true,
         approve: false,
@@ -309,6 +317,11 @@ const LaunchModal = (props: {
       token.filter((item: Token) => {
         return item.value === val;
       })[0].label
+    );
+    setFee(
+      token.filter((item: Token) => {
+        return item.value === val;
+      })[0].hackathon_create_fee
     );
     setInput({
       ...input,
